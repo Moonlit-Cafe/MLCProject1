@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://bjede2yvc3q6a"]
+
+[ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/items/item_resource.gd" id="1_5fsln"]
+
+[resource]
+script = ExtResource("1_5fsln")
+item_name = &"Torn Cloth"
+item_id = 0
+item_value = 0
+item_grade = 0
+item_tags = Array[int]([0])
+item_tooltip = ""
+metadata/_custom_type_script = "uid://vvy08pwysa1j"
