@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://r5b8eavqvkig"]
+
+[ext_resource type="Script" uid="uid://bwtaxv5fchqjc" path="res://autoloads/inventory/craft_manager.gd" id="1_l6h75"]
+[ext_resource type="Resource" uid="uid://c1eci1cb46wlw" path="res://mechanics/items/item_compendium.tres" id="2_fvp5a"]
+[ext_resource type="Resource" uid="uid://bbij6odqtum6q" path="res://mechanics/recipes/recipe_compendium.tres" id="3_tsnxf"]
+[ext_resource type="Resource" uid="uid://nt671u642qct" path="res://mechanics/items/materials/cloth/tattered_cloth.tres" id="4_tsnxf"]
+
+[node name="CraftManager" type="Node"]
+script = ExtResource("1_l6h75")
+item_compendium = ExtResource("2_fvp5a")
+recipe_compendium = ExtResource("3_tsnxf")
+test_item_craft = ExtResource("4_tsnxf")

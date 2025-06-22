@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://dhll22rcky5cq"]
+
+[ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/items/res_def/item_resource.gd" id="1_ihu1l"]
+
+[resource]
+script = ExtResource("1_ihu1l")
+item_name = &"Rough Rope"
+item_id = 1
+item_value = 0
+item_tags = Array[int]([0])
+item_tooltip = ""
+metadata/_custom_type_script = "uid://vvy08pwysa1j"

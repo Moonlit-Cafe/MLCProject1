@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://nt671u642qct"]
+
+[ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/items/res_def/item_resource.gd" id="1_ioerx"]
+
+[resource]
+script = ExtResource("1_ioerx")
+item_name = &"Tattered Cloth"
+item_id = 0
+item_value = 0
+item_tags = Array[int]([0])
+item_tooltip = ""
+metadata/_custom_type_script = "uid://vvy08pwysa1j"

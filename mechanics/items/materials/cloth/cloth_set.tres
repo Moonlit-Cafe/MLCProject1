@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemSet" load_steps=4 format=3 uid="uid://cduopreo00u00"]
+
+[ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/items/res_def/item_resource.gd" id="1_xjrtx"]
+[ext_resource type="Resource" uid="uid://nt671u642qct" path="res://mechanics/items/materials/cloth/tattered_cloth.tres" id="2_u5734"]
+[ext_resource type="Script" uid="uid://ynt7c1sj0k3m" path="res://mechanics/items/res_def/item_set_resource.gd" id="2_yvvcc"]
+
+[resource]
+script = ExtResource("2_yvvcc")
+set_name = &"Cloth"
+item_set = Dictionary[int, ExtResource("1_xjrtx")]({
+0: ExtResource("2_u5734")
+})
+metadata/_custom_type_script = "uid://ynt7c1sj0k3m"

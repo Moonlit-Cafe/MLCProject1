@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemCompendium" load_steps=5 format=3 uid="uid://c1eci1cb46wlw"]
+
+[ext_resource type="Script" uid="uid://50a7am8a0d5o" path="res://mechanics/items/res_def/item_compendium.gd" id="1_8owe3"]
+[ext_resource type="Script" uid="uid://ynt7c1sj0k3m" path="res://mechanics/items/res_def/item_set_resource.gd" id="2_kmp7p"]
+[ext_resource type="Resource" uid="uid://cduopreo00u00" path="res://mechanics/items/materials/cloth/cloth_set.tres" id="3_kmp7p"]
+[ext_resource type="Resource" uid="uid://bf5qdulalo52u" path="res://mechanics/items/materials/rope/rope_set.tres" id="4_rmp36"]
+
+[resource]
+script = ExtResource("1_8owe3")
+sets = Array[ExtResource("2_kmp7p")]([ExtResource("3_kmp7p"), ExtResource("4_rmp36")])
+metadata/_custom_type_script = "uid://50a7am8a0d5o"
