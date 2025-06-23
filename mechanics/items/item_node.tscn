@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsf2yvigiq8k0"]
+
+[ext_resource type="Script" uid="uid://be70vw5xye7lm" path="res://mechanics/items/item_node.gd" id="1_ttaj6"]
+[ext_resource type="Resource" uid="uid://cduopreo00u00" path="res://mechanics/items/materials/cloth/cloth_set.tres" id="2_jbynh"]
+
+[node name="ItemNode" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+icon_alignment = 1
+script = ExtResource("1_ttaj6")
+item_set = ExtResource("2_jbynh")

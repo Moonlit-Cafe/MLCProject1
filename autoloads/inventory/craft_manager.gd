@@ -1,6 +1,9 @@
 ## The Autoload in charge of handling crafting requests along with loading all the data.
 extends Node
 
+@export var texture_atlas : Texture2D
+@export var texture_grid_size : Vector2i
+
 @export var item_compendium : ItemCompendium
 @export var recipe_compendium : RecipeCompendium
 
@@ -49,3 +52,15 @@ func _check_craftability(recipe: Recipe, items: Array[Item]) -> bool:
 			return false
 	
 	return true
+
+# TODO: Work on adding public functions to get specific data regarding crafts and requests
+
+# TODO: Document the CraftManager
+
+# TODO: Make a test scene to ensure crafting is going as planned.
+
+func get_item_texture(pos: Vector2i) -> AtlasTexture:
+	var return_texture := AtlasTexture.new()
+	return_texture.atlas = texture_atlas
+	return_texture.region = Rect2(pos, texture_grid_size)
+	return return_texture
