@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://d05a4348hs6u6"]
+
+[ext_resource type="PackedScene" uid="uid://dsf2yvigiq8k0" path="res://mechanics/items/item_node.tscn" id="1_g7g4h"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="ItemNode" parent="." instance=ExtResource("1_g7g4h")]
+position = Vector2(269, 461)
+
+[node name="ItemNode2" parent="." instance=ExtResource("1_g7g4h")]
+position = Vector2(317, 180)
+
+[node name="ItemNode3" parent="." instance=ExtResource("1_g7g4h")]
+position = Vector2(569, 198)
+
+[node name="ItemNode4" parent="." instance=ExtResource("1_g7g4h")]
+position = Vector2(215, 233)
