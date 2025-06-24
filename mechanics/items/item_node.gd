@@ -8,13 +8,12 @@ var item : Item
 var hovering := false
 var dragging := false
 
-# TODO: Little animation while dragging.
+# TODO (Low): Little animation while dragging.
 
 func _ready() -> void:
 	if item_set != null:
 		item = item_set.item_set.get(item_tier)
 		$Sprite2D.texture = CraftManager.get_item_texture(item.item_texture)
-		scale = Vector2(2, 2)
 
 func _process(_delta: float) -> void:
 	if dragging:

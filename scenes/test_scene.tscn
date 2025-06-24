@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d05a4348hs6u6"]
+[gd_scene load_steps=4 format=3 uid="uid://d05a4348hs6u6"]
 
 [ext_resource type="PackedScene" uid="uid://dsf2yvigiq8k0" path="res://mechanics/items/item_node.tscn" id="1_g7g4h"]
 [ext_resource type="PackedScene" uid="uid://bvexbc2ib872p" path="res://mechanics/items/item_slot.tscn" id="2_j8ivh"]
+[ext_resource type="Resource" uid="uid://dknkv2gqqo2s" path="res://mechanics/items/materials/wood.tres" id="3_nd71p"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -20,6 +21,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
@@ -29,33 +31,42 @@ columns = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control" instance=ExtResource("2_j8ivh")]
 
 [node name="ItemNode" parent="CanvasLayer/PanelContainer/GridContainer/Control/ItemSlot" instance=ExtResource("1_g7g4h")]
+item_set = ExtResource("3_nd71p")
 
 [node name="Control2" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control2" instance=ExtResource("2_j8ivh")]
 
 [node name="ItemNode" parent="CanvasLayer/PanelContainer/GridContainer/Control2/ItemSlot" instance=ExtResource("1_g7g4h")]
+item_set = ExtResource("3_nd71p")
+item_tier = 1
 
 [node name="Control3" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control3" instance=ExtResource("2_j8ivh")]
 
 [node name="ItemNode" parent="CanvasLayer/PanelContainer/GridContainer/Control3/ItemSlot" instance=ExtResource("1_g7g4h")]
+item_set = ExtResource("3_nd71p")
+item_tier = 2
 
 [node name="Control4" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control4" instance=ExtResource("2_j8ivh")]
 
@@ -63,6 +74,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control5" instance=ExtResource("2_j8ivh")]
 
@@ -70,6 +82,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control6" instance=ExtResource("2_j8ivh")]
 
@@ -77,6 +90,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control7" instance=ExtResource("2_j8ivh")]
 
@@ -84,6 +98,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control8" instance=ExtResource("2_j8ivh")]
 
@@ -91,6 +106,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control9" instance=ExtResource("2_j8ivh")]
 
@@ -98,5 +114,6 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control10" instance=ExtResource("2_j8ivh")]

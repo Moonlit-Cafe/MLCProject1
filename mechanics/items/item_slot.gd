@@ -20,4 +20,8 @@ func _on_area_entered(area: Area2D) -> void:
 
 func _on_area_exited(area: Area2D) -> void:
 	if area.owner == current_item:
-		current_item = null
+		await GameGlobalEvents.stop_dragging
+		if current_item.get_parent() is ItemSlot and current_item.get_parent() != self:
+			current_item = null
+		else:
+			current_item.position = Vector2.ZERO

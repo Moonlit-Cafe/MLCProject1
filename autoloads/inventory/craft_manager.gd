@@ -7,12 +7,6 @@ extends Node
 @export var item_compendium : ItemCompendium
 @export var recipe_compendium : RecipeCompendium
 
-@export var test_item_craft : Item
-
-func _ready() -> void:
-	var recipe := _find_recipes_with_ingredients([test_item_craft, test_item_craft])
-	print(recipe.result.item_name)
-
 func _find_recipes_with_ingredients(items: Array[Item]) -> Recipe:
 	if items.size() == 0:
 		return null
@@ -62,5 +56,5 @@ func _check_craftability(recipe: Recipe, items: Array[Item]) -> bool:
 func get_item_texture(pos: Vector2i) -> AtlasTexture:
 	var return_texture := AtlasTexture.new()
 	return_texture.atlas = texture_atlas
-	return_texture.region = Rect2(pos, texture_grid_size)
+	return_texture.region = Rect2(pos * texture_grid_size, texture_grid_size)
 	return return_texture
