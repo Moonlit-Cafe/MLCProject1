@@ -1,17 +1,102 @@
-[gd_scene load_steps=2 format=3 uid="uid://d05a4348hs6u6"]
+[gd_scene load_steps=3 format=3 uid="uid://d05a4348hs6u6"]
 
 [ext_resource type="PackedScene" uid="uid://dsf2yvigiq8k0" path="res://mechanics/items/item_node.tscn" id="1_g7g4h"]
+[ext_resource type="PackedScene" uid="uid://bvexbc2ib872p" path="res://mechanics/items/item_slot.tscn" id="2_j8ivh"]
 
 [node name="Node2D" type="Node2D"]
 
-[node name="ItemNode" parent="." instance=ExtResource("1_g7g4h")]
-position = Vector2(269, 461)
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ItemNode2" parent="." instance=ExtResource("1_g7g4h")]
-position = Vector2(317, 180)
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+custom_minimum_size = Vector2(500, 500)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="ItemNode3" parent="." instance=ExtResource("1_g7g4h")]
-position = Vector2(569, 198)
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+columns = 5
 
-[node name="ItemNode4" parent="." instance=ExtResource("1_g7g4h")]
-position = Vector2(215, 233)
+[node name="Control" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control" instance=ExtResource("2_j8ivh")]
+
+[node name="ItemNode" parent="CanvasLayer/PanelContainer/GridContainer/Control/ItemSlot" instance=ExtResource("1_g7g4h")]
+
+[node name="Control2" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control2" instance=ExtResource("2_j8ivh")]
+
+[node name="ItemNode" parent="CanvasLayer/PanelContainer/GridContainer/Control2/ItemSlot" instance=ExtResource("1_g7g4h")]
+
+[node name="Control3" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control3" instance=ExtResource("2_j8ivh")]
+
+[node name="ItemNode" parent="CanvasLayer/PanelContainer/GridContainer/Control3/ItemSlot" instance=ExtResource("1_g7g4h")]
+
+[node name="Control4" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control4" instance=ExtResource("2_j8ivh")]
+
+[node name="Control5" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control5" instance=ExtResource("2_j8ivh")]
+
+[node name="Control6" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control6" instance=ExtResource("2_j8ivh")]
+
+[node name="Control7" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control7" instance=ExtResource("2_j8ivh")]
+
+[node name="Control8" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control8" instance=ExtResource("2_j8ivh")]
+
+[node name="Control9" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control9" instance=ExtResource("2_j8ivh")]
+
+[node name="Control10" type="Control" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemSlot" parent="CanvasLayer/PanelContainer/GridContainer/Control10" instance=ExtResource("2_j8ivh")]

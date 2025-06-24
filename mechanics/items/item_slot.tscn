@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvexbc2ib872p"]
+
+[ext_resource type="Script" uid="uid://dcuhpbjv16bnc" path="res://mechanics/items/item_slot.gd" id="1_n2g2s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yk107"]
+size = Vector2(24, 24)
+
+[node name="ItemSlot" type="Node2D"]
+script = ExtResource("1_n2g2s")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_yk107")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_exited"]

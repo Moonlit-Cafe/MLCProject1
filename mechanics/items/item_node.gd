@@ -8,10 +8,7 @@ var item : Item
 var hovering := false
 var dragging := false
 
-# TODO: Need to make draggable, and maybe have a little animation while doing so.
-
-# TODO: Need to also make a slot class where the items can then be "inserted" to for later. But for now
-# will be what we need for crafting.
+# TODO: Little animation while dragging.
 
 func _ready() -> void:
 	if item_set != null:
@@ -33,6 +30,7 @@ func _input(event: InputEvent) -> void:
 	elif dragging:
 		if event.is_action_released(&"mouse_action"):
 			dragging = false
+			GameGlobalEvents.stop_dragging.emit()
 
 func _on_mouse_entered() -> void:
 	hovering = true

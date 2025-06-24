@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("2_yvvcc")
-set_name = &"Cloth"
+group_name = &""
 item_set = Dictionary[int, ExtResource("1_xjrtx")]({
 0: ExtResource("2_u5734")
 })
