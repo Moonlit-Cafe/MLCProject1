@@ -47,11 +47,28 @@ func _check_craftability(recipe: Recipe, items: Array[Item]) -> bool:
 	
 	return true
 
-# TODO: Work on adding public functions to get specific data regarding crafts and requests
+## The method used to craft an item
+func request_craft(items: Array[Item]) -> Item:
+	var recipe : Recipe = _find_recipes_with_ingredients(items)
+	if not recipe:
+		var warning_str : String = ""
+		for item in items:
+			warning_str += item.item_name + " "
+		push_warning("There is no recipe for ingredients " + warning_str)
+		return null
+	
+	return recipe.result
+
+func find_item(item_name: StringName) -> Array:
+	for item_set in item_compendium.sets:
+		for tier in item_set.item_set.keys():
+			if item_name == item_set.item_set.get(tier).item_name:
+				return [item_set, tier, item_set.item_set.get(tier)]
+	
+	push_warning("There is no item by the name %s" % item_name)
+	return [null]
 
 # TODO: Document the CraftManager
-
-# TODO: Make a test scene to ensure crafting is going as planned.
 
 func get_item_texture(pos: Vector2i) -> AtlasTexture:
 	var return_texture := AtlasTexture.new()

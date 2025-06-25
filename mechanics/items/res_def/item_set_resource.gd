@@ -3,3 +3,4 @@ class_name ItemSet extends Resource
 
 @export var group_name : StringName
 @export var item_set : Dictionary[Genum.ItemTier, Item]
+@export var max_stack : int = 1

@@ -1,20 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsf2yvigiq8k0"]
+[gd_scene load_steps=3 format=3 uid="uid://dsf2yvigiq8k0"]
 
 [ext_resource type="Script" uid="uid://be70vw5xye7lm" path="res://mechanics/items/item_node.gd" id="1_ttaj6"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jbynh"]
-size = Vector2(24, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lk7ay"]
 size = Vector2(5, 5)
 
-[node name="ItemNode" type="Area2D"]
+[node name="ItemNode" type="TextureButton"]
+z_index = 1
+z_as_relative = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+keep_pressed_outside = true
+stretch_mode = 5
 script = ExtResource("1_ttaj6")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-
-[node name="MouseShape" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_jbynh")
 
 [node name="SlotArea" type="Area2D" parent="."]
 collision_layer = 2
@@ -24,5 +27,5 @@ input_pickable = false
 [node name="SlotShape" type="CollisionShape2D" parent="SlotArea"]
 shape = SubResource("RectangleShape2D_lk7ay")
 
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="area_entered" from="SlotArea" to="." method="_on_area_entered"]
+[connection signal="area_exited" from="SlotArea" to="." method="_on_area_exited"]

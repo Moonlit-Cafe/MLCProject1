@@ -1,3 +1,5 @@
+# Current feature worked on for Riley: Crafting, coding-in_progress
+
 ## The actual Global containing all of the game's core information.
 extends Node
 

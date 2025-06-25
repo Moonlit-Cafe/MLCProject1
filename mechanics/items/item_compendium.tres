@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://50a7am8a0d5o" path="res://mechanics/items/res_def/item_compendium.gd" id="1_8owe3"]
 [ext_resource type="Script" uid="uid://ynt7c1sj0k3m" path="res://mechanics/items/res_def/item_set_resource.gd" id="2_kmp7p"]
-[ext_resource type="Resource" uid="uid://dknkv2gqqo2s" path="res://mechanics/items/materials/wood.tres" id="3_kmp7p"]
+[ext_resource type="Resource" uid="uid://dknkv2gqqo2s" path="res://mechanics/items/materials/woods/wood.tres" id="3_kmp7p"]
 
 [resource]
 script = ExtResource("1_8owe3")
