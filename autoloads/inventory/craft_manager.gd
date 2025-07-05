@@ -7,6 +7,16 @@ extends Node
 @export var item_compendium : ItemCompendium
 @export var recipe_compendium : RecipeCompendium
 
+func _ready() -> void:
+	recipe_compendium.init()
+	print(recipe_compendium.recipes)
+
+func _load_items() -> void:
+	pass
+
+func _create_recipes() -> void:
+	pass
+
 func _find_recipes_with_ingredients(items: Array[Item]) -> Recipe:
 	if items.size() == 0:
 		return null

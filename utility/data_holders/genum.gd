@@ -28,3 +28,14 @@ enum ItemTier {
 	ELDRITCH, ## Tier 6, lvl 51 - 60
 	COSMIC ## Tier 7, lvl 61 - 70
 }
+
+enum Aspect {
+	NEUTRAL,
+	LUNAR,
+	SOLAR,
+	ASTRAL,
+	CELESTIAL,
+	UMBRAL,
+	RADIANT,
+	UNIVERSAL
+}

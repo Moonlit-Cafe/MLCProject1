@@ -15,11 +15,12 @@ var item : Item
 # TODO (Low): Little animation while dragging.
 
 func _ready() -> void:
-	if item_set != null:
-		item = item_set.item_set.get(item_tier)
-		texture_normal = CraftManager.get_item_texture(item.item_texture)
-	
-	button_up.connect(_on_button_released)
+	pass
+	#if item_set != null:
+	#	item = item_set.item_set.get(item_tier)
+	#	texture_normal = CraftManager.get_item_texture(item.item_texture)
+	#
+	#button_up.connect(_on_button_released)
 
 func _process(_delta: float) -> void:
 	if button_pressed:
