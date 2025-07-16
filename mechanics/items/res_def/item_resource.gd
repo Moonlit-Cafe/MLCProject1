@@ -1,9 +1,10 @@
 ## The Item resource type for declaration with every single item in the game.
 class_name Item extends Resource
 
-@export var item_name : StringName
-@export var item_id : int
-@export var item_value : int
-@export var item_tags : Array[Genum.ItemTags]
-@export var item_texture : Vector2i
-@export var item_tooltip : String
+@export var i_name : StringName
+@export var id : int
+@export var value : int
+@export var tags : Array[Genum.ItemTags]
+@export var texture : Vector2i
+@export var tooltip : String
+@export var tier : int

@@ -1,9 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://d05a4348hs6u6"]
+[gd_scene load_steps=7 format=3 uid="uid://d05a4348hs6u6"]
 
 [ext_resource type="PackedScene" uid="uid://dsf2yvigiq8k0" path="res://mechanics/items/item_node.tscn" id="1_g7g4h"]
 [ext_resource type="PackedScene" uid="uid://bvexbc2ib872p" path="res://mechanics/items/item_slot.tscn" id="2_j8ivh"]
-[ext_resource type="Resource" uid="uid://dknkv2gqqo2s" path="res://mechanics/items/materials/woods/wood.tres" id="3_nd71p"]
+[ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/items/res_def/item_resource.gd" id="3_qjeyg"]
+[ext_resource type="Script" uid="uid://ynt7c1sj0k3m" path="res://mechanics/items/res_def/item_set_resource.gd" id="4_3qnke"]
 [ext_resource type="Script" uid="uid://duwqlbhfr16kn" path="res://scenes/craft_button_test.gd" id="4_7ddre"]
+
+[sub_resource type="Resource" id="Resource_wtsjf"]
+script = ExtResource("4_3qnke")
+group_name = &"Woods"
+item_set = Dictionary[int, ExtResource("3_qjeyg")]({})
+max_stack = 1
+metadata/_custom_type_script = "uid://ynt7c1sj0k3m"
 
 [node name="Control" type="CanvasLayer"]
 
@@ -39,7 +47,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
-item_set = ExtResource("3_nd71p")
+item_set = SubResource("Resource_wtsjf")
 
 [node name="ItemSlot2" parent="PanelContainer/VBoxContainer/GridContainer" instance=ExtResource("2_j8ivh")]
 layout_mode = 2
@@ -51,7 +59,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
-item_set = ExtResource("3_nd71p")
+item_set = SubResource("Resource_wtsjf")
 
 [node name="ItemSlot3" parent="PanelContainer/VBoxContainer/GridContainer" instance=ExtResource("2_j8ivh")]
 layout_mode = 2

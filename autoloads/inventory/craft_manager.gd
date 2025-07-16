@@ -7,67 +7,29 @@ extends Node
 @export var item_compendium : ItemCompendium
 @export var recipe_compendium : RecipeCompendium
 
+var available_to_craft : Array[Item]
+
 func _ready() -> void:
 	recipe_compendium.init()
-	print(recipe_compendium.recipes)
-
-func _load_items() -> void:
-	pass
-
-func _create_recipes() -> void:
-	pass
-
-func _find_recipes_with_ingredients(items: Array[Item]) -> Recipe:
-	if items.size() == 0:
-		return null
-	
-	var recipes : Array[Recipe] = []
-	for i in range(items.size()):
-		if i == 0:
-			recipes = _find_recipes_with(items.get(i))
-		recipes = _find_recipes_with(items.get(i), recipes)
-	
-	for recipe in recipes:
-		if _check_craftability(recipe, items):
-			print(recipe.result)
-			return recipe
-	
-	return null
-
-func _find_recipes_with(item: Item, recipes: Array = []) -> Array[Recipe]:
-	var available_recipes : Array[Recipe]
-	if recipes == []:
-		for recipe in recipe_compendium.recipes:
-			if item in recipe.components:
-				available_recipes.append(recipe)
-	else:
-		for recipe in recipes:
-			if item in recipe.components:
-				available_recipes.append(recipe)
-	
-	return available_recipes
-
-func _check_craftability(recipe: Recipe, items: Array[Item]) -> bool:
-	if recipe.components.size() != items.size():
-		return false
-	
-	for item in items:
-		if not recipe.components.has(item):
-			return false
-	
-	return true
 
 ## The method used to craft an item
-func request_craft(items: Array[Item]) -> Item:
-	var recipe : Recipe = _find_recipes_with_ingredients(items)
-	if not recipe:
-		var warning_str : String = ""
-		for item in items:
-			warning_str += item.item_name + " "
-		push_warning("There is no recipe for ingredients " + warning_str)
-		return null
+func request_craft_list(materials: Array[Item]) -> Array[Item]:
+	available_to_craft = []
+	for recipe in recipe_compendium.recipes.keys():
+		var recipe_array = recipe.compendium.recipes.get(recipe)
+		var can_craft := true
+		var tier = recipe_array.get(&"tier")
+		for mat in materials.get(tier):
+			if recipe_array.get(mat.get(0)) <= mat.get(1):
+				continue
+			else:
+				can_craft = false
+		
+		if can_craft:
+			available_to_craft.append(find_item(recipe))
 	
-	return recipe.result
+	return available_to_craft
+
 
 func find_item(item_name: StringName) -> Array:
 	for item_set in item_compendium.sets:

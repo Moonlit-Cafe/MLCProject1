@@ -1,0 +1,1 @@
+class_name PowerCoreItem extends EquippableItem

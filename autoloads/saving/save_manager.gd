@@ -32,6 +32,12 @@ func save_game() -> void:
 		
 		save_file.store_line(json_string)
 
+# Saves
+# Run 
+# Active Run
+# Battle Save
+# TODO: Actually implement the above
+
 func load_game() -> void:
 	if not FileAccess.file_exists("user://savegame.save"):
 		return

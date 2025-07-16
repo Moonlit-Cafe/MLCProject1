@@ -1,8 +1,8 @@
 ## An extension of Button to specifically act as the items for an inventory.
 class_name ItemNode extends TextureButton
 
-@export var item_set : ItemSet
-@export var item_tier : Genum.ItemTier = Genum.ItemTier.MUNDANE
+#@export var item_set : ItemSet
+@export var item_tier : Genum.ItemTier = Genum.ItemTier.MOTAL
 
 # TODO: Item stacking
 
