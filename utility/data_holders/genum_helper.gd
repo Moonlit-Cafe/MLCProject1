@@ -10,12 +10,20 @@ const BUS_NAME : Dictionary[Genum.BusID, String] = {
 	Genum.BusID.AMBIENT: &"Ambient"
 }
 
-const ITEM_TIER : Dictionary[StringName, Genum.ItemTier] = {
-	&"motal": Genum.ItemTier.MOTAL,
-	&"pebbled": Genum.ItemTier.PEBBLED,
-	&"cometary": Genum.ItemTier.COMETARY,
-	&"planetary": Genum.ItemTier.PLANETARY,
-	&"stellar": Genum.ItemTier.STELLAR,
-	&"nebulous": Genum.ItemTier.NEBULOUS,
-	&"cosmic": Genum.ItemTier.COSMIC
+const ITEM_TIER : Dictionary[StringName, Genum.Rarity] = {
+	&"motal": Genum.Rarity.MOTAL,
+	&"pebbled": Genum.Rarity.PEBBLED,
+	&"cometary": Genum.Rarity.COMETARY,
+	&"planetary": Genum.Rarity.PLANETARY,
+	&"stellar": Genum.Rarity.STELLAR,
+	&"nebulous": Genum.Rarity.NEBULOUS,
+	&"cosmic": Genum.Rarity.COSMIC
+}
+
+const MATERIAL_TYPE : Dictionary[Genum.MaterialType, StringName] = {
+	Genum.MaterialType.CLOTH: &"cloth",
+	Genum.MaterialType.DUST: &"dust",
+	Genum.MaterialType.LEATHER: &"leather",
+	Genum.MaterialType.WOOD: &"wood",
+	Genum.MaterialType.METAL: &"metal"
 }

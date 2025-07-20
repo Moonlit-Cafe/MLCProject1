@@ -63,7 +63,10 @@ enum EquipLocation {
 	WAIST,
 	LEGS,
 	FEET,
-	MODULE
+	MODULE,
+	FOCUS,
+	FRAME,
+	AUXILLARY
 }
 
 enum MaterialType {

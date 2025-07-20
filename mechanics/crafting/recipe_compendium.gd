@@ -20,6 +20,3 @@ func init() -> void:
 				&"boss_material": recipe.get(&"BossMaterial"),
 				&"discovered": false
 			}
-
-func load_compendium() -> void:
-	pass ## TODO: Come back to this later

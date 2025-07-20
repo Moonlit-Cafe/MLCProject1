@@ -9,6 +9,15 @@ func _ready() -> void:
 	var sound_loader = SoundLoader.new()
 	sound_loader.load_audio()
 	sound_loader = null
+	
+	var expression = Expression.new()
+	
+	var error = expression.parse("print(\"Hello World!\")")
+	if error != OK:
+		print(expression.get_error_text())
+		return
+	
+	var result = expression.execute()
 #endregion
 
 #region Helpers

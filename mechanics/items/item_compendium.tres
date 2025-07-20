@@ -1,9 +1,23 @@
-[gd_resource type="Resource" script_class="ItemCompendium" load_steps=2 format=3 uid="uid://c1eci1cb46wlw"]
+[gd_resource type="Resource" script_class="ItemCompendium" load_steps=13 format=3 uid="uid://c1eci1cb46wlw"]
 
 [ext_resource type="Script" uid="uid://50a7am8a0d5o" path="res://mechanics/items/res_def/item_compendium.gd" id="1_8owe3"]
+[ext_resource type="Script" uid="uid://dca1q5xvjoikt" path="res://mechanics/items/res_def/equippable_item.gd" id="1_rmp36"]
+[ext_resource type="Script" uid="uid://4icxts2q6dqg" path="res://mechanics/items/res_def/material_item.gd" id="2_ct0xq"]
+[ext_resource type="Resource" uid="uid://bscxov3hd6xwq" path="res://mechanics/items/equippable/test_cap.tres" id="2_tgj3l"]
+[ext_resource type="Resource" uid="uid://duelyegtmghik" path="res://mechanics/items/materials/woods/test_wood.tres" id="3_jix8v"]
+[ext_resource type="Resource" uid="uid://2n5ltxuu1jul" path="res://mechanics/items/materials/metals/test_metal.tres" id="4_e45lt"]
+[ext_resource type="Script" uid="uid://hial2a052mma" path="res://mechanics/items/res_def/weapon_item.gd" id="4_es63h"]
+[ext_resource type="Resource" uid="uid://dk3dhmnkqwybq" path="res://mechanics/items/materials/leathers/test_leather.tres" id="5_cji0a"]
+[ext_resource type="Resource" uid="uid://yqu5l0gp32ga" path="res://mechanics/items/materials/dusts/test_dust.tres" id="6_cji0a"]
+[ext_resource type="Script" uid="uid://dijil5rrnh04y" path="res://mechanics/items/res_def/power_core_item.gd" id="6_tgj3l"]
+[ext_resource type="Resource" uid="uid://c2ds7ii8iuka3" path="res://mechanics/items/materials/cloths/test_cloth.tres" id="7_tgj3l"]
+[ext_resource type="Script" uid="uid://dv7c7trx5t3hp" path="res://mechanics/items/res_def/usable_item.gd" id="8_5p0i3"]
 
 [resource]
 script = ExtResource("1_8owe3")
-item_compendium_path = ""
-material_compendium_path = "uid://brghxljfnhdyd"
+material_compendium = Array[ExtResource("2_ct0xq")]([ExtResource("3_jix8v"), ExtResource("4_e45lt"), ExtResource("5_cji0a"), ExtResource("6_cji0a"), ExtResource("7_tgj3l")])
+usable_compendium = Array[ExtResource("8_5p0i3")]([])
+equip_compendium = Array[ExtResource("1_rmp36")]([ExtResource("2_tgj3l")])
+weapon_compendium = Array[ExtResource("4_es63h")]([])
+powercore_compendium = Array[ExtResource("6_tgj3l")]([])
 metadata/_custom_type_script = "uid://50a7am8a0d5o"

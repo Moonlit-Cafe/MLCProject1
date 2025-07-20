@@ -1,13 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://r5b8eavqvkig"]
+[gd_scene load_steps=4 format=3 uid="uid://r5b8eavqvkig"]
 
 [ext_resource type="Script" uid="uid://bwtaxv5fchqjc" path="res://autoloads/inventory/craft_manager.gd" id="1_l6h75"]
 [ext_resource type="Resource" uid="uid://c1eci1cb46wlw" path="res://mechanics/items/item_compendium.tres" id="2_fvp5a"]
-[ext_resource type="Texture2D" uid="uid://v8uye1d74a7i" path="res://assets/textures/resources_basic.png" id="2_lkdpo"]
-[ext_resource type="Resource" uid="uid://bbij6odqtum6q" path="res://mechanics/recipe_compendium.tres" id="3_tsnxf"]
+[ext_resource type="Resource" uid="uid://bbij6odqtum6q" path="res://mechanics/crafting/recipe_compendium.tres" id="3_tsnxf"]
 
 [node name="CraftManager" type="Node"]
 script = ExtResource("1_l6h75")
-texture_atlas = ExtResource("2_lkdpo")
 texture_grid_size = Vector2i(24, 24)
 item_compendium = ExtResource("2_fvp5a")
 recipe_compendium = ExtResource("3_tsnxf")

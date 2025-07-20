@@ -1,1 +1,3 @@
-class_name ItemMaterial extends Item
+class_name MaterialItem extends Item
+
+@export var material_type : Genum.MaterialType

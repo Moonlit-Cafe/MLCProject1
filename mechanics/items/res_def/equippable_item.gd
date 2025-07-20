@@ -6,4 +6,3 @@ class_name EquippableItem extends Item
 @export var stats : Dictionary[Genum.StatType, int]
 @export var slot_location : Genum.EquipLocation
 @export var rarity : Genum.Rarity
-var affinity : Genum.AffinityType

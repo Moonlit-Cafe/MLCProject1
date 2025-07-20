@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="RecipeCompendium" load_steps=2 format=3 uid="uid://bbij6odqtum6q"]
-
-[ext_resource type="Script" uid="uid://w6l5es8wnp35" path="res://mechanics/crafting/recipe_compendium.gd" id="3_h6u1c"]
-
-[resource]
-script = ExtResource("3_h6u1c")
-recipe_path = "uid://44scjlwhmmey"
-metadata/_custom_type_script = "uid://w6l5es8wnp35"
