@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquippableItem" load_steps=2 format=3 uid="uid://bscxov3hd6xwq"]
+
+[ext_resource type="Script" uid="uid://dca1q5xvjoikt" path="res://mechanics/items/res_def/equippable_item.gd" id="1_2clak"]
+
+[resource]
+script = ExtResource("1_2clak")
+aspect = 0
+stats = Dictionary[int, int]({
+0: 5
+})
+slot_location = 0
+rarity = 0
+i_name = &"Test Cap"
+id = 5
+value = 3
+tags = Array[int]([])
+texture = Vector2i(0, 0)
+tooltip = ""
+tier = 0
+metadata/_custom_type_script = "uid://dca1q5xvjoikt"

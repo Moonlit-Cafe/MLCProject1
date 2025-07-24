@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://cf7nhb6dlnbw0"]
+
+[ext_resource type="Script" uid="uid://dhqhp75mjv3kw" path="res://scenes/craft_test.gd" id="1_cjqxn"]
+[ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/items/res_def/item_resource.gd" id="2_818un"]
+[ext_resource type="Resource" uid="uid://c2ds7ii8iuka3" path="res://mechanics/items/materials/cloths/test_cloth.tres" id="3_8luac"]
+[ext_resource type="Resource" uid="uid://yqu5l0gp32ga" path="res://mechanics/items/materials/dusts/test_dust.tres" id="4_05i0h"]
+[ext_resource type="Resource" uid="uid://dk3dhmnkqwybq" path="res://mechanics/items/materials/leathers/test_leather.tres" id="5_ub40q"]
+[ext_resource type="Resource" uid="uid://2n5ltxuu1jul" path="res://mechanics/items/materials/metals/test_metal.tres" id="6_5c6m6"]
+[ext_resource type="Resource" uid="uid://duelyegtmghik" path="res://mechanics/items/materials/woods/test_wood.tres" id="7_sksmy"]
+
+[node name="CraftTest" type="Control" node_paths=PackedStringArray("craft_area", "inv_area")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cjqxn")
+preload_resources = Array[ExtResource("2_818un")]([ExtResource("3_8luac"), ExtResource("4_05i0h"), ExtResource("5_ub40q"), ExtResource("6_5c6m6"), ExtResource("7_sksmy")])
+craft_area = NodePath("CraftMenu/MarginContainer/CraftSelection")
+inv_area = NodePath("Inventory/MarginContainer/VBoxContainer")
+
+[node name="Inventory" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Inventory"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/MarginContainer"]
+layout_mode = 2
+
+[node name="CraftMenu" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CraftMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="CraftSelection" type="VBoxContainer" parent="CraftMenu/MarginContainer"]
+layout_mode = 2

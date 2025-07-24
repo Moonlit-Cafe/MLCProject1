@@ -27,7 +27,7 @@ func setup_audio_players() -> void:
 		for i in range(audio_group_count):
 			var player := AudioStreamPlayer.new()
 			add_child(player)
-			var bus_name : StringName = GenumHelper.BusName.get(genum)
+			var bus_name : StringName = GenumHelper.BUS_NAME.get(genum)
 			player.name = "AudioPlayer%s_Bus%s" % [i, bus_name]
 			player.bus = bus_name
 			if audio_players.has(genum):
