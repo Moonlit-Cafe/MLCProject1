@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcbf8bab4sdd3"]
+
+[ext_resource type="Script" uid="uid://cnbq0e2lika3m" path="res://mechanics/inventory/item_node.gd" id="1_1lmxb"]
+
+[node name="ItemNode" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_1lmxb")
