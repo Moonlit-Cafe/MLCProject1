@@ -1,5 +1,8 @@
 extends Control
 
+# Temporary scene to ensure that CraftManager works, will exist until a general test scene for the game is made
+# during each major phase of development.
+
 @export var initial_items : Array[Item]
 var inventory : Array[ItemNode]
 
