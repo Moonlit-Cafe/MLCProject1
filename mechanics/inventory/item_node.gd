@@ -2,6 +2,7 @@ class_name ItemNode extends Button
 
 @export var item : Item = null
 @export var initial_count : int = 0
+@export var inv_pos : Vector2i = Vector2i(0, 0)
 
 var count: int:
 	get:
