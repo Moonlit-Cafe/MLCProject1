@@ -1,19 +1,20 @@
 extends Control
 
-@export var preload_resources : Array[Item] = []
-@onready var inventory : Array[Array] = [
-	[preload_resources.get(0), 99],
-	[preload_resources.get(1), 99],
-	[preload_resources.get(2), 99],
-	[preload_resources.get(3), 99],
-	[preload_resources.get(4), 99]
-]
+@export var initial_items : Array[Item]
+var inventory : Array[ItemNode]
 
 @export var craft_area : VBoxContainer
-@export var inv_area : VBoxContainer
+@export var inv_area : HBoxContainer
 
 func _ready() -> void:
 	CraftManager.craft_request.connect(_on_craft_requested)
+	
+	for item in initial_items:
+		var node := ItemNode.new()
+		node.item = item
+		node.count = 99
+		node.inv_pos = Vector2i(inventory.size(), 0)
+		inventory.append(node)
 	
 	populate_inventory()
 	
@@ -33,21 +34,34 @@ func _on_craft_requested() -> void:
 		item_button.craft_requested.connect(_on_craft_button_pressed)
 
 func _on_craft_button_pressed(button_name: StringName) -> void:
-	inventory = CraftManager.craft(button_name, inventory)
-	populate_inventory()
+	inventory = CraftManager.craft(button_name, Vector2i(6, 1), inventory)
+	refresh_inventory()
 	CraftManager.request_craft_list(inventory)
 
 func populate_inventory() -> void:
-	for child in inv_area.get_children():
-		inv_area.remove_child(child)
-		child.queue_free()
-	
-	for item in inventory:
-		var item_hbox := HBoxContainer.new()
-		var item_label := Label.new()
+	for node in inventory:
+		var item_hbox := VBoxContainer.new()
 		var item_count_label := Label.new()
-		item_label.text = item.get(0).i_name
-		item_count_label.text = "%s" % item.get(1)
+		node.text = node.item.i_name
+		item_count_label.text = "%s" % node.count
 		inv_area.add_child(item_hbox)
-		item_hbox.add_child(item_label)
+		item_hbox.add_child(node)
 		item_hbox.add_child(item_count_label)
+
+func refresh_inventory() -> void:
+	for node in inventory:
+		if not node.item:
+			node.get_parent().queue_free()
+			inventory.erase(node)
+		if node.get_parent():
+			for child in node.get_parent().get_children():
+				if child is Label:
+					child.text = "%s" % node.count
+		else:		
+			var item_vbox := VBoxContainer.new()
+			var item_count_label := Label.new()
+			node.text = node.item.i_name
+			item_count_label.text = "%s" % node.count
+			inv_area.add_child(item_vbox)
+			item_vbox.add_child(node)
+			item_vbox.add_child(item_count_label)

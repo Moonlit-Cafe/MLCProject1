@@ -16,28 +16,56 @@ func _ready() -> void:
 	recipe_compendium.init()
 
 ## TODO: When inventory is introduced there's a much better way of implementing this.
-func craft(i_name: StringName, inventory: Array[Array]) -> Array[Array]:
+func craft(i_name: StringName, inv_rect: Vector2i, inventory: Array[ItemNode]) -> Array[ItemNode]:
 	var recipe = recipe_compendium.recipes.get(i_name.to_snake_case())
-	for item in inventory:
-		if item.get(0) is not MaterialItem:
+	for node in inventory:
+		if node.item is not MaterialItem:
 			continue
 		
-		if item.get(0).tier == recipe.get(&"tier"):
-			var mat_type = GenumHelper.MATERIAL_TYPE.get(item.get(0).material_type)
+		if node.item.tier == recipe.get(&"tier"):
+			var mat_type = GenumHelper.MATERIAL_TYPE.get(node.item.material_type)
 			if recipe.get(mat_type) > 0:
-				item.set(1, item.get(1) - recipe.get(mat_type))
+				node.count -= recipe.get(mat_type)
 	
 	var item_found = false
-	for item in inventory:
-		if item.get(0) == find_item(i_name):
+	for node in inventory:
+		if node.item == find_item(i_name):
 			item_found = true
-			item.set(1, item.get(1) + 1)
+			node.count += 1
+	
+	var available_space = find_inv_space(inv_rect, inventory)
 	
 	if not item_found:
-		inventory.append([find_item(i_name), 1])
+		var space_found := false
+		for y in range(inv_rect.y):
+			for x in range(inv_rect.x):
+				if available_space.get(y).get(x):
+					var new_node := ItemNode.new()
+					new_node.item = find_item(i_name)
+					new_node.count = 1
+					new_node.inv_pos = Vector2i(x, y)
+					inventory.append(new_node)
+					space_found = true
+					break
+		
+		if not space_found:
+			push_warning("There was no space in the inventory for the item.")
 	return inventory
 
-func derive_materials(inventory: Array[Array]) -> Array[Dictionary]:
+func find_inv_space(inv_rect: Vector2i, inventory: Array[ItemNode]) -> Array:
+	var spaces = []
+	for y in range(inv_rect.y):
+		var y_arr = []
+		for x in range(inv_rect.x):
+			y_arr.append(true)
+		spaces.append(y_arr)
+	
+	for node in inventory:
+		spaces.get(node.inv_pos.y).set(node.inv_pos.x, false)
+	
+	return spaces
+
+func derive_materials(inventory: Array[ItemNode]) -> Array[Dictionary]:
 	var material_list : Array[Dictionary] = []
 	var material_line := {
 		&"cloth": 0,
@@ -46,18 +74,19 @@ func derive_materials(inventory: Array[Array]) -> Array[Dictionary]:
 		&"metal": 0,
 		&"wood": 0
 	}
-	for i in range(7):
+	for i in range(Genum.Rarity.size()):
 		material_list.append(material_line)
 	
-	for item in inventory:
-		if item.get(0) is not MaterialItem:
+	for node in inventory:
+		if node.item is not MaterialItem:
+			print(node.item.i_name)
 			continue
-		material_list.get(item.get(0).tier).set(GenumHelper.MATERIAL_TYPE.get(item.get(0).material_type), item.get(1))
+		material_list.get(node.item.tier).set(GenumHelper.MATERIAL_TYPE.get(node.item.material_type), node.count)
 	
 	return material_list
 
 ## The method used to craft an item
-func request_craft_list(inventory: Array[Array]) -> void:
+func request_craft_list(inventory: Array[ItemNode]) -> void:
 	available_to_craft = []
 	
 	var material_list = derive_materials(inventory)
