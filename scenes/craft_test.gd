@@ -64,7 +64,7 @@ func refresh_inventory() -> void:
 			for child in node.get_parent().get_children():
 				if child is Label:
 					child.text = "%s" % node.count
-		else:		
+		else:
 			var item_vbox := VBoxContainer.new()
 			var item_count_label := Label.new()
 			node.text = node.item.i_name

@@ -77,6 +77,9 @@ func craft(i_name: StringName, inv_rect: Vector2i, inventory: Array[ItemNode]) -
 	# Creates a new item_node.
 	var item_found = false
 	for node in inventory:
+		if not node.item:
+			continue
+		
 		if node.item.i_name == i_name:
 			item_found = true
 			if node.count < node.item.max_stack:

@@ -17,6 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_cjqxn")
 initial_items = Array[ExtResource("2_818un")]([ExtResource("3_8luac"), ExtResource("4_05i0h"), ExtResource("5_ub40q"), ExtResource("6_5c6m6"), ExtResource("7_sksmy")])
+inv_size = Vector2i(6, 7)
 craft_area = NodePath("CraftMenu/MarginContainer/CraftSelection")
 inv_area = NodePath("Inventory/MarginContainer/InvArea")
 
