@@ -8,4 +8,4 @@ class_name Item extends Resource
 @export var texture : Vector2i
 @export var tooltip : String
 @export var tier : int
-@export var max_stack : int
+@export var max_stack : int = 1

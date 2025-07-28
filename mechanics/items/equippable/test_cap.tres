@@ -17,4 +17,5 @@ tags = Array[int]([])
 texture = Vector2i(0, 0)
 tooltip = ""
 tier = 0
+max_stack = 1
 metadata/_custom_type_script = "uid://dca1q5xvjoikt"
