@@ -56,6 +56,11 @@ func request_craft_list(inventory: Array[ItemNode]) -> void:
 ##
 ## There's potential for the method to be changed later due to inventory handling.
 func craft(i_name: StringName, inv_rect: Vector2i, inventory: Array[ItemNode]) -> Array[ItemNode]:
+	# Check if there's space available before crafting.
+	var available_space = find_inv_space(inv_rect, inventory)
+	if calc_inv_space(available_space) <= 0:
+		return inventory
+	
 	# Load up recipes and determine which items are available to craft with.
 	var recipe = recipe_compendium.recipes.get(i_name.to_snake_case())
 	for node in inventory:
@@ -81,7 +86,6 @@ func craft(i_name: StringName, inv_rect: Vector2i, inventory: Array[ItemNode]) -
 	
 	# Checks to see if there's any available space in the inventory to hold the newly
 	# crafted item.
-	var available_space = find_inv_space(inv_rect, inventory)
 	if not item_found:
 		var space_found := false
 		for y in range(inv_rect.y):
@@ -135,7 +139,6 @@ func derive_materials(inventory: Array[ItemNode]) -> Array[Dictionary]:
 	
 	for node in inventory:
 		if node.item is not MaterialItem:
-			print(node.item.i_name)
 			continue
 		material_list.get(node.item.tier).set(GenumHelper.MATERIAL_TYPE.get(node.item.material_type), node.count)
 	
@@ -154,6 +157,16 @@ func find_inv_space(inv_rect: Vector2i, inventory: Array[ItemNode]) -> Array:
 		spaces.get(node.inv_pos.y).set(node.inv_pos.x, false)
 	
 	return spaces
+
+## Used to find how many open spaces are available in an inventory
+func calc_inv_space(avail_space: Array) -> int:
+	var count : int = 0
+	for y in avail_space:
+		for x in y:
+			if x:
+				count += 1
+	
+	return count
 
 ## Grabs the specific portion of the texture to then set to the ItemNode's texture
 # TODO: Implement this with the new ItemNode structure. Will have to wait till after
