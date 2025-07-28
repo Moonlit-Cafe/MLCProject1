@@ -4,13 +4,17 @@ extends Control
 # during each major phase of development.
 
 @export var initial_items : Array[Item]
+@export var inv_size := Vector2i(6, 2)
 var inventory : Array[ItemNode]
 
 @export var craft_area : VBoxContainer
-@export var inv_area : HBoxContainer
+@export var inv_area : GridContainer
 
 func _ready() -> void:
 	CraftManager.craft_request.connect(_on_craft_requested)
+	
+	if inv_area:
+		inv_area.columns = inv_size.x
 	
 	for item in initial_items:
 		var node := ItemNode.new()
@@ -37,7 +41,7 @@ func _on_craft_requested() -> void:
 		item_button.craft_requested.connect(_on_craft_button_pressed)
 
 func _on_craft_button_pressed(button_name: StringName) -> void:
-	inventory = CraftManager.craft(button_name, Vector2i(6, 1), inventory)
+	inventory = CraftManager.craft(button_name, inv_size, inventory)
 	refresh_inventory()
 	CraftManager.request_craft_list(inventory)
 

@@ -37,7 +37,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="InvArea" type="HBoxContainer" parent="Inventory/MarginContainer"]
+[node name="InvArea" type="GridContainer" parent="Inventory/MarginContainer"]
 layout_mode = 2
 
 [node name="CraftMenu" type="PanelContainer" parent="."]

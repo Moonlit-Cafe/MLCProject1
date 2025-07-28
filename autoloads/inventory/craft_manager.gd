@@ -98,6 +98,9 @@ func craft(i_name: StringName, inv_rect: Vector2i, inventory: Array[ItemNode]) -
 					inventory.append(new_node)
 					space_found = true
 					break
+			
+			if space_found:
+				break
 		
 		if not space_found:
 			push_warning("There was no space in the inventory for the item.")
