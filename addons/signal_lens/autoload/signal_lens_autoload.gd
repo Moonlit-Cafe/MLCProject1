@@ -110,7 +110,6 @@ func parse_signal_callables_to_debugger_format(raw_signal_connections):
 		# This is important to allow parsing anonymous lambdas, which
 		# don't have name properties. The names in the nodes are not
 		# very user-friendly right now, so this is a good spot for a 
-		# TODO: improve readability of anonymous lambda nodes
 		if parsed_callable_object.get("name") != null:
 			parsed_callable_object_name = parsed_callable_object.get("name")
 		else:

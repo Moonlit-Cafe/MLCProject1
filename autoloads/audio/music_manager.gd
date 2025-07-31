@@ -24,11 +24,11 @@ func _process(_delta: float) -> void:
 ## Called during _ready to set up the two music players
 func setup_music_players() -> void:
 	main_music_player = AudioStreamPlayer.new()
-	main_music_player.bus = GenumHelper.BusName.get(Genum.BusID.OST)
+	main_music_player.bus = GenumHelper.BUS_NAME.get(Genum.BusID.OST)
 	add_child(main_music_player)
 	
 	secondary_music_player = AudioStreamPlayer.new()
-	secondary_music_player.bus = GenumHelper.BusName.get(Genum.BusID.OST)
+	secondary_music_player.bus = GenumHelper.BUS_NAME.get(Genum.BusID.OST)
 	add_child(secondary_music_player)
 
 ## Method for adding an ost to [member song_pool]

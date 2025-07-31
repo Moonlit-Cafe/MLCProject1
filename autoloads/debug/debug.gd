@@ -23,7 +23,7 @@ func _input(event: InputEvent) -> void:
 
 #region Helpers
 func _add_line(new_text: String) -> void:
-	text_box.set_line(text_box.get_line_count(), new_text)
+	text += "\n%s" % [new_text]
 #endregion
 
 #region Signal Callbacks
@@ -62,4 +62,7 @@ func help(args: Array[String]) -> void:
 		_add_line("List of Available Commands:")
 		for command in command_list:
 			_add_line("%s" % command)
+
+func clear(args: Array[String]) -> void:
+	text = "Debug Terminal"
 #endregion
