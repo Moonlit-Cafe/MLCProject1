@@ -63,6 +63,6 @@ func help(args: Array[String]) -> void:
 		for command in command_list:
 			_add_line("%s" % command)
 
-func clear(args: Array[String]) -> void:
+func clear(_args: Array[String]) -> void:
 	text = "Debug Terminal"
 #endregion
