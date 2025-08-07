@@ -2,13 +2,28 @@
 
 [ext_resource type="Script" uid="uid://cnbq0e2lika3m" path="res://mechanics/inventory/item_node.gd" id="1_1lmxb"]
 
-[node name="ItemNode" type="Button" node_paths=PackedStringArray("count_label")]
+[node name="ItemNode" type="Control" node_paths=PackedStringArray("count_label", "texture")]
+z_index = 1
+z_as_relative = false
 custom_minimum_size = Vector2(64, 64)
-offset_right = 8.0
-offset_bottom = 8.0
-keep_pressed_outside = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 64.0
+pivot_offset = Vector2(32, 32)
 script = ExtResource("1_1lmxb")
 count_label = NodePath("Count")
+texture = NodePath("TextureRect")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 2
+stretch_mode = 5
 
 [node name="Count" type="Label" parent="."]
 layout_mode = 1
@@ -24,5 +39,3 @@ grow_vertical = 0
 text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
-
-[connection signal="button_up" from="." to="." method="_on_released"]

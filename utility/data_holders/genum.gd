@@ -54,6 +54,7 @@ enum AffinityType {
 }
 
 enum EquipLocation {
+	INVENTORY,
 	HELM,
 	POWER_CORE,
 	SHOULDER,

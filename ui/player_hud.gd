@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+@export var rand_item : Item
+
 @export var container : GridContainer
 @export var inv_size := Vector2i(5, 5)
 @export var inv_slot : PackedScene
@@ -25,4 +27,5 @@ func _generate_random_itemnodes(count: int) -> void:
 			slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		
 		var new_node : ItemNode = inv_node.instantiate()
+		new_node.setup_item(rand_item, 50)
 		slot.add_child(new_node)

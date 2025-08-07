@@ -3,108 +3,24 @@
 [ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="1_1m6my"]
 [ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory_slot.tscn" id="1_n0n2g"]
 [ext_resource type="Script" uid="uid://decnctd8qfp08" path="res://ui/player_hud.gd" id="1_w11uw"]
-[ext_resource type="Script" uid="uid://bkcc31xye2eat" path="res://ui/inventory_slot.gd" id="4_w11uw"]
+[ext_resource type="Resource" uid="uid://c2ds7ii8iuka3" path="res://mechanics/items/materials/cloths/test_cloth.tres" id="2_7pawb"]
 
 [node name="PlayerHud" type="CanvasLayer" node_paths=PackedStringArray("container")]
 script = ExtResource("1_w11uw")
-container = NodePath("PanelContainer/HBoxContainer/Inventory")
+rand_item = ExtResource("2_7pawb")
+container = NodePath("Inventory")
 inv_slot = ExtResource("1_n0n2g")
 inv_node = ExtResource("1_1m6my")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-anchors_preset = -1
+[node name="Inventory" type="GridContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-grow_vertical = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
-layout_mode = 2
-
-[node name="Equipments" type="Panel" parent="PanelContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/HBoxContainer/Equipments"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
+offset_left = -288.0
+offset_top = -324.0
+offset_right = 288.0
+offset_bottom = 324.0
 grow_horizontal = 2
 grow_vertical = 2
-columns = 2
-
-[node name="Helm" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="PowerCore" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="Shoulder" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="Wrist" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="Body" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="Gloves" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="Waist" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="ModOne" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="Legs" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="ModTwo" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="Feet" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="ModThree" type="Container" parent="PanelContainer/HBoxContainer/Equipments/GridContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-script = ExtResource("4_w11uw")
-metadata/_custom_type_script = "uid://bkcc31xye2eat"
-
-[node name="Inventory" type="GridContainer" parent="PanelContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
