@@ -10,7 +10,6 @@ class_name ItemNode extends Control
 @export var texture : TextureRect
 @export_category("Item and Node Data")
 @export var item : Item = null
-@export var inv_pos : Vector2i = Vector2i(0, 0)
 
 var count: int:
 	get:
