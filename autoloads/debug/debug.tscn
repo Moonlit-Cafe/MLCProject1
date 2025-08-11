@@ -2,11 +2,15 @@
 
 [ext_resource type="Script" uid="uid://bu6p8yohxqbyb" path="res://autoloads/debug/debug.gd" id="1_nhwjj"]
 
-[node name="Debug" type="CanvasLayer" node_paths=PackedStringArray("text_box", "text_line")]
+[node name="Debug" type="CanvasLayer" node_paths=PackedStringArray("text_box", "text_line", "tier_select", "type_select", "amount_line", "add_button")]
 visible = false
 script = ExtResource("1_nhwjj")
 text_box = NodePath("PanelContainer/MarginContainer/VBoxContainer/TextEdit")
 text_line = NodePath("PanelContainer/MarginContainer/VBoxContainer/LineEdit")
+tier_select = NodePath("PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox/TierSelect")
+type_select = NodePath("PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox/TypeSelect")
+amount_line = NodePath("PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox/AmountLine")
+add_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox/AddButton")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = -1
@@ -36,4 +40,41 @@ layout_mode = 2
 size_flags_horizontal = 3
 keep_editing_on_text_submit = true
 
+[node name="DebugAdd" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd"]
+layout_mode = 2
+
+[node name="TierLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+layout_mode = 2
+text = "Tier"
+
+[node name="TierSelect" type="OptionButton" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TypeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+layout_mode = 2
+text = "Type"
+
+[node name="TypeSelect" type="OptionButton" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AmountLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+layout_mode = 2
+text = "Amount"
+
+[node name="AmountLine" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "1"
+max_length = 4
+
+[node name="AddButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+layout_mode = 2
+text = "Add"
+
 [connection signal="text_submitted" from="PanelContainer/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_text_submit"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox/AddButton" to="." method="_on_add_pressed"]
