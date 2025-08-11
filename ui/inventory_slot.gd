@@ -1,7 +1,9 @@
 ## The UI item for actual holding ItemNodes
 class_name InventorySlot extends PanelContainer
 
+@export var item_node : PackedScene
 @export var can_slot : Genum.EquipLocation = Genum.EquipLocation.INVENTORY
+var inv_position := Vector2i.ZERO
 var held_item : ItemNode = null
 var hovered_item : ItemNode = null
 
@@ -17,6 +19,11 @@ func _ready() -> void:
 #endregion
 
 #region Item Handling
+func generate_item(i_name: StringName, count : int = 1) -> void:
+	var node : ItemNode = item_node.instantiate()
+	node.item = CraftManager.find_item(i_name)
+	node.count = count
+
 # Handle item combining logic
 func can_combine_with(other_item: ItemNode) -> bool:
 	if held_item == null or other_item == null:

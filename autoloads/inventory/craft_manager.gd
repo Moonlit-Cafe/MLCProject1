@@ -19,6 +19,9 @@ func _ready() -> void:
 #endregion
 
 #region Public Methods
+# TODO: Later on, I want to try and improve the performance on this, with the way it's currently designed
+# it iterates on ALL the recipes rather than smart searches.
+
 ## Takes all of the available inventory, determines which of it can be used in crafting and then
 ## updates [member available_to_craft] with all the recipes that one could make with the current
 ## set of materials.
@@ -55,59 +58,43 @@ func request_craft_list(inventory: Array[ItemNode]) -> void:
 ## inventory to know where to place items, and the actual content of the inventory.
 ##
 ## There's potential for the method to be changed later due to inventory handling.
-func craft(i_name: StringName, inv_rect: Vector2i, inventory: Array[ItemNode]) -> Array[ItemNode]:
+func craft(i_name: StringName, inventory: GridContainer) -> void:
 	# Check if there's space available before crafting.
-	var available_space = find_inv_space(inv_rect, inventory)
-	if calc_inv_space(available_space) <= 0:
-		return inventory
+	var available_slot := find_free_slot(inventory)
 	
 	# Load up recipes and determine which items are available to craft with.
 	var recipe = recipe_compendium.recipes.get(i_name.to_snake_case())
-	for node in inventory:
+	for slot in inventory.get_children():
+		var node = slot.held_item
+		if not node:
+			continue
+		
 		if node.item is not MaterialItem:
 			continue
 		
 		if node.item.tier == recipe.get(&"tier"):
 			var mat_type = GenumHelper.MATERIAL_TYPE.get(node.item.material_type)
 			if recipe.get(mat_type) > 0:
-				node.count -= recipe.get(mat_type)
+				node.remove_from_stack(recipe.get(mat_type))
 	
-	# Check to see if the item to be crafted exists within the inventory,
-	# if so, then just increases the item's count or if the max stack is reached.
-	# Creates a new item_node.
-	var item_found = false
-	for node in inventory:
-		if not node.item:
+	if not _craft_item(i_name, 1, inventory):
+		push_warning("There was no space in the inventory.")
+
+func _craft_item(i_name: StringName, count: int, inventory: GridContainer) -> bool:
+	for slot in inventory.get_children():
+		if not slot.held_item:
 			continue
 		
-		if node.item.i_name == i_name:
-			item_found = true
-			if node.count < node.item.max_stack:
-				node.count += 1
-			else:
-				item_found = false
+		if slot.held_item.item.i_name == i_name:
+			slot.held_item.add_to_stack(count)
+			return true
 	
-	# Checks to see if there's any available space in the inventory to hold the newly
-	# crafted item.
-	if not item_found:
-		var space_found := false
-		for y in range(inv_rect.y):
-			for x in range(inv_rect.x):
-				if available_space.get(y).get(x):
-					var new_node := ItemNode.new()
-					new_node.item = find_item(i_name)
-					new_node.count = 1
-					new_node.inv_pos = Vector2i(x, y)
-					inventory.append(new_node)
-					space_found = true
-					break
-			
-			if space_found:
-				break
-		
-		if not space_found:
-			push_warning("There was no space in the inventory for the item.")
-	return inventory
+	for slot in inventory.get_children():
+		if not slot.held_item:
+			slot.generate_item(i_name, count)
+			return true
+	
+	return false
 #endregion
 
 #region Helper Methods
@@ -151,18 +138,15 @@ func derive_materials(inventory: Array[ItemNode]) -> Array[Dictionary]:
 	return material_list
 
 ## Used to find if there is available inventory space within a given inventory.
-func find_inv_space(inv_rect: Vector2i, inventory: Array[ItemNode]) -> Array:
-	var spaces = []
-	for y in range(inv_rect.y):
-		var y_arr = []
-		for x in range(inv_rect.x):
-			y_arr.append(true)
-		spaces.append(y_arr)
+func find_free_slot(inventory: GridContainer) -> InventorySlot:
+	for slot in inventory.get_children():
+		if not slot is InventorySlot:
+			continue
+		
+		if not slot.held_item:
+			return slot
 	
-	for node in inventory:
-		spaces.get(node.inv_pos.y).set(node.inv_pos.x, false)
-	
-	return spaces
+	return null
 
 ## Used to find how many open spaces are available in an inventory
 func calc_inv_space(avail_space: Array) -> int:
@@ -173,6 +157,50 @@ func calc_inv_space(avail_space: Array) -> int:
 				count += 1
 	
 	return count
+
+func add_item_to_inv(i_name: StringName, inv_rect: Vector2i, available_space: Array, inventory: Array[ItemNode]) -> bool:
+	for y in range(inv_rect.y):
+			for x in range(inv_rect.x):
+				if not available_space.get(y).get(x):
+					continue
+				var new_node := ItemNode.new()
+				new_node.item = find_item(i_name)
+				new_node.count = 1
+				new_node.inv_pos = Vector2i(x, y)
+				inventory.append(new_node)
+				return true
+	
+	return false
+#endregion
+
+#region Added Functionality
+# Check if a specific item can be crafted
+func can_craft_item(item_name: , inventory: Array[ItemNode]) -> bool:
+	var recipe = recipe_compendium.recipes.get(item_name.to_snake_case())
+	if not recipe:
+		return false
+	
+	var material_list = derive_materials(inventory)
+	var tier = recipe.get(&"tier")
+	
+	if tier >= material_list.size():
+		return false
+	
+	var mat_list = material_list.get(tier)
+	for mat in mat_list.keys():
+		if recipe.get(mat, 0) > mat_list.get(mat):
+			return false
+	
+	return true
+
+# Get the materials required for a recipe
+func get_recipe_requirements(item_name: StringName) -> Dictionary:
+	var recipe = recipe_compendium.recipes.get(item_name.to_snake_case())
+	if not recipe:
+		return {}
+	
+	return recipe
+#endregion
 
 ## Grabs the specific portion of the texture to then set to the ItemNode's texture
 # TODO: Implement this with the new ItemNode structure. Will have to wait till after
