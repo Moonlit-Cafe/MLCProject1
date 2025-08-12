@@ -1,6 +1,7 @@
 ## The Debug terminal for most if not all debug handling.
 ## Used by adding commands as methods to this script.
 extends CanvasLayer
+# AI: Generated code in this file, please look over it
 
 #region Variables
 @export var text_box : TextEdit

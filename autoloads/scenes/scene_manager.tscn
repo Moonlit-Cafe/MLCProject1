@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://0umgqcif7p6c"]
+
+[ext_resource type="Script" uid="uid://busto5oaggoae" path="res://autoloads/scenes/scene_manager.gd" id="1_tausb"]
+
+[node name="SceneManager" type="Node"]
+script = ExtResource("1_tausb")
+scene_paths = null

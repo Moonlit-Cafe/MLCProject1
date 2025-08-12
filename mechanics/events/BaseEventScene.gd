@@ -1,13 +1,10 @@
 # BaseEventScene.gd - Base class for all event scenes
-class_name BaseEventScene
-extends Control
+class_name BaseEventScene extends Control
 
 var scene_data: Dictionary
 signal scene_completed(result: Dictionary)
 
-func initialize(data: Dictionary):
-	scene_data = data
-	setup_scene()
+# TODO: Make the subordinate Scenes
 
 func setup_scene():
 	# Override in derived classes

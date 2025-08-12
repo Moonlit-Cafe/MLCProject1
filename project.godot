@@ -23,9 +23,10 @@ MusicManager="*res://autoloads/audio/music_manager.gd"
 SoundManager="*res://autoloads/audio/sound_manager.gd"
 GameGlobal="*res://autoloads/general/game_global.gd"
 GameGlobalEvents="*res://autoloads/general/game_global_events.gd"
-Debug="*res://autoloads/debug/debug.tscn"
-SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
 CraftManager="*res://autoloads/inventory/craft_manager.tscn"
+SceneManager="*res://autoloads/scenes/scene_manager.tscn"
+SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
+Debug="*res://autoloads/debug/debug.tscn"
 
 [display]
 

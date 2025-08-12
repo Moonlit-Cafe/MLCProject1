@@ -3,21 +3,15 @@
 ## The actual Global containing all of the game's core information.
 extends Node
 
+var rng : RandomNumberGenerator
+
 #region Built-Ins
 func _ready() -> void:
 	# Loading up sounds and then deleting the sound_loader as it's no longer necessary
 	var sound_loader = SoundLoader.new()
 	sound_loader.load_audio()
 	sound_loader = null
-	
-	#var expression = Expression.new()
-	#
-	#var error = expression.parse("print(\"Hello World!\")")
-	#if error != OK:
-	#	print(expression.get_error_text())
-	#	return
-	#
-	#var result = expression.execute()
+	rng.seed = rng.randi_range(0, 99999)
 #endregion
 
 #region Helpers
