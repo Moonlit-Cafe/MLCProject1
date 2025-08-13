@@ -1,16 +1,85 @@
-[gd_scene load_steps=2 format=3 uid="uid://dgrxgtqiqfj70"]
+[gd_scene load_steps=13 format=3 uid="uid://dgrxgtqiqfj70"]
 
 [ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/ProgScene.gd" id="1_dix4w"]
+[ext_resource type="Script" uid="uid://bvhk0ewqwsact" path="res://utility/data_holders/event_holder.gd" id="2_htg7h"]
+[ext_resource type="PackedScene" uid="uid://dcub7v16acou0" path="res://scenes/events/shop_scene.tscn" id="3_rlv37"]
+[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="4_2j0dp"]
+[ext_resource type="PackedScene" uid="uid://bulyn32kagiph" path="res://scenes/events/craft_scene.tscn" id="5_lkxui"]
+[ext_resource type="PackedScene" uid="uid://d1xs6v76nmk44" path="res://scenes/events/unique_event_scene.tscn" id="6_lu0v2"]
 
-[node name="ProgScene" type="CanvasLayer" node_paths=PackedStringArray("button_container")]
+[sub_resource type="Resource" id="Resource_htg7h"]
+script = ExtResource("2_htg7h")
+scene_name = &"ShopScene"
+event_id = 0
+scene = ExtResource("3_rlv37")
+weight = 1
+spawn_frequency = 3
+priority = 1
+metadata/_custom_type_script = "uid://bvhk0ewqwsact"
+
+[sub_resource type="Resource" id="Resource_463di"]
+script = ExtResource("2_htg7h")
+scene_name = &"BattleScene"
+event_id = 1
+scene = ExtResource("4_2j0dp")
+weight = 60
+spawn_frequency = -1
+priority = 1
+metadata/_custom_type_script = "uid://bvhk0ewqwsact"
+
+[sub_resource type="Resource" id="Resource_xrf0x"]
+script = ExtResource("2_htg7h")
+scene_name = &"EliteBattleScene"
+event_id = 2
+scene = ExtResource("4_2j0dp")
+weight = 0
+spawn_frequency = -1
+priority = 1
+metadata/_custom_type_script = "uid://bvhk0ewqwsact"
+
+[sub_resource type="Resource" id="Resource_h63nn"]
+script = ExtResource("2_htg7h")
+scene_name = &"BossBattleScene"
+event_id = 3
+scene = ExtResource("4_2j0dp")
+weight = 1
+spawn_frequency = 10
+priority = 1
+metadata/_custom_type_script = "uid://bvhk0ewqwsact"
+
+[sub_resource type="Resource" id="Resource_l5ql0"]
+script = ExtResource("2_htg7h")
+scene_name = &"CraftScene"
+event_id = 4
+scene = ExtResource("5_lkxui")
+weight = 1
+spawn_frequency = 3
+priority = 1
+metadata/_custom_type_script = "uid://bvhk0ewqwsact"
+
+[sub_resource type="Resource" id="Resource_ojfb3"]
+script = ExtResource("2_htg7h")
+scene_name = &"UniqueEventScene"
+event_id = 5
+scene = ExtResource("6_lu0v2")
+weight = 20
+spawn_frequency = -1
+priority = 1
+metadata/_custom_type_script = "uid://bvhk0ewqwsact"
+
+[node name="ProgScene" type="CanvasLayer" node_paths=PackedStringArray("button_container", "scene_holder")]
 script = ExtResource("1_dix4w")
+event_references = Array[ExtResource("2_htg7h")]([SubResource("Resource_htg7h"), SubResource("Resource_463di"), SubResource("Resource_xrf0x"), SubResource("Resource_h63nn"), SubResource("Resource_l5ql0"), SubResource("Resource_ojfb3")])
 button_container = NodePath("EventButtonContainer/VBoxContainer")
+scene_holder = NodePath("SceneHolder")
 
 [node name="SceneHolder" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="EventButtonContainer" type="PanelContainer" parent="."]
 anchors_preset = 8

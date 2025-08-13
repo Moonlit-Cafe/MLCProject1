@@ -4,4 +4,3 @@
 
 [node name="SceneManager" type="Node"]
 script = ExtResource("1_tausb")
-scene_paths = null

@@ -7,8 +7,10 @@ signal scene_changed(scene_type: String, scene_data: Dictionary)
 
 @export var event_references : Array[EventHolder]
 @export var button_container : VBoxContainer
+@export var scene_holder : Control
 
 var current_scene_index: int = 0
+var current_scene : BaseEventScene = null
 var event_history: Array[String] = []
 var frequency_events : Array[EventHolder]
 var random_events : Array[EventHolder]
@@ -20,13 +22,16 @@ var generation_height : int = 3
 func _ready() -> void:
 	SceneManager.prog_scene = self
 	_setup_progression()
+	
+	generate_next_events()
 #endregion
 
 #region Scene Generation
 func generate_next_events() -> void:
+	button_container.get_parent().show()
 	current_scene_index += 1
 	var event_set : Array[EventHolder] = _generate_events()
-	for event_button in button_container:
+	for event_button in button_container.get_children():
 		button_container.remove_child(event_button)
 	
 	if event_set.size() > 1:
@@ -71,6 +76,11 @@ func _generate_event_button(event_set: Array[EventHolder]) -> void:
 	event_button.event = chosen_event
 	event_button.text = chosen_event.scene_name
 	button_container.add_child(event_button)
+	event_button.next_event.connect(_on_event_button_pressed)
+
+func _clear_event_buttons() -> void:
+	for button in button_container.get_children():
+		button_container.remove_child(button)
 #endregion
 
 #region Publics
@@ -93,70 +103,25 @@ func get_deterministic_value(min_val: int, max_val: int, offset: int = 0) -> int
 #region Privates
 func _choose_event(event_list: Array[EventHolder]) -> EventHolder:
 	# Create weights excluding BossScene and CraftScene since they're handled by floor patterns
-	var weights : Array[float] = []
+	var weights : PackedFloat32Array = []
 	for event in event_list:
 		weights.append(float(event.weight))
-	
+	var index = GameGlobal.rng.rand_weighted(weights)
 	return event_list.get(GameGlobal.rng.rand_weighted(weights))
+#endregion
 
-#func _generate_scene_data(scene_type: String) -> Dictionary:
-#	var base_data = {
-#		"scene_type": scene_type,
-#		"scene_index": current_scene_index,
-#		"seed_value": GameGlobal.rng.randi()
-#	}
-#	
-#	match scene_type:
-#		"CraftScene":
-#			return _generate_craft_data(base_data)
-#		"BattleScene":
-#			return _generate_battle_data(base_data)
-#		"EliteBattleScene":
-#			return _generate_elite_battle_data(base_data)
-#		"BossScene":
-#			return _generate_boss_data(base_data)
-#		"ShopScene":
-#			return _generate_shop_data(base_data)
-#		"UniqueEventScene":
-#			return _generate_unique_event_data(base_data)
-#		_:
-#			return base_data
-#
-#func _generate_craft_data(base_data: Dictionary) -> Dictionary:
-#	base_data["craft_type"] = ["weapon", "armor", "consumable"][GameGlobal.rng.randi() % 3]
-#	base_data["materials_required"] = GameGlobal.rng.randi_range(1, 3)
-#	return base_data
-#
-#func _generate_battle_data(base_data: Dictionary) -> Dictionary:
-#	base_data["enemy_count"] = GameGlobal.rng.randi_range(1, 4)
-#	base_data["difficulty"] = GameGlobal.rng.randi_range(1, 5)
-#	base_data["reward_tier"] = GameGlobal.rng.randi_range(1, 3)
-#	return base_data
-#
-#func _generate_elite_battle_data(base_data: Dictionary) -> Dictionary:
-#	base_data["enemy_count"] = GameGlobal.rng.randi_range(2, 5)  # More enemies than regular battle
-#	base_data["difficulty"] = GameGlobal.rng.randi_range(3, 7)   # Higher difficulty range
-#	base_data["reward_tier"] = GameGlobal.rng.randi_range(2, 4)  # Better rewards
-#	base_data["elite_modifier"] = GameGlobal.rng.randf_range(1.3, 1.8)  # Damage/health multiplier
-#	base_data["special_ability"] = true
-#	return base_data
-#
-#func _generate_boss_data(base_data: Dictionary) -> Dictionary:
-#	base_data["boss_tier"] = (current_scene_index / 10)  # Boss gets stronger each 10 floors
-#	base_data["boss_type"] = ["elemental", "mechanical", "undead", "dragon"][GameGlobal.rng.randi() % 4]
-#	base_data["special_abilities"] = GameGlobal.rng.randi_range(2, 5)
-#	base_data["reward_multiplier"] = 2.0 + (base_data["boss_tier"] * 0.5)
-#	return base_data
-#
-#func _generate_shop_data(base_data: Dictionary) -> Dictionary:
-#	base_data["shop_type"] = ["general", "weapons", "magic"][GameGlobal.rng.randi() % 3]
-#	base_data["item_count"] = GameGlobal.rng.randi_range(3, 8)
-#	base_data["price_modifier"] = GameGlobal.rng.randf_range(0.8, 1.2)
-#	return base_data
-#
-#func _generate_unique_event_data(base_data: Dictionary) -> Dictionary:
-#	base_data["event_id"] = GameGlobal.rng.randi_range(1, 100)
-#	base_data["choices_available"] = GameGlobal.rng.randi_range(2, 4)
-#	base_data["risk_level"] = GameGlobal.rng.randi_range(1, 3)
-#	return base_data
+#region Signal Callbacks
+func _on_event_button_pressed(event: EventHolder) -> void:
+	var new_scene : BaseEventScene = event.scene.instantiate()
+	if current_scene:
+		scene_holder.remove_child(current_scene)
+		scene_holder.add_child(new_scene)
+		current_scene.queue_free()
+		current_scene = new_scene
+	else:
+		scene_holder.add_child(new_scene)
+		current_scene = new_scene
+	
+	_clear_event_buttons()
+	button_container.get_parent().hide()
 #endregion

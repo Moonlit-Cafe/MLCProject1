@@ -1,3 +1,11 @@
 class_name EventButton extends Button
 
+signal next_event(event_holder: EventHolder)
+
 var event : EventHolder
+
+func _ready() -> void:
+	pressed.connect(_on_pressed)
+
+func _on_pressed() -> void:
+	next_event.emit(event)

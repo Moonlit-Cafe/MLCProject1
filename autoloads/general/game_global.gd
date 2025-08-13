@@ -11,6 +11,7 @@ func _ready() -> void:
 	var sound_loader = SoundLoader.new()
 	sound_loader.load_audio()
 	sound_loader = null
+	rng = RandomNumberGenerator.new()
 	rng.seed = rng.randi_range(0, 99999)
 #endregion
 
