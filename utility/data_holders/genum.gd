@@ -96,3 +96,7 @@ enum StatType {
 	ATK_DMG_UP,
 	ATH_ON_HIT
 }
+
+enum UniqueEventType {
+	NULL
+}
