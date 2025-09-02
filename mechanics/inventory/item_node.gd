@@ -175,12 +175,13 @@ func _move_to_slot(slot: InventorySlot) -> void:
 	position = Vector2.ZERO
 
 func _swap_with_slot(slot: InventorySlot) -> void:
-	var other_item = slot.take_item()
+	var other_item = slot.held_item
 	var original_parent = get_parent()
 	
 	_move_to_slot(slot)
 	
 	if other_item and original_parent:
+		other_item.get_parent().remove_child(other_item)
 		original_parent.add_child(other_item)
 		other_item.position = Vector2.ZERO
 

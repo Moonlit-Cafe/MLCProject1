@@ -1,41 +1,31 @@
 ## Holds the data for all existing items in the game.
 class_name ItemCompendium extends Resource
 
-@export var material_compendium : Array[MaterialItem]
-@export var usable_compendium : Array[UsableItem]
-@export var equip_compendium : Array[EquippableItem]
-@export var weapon_compendium : Array[WeaponItem]
-@export var powercore_compendium : Array[PowerCoreItem]
+@export_dir var material_compendium : String
+@export_dir var usable_compendium : String
+@export_dir var equip_compendium : String
+@export_dir var weapon_compendium : String
+@export_dir var powercore_compendium : String
 var item_reference : Array[Item]
 
 func init() -> void:
-	for item in material_compendium:
-		item_reference.append(item)
-	material_compendium.clear()
+	load_items(material_compendium)
+	load_items(usable_compendium)
+	load_items(equip_compendium)
+	load_items(weapon_compendium)	
+	load_items(powercore_compendium)
 	
-	for item in usable_compendium:
-		item_reference.append(item)
-	usable_compendium.clear()
+	print(item_reference)
+	# TODO: Put a sort function here to sort the items by id, but also assign IDs in the right order.
+
+func load_items(path: String) -> void:
+	if path == "":
+		return
 	
-	for item in equip_compendium:
-		item_reference.append(item)
-	equip_compendium.clear()
-	
-	for item in weapon_compendium:
-		item_reference.append(item)
-	weapon_compendium.clear()
-	
-	for item in powercore_compendium:
-		item_reference.append(item)
-	powercore_compendium.clear()
-	
-	for i in range(item_reference.size()):
-		if i < item_reference.size() - 2:
-			if item_reference.get(i).id < item_reference.get(i).id:
-				continue
-			else:
-				var item_1 = item_reference.get(i)
-				var item_2 = item_reference.get(i + 1)
-				item_reference.set(i, item_2)
-				item_reference.set(i + 1, item_1)
-		
+	var dir = ResourceLoader.list_directory(path)
+	for dir_item in dir:
+		if "/" in dir_item:
+			load_items(path + "/" + dir_item)
+		else:
+			var item = FileHelper.load_asset(path + "/" + dir_item)
+			item_reference.append(item)

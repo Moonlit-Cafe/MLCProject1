@@ -8,13 +8,33 @@
 [node name="PlayerHud" type="CanvasLayer" node_paths=PackedStringArray("container")]
 script = ExtResource("1_w11uw")
 rand_item = ExtResource("2_7pawb")
-container = NodePath("Inventory")
+container = NodePath("HBoxContainer/InventoryContainer/MarginContainer/Inventory")
 inv_slot = ExtResource("1_n0n2g")
 inv_node = ExtResource("1_1m6my")
 
-[node name="Inventory" type="GridContainer" parent="."]
-anchors_preset = 9
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = -1
+anchor_right = 0.4
 anchor_bottom = 1.0
 grow_vertical = 2
+
+[node name="EquipmentContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InventoryContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/InventoryContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Inventory" type="GridContainer" parent="HBoxContainer/InventoryContainer/MarginContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

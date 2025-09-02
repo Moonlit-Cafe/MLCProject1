@@ -13,14 +13,9 @@ func _ready() -> void:
 		container.columns = inv_size.x
 	
 	_generate_inventory()
+	_generate_random_itemnodes(5)
 
 func _generate_inventory() -> void:
-	for y in range(inv_size.y):
-		#inventory.append([])
-		for x in range(inv_size.x):
-			var new_slot : InventorySlot = inv_slot.instantiate()
-			new_slot.inv_position = Vector2i(x, y)
-			container.add_child(new_slot)
 	for slot in range(inv_size.x * inv_size.y):
 		var new_slot : InventorySlot = inv_slot.instantiate()
 		container.add_child(new_slot)

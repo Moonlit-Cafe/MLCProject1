@@ -200,6 +200,9 @@ func get_recipe_requirements(item_name: StringName) -> Dictionary:
 		return {}
 	
 	return recipe
+
+func get_compendium_size() -> int:
+	return item_compendium.item_reference.size()
 #endregion
 
 ## Grabs the specific portion of the texture to then set to the ItemNode's texture
@@ -210,4 +213,3 @@ func get_item_texture(pos: Vector2i) -> AtlasTexture:
 	return_texture.atlas = texture_atlas
 	return_texture.region = Rect2(pos * texture_grid_size, texture_grid_size)
 	return return_texture
-#endregion
