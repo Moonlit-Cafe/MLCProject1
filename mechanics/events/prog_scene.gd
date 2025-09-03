@@ -39,6 +39,8 @@ func generate_next_events() -> void:
 			_generate_event_button(event_set)
 	else:
 		_generate_event_button(event_set)
+	
+	button_container.set_position(Vector2.ZERO)
 
 func _generate_events() -> Array[EventHolder]:
 	var valid_events : Array[EventHolder] = []

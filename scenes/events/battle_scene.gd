@@ -10,5 +10,9 @@ var boss_tier : int = 1
 var boss_type : int = 1
 var reward_multiplier : float = 1.0
 
+# TODO: Move battle generation to this script later
+# The actual battle generation will happen here and then get passed to board
+# for right now it's all on the board
+
 func _on_pressed() -> void:
 	SceneManager.load_next_scene()

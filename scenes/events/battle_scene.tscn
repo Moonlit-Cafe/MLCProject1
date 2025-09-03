@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ksmkpfann6ie"]
+[gd_scene load_steps=5 format=3 uid="uid://ksmkpfann6ie"]
 
 [ext_resource type="Script" uid="uid://bin8ph5h6xhm0" path="res://scenes/events/battle_scene.gd" id="1_w5vvb"]
 [ext_resource type="PackedScene" uid="uid://340482dtf03o" path="res://mechanics/events/battle/battle_map.tscn" id="2_c52ab"]
 [ext_resource type="PackedScene" uid="uid://csbccsygucxou" path="res://scenes/entities/enemy_character.tscn" id="3_sou65"]
+[ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/turn_tracker.tscn" id="4_sou65"]
 
 [node name="BattleScene" type="Control"]
 layout_mode = 3
@@ -13,7 +14,32 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w5vvb")
 
-[node name="BattleMap" parent="." instance=ExtResource("2_c52ab")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 4
 
-[node name="EnemyCharacter" parent="BattleMap" instance=ExtResource("3_sou65")]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+size = Vector2i(288, 162)
+
+[node name="BattleMap" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("turn_tracker") instance=ExtResource("2_c52ab")]
+turn_tracker = NodePath("../../../TurnTracker")
+
+[node name="EnemyCharacter" parent="SubViewportContainer/SubViewport/BattleMap" instance=ExtResource("3_sou65")]
 position = Vector2(13, 12)
+
+[node name="EnemyCharacter2" parent="SubViewportContainer/SubViewport/BattleMap" instance=ExtResource("3_sou65")]
+position = Vector2(15, 105)
+haste = 30.0
+
+[node name="EnemyCharacter3" parent="SubViewportContainer/SubViewport/BattleMap" instance=ExtResource("3_sou65")]
+position = Vector2(30, 60)
+haste = 5.0
+
+[node name="TurnTracker" parent="." instance=ExtResource("4_sou65")]
+layout_mode = 1

@@ -5,13 +5,13 @@ extends Node2D
 # TODO: Need to make action menu and turn tracker. Afterwards I'll have a prototype that's deliverable.
 
 @export var battle_board : TileMapLayer
+@export var turn_tracker : Control
 
 var active_enemies : Array[EnemyCharacter] = []
 var backup_enemies : Array[EnemyCharacter] = []
 var support_enemies : Array[EnemyCharacter] = []
 var round : int = 1
 var turn : int = 1
-var turn_tracker : Array[Node] = []
 var search_range := Vector2i(-100, 100)
 var board_area : Rect2i
 var board_tile_size : Vector2i
@@ -25,15 +25,19 @@ func _ready() -> void:
 	if corner != Vector2i(search_range.x - 1, search_range.y + 1):
 		board_area = determine_board(corner)
 	
-	turn_tracker = get_tree().get_nodes_in_group(&"enemies")
+	define_enemy_arrays()
+	generate_turn_order()
 	start_loop(1)
 
 func start_loop(rounds: int):
+	if not turn_tracker:
+		return
+	
 	for r in range(rounds):
-		for enemy in turn_tracker:
+		for enemy in turn_tracker.turn_list:
 			enemy.commit_action()
 			await enemy.turn_finished
-			print("Finished")
+			turn_tracker.reorder_turns()
 
 func find_top_left_corner() -> Vector2i:	
 	for y in range(search_range.x, search_range.y + 1):
@@ -58,6 +62,34 @@ func determine_board(init_pos: Vector2i) -> Rect2i:
 				area.y = cur_pos.y - init_pos.y - 1
 	
 	return Rect2i(init_pos, area)
+
+func define_enemy_arrays() -> void:
+	var all_enemies = get_tree().get_nodes_in_group(&"enemies")
+	for enemy in all_enemies:
+		if enemy is EnemyCharacter:
+			match(enemy.current_state):
+				EnemyCharacter.EnemyState.ACTIVE:
+					active_enemies.append(enemy)
+				EnemyCharacter.EnemyState.BACKUP:
+					backup_enemies.append(enemy)
+				EnemyCharacter.EnemyState.SUPPORT:
+					support_enemies.append(enemy)
+
+# TODO: Flesh this out so that it works for Support enemies, Allies, and the Player
+func generate_turn_order() -> void:
+	if not turn_tracker:
+		return
+	
+	var turn_order = active_enemies
+	turn_order.sort_custom(_haste_sort)
+	turn_tracker.turn_list = turn_order
+	turn_tracker.generate_turns()
+
+func _haste_sort(a, b) -> bool:
+	if not "haste" in a or not "haste" in b:
+		push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
+	
+	return a.haste > b.haste
 
 func _on_player_turn_end() -> void:
 	pass

@@ -13,6 +13,12 @@ enum AIType {
 	SUPPORTER
 }
 
+enum EnemyState {
+	ACTIVE,
+	BACKUP,
+	SUPPORT
+}
+
 var board : Node2D
 
 var hp : float = 10.0
@@ -20,9 +26,10 @@ var p_def : float = 0.0
 var m_def : float = 0.0
 var p_atk : float = 1.0
 var m_atk : float = 1.0
-var haste : float = 10.0
+@export var haste : float = 10.0
 var speed : int = 1
 var ai_type : AIType = AIType.NULL
+var current_state : EnemyState = EnemyState.ACTIVE
 
 func _ready() -> void:
 	add_to_group(&"enemies")
