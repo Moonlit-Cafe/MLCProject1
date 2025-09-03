@@ -1,0 +1,25 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bp46seb3itgu7"]
+
+[ext_resource type="Texture2D" uid="uid://2em6ijyl63fy" path="res://assets/sprites/ground_autotile_0.png" id="1_xbipn"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d5bd8"]
+texture = ExtResource("1_xbipn")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[resource]
+sources/1 = SubResource("TileSetAtlasSource_d5bd8")

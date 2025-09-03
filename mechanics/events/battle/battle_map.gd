@@ -1,0 +1,63 @@
+extends Node2D
+
+# TODO: Make BoardLayer a seperate thing so that we can switch maps on the fly.
+# TODO: Make it so random enemies generate and can begin moving and attacking.
+# TODO: Need to make action menu and turn tracker. Afterwards I'll have a prototype that's deliverable.
+
+@export var battle_board : TileMapLayer
+
+var active_enemies : Array[EnemyCharacter] = []
+var backup_enemies : Array[EnemyCharacter] = []
+var support_enemies : Array[EnemyCharacter] = []
+var round : int = 1
+var turn : int = 1
+var turn_tracker : Array[Node] = []
+var search_range := Vector2i(-100, 100)
+var board_area : Rect2i
+var board_tile_size : Vector2i
+
+func _ready() -> void:
+	if not battle_board:
+		return
+	
+	board_tile_size = battle_board.tile_set.tile_size
+	var corner := find_top_left_corner()
+	if corner != Vector2i(search_range.x - 1, search_range.y + 1):
+		board_area = determine_board(corner)
+	
+	turn_tracker = get_tree().get_nodes_in_group(&"enemies")
+	start_loop(1)
+
+func start_loop(rounds: int):
+	for r in range(rounds):
+		for enemy in turn_tracker:
+			enemy.commit_action()
+			await enemy.turn_finished
+			print("Finished")
+
+func find_top_left_corner() -> Vector2i:	
+	for y in range(search_range.x, search_range.y + 1):
+		for x in range(search_range.x, search_range.y + 1):
+			var data = battle_board.get_cell_tile_data(Vector2i(x, y))
+			if data:
+				return Vector2i(x, y)
+	
+	return Vector2i(search_range.x - 1, search_range.y + 1)
+
+func determine_board(init_pos: Vector2i) -> Rect2i:
+	var area := Vector2i.ZERO
+	var cur_pos := init_pos
+	while area.x == 0 and area.y == 0:
+		if area.x == 0:
+			cur_pos.x += 1
+			if not battle_board.get_cell_tile_data(cur_pos):
+				area.x = cur_pos.x - init_pos.x - 1
+		else:
+			cur_pos.y += 1
+			if not battle_board.get_cell_tile_data(cur_pos):
+				area.y = cur_pos.y - init_pos.y - 1
+	
+	return Rect2i(init_pos, area)
+
+func _on_player_turn_end() -> void:
+	pass
