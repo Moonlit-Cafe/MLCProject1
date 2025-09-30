@@ -12,6 +12,5 @@ metadata/_custom_type_script = "uid://bv4mbq73t4l03"
 
 [resource]
 script = ExtResource("1_jsfl7")
-events_type = 0
 event_list = Array[ExtResource("1_glv8d")]([SubResource("Resource_glv8d")])
 metadata/_custom_type_script = "uid://bimn80jxcj5ag"

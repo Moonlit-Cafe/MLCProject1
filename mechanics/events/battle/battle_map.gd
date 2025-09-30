@@ -27,7 +27,7 @@ func _ready() -> void:
 	
 	define_enemy_arrays()
 	generate_turn_order()
-	start_loop(1)
+	start_loop(3)
 
 func start_loop(rounds: int):
 	if not turn_tracker:

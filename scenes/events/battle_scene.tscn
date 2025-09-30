@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://csbccsygucxou" path="res://scenes/entities/enemy_character.tscn" id="3_sou65"]
 [ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/turn_tracker.tscn" id="4_sou65"]
 
-[node name="BattleScene" type="Control"]
+[node name="BattleScene" type="Control" node_paths=PackedStringArray("battle_viewport")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,25 +13,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w5vvb")
+battle_viewport = NodePath("SubViewportContainer")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -27.5
-offset_top = -15.5
-offset_right = 27.5
-offset_bottom = 15.5
-grow_horizontal = 2
-grow_vertical = 2
 stretch = true
-stretch_shrink = 4
+stretch_shrink = 3
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
-size = Vector2i(288, 162)
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 4
 
 [node name="BattleMap" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("turn_tracker") instance=ExtResource("2_c52ab")]
 turn_tracker = NodePath("../../../TurnTracker")
