@@ -1,5 +1,7 @@
 extends Node2D
 
+signal player_turn
+signal end_map
 # TODO: Make BoardLayer a seperate thing so that we can switch maps on the fly.
 # TODO: Make it so random enemies generate and can begin moving and attacking.
 # TODO: Need to make action menu and turn tracker. Afterwards I'll have a prototype that's deliverable.
@@ -15,10 +17,14 @@ var turn : int = 1
 var search_range := Vector2i(-100, 100)
 var board_area : Rect2i
 var board_tile_size : Vector2i
+var map_ended : bool = false
+var selected_enemy : EnemyCharacter
 
 func _ready() -> void:
 	if not battle_board:
 		return
+	
+	end_map.connect(func(): map_ended = true)
 	
 	board_tile_size = battle_board.tile_set.tile_size
 	var corner := find_top_left_corner()
@@ -27,17 +33,23 @@ func _ready() -> void:
 	
 	define_enemy_arrays()
 	generate_turn_order()
-	start_loop(3)
+	start_loop(10)
 
-func start_loop(rounds: int):
+func start_loop(rounds: int) -> void:
 	if not turn_tracker:
 		return
 	
 	for r in range(rounds):
-		for enemy in turn_tracker.turn_list:
-			enemy.commit_action()
-			await enemy.turn_finished
+		for char in turn_tracker.turn_list:
+			if char is PlayerManager:
+				await player_turn
+				continue
+			
+			char.commit_action()
+			await char.turn_finished
 			turn_tracker.reorder_turns()
+			if map_ended:
+				return
 
 func find_top_left_corner() -> Vector2i:	
 	for y in range(search_range.x, search_range.y + 1):
@@ -80,7 +92,9 @@ func generate_turn_order() -> void:
 	if not turn_tracker:
 		return
 	
-	var turn_order = active_enemies
+	var turn_order = []
+	turn_order.append_array(active_enemies)
+	turn_order.append(PlayerManager)
 	turn_order.sort_custom(_haste_sort)
 	turn_tracker.turn_list = turn_order
 	turn_tracker.generate_turns()
@@ -93,3 +107,19 @@ func _haste_sort(a, b) -> bool:
 
 func _on_player_turn_end() -> void:
 	pass
+
+func get_tile_data(pos: Vector2) -> TileData:
+	if not battle_board:
+		return
+	
+	return battle_board.get_cell_tile_data(battle_board.local_to_map(pos))
+
+func attack_enemy() -> void:
+	if not selected_enemy:
+		return
+	
+	turn_tracker.remove_turn(selected_enemy)
+	selected_enemy.queue_free()
+	if PlayerManager in turn_tracker.turn_list and turn_tracker.turn_list.size() < 2:
+		end_map.emit()
+	player_turn.emit()

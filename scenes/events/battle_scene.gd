@@ -3,6 +3,7 @@ extends BaseEventScene
 
 #region Declarations
 @export var battle_viewport : SubViewportContainer
+@export var battle_map : Node2D
 
 var enemy_count : int = 0
 var difficulty : float = 1.0
@@ -20,6 +21,9 @@ var reward_multiplier : float = 1.0
 #region Built-Ins
 func _ready() -> void:
 	_determine_battle_view_size()
+	
+	if battle_map:
+		battle_map.end_map.connect(_on_map_ended)
 #endregion
 
 #region Setups
@@ -48,4 +52,10 @@ func _determine_battle_view_size() -> void:
 #region Signal Callbacks
 func _on_pressed() -> void:
 	SceneManager.load_next_scene()
+
+func _on_map_ended() -> void:
+	_on_pressed()
+
+func _on_attack_pressed() -> void:
+	battle_map.attack_enemy()
 #endregion

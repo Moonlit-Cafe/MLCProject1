@@ -14,6 +14,16 @@ func generate_turns() -> void:
 		turn_label.text = turn.name
 		turn_tracker.add_child(turn_label)
 
+func remove_turn(char: Variant) -> void:
+	if not char in turn_list:
+		return
+	
+	turn_list.erase(char)
+	for child in turn_tracker.get_children():
+		if child.text == char.name:
+			child.queue_free()
+			return
+
 func reorder_turns() -> void:
 	var turn = turn_tracker.get_children().pop_front()
 	turn_tracker.move_child(turn, turn_tracker.get_child_count())

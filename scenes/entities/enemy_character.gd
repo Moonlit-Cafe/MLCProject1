@@ -49,9 +49,21 @@ func commit_action() -> void:
 func move() -> void:
 	var pos_delta = board.board_tile_size
 	var tween = create_tween().bind_node(self).set_loops(1)
-	tween.tween_property(self, "position", Vector2(pos_delta.x, 0), 0.5).as_relative()
+	tween.tween_property(self, "position", Vector2(0, pos_delta.y), 0.5).as_relative()
 	await tween.finished
 	move_finished.emit()
+	
+	if board.battle_board:
+		var data : TileData = board.get_tile_data(position)
+		if not data:
+			board.end_map.emit()
 
 func attack() -> void:
 	await GameGlobal.delay(0.5)
+
+func _on_selected(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if not event is InputEventMouseButton or not board:
+		return
+	
+	if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
+		board.selected_enemy = self

@@ -18,3 +18,5 @@ vframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_5w10h")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_selected"]

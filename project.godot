@@ -26,6 +26,7 @@ GameGlobalEvents="*res://autoloads/general/game_global_events.gd"
 CraftManager="*res://autoloads/player/craft_manager.tscn"
 SceneManager="*res://autoloads/scenes/scene_manager.tscn"
 PlayerManager="*res://autoloads/player/player_manager.gd"
+SkillManager="*res://autoloads/general/skill_manager.tscn"
 SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
 Debug="*res://autoloads/debug/debug.tscn"
 
