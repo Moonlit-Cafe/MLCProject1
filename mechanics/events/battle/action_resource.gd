@@ -6,4 +6,6 @@ class_name Action extends Resource
 @export var ac_name : StringName
 @export var ac_id : StringName
 @export var shape : ActionShape
+@export var damage_type : Genum.DamageType
+@export var value : float = 1
 #endregion

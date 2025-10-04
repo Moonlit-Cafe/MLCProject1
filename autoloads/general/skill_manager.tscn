@@ -1,14 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtdtl6uj8wbea"]
+[gd_scene load_steps=2 format=3 uid="uid://dtdtl6uj8wbea"]
 
 [ext_resource type="Script" uid="uid://b1lf4fn35e1h2" path="res://autoloads/general/skill_manager.gd" id="1_efu6c"]
-[ext_resource type="Script" uid="uid://bmptry7ru5ks5" path="res://mechanics/events/battle/action_shape.gd" id="2_2fixf"]
-
-[sub_resource type="Resource" id="Resource_x0adu"]
-script = ExtResource("2_2fixf")
-shape_id = &"single_target"
-shape_pos_arr = Array[Vector2i]([Vector2i(0, 0)])
-metadata/_custom_type_script = "uid://bmptry7ru5ks5"
 
 [node name="SkillManager" type="Node"]
 script = ExtResource("1_efu6c")
-ac_shape_array = Array[ExtResource("2_2fixf")]([SubResource("Resource_x0adu")])
+action_file = "res://mechanics/events/battle/actions.json"

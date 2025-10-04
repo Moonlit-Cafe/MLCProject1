@@ -100,3 +100,7 @@ enum StatType {
 enum UniqueEventType {
 	NULL
 }
+
+enum DamageType {
+	NULL
+}
