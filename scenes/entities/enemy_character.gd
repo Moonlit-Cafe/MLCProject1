@@ -90,7 +90,11 @@ func damage(ac: Action) -> void:
 #endregion
 
 #region Checks
-func check_obstacles(_ac_shape: ActionShape) -> void:
+func check_obstacles(ac_shape: ActionShape) -> void:
+	# TODO: Replace so that weapons determine range, for now actions will
+	if 7 - map_pos.y > ac_shape.action_range:
+		return
+	
 	var ray := RayCast2D.new()
 	ray.collide_with_areas = true
 	add_child(ray)
