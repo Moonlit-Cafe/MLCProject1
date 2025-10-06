@@ -3,8 +3,6 @@
 class_name ProgScene extends CanvasLayer
 
 #region Declarations
-signal scene_changed(scene_type: String, scene_data: Dictionary)
-
 @export var event_references : Array[EventHolder]
 @export var button_container : VBoxContainer
 @export var scene_holder : Control

@@ -59,12 +59,15 @@ var selected : bool = false :
 		selected = value
 #endregion
 
+#region Built-Ins
 func _ready() -> void:
 	add_to_group(&"enemies")
 	
 	if get_parent():
 		board = get_parent()
+#endregion
 
+#region Actions
 func commit_action() -> void:
 	#print("Starting Attack")
 	attack()
@@ -84,6 +87,20 @@ func damage(ac: Action) -> void:
 	for pos in pos_arr:
 		for enemy in get_tree().get_nodes_in_group(&"enemies"):
 			enemy.hp -= ac.value
+#endregion
+
+#region Checks
+func check_obstacles(_ac_shape: ActionShape) -> void:
+	var ray := RayCast2D.new()
+	ray.collide_with_areas = true
+	add_child(ray)
+	ray.target_position = Vector2(0, 20)
+	ray.force_raycast_update()
+	if ray.is_colliding():
+		if ray.get_collider().owner is ObstacleObject:
+			return
+	selectable = true
+	ray.queue_free()
 
 func check_selected() -> void:
 	var enemies = get_tree().get_nodes_in_group(&"enemies")
@@ -95,7 +112,9 @@ func check_selected() -> void:
 func check_other_enemies() -> void:
 	if get_tree().get_node_count_in_group(&"enemies") <= 1:
 		GameGlobalEvents.battle_end.emit()
+#endregion
 
+#region Signal Callbacks
 func _on_selected(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if not event is InputEventMouseButton or not board:
 		return
@@ -105,3 +124,4 @@ func _on_selected(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	
 	if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
 		selected = true
+#endregion

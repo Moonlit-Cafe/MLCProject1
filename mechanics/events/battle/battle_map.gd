@@ -33,11 +33,11 @@ func _ready() -> void:
 		board_area = determine_board(corner)
 		print(board_area)
 	
+	GameGlobalEvents.action_selected.connect(_on_action_selected)
 
 func init() -> void:
 	define_enemy_arrays()
 	generate_turn_order()
-	_detect_selectable_enemies()
 	battle_loop()
 
 func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
@@ -127,9 +127,5 @@ func get_tile_data(pos: Vector2) -> TileData:
 
 # TODO: Need to make it so that based on the action shape it gathers all selectable enemies and highlights
 # them.
-func _on_action_select(ac_shape: ActionShape) -> void:
-	_detect_selectable_enemies()
-
-func _detect_selectable_enemies() -> void:
-	for enemy in active_enemies:
-		enemy.selectable = true
+func _on_action_selected(ac_shape: ActionShape) -> void:
+	get_tree().call_group(&"enemies", "check_obstacles", ac_shape)

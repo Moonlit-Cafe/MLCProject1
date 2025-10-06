@@ -8,6 +8,7 @@ extends BaseEventScene
 @export var label : Label
 @export var hp_label : Label
 @export var enemy_character : PackedScene
+@export var obstacle_object : PackedScene
 
 var enemy_count : int = 0
 var difficulty : float = 1.0
@@ -98,7 +99,16 @@ func _generate_battle() -> void:
 		var pos = available_spots.pick_random()
 		available_spots.erase(pos)
 		enemy.position = pos * battle_map.board_tile_size.x + battle_map.board_tile_size / 2
-		
+		enemy.map_pos = pos
+	
+	var obstacle_count : int = 6
+	for i in range(obstacle_count):
+		var obstacle = obstacle_object.instantiate()
+		battle_map.add_child(obstacle)
+		obstacle.name = "Obstacle #%s" % (i + 1)
+		var pos = available_spots.pick_random()
+		available_spots.erase(pos)
+		obstacle.position = pos * battle_map.board_tile_size.x + battle_map.board_tile_size / 2
 #endregion
 
 #region Signal Callbacks
@@ -111,6 +121,7 @@ func _on_map_ended() -> void:
 func _on_data_sent(data: Variant) -> void:
 	if data is Action:
 		selected_action = data
+		battle_map._on_action_selected(selected_action.shape)
 
 func _on_attack_pressed() -> void:
 	if not selected_action or not player_turn:

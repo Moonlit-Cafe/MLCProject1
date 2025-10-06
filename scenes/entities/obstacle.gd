@@ -1,0 +1,1 @@
+class_name ObstacleObject extends Node2D
