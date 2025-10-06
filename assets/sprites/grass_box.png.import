@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2em6ijyl63fy"
-path="res://.godot/imported/ground_autotile_0.png-9c8d547e0a02c6d8d1eb61d85aaa6c5f.ctex"
+uid="uid://cri7h28siu8es"
+path="res://.godot/imported/grass_box.png-a9a2603cd826c33ad5608ac0ab3994de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/ground_autotile_0.png"
-dest_files=["res://.godot/imported/ground_autotile_0.png-9c8d547e0a02c6d8d1eb61d85aaa6c5f.ctex"]
+source_file="res://assets/sprites/grass_box.png"
+dest_files=["res://.godot/imported/grass_box.png-a9a2603cd826c33ad5608ac0ab3994de.ctex"]
 
 [params]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://csbccsygucxou"]
+[gd_scene load_steps=8 format=3 uid="uid://csbccsygucxou"]
 
 [ext_resource type="Script" uid="uid://be4pxwx37vjda" path="res://scenes/entities/enemy_character.gd" id="1_8v5cv"]
 [ext_resource type="Texture2D" uid="uid://sjbcyiproy2o" path="res://assets/sprites/character_1_frame16x20.png" id="2_dtlw6"]
@@ -8,10 +8,37 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5w10h"]
 size = Vector2(16, 16)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_fp5wc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_1op0g")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1op0g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_fp5wc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_1op0g")
+}],
+"loop": true,
+"name": &"selected",
+"speed": 2.0
+}]
+
 [node name="EnemyCharacter" type="Node2D"]
 script = ExtResource("1_8v5cv")
 
 [node name="CharSprite" type="Sprite2D" parent="."]
+position = Vector2(4.7683716e-07, -0.9999995)
+scale = Vector2(0.87500006, 0.70000005)
 texture = ExtResource("2_dtlw6")
 hframes = 3
 vframes = 4
@@ -21,12 +48,20 @@ vframes = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_5w10h")
 
-[node name="SelectableSprite" type="Sprite2D" parent="."]
+[node name="SelectableSprite" type="AnimatedSprite2D" parent="."]
 visible = false
-texture = ExtResource("3_1op0g")
+position = Vector2(0, 4.172325e-07)
+scale = Vector2(1, 0.8)
+sprite_frames = SubResource("SpriteFrames_fp5wc")
+autoplay = "default"
+frame_progress = 0.8707828
 
-[node name="SelectedSprite" type="Sprite2D" parent="."]
+[node name="SelectedSprite" type="AnimatedSprite2D" parent="."]
 visible = false
-texture = ExtResource("4_fp5wc")
+position = Vector2(-6.2584877e-07, 2.3841858e-07)
+scale = Vector2(1, 0.8000001)
+sprite_frames = SubResource("SpriteFrames_1op0g")
+animation = &"selected"
+autoplay = "selected"
 
 [connection signal="input_event" from="Area2D" to="." method="_on_selected"]
