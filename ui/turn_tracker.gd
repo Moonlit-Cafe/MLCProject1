@@ -4,6 +4,8 @@ extends Control
 var turn_list : Array = []
 
 # TODO: Rudimentary, but good start.
+func _ready() -> void:
+	GameGlobalEvents.battle_removed.connect(remove_turn)
 
 func generate_turns() -> void:
 	if not turn_tracker:
@@ -14,13 +16,13 @@ func generate_turns() -> void:
 		turn_label.text = turn.name
 		turn_tracker.add_child(turn_label)
 
-func remove_turn(char: Variant) -> void:
-	if not char in turn_list:
+func remove_turn(actor: Variant) -> void:
+	if not actor in turn_list:
 		return
 	
-	turn_list.erase(char)
+	turn_list.erase(actor)
 	for child in turn_tracker.get_children():
-		if child.text == char.name:
+		if child.text == actor.name:
 			child.queue_free()
 			return
 

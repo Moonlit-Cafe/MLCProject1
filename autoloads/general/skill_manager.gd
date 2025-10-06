@@ -12,6 +12,9 @@ var all_actions : Array[Action]
 func _ready() -> void:
 	_define_shapes()
 	_define_actions()
+	
+	# Remove later
+	PlayerManager.available_skills.append(all_actions.get(0))
 #endregion
 
 #region Setups
