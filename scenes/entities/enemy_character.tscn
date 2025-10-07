@@ -51,7 +51,6 @@ shape = SubResource("RectangleShape2D_5w10h")
 [node name="SelectableSprite" type="AnimatedSprite2D" parent="."]
 visible = false
 position = Vector2(0, 4.172325e-07)
-scale = Vector2(1, 0.8)
 sprite_frames = SubResource("SpriteFrames_fp5wc")
 autoplay = "default"
 frame_progress = 0.8707828
@@ -59,9 +58,6 @@ frame_progress = 0.8707828
 [node name="SelectedSprite" type="AnimatedSprite2D" parent="."]
 visible = false
 position = Vector2(-6.2584877e-07, 2.3841858e-07)
-scale = Vector2(1, 0.8000001)
 sprite_frames = SubResource("SpriteFrames_1op0g")
 animation = &"selected"
 autoplay = "selected"
-
-[connection signal="input_event" from="Area2D" to="." method="_on_selected"]

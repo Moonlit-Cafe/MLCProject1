@@ -8,6 +8,8 @@ signal end_map
 
 @export var battle_board : TileMapLayer
 @export var turn_tracker : Control
+@export var selectable_tile : PackedScene
+@export var select_holder : Node2D
 
 # TODO: Change the entire scene to be a background with a custom grid definition 
 # TODO: With the custom grid definition, selection should be possible with a gui_input over the whole map
@@ -116,6 +118,53 @@ func generate_turn_order() -> void:
 	turn_tracker.generate_turns()
 #endregion
 
+#region Publics
+@warning_ignore_start("integer_division")
+func determine_selectables(shape: ActionShape) -> void:
+	if not select_holder:
+		return
+	
+	for child in select_holder.get_children():
+		print("Freeing Child")
+		child.queue_free()
+	
+	var shape_arr = shape.shape_pos_arr
+	shape_arr.erase(Vector2i.ZERO)
+	var d_space : PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	var param := PhysicsPointQueryParameters2D.new()
+	param.collide_with_areas = true
+	print(board_area.size.y)
+	for x in range(board_area.size.x):
+		for y in range(board_area.size.y):
+			var point = Vector2(
+				x * board_tile_size.x + board_tile_size.x / 2,
+				((board_area.size.y - 1) - y) * board_tile_size.y + board_tile_size.y / 2
+			)
+			param.position = point + position
+			var detected_enemies : Array = []
+			var center_col = d_space.intersect_point(param)
+			var detected : Array = []
+			if center_col.size() == 0:
+				detected = _get_shape_collisions(d_space, param, shape_arr)
+				if detected.size() == 0:
+					continue
+				detected_enemies.append_array(detected)
+				_create_selectable_tiles(point, detected_enemies, shape)
+				continue
+			
+			if center_col.get(0).collider.owner is ObstacleObject:
+				break
+			
+			var detected_enemy = center_col.pop_front().collider.owner
+			if detected_enemy.is_queued_for_deletion():
+				continue
+			detected_enemies.append(detected_enemy)
+			detected = _get_shape_collisions(d_space, param, shape_arr)
+			detected_enemies.append_array(detected)
+			_create_selectable_tiles(point, detected_enemies, shape)
+@warning_ignore_restore("integer_division")
+#endregion
+
 #region Helpers
 func _get_enemy_order() -> Array:
 	var all_orders : Array = []
@@ -162,16 +211,42 @@ func _haste_sort(a, b) -> bool:
 		push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
 	
 	return a.haste > b.haste
+
 func get_tile_data(pos: Vector2) -> TileData:
 	if not battle_board:
 		return
 	
 	return battle_board.get_cell_tile_data(battle_board.local_to_map(pos))
+
+func _get_shape_collisions(space: PhysicsDirectSpaceState2D, param: PhysicsPointQueryParameters2D, shape: Array[Vector2i]) -> Array:
+	var detected_collisions : Array = []
+	var pos = param.position
+	for s_point in shape:
+		param.position = pos + Vector2(s_point * board_tile_size.x)
+		var off_col = space.intersect_point(param)
+		if off_col.size() == 0:
+			continue
+		
+		var detected = off_col.pop_front().collider.owner
+		if detected is ObstacleObject:
+			continue
+		
+		detected_collisions.append(detected)
+	return detected_collisions
+
+func _create_selectable_tiles(point: Vector2i, ref_enemies: Array, shape: ActionShape) -> void:
+	var new_tile : SelectableTile = selectable_tile.instantiate()
+	new_tile.ref_enemies = ref_enemies
+	new_tile.shape = shape
+	new_tile.position = point
+	var bounds = Vector2(0, board_area.size.x * board_tile_size.x)
+	new_tile.generate_highlights(board_tile_size.x, bounds)
+	select_holder.add_child(new_tile)
 #endregion
 
 #region Signal Callbacks
 # TODO: Need to make it so that based on the action shape it gathers all selectable enemies and highlights
 # them.
 func _on_action_selected(ac_shape: ActionShape) -> void:
-	get_tree().call_group(&"enemies", "check_obstacles", ac_shape)
+	determine_selectables(ac_shape)
 #endregion

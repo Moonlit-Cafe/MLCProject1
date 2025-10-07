@@ -127,9 +127,10 @@ func _on_attack_pressed() -> void:
 	if not selected_action or not player_turn:
 		return
 	
-	get_tree().call_group(&"enemies", "damage", selected_action)
+	get_tree().call_group(&"select_tiles", "action_used", selected_action)
 	player_turn = false
 	GameGlobalEvents.player_turn.emit()
+	battle_map.determine_selectables(selected_action.shape)
 
 func _on_hp_changed() -> void:
 	hp_label.text = "HP: %s" % PlayerManager.hp

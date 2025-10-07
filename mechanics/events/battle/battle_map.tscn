@@ -2,18 +2,16 @@
 
 [ext_resource type="TileSet" uid="uid://bp46seb3itgu7" path="res://assets/tilesets/test_set.tres" id="1_ak0ys"]
 [ext_resource type="Script" uid="uid://jyuud6a4am4" path="res://mechanics/events/battle/battle_map.gd" id="1_vcuvm"]
+[ext_resource type="PackedScene" uid="uid://c4dktqmld13uf" path="res://mechanics/events/battle/selectable_tile.tscn" id="2_3m7vc"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcuvm"]
-
-[node name="BattleMap" type="Node2D" node_paths=PackedStringArray("battle_board")]
+[node name="BattleMap" type="Node2D" node_paths=PackedStringArray("battle_board", "select_holder")]
 script = ExtResource("1_vcuvm")
 battle_board = NodePath("BoardBG")
+selectable_tile = ExtResource("2_3m7vc")
+select_holder = NodePath("SelectableHolder")
 
 [node name="BoardBG" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAAAAAAAgAAAAMAAAAAAAEAAgAAAAMAAAAAAAIAAgAAAAMAAAAAAAMAAgAAAAMAAAAAAAQAAgAAAAMAAAAAAAUAAgAAAAMAAAAAAAYAAgAAAAMAAAABAAAAAgAAAAMAAAABAAEAAgAAAAMAAAABAAIAAgAAAAMAAAABAAMAAgAAAAMAAAABAAQAAgAAAAMAAAABAAUAAgAAAAMAAAABAAYAAgAAAAMAAAACAAAAAgAAAAMAAAACAAEAAgAAAAMAAAACAAIAAgAAAAMAAAACAAMAAgAAAAMAAAACAAQAAgAAAAMAAAACAAUAAgAAAAMAAAACAAYAAgAAAAMAAAADAAAAAgAAAAMAAAADAAEAAgAAAAMAAAADAAIAAgAAAAMAAAADAAMAAgAAAAMAAAADAAQAAgAAAAMAAAADAAUAAgAAAAMAAAADAAYAAgAAAAMAAAAEAAAAAgAAAAMAAAAEAAEAAgAAAAMAAAAEAAIAAgAAAAMAAAAEAAMAAgAAAAMAAAAEAAQAAgAAAAMAAAAEAAUAAgAAAAMAAAAEAAYAAgAAAAMAAAA=")
 tile_set = ExtResource("1_ak0ys")
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_vcuvm")
+[node name="SelectableHolder" type="Node2D" parent="."]
