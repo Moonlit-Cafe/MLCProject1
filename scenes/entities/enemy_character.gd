@@ -19,11 +19,12 @@ enum EnemyState {
 	SUPPORT
 }
 
-var board : Node2D
 
-@export var haste : float = 10.0
+@export var haste : int = 10
 @onready var select_sprite = $"SelectableSprite"
 @onready var selected_sprite = $"SelectedSprite"
+
+var board : Node2D
 
 var hp : float = 10.0 :
 	set(value):
@@ -75,7 +76,7 @@ func commit_action() -> void:
 	turn_finished.emit()
 
 func attack() -> void:
-	PlayerManager.hp -= p_atk + m_atk
+	PlayerManager.hp -= int(p_atk + m_atk)
 
 func damage(ac: Action) -> void:
 	if not selected:
