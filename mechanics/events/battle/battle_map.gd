@@ -179,8 +179,9 @@ func _get_enemy_order() -> Array:
 
 func _get_player_order() -> Array:
 	var order : Array = []
+	var haste : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE)
 	@warning_ignore("integer_division")
-	var turns : int = 1 if PlayerManager.haste < 100 else (PlayerManager.haste / 100) + 1
+	var turns : int = 1 if haste < 100 else (haste / 100) + 1
 	for i in range(turns):
 		order.append(PlayerManager)
 	return order
