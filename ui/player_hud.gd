@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@export var rand_item : Item
+@export var rand_items : Array[Item]
 
 @export var inventory : HBoxContainer
 
@@ -17,7 +17,7 @@ func _ready() -> void:
 		container.columns = inv_size.x
 	
 	_generate_inventory()
-	_generate_random_itemnodes(5)
+	_generate_random_itemnodes()
 	hide_inv()
 
 func _input(event: InputEvent) -> void:
@@ -33,14 +33,14 @@ func _generate_inventory() -> void:
 		var new_slot : InventorySlot = inv_slot.instantiate()
 		container.add_child(new_slot)
 
-func _generate_random_itemnodes(count: int) -> void:
-	for node in range(count):
+func _generate_random_itemnodes() -> void:
+	for item in rand_items:
 		var slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		while slot.get_child_count() > 0:
 			slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		
 		var new_node : ItemNode = inv_node.instantiate()
-		new_node.setup_item(rand_item)
+		new_node.setup_item(item)
 		slot.add_child(new_node)
 
 func show_inv() -> void:

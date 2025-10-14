@@ -108,7 +108,7 @@ func find_item(item_name: StringName) -> Item:
 	return null
 
 ## Finds if an item is available in the ItemCompendium by it's ID.
-func find_item_by_id(id: int) -> Item:
+func find_item_by_id(id: StringName) -> Item:
 	for item in item_compendium.item_reference:
 		if item.id == id:
 			return item
@@ -213,3 +213,7 @@ func get_item_texture(pos: Vector2i) -> AtlasTexture:
 	return_texture.atlas = texture_atlas
 	return_texture.region = Rect2(pos * texture_grid_size, texture_grid_size)
 	return return_texture
+
+func get_random_item() -> Item:
+	var item = item_compendium.item_reference.get(randi_range(0, item_compendium.item_reference.size()))
+	return item

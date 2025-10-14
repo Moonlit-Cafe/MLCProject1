@@ -2,3 +2,6 @@
 class_name WeaponItem extends EquippableItem
 
 @export var attack : int
+@export var focus : WeaponComponent
+@export var matrix : WeaponComponent
+@export var frame : WeaponComponent

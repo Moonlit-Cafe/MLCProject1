@@ -12,7 +12,7 @@ func init() -> void:
 	load_items(material_compendium)
 	load_items(usable_compendium)
 	load_items(equip_compendium)
-	load_items(weapon_compendium)	
+	load_items(weapon_compendium)
 	load_items(powercore_compendium)
 	
 	print(item_reference)
@@ -28,4 +28,5 @@ func load_items(path: String) -> void:
 			load_items(path + "/" + dir_item)
 		else:
 			var item = FileHelper.load_asset(path + "/" + dir_item)
+			item.id = item.i_name.to_snake_case()
 			item_reference.append(item)

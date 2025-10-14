@@ -3,7 +3,6 @@ class_name Item extends Resource
 
 #region Declarations
 @export var i_name : StringName
-@export var id : int
 @export var value : int
 @export var tags : Array[Genum.ItemTags]
 @export var texture : Vector2i
@@ -11,6 +10,8 @@ class_name Item extends Resource
 @export var tier : int
 @export var equip_loc : Genum.EquipLocation = Genum.EquipLocation.INVENTORY
 @export var max_stack_size : int = 99  # TODO: Set appropriate stack sizes per item type
+
+var id : StringName
 #endregion
 
 #region Helpers
