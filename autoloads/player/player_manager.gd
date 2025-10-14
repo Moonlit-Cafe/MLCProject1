@@ -42,7 +42,9 @@ func regen_combat_stats() -> void:
 			stats_to_modify.get(stat.stat).append(stat.modify_amount)
 	
 	combat_stats = stats
-	for stat in stats_to_modify:
-		for modifier in stat:
+	for stat in stats_to_modify.keys():
+		for modifier in stats_to_modify.get(stat):
 			combat_stats.set(stat, combat_stats.get(stat) + modifier)
+	
+	print(combat_stats)
 #endregion

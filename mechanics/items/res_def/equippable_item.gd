@@ -4,5 +4,4 @@ class_name EquippableItem extends Item
 # TODO: Init function checks power core aspects and determines if item has affinity
 @export var aspect : Genum.AspectType
 @export var stats : Array[StatPacket]
-@export var slot_location : Genum.EquipLocation
 @export var rarity : Genum.Rarity

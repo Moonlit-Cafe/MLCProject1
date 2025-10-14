@@ -7,4 +7,3 @@ var prog_scene: ProgScene
 
 func load_next_scene():
 	prog_scene.generate_next_events()
-	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)

@@ -4,7 +4,18 @@ class_name InventorySlot extends PanelContainer
 @export var item_node : PackedScene
 @export var can_slot : Genum.EquipLocation = Genum.EquipLocation.INVENTORY
 var inv_position := Vector2i.ZERO
-var held_item : ItemNode = null
+var held_item : ItemNode = null :
+	set(value):
+		if can_slot != Genum.EquipLocation.INVENTORY:
+			if held_item:
+				if held_item.item in PlayerManager.equipped_items:
+					PlayerManager.equipped_items.erase(held_item.item)
+			
+			if value:
+				PlayerManager.equipped_items.append(value.item)
+			PlayerManager.regen_combat_stats()
+		
+		held_item = value
 var hovered_item : ItemNode = null
 
 #region Built-Ins

@@ -3,11 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="1_1m6my"]
 [ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory_slot.tscn" id="1_n0n2g"]
 [ext_resource type="Script" uid="uid://decnctd8qfp08" path="res://ui/player_hud.gd" id="1_w11uw"]
-[ext_resource type="Resource" uid="uid://c2ds7ii8iuka3" path="res://mechanics/items/materials/cloths/test_cloth.tres" id="2_7pawb"]
+[ext_resource type="Resource" uid="uid://bscxov3hd6xwq" path="res://mechanics/items/equippable/test_cap.tres" id="2_w11uw"]
 
-[node name="PlayerHud" type="CanvasLayer" node_paths=PackedStringArray("container")]
+[node name="PlayerHud" type="CanvasLayer" node_paths=PackedStringArray("inventory", "container")]
 script = ExtResource("1_w11uw")
-rand_item = ExtResource("2_7pawb")
+rand_item = ExtResource("2_w11uw")
+inventory = NodePath("HBoxContainer")
 container = NodePath("HBoxContainer/InventoryContainer/MarginContainer/Inventory")
 inv_slot = ExtResource("1_n0n2g")
 inv_node = ExtResource("1_1m6my")
@@ -21,6 +22,20 @@ grow_vertical = 2
 [node name="EquipmentContainer" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/EquipmentContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer/EquipmentContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="InventorySlot" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 1
 
 [node name="InventoryContainer" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2

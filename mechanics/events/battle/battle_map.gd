@@ -208,10 +208,12 @@ func _check_enemy_order_size(emy_order: Array) -> int:
 	return largest_size
 
 func _haste_sort(a, b) -> bool:
-	if not "haste" in a or not "haste" in b:
+	if (not "haste" in a and not a is PlayerManager) or (not "haste" in b and not b is PlayerManager):
 		push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
 	
-	return a.haste > b.haste
+	var haste_a : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if a is PlayerManager else a.haste
+	var haste_b : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if b is PlayerManager else b.haste
+	return haste_a > haste_b
 
 func get_tile_data(pos: Vector2) -> TileData:
 	if not battle_board:

@@ -37,6 +37,7 @@ func _ready() -> void:
 	_generate_battle()
 	battle_map.init()
 	
+	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
 	hp_label.text = "HP: %s" % PlayerManager.hp
 	
 	if battle_map:
