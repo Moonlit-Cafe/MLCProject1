@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtdtl6uj8wbea"]
 
-[ext_resource type="Script" uid="uid://b1lf4fn35e1h2" path="res://autoloads/general/skill_manager.gd" id="1_efu6c"]
+[ext_resource type="Script" uid="uid://b1lf4fn35e1h2" path="res://autoloads/combat/skill_manager.gd" id="1_efu6c"]
 
 [node name="SkillManager" type="Node"]
 script = ExtResource("1_efu6c")

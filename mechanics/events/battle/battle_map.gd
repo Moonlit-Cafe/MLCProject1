@@ -8,15 +8,16 @@ signal end_map
 
 @export var battle_board : TileMapLayer
 @export var turn_tracker : Control
-@export var selectable_tile : PackedScene
 @export var select_holder : Node2D
+@export var b_tile : PackedScene
 
 # TODO: Change the entire scene to be a background with a custom grid definition 
 # TODO: With the custom grid definition, selection should be possible with a gui_input over the whole map
 # TODO: Action Selection should come from this selection process.
 var scene : BaseEventScene
-var active_enemies : Array[EnemyCharacter] = []
+var active_enemies : Array[BattleTile] = []
 var search_range := Vector2i(-100, 100)
+var board : Array = []
 var board_area : Rect2i
 var board_tile_size : Vector2i
 var map_ended : bool = false
@@ -27,6 +28,7 @@ func _ready() -> void:
 	if not battle_board:
 		return
 	
+	CombatManager.current_board = self
 	end_map.connect(func(): map_ended = true)
 	scene = find_parent("BattleScene")
 	
@@ -35,41 +37,14 @@ func _ready() -> void:
 	if corner != Vector2i(search_range.x - 1, search_range.y + 1):
 		board_area = determine_board(corner)
 	
-	GameGlobalEvents.action_selected.connect(_on_action_selected)
+	_generate_board()
 #endregion
 
 #region Setup
 func init() -> void:
 	define_enemy_arrays()
 	generate_turn_order()
-	battle_loop()
-
-func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
-	if not turn_tracker:
-		return
-	
-	for actor in turn_tracker.turn_list:
-		if actor is PlayerManager:
-			scene.player_turn = true
-			await GameGlobalEvents.player_turn
-			turn_tracker.reorder_turns()
-			continue
-		
-		actor.commit_action()
-		await actor.turn_finished
-		turn_tracker.reorder_turns()
-		if map_ended:
-			return
-	
-	if rounds == -1 and not map_ended:
-		battle_loop()
-	elif map_ended:
-		return
-	else:
-		if cur_round < rounds:
-			battle_loop(rounds, cur_round + 1)
-		else:
-			return
+	CombatManager.battle_loop()
 
 func find_top_left_corner() -> Vector2i:
 	for y in range(search_range.x, search_range.y + 1):
@@ -97,13 +72,32 @@ func determine_board(init_pos: Vector2i) -> Rect2i:
 	
 	return Rect2i(init_pos, area)
 
+func _generate_board() -> void:
+	if not b_tile:
+		push_warning("There is no battle tile set in battle map scene...")
+		return
+	
+	var map : Array = []
+	for x in range(board_area.size.x):
+		map.append([])
+		for y in range(board_area.size.y):
+			var new_tile : BattleTile = b_tile.instantiate()
+			new_tile.tile_position = Vector2i(x, y)
+			map.get(x).append(new_tile)
+			select_holder.add_child(new_tile)
+			new_tile.position = Vector2(x * board_tile_size.x, y * board_tile_size.y) + Vector2(board_tile_size) / 2
+	
+	board = map
+
 func define_enemy_arrays() -> void:
-	var all_enemies = get_tree().get_nodes_in_group(&"enemies")
-	for enemy in all_enemies:
-		if enemy is EnemyCharacter:
-			match(enemy.current_state):
-				EnemyCharacter.EnemyState.ACTIVE:
-					active_enemies.append(enemy)
+	var all_tiles = get_tree().get_nodes_in_group(&"tiles")
+	for tile in all_tiles:
+		if not tile.state == BattleTile.BattleState.ENEMY:
+			continue
+		
+		match(tile.held_object.current_state):
+			EnemyCharacter.EnemyState.ACTIVE:
+				active_enemies.append(tile)
 
 # TODO: Flesh this out so that it works for Support enemies, Allies, and the Player
 func generate_turn_order() -> void:
@@ -119,50 +113,27 @@ func generate_turn_order() -> void:
 #endregion
 
 #region Publics
-@warning_ignore_start("integer_division")
-func determine_selectables(shape: ActionShape) -> void:
+func determine_selectables() -> void:
 	if not select_holder:
 		return
 	
 	for child in select_holder.get_children():
-		print("Freeing Child")
-		child.queue_free()
+		child.selectable = false
 	
-	var shape_arr = shape.shape_pos_arr
-	shape_arr.erase(Vector2i.ZERO)
-	var d_space : PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
-	var param := PhysicsPointQueryParameters2D.new()
-	param.collide_with_areas = true
-	print(board_area.size.y)
-	for x in range(board_area.size.x):
-		for y in range(board_area.size.y):
-			var point = Vector2(
-				x * board_tile_size.x + board_tile_size.x / 2,
-				((board_area.size.y - 1) - y) * board_tile_size.y + board_tile_size.y / 2
-			)
-			param.position = point + position
-			var detected_enemies : Array = []
-			var center_col = d_space.intersect_point(param)
-			var detected : Array = []
-			if center_col.size() == 0:
-				detected = _get_shape_collisions(d_space, param, shape_arr)
-				if detected.size() == 0:
-					continue
-				detected_enemies.append_array(detected)
-				_create_selectable_tiles(point, detected_enemies, shape)
-				continue
-			
-			if center_col.get(0).collider.owner is ObstacleObject:
+	# TODO: Introduce some more checking on board_area and board later...
+	for x in range(board.size()):
+		for y in range(board.get(x).size()):
+			if y >= CombatManager.selected_action.shape.action_range:
 				break
 			
-			var detected_enemy = center_col.pop_front().collider.owner
-			if detected_enemy.is_queued_for_deletion():
+			var tile = board.get(x).get(board.get(x).size() - (y + 1))
+			if not tile:
 				continue
-			detected_enemies.append(detected_enemy)
-			detected = _get_shape_collisions(d_space, param, shape_arr)
-			detected_enemies.append_array(detected)
-			_create_selectable_tiles(point, detected_enemies, shape)
-@warning_ignore_restore("integer_division")
+			if tile.state == BattleTile.BattleState.OBSTACLE:
+				tile.selectable = true
+				break
+			
+			tile.selectable = true
 #endregion
 
 #region Helpers
@@ -171,7 +142,7 @@ func _get_enemy_order() -> Array:
 	for enemy in active_enemies:
 		var enemy_order : Array = []
 		@warning_ignore("integer_division")
-		var turns : int = 1 if enemy.haste < 100 else (enemy.haste / 100) + 1
+		var turns : int = 1 if enemy.held_object.haste < 100 else (enemy.held_object.haste / 100) + 1
 		for i in range(turns):
 			enemy_order.append(enemy)
 		all_orders.append(enemy_order)
@@ -208,11 +179,12 @@ func _check_enemy_order_size(emy_order: Array) -> int:
 	return largest_size
 
 func _haste_sort(a, b) -> bool:
-	if (not "haste" in a and not a is PlayerManager) or (not "haste" in b and not b is PlayerManager):
-		push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
+	# TODO: Come back to this check later.
+	#if (not "haste" in a.held_object and not a is PlayerManager) or (not "haste" in b.held_object and not b is PlayerManager):
+	#	push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
 	
-	var haste_a : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if a is PlayerManager else a.haste
-	var haste_b : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if b is PlayerManager else b.haste
+	var haste_a : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if a is PlayerManager else a.held_object.haste
+	var haste_b : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if b is PlayerManager else b.held_object.haste
 	return haste_a > haste_b
 
 func get_tile_data(pos: Vector2) -> TileData:
@@ -220,36 +192,4 @@ func get_tile_data(pos: Vector2) -> TileData:
 		return
 	
 	return battle_board.get_cell_tile_data(battle_board.local_to_map(pos))
-
-func _get_shape_collisions(space: PhysicsDirectSpaceState2D, param: PhysicsPointQueryParameters2D, shape: Array[Vector2i]) -> Array:
-	var detected_collisions : Array = []
-	var pos = param.position
-	for s_point in shape:
-		param.position = pos + Vector2(s_point * board_tile_size.x)
-		var off_col = space.intersect_point(param)
-		if off_col.size() == 0:
-			continue
-		
-		var detected = off_col.pop_front().collider.owner
-		if detected is ObstacleObject:
-			continue
-		
-		detected_collisions.append(detected)
-	return detected_collisions
-
-func _create_selectable_tiles(point: Vector2i, ref_enemies: Array, shape: ActionShape) -> void:
-	var new_tile : SelectableTile = selectable_tile.instantiate()
-	new_tile.ref_enemies = ref_enemies
-	new_tile.shape = shape
-	new_tile.position = point
-	var bounds = Vector2(0, board_area.size.x * board_tile_size.x)
-	new_tile.generate_highlights(board_tile_size.x, bounds)
-	select_holder.add_child(new_tile)
-#endregion
-
-#region Signal Callbacks
-# TODO: Need to make it so that based on the action shape it gathers all selectable enemies and highlights
-# them.
-func _on_action_selected(ac_shape: ActionShape) -> void:
-	determine_selectables(ac_shape)
 #endregion

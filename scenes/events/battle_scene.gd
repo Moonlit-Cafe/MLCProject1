@@ -3,12 +3,9 @@ extends BaseEventScene
 
 #region Declarations
 @export var battle_viewport : SubViewportContainer
-@export var battle_map : BattleMap
 @export var action_selector : VBoxContainer
 @export var label : Label
 @export var hp_label : Label
-@export var enemy_character : PackedScene
-@export var obstacle_object : PackedScene
 
 var enemy_count : int = 0
 var difficulty : float = 1.0
@@ -18,11 +15,11 @@ var special_ability : bool = true
 var boss_tier : int = 1
 var boss_type : int = 1
 var reward_multiplier : float = 1.0
-var selected_action : Action = null :
-	set(value):
-		selected_action = value
-		if label:
-			label.text = "Selected: %s" % (value.ac_name if value else "")
+#var selected_action : Action = null :
+#	set(value):
+#		selected_action = value
+#		if label:
+#			label.text = "Selected: %s" % (value.ac_name if value else "")
 var player_turn : bool = false
 #endregion
 # TODO: Move battle generation to this script later
@@ -31,17 +28,19 @@ var player_turn : bool = false
 
 #region Built-Ins
 func _ready() -> void:
+	CombatManager.current_scene = self
+	
 	_determine_battle_view_size()
 	_fill_actions()
 	enemy_count = 3
 	_generate_battle()
-	battle_map.init()
+	CombatManager.current_board.init()
 	
 	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
 	hp_label.text = "HP: %s" % PlayerManager.hp
 	
-	if battle_map:
-		battle_map.end_map.connect(_on_map_ended)
+	if CombatManager.current_board:
+		CombatManager.current_board.end_map.connect(_on_map_ended)
 	
 	GameGlobalEvents.hp_changed.connect(_on_hp_changed)
 	GameGlobalEvents.battle_end.connect(_on_battle_ended)
@@ -55,10 +54,10 @@ func _determine_battle_view_size() -> void:
 		return
 	
 	# TODO: This is currently hard-coded, need to extrapolate later...
-	var board_size = battle_map.board_area.size
+	var board_size = CombatManager.current_board.board_area.size
 	var map_min = mini(board_size.x, board_size.y)
 	var map_max = maxi(board_size.x, board_size.y)
-	var l = map_max * battle_map.board_tile_size.x
+	var l = map_max * CombatManager.current_board.board_tile_size.x
 	var l_delta = l
 	var m = 1.
 	var h_len = get_window().size.x * .4
@@ -75,8 +74,11 @@ func _determine_battle_view_size() -> void:
 	battle_viewport.anchor_right = 1 - ((1 - h_size) / 2.)
 	battle_viewport.stretch = true
 	battle_viewport.stretch_shrink = int(m)
-	battle_map.position += Vector2((map_max - map_min) / 2, 0) * battle_map.board_tile_size.x
+	@warning_ignore("integer_division")
+	CombatManager.current_board.position += Vector2((map_max - map_min) / 2, 0) * CombatManager.current_board.board_tile_size.x
+	print(CombatManager.current_board.position)
 
+# TODO: Replace with ActionMenu Functionality
 func _fill_actions() -> void:
 	for action in PlayerManager.available_skills:
 		var button := DataButton.new()
@@ -87,29 +89,22 @@ func _fill_actions() -> void:
 
 # TODO: Fix generation later
 func _generate_battle() -> void:
-	var board_size = battle_map.board_area.size
+	var board_size = CombatManager.current_board.board_area.size
 	var available_spots : Array[Vector2i]
 	for x in range(board_size.x):
 		for y in range(board_size.y):
 			available_spots.append(Vector2i(x, y))
 	
 	for i in range(enemy_count):
-		var enemy = enemy_character.instantiate()
-		battle_map.add_child(enemy)
-		enemy.name = "Enemy #%s" % (i + 1)
 		var pos = available_spots.pick_random()
 		available_spots.erase(pos)
-		enemy.position = pos * battle_map.board_tile_size.x + battle_map.board_tile_size / 2
-		enemy.map_pos = pos
+		CombatManager.current_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.enemy_compendium.get(0))
 	
-	var obstacle_count : int = 6
+	var obstacle_count : int = 2
 	for i in range(obstacle_count):
-		var obstacle = obstacle_object.instantiate()
-		battle_map.add_child(obstacle)
-		obstacle.name = "Obstacle #%s" % (i + 1)
 		var pos = available_spots.pick_random()
 		available_spots.erase(pos)
-		obstacle.position = pos * battle_map.board_tile_size.x + battle_map.board_tile_size / 2
+		CombatManager.current_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.obstacle_compendium.get(0))
 #endregion
 
 #region Signal Callbacks
@@ -121,17 +116,18 @@ func _on_map_ended() -> void:
 
 func _on_data_sent(data: Variant) -> void:
 	if data is Action:
-		selected_action = data
-		battle_map._on_action_selected(selected_action.shape)
+		CombatManager.selected_action = data
+		CombatManager.current_board.determine_selectables()
 
 func _on_attack_pressed() -> void:
-	if not selected_action or not player_turn:
+	print(player_turn)
+	if not CombatManager.selected_action or not player_turn:
 		return
 	
-	get_tree().call_group(&"select_tiles", "action_used", selected_action)
+	get_tree().call_group(&"tiles", "defend", CombatManager.selected_action)
 	player_turn = false
 	GameGlobalEvents.player_turn.emit()
-	battle_map.determine_selectables(selected_action.shape)
+	CombatManager.current_board.determine_selectables()
 
 func _on_hp_changed() -> void:
 	hp_label.text = "HP: %s" % PlayerManager.hp

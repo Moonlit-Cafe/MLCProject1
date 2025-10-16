@@ -12,7 +12,6 @@ metadata/_custom_type_script = "uid://fwqq2q0ceu3n"
 script = ExtResource("1_2clak")
 stats = Array[ExtResource("2_ouip2")]([SubResource("Resource_ouip2")])
 i_name = &"Test Cap"
-id = 5
 value = 3
 texture = Vector2i(7, 114)
 equip_loc = 1

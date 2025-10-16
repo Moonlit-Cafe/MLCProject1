@@ -5,6 +5,7 @@ var turn_list : Array = []
 
 # TODO: Rudimentary, but good start.
 func _ready() -> void:
+	CombatManager.turn_tracker = self
 	GameGlobalEvents.battle_removed.connect(remove_turn)
 
 func generate_turns() -> void:
