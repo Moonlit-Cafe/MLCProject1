@@ -34,10 +34,59 @@ theme_override_constants/margin_bottom = 2
 
 [node name="GridContainer" type="GridContainer" parent="HBoxContainer/EquipmentContainer/MarginContainer"]
 layout_mode = 2
+columns = 2
 
-[node name="InventorySlot" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Helm" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 1
+
+[node name="PowerCore" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 2
+
+[node name="Shoulder" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 3
+
+[node name="Wrist" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 5
+
+[node name="Body" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 4
+
+[node name="Gloves" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 6
+
+[node name="Waist" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 7
+
+[node name="Module" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 10
+
+[node name="Legs" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 8
+
+[node name="Module2" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 10
+
+[node name="Feet" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 9
+
+[node name="Module3" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 10
+
+[node name="Weapon" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+layout_mode = 2
+can_slot = 11
 
 [node name="InventoryContainer" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2

@@ -3,9 +3,10 @@ extends BaseEventScene
 
 #region Declarations
 @export var battle_viewport : SubViewportContainer
-@export var action_selector : VBoxContainer
 @export var label : Label
 @export var hp_label : Label
+
+@onready var actions_menu : PanelContainer = $ActionMenu
 
 var enemy_count : int = 0
 var difficulty : float = 1.0
@@ -81,11 +82,7 @@ func _determine_battle_view_size() -> void:
 # TODO: Replace with ActionMenu Functionality
 func _fill_actions() -> void:
 	for action in PlayerManager.available_skills:
-		var button := DataButton.new()
-		button.data = action
-		action_selector.add_child(button)
-		button.send_data.connect(_on_data_sent)
-		button.text = action.ac_name
+		actions_menu.add_to_actions(action)
 
 # TODO: Fix generation later
 func _generate_battle() -> void:
@@ -113,11 +110,6 @@ func _on_pressed() -> void:
 
 func _on_map_ended() -> void:
 	_on_pressed()
-
-func _on_data_sent(data: Variant) -> void:
-	if data is Action:
-		CombatManager.selected_action = data
-		CombatManager.current_board.determine_selectables()
 
 func _on_attack_pressed() -> void:
 	print(player_turn)

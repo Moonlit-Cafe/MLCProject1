@@ -1,7 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtdtl6uj8wbea"]
+[gd_scene load_steps=6 format=3 uid="uid://dtdtl6uj8wbea"]
 
 [ext_resource type="Script" uid="uid://b1lf4fn35e1h2" path="res://autoloads/combat/skill_manager.gd" id="1_efu6c"]
+[ext_resource type="Script" uid="uid://dkcl8fxjwm4oj" path="res://mechanics/combat/item_set_resource.gd" id="2_36nui"]
+[ext_resource type="Script" uid="uid://fwqq2q0ceu3n" path="res://mechanics/combat/stat_packet.gd" id="3_un5it"]
+
+[sub_resource type="Resource" id="Resource_sx8c5"]
+script = ExtResource("3_un5it")
+modify_amount = 10
+metadata/_custom_type_script = "uid://fwqq2q0ceu3n"
+
+[sub_resource type="Resource" id="Resource_un5it"]
+script = ExtResource("2_36nui")
+set_id = &"test"
+set_bonuses = Dictionary[int, Array]({
+0: [SubResource("Resource_sx8c5")]
+})
+metadata/_custom_type_script = "uid://dkcl8fxjwm4oj"
 
 [node name="SkillManager" type="Node"]
 script = ExtResource("1_efu6c")
 action_file = "res://mechanics/events/battle/actions.json"
+set_compendium = [SubResource("Resource_un5it")]

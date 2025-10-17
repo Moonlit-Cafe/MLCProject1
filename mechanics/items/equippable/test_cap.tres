@@ -10,6 +10,7 @@ metadata/_custom_type_script = "uid://fwqq2q0ceu3n"
 
 [resource]
 script = ExtResource("1_2clak")
+item_set = &"test"
 stats = Array[ExtResource("2_ouip2")]([SubResource("Resource_ouip2")])
 i_name = &"Test Cap"
 value = 3

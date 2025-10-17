@@ -3,6 +3,7 @@ extends Node
 
 #region Declarations
 @export_file("*.json") var action_file : String
+@export var set_compendium : Array[ItemSet]
 
 var ac_shape_array : Array[ActionShape]
 var all_actions : Array[Action]

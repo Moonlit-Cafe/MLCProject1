@@ -41,10 +41,41 @@ func regen_combat_stats() -> void:
 			
 			stats_to_modify.get(stat.stat).append(stat.modify_amount)
 	
+	stats_to_modify = _check_item_sets(stats_to_modify)
 	combat_stats = stats
 	for stat in stats_to_modify.keys():
 		for modifier in stats_to_modify.get(stat):
 			combat_stats.set(stat, combat_stats.get(stat) + modifier)
-	
 	print(combat_stats)
+#endregion
+
+#region Helpers
+#TODO: Definitely need to come back and work on this more, but good enough for prototype
+func _check_item_sets(stats_mod: Dictionary[Genum.StatType, Array]) -> Dictionary[Genum.StatType, Array]:
+	var sets : Dictionary[StringName, int] = {}
+	for item in equipped_items:
+		if not item.item_set:
+			continue
+		
+		if not item.item_set in sets.keys():
+			sets.set(item.item_set, 1)
+		else:
+			sets.set(item.item_set, sets.get(item.item_set) + 1)
+	
+	for i_set in sets.keys():
+		var item_set : ItemSet
+		for ref_set in SkillManager.set_compendium:
+			if ref_set.set_id == i_set:
+				item_set = ref_set
+		
+		if not item_set:
+			continue
+		
+		for set_i in item_set.set_bonuses.keys():
+			if set_i <= sets.get(i_set):
+				for bonus in item_set.set_bonuses.get(set_i):
+					stats_mod.get(bonus.stat).append(bonus.modify_amount)
+	
+	print(stats_mod)
+	return stats_mod
 #endregion
