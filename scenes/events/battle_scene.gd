@@ -35,6 +35,7 @@ func _ready() -> void:
 	_fill_actions()
 	enemy_count = 3
 	_generate_battle()
+	selected_action = PlayerManager.available_skills[0]  ## Just testing auto selecting first action as the "first action in the players available skills"
 	CombatManager.current_board.init()
 	
 	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
