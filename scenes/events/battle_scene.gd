@@ -7,6 +7,7 @@ extends BaseEventScene
 @export var hp_label : Label
 
 @onready var actions_menu : PanelContainer = $ActionMenu
+@onready var battle_log : VBoxContainer = $MarginContainer/BattleLog
 
 var enemy_count : int = 0
 var difficulty : float = 1.0
@@ -112,6 +113,7 @@ func _on_map_ended() -> void:
 	_on_pressed()
 
 func _on_attack_pressed() -> void:
+	battle_log.log_item("This is log test...")
 	print(player_turn)
 	if not CombatManager.selected_action or not player_turn:
 		return

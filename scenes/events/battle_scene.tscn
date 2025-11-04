@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ksmkpfann6ie"]
+[gd_scene load_steps=6 format=3 uid="uid://ksmkpfann6ie"]
 
 [ext_resource type="Script" uid="uid://bin8ph5h6xhm0" path="res://scenes/events/battle_scene.gd" id="1_w5vvb"]
 [ext_resource type="PackedScene" uid="uid://340482dtf03o" path="res://mechanics/events/battle/battle_map.tscn" id="2_c52ab"]
+[ext_resource type="PackedScene" uid="uid://b71p3f76aob3l" path="res://ui/battle_log.tscn" id="4_dgmmm"]
 [ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://ui/action_menu.tscn" id="4_hmtxi"]
 [ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/turn_tracker.tscn" id="4_sou65"]
 
@@ -14,7 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w5vvb")
 battle_viewport = NodePath("SubViewportContainer")
-label = NodePath("Label")
+label = NodePath("")
 hp_label = NodePath("hp_label")
 
 [node name="TurnTracker" parent="." instance=ExtResource("4_sou65")]
@@ -50,9 +51,8 @@ grow_vertical = 0
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Attack" type="Button" parent="MarginContainer"]
+[node name="BattleLog" parent="MarginContainer" instance=ExtResource("4_dgmmm")]
 layout_mode = 2
-text = "Attack Selected"
 
 [node name="ActionMenu" parent="." instance=ExtResource("4_hmtxi")]
 layout_mode = 1
@@ -63,22 +63,23 @@ offset_top = -51.0
 offset_right = 85.0
 grow_vertical = 0
 
-[node name="Label" type="Label" parent="."]
+[node name="hp_label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Button" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -23.0
-offset_right = 20.0
+offset_left = -4.0
+offset_top = -8.0
+offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 0
+text = "Action Select"
 
-[node name="hp_label" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[connection signal="pressed" from="MarginContainer/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_attack_pressed"]

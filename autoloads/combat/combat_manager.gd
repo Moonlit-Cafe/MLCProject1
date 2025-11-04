@@ -6,6 +6,7 @@ extends Node
 
 var current_board : BattleMap
 var current_scene : BaseEventScene
+var current_difficulty : float = 1
 var selected_action : Action
 var turn_tracker : Control
 #endregion
