@@ -93,10 +93,10 @@ func reset_progression():
 	GameGlobal.rng.state = 0
 
 # Utility function to get deterministic value based on scene index
-func get_deterministic_value(min_val: int, max_val: int, offset: int = 0) -> int:
+func get_deterministic_value(min_val: int, max_val: int, d_offset: int = 0) -> int:
 	var temp_rng = RandomNumberGenerator.new()
 	temp_rng.seed = GameGlobal.rng.seed
-	temp_rng.state = GameGlobal.rng.state + current_scene_index + offset
+	temp_rng.state = GameGlobal.rng.state + current_scene_index + d_offset
 	return temp_rng.randi_range(min_val, max_val)
 #endregion
 
@@ -106,7 +106,7 @@ func _choose_event(event_list: Array[EventHolder]) -> EventHolder:
 	var weights : PackedFloat32Array = []
 	for event in event_list:
 		weights.append(float(event.weight))
-	var index = GameGlobal.rng.rand_weighted(weights)
+	var _index = GameGlobal.rng.rand_weighted(weights)
 	return event_list.get(GameGlobal.rng.rand_weighted(weights))
 #endregion
 

@@ -8,6 +8,11 @@ extends BaseEventScene
 
 @onready var actions_menu : PanelContainer = $ActionMenu
 @onready var battle_log : VBoxContainer = $MarginContainer/BattleLog
+@onready var turn_tracker : Control = $TurnTracker
+@onready var battle_board : Node2D = $SubViewportContainer/SubViewport/BattleMap
+
+# TODO: Need to procedurally determine what enemies are able to fight based off of the current
+# difficulty rating.
 
 var enemy_count : int = 0
 var difficulty : float = 1.0
@@ -16,19 +21,13 @@ var elite_modifier : float = 1.0
 var special_ability : bool = true
 var boss_tier : int = 1
 var boss_type : int = 1
-var reward_multiplier : float = 1.0
-#var selected_action : Action = null :
-#	set(value):
-#		selected_action = value
-#		if label:
-#			label.text = "Selected: %s" % (value.ac_name if value else "")
 var player_turn : bool = false
 #endregion
 # TODO: Move battle generation to this script later
 # The actual battle generation will happen here and then get passed to board
 # for right now it's all on the board
 
-#region Built-Ins
+#region Events
 func _ready() -> void:
 	CombatManager.current_scene = self
 	
@@ -47,6 +46,9 @@ func _ready() -> void:
 	GameGlobalEvents.hp_changed.connect(_on_hp_changed)
 	GameGlobalEvents.battle_end.connect(_on_battle_ended)
 	GameGlobalEvents.game_end.connect(_on_game_ended)
+
+func start_battle(battle_type: StringName) -> void:
+	pass
 #endregion
 
 #region Setups
@@ -103,6 +105,35 @@ func _generate_battle() -> void:
 		var pos = available_spots.pick_random()
 		available_spots.erase(pos)
 		CombatManager.current_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.obstacle_compendium.get(0))
+#endregion
+
+#region Process?
+func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
+	if not turn_tracker:
+		return
+	
+	for actor in turn_tracker.turn_list:
+		if actor is PlayerManager:
+			player_turn = true
+			await GameGlobalEvents.player_turn
+			turn_tracker.reorder_turns()
+			continue
+		
+		actor.commit_action()
+		await actor.turn_finished
+		turn_tracker.reorder_turns()
+		if battle_board.map_ended:
+			return
+	
+	if rounds == -1 and not battle_board.map_ended:
+		battle_loop()
+	elif battle_board.map_ended:
+		return
+	else:
+		if cur_round < rounds:
+			battle_loop(rounds, cur_round + 1)
+		else:
+			return
 #endregion
 
 #region Signal Callbacks

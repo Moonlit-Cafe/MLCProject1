@@ -4,7 +4,6 @@ class_name BattleMap extends Node2D
 signal end_map
 # TODO: Make BoardLayer a seperate thing so that we can switch maps on the fly.
 # TODO: Make it so random enemies generate and can begin moving and attacking.
-# TODO: Need to make action menu and turn tracker. Afterwards I'll have a prototype that's deliverable.
 
 @export var battle_board : TileMapLayer
 @export var turn_tracker : Control

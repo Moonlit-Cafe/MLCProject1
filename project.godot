@@ -28,6 +28,7 @@ SceneManager="*res://autoloads/scenes/scene_manager.tscn"
 PlayerManager="*res://autoloads/player/player_manager.gd"
 SkillManager="*res://autoloads/combat/skill_manager.tscn"
 CombatManager="*res://autoloads/combat/combat_manager.tscn"
+MouseHandler="*res://autoloads/player/mouse_handler.tscn"
 Debug="*res://autoloads/debug/debug.tscn"
 SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
 

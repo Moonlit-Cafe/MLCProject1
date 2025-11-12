@@ -1,9 +1,9 @@
 ## The UI item for actual holding ItemNodes
 class_name InventorySlot extends PanelContainer
 
+#region Declarations
 @export var item_node : PackedScene
 @export var can_slot : Genum.EquipLocation = Genum.EquipLocation.INVENTORY
-var inv_position := Vector2i.ZERO
 var held_item : ItemNode = null :
 	set(value):
 		if can_slot != Genum.EquipLocation.INVENTORY:
@@ -16,20 +16,17 @@ var held_item : ItemNode = null :
 			PlayerManager.regen_combat_stats()
 		
 		held_item = value
-var hovered_item : ItemNode = null
+#endregion
 
-#region Built-Ins
+#region Events
 func _ready() -> void:
 	add_to_group(&"inv_slots")
 	# NOTE: Consider adding visual feedback for slot state (empty/filled/hover)
-	# TODO: Add slot type restrictions if needed (e.g., equipment slots)
 	
-	# Connect to child node changes to track held_item
 	child_entered_tree.connect(_on_child_entered)
 	child_exiting_tree.connect(_on_child_exited)
-#endregion
 
-#region Item Handling
+## Generates a new item based on the item id and the amount to generate.
 func generate_item(i_name: StringName, count : int = 1) -> void:
 	var node : ItemNode = item_node.instantiate()
 	node.item = CraftManager.find_item(i_name.to_snake_case())
@@ -53,9 +50,7 @@ func try_combine(other_item: ItemNode) -> bool:
 		other_item.count = overflow
 		return false
 	return true
-#endregion
 
-#region Slot Handling
 func is_close(pos: Vector2) -> bool:
 	if global_position.distance_to(pos) < size.length():
 		return true
@@ -76,8 +71,6 @@ func peek_item() -> ItemNode:
 func _on_child_entered(node: Node) -> void:
 	if node is ItemNode:
 		held_item = node as ItemNode
-		if held_item == hovered_item:
-			hovered_item = null
 		# TODO: Update visual state to show slot is filled
 		# NOTE: Consider emitting a signal for inventory management
 
@@ -86,4 +79,14 @@ func _on_child_exited(node: Node) -> void:
 		held_item = null
 		# TODO: Update visual state to show slot is empty
 		# NOTE: Consider emitting a signal for inventory management
+
+func _on_mouse_entered() -> void:
+	print("Mouse Entered")
+	MouseHandler.hovered_slot = self
+
+func _on_mouse_exited() -> void:
+	print("Mouse Exited")
+	await GameGlobal.delay(0.3)
+	if MouseHandler.hovered_slot == self:
+		MouseHandler.hovered_slot = null
 #endregion

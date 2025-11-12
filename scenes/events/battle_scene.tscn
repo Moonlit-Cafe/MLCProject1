@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://ui/action_menu.tscn" id="4_hmtxi"]
 [ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/turn_tracker.tscn" id="4_sou65"]
 
-[node name="BattleScene" type="Control" node_paths=PackedStringArray("battle_viewport", "label", "hp_label")]
+[node name="BattleScene" type="Control" node_paths=PackedStringArray("battle_viewport", "hp_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +15,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w5vvb")
 battle_viewport = NodePath("SubViewportContainer")
-label = NodePath("")
 hp_label = NodePath("hp_label")
 
 [node name="TurnTracker" parent="." instance=ExtResource("4_sou65")]

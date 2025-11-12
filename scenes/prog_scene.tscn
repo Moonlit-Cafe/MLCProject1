@@ -10,61 +10,51 @@
 [sub_resource type="Resource" id="Resource_htg7h"]
 script = ExtResource("2_htg7h")
 scene_name = &"ShopScene"
-event_id = 0
+event_id = &"shop"
 scene = ExtResource("3_rlv37")
 weight = 1
 spawn_frequency = 3
-priority = 1
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="Resource" id="Resource_463di"]
 script = ExtResource("2_htg7h")
 scene_name = &"BattleScene"
-event_id = 1
+event_id = &"battle"
 scene = ExtResource("4_2j0dp")
 weight = 60
-spawn_frequency = -1
-priority = 1
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="Resource" id="Resource_xrf0x"]
 script = ExtResource("2_htg7h")
 scene_name = &"EliteBattleScene"
-event_id = 2
+event_id = &"elite_battle"
 scene = ExtResource("4_2j0dp")
-weight = 0
-spawn_frequency = -1
-priority = 1
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="Resource" id="Resource_h63nn"]
 script = ExtResource("2_htg7h")
 scene_name = &"BossBattleScene"
-event_id = 3
+event_id = &"boss_battle"
 scene = ExtResource("4_2j0dp")
 weight = 1
 spawn_frequency = 10
-priority = 1
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="Resource" id="Resource_l5ql0"]
 script = ExtResource("2_htg7h")
 scene_name = &"CraftScene"
-event_id = 4
+event_id = &"craft"
 scene = ExtResource("5_lkxui")
 weight = 1
 spawn_frequency = 3
-priority = 1
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="Resource" id="Resource_ojfb3"]
 script = ExtResource("2_htg7h")
 scene_name = &"UniqueEventScene"
-event_id = 5
+event_id = &"unique"
 scene = ExtResource("6_lu0v2")
 weight = 20
-spawn_frequency = -1
-priority = 1
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_2j0dp"]

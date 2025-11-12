@@ -9,6 +9,13 @@ signal fade_node(node: Node)
 var logged_items : Dictionary[Node, float] = {}
 #endregion
 
+# TODO: The kinds of stuff to log in this include but are not limited to:
+# - Enemy Defeated
+# - Gold
+# - Items (If any)
+# - Skill Usage
+# - Stat changes to both player and enemy.
+
 #region Events
 func _ready() -> void:
 	fade_node.connect(_on_node_faded)
