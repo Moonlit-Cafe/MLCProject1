@@ -13,5 +13,6 @@ var turn_tracker : Control
 
 #region Events
 func update_difficulty() -> void:
+	# PLANNED: Come back to this for tweaking when demo-ing the game.
 	difficulty_modifier = game_difficulty * pow(5, (level_number - 1) / 10)
 #endregion
