@@ -10,97 +10,103 @@
 [node name="PlayerHud" type="CanvasLayer" node_paths=PackedStringArray("inventory", "container")]
 script = ExtResource("1_w11uw")
 rand_items = Array[ExtResource("2_sjha8")]([ExtResource("2_w11uw"), ExtResource("4_q84jv")])
-inventory = NodePath("HBoxContainer")
-container = NodePath("HBoxContainer/InventoryContainer/MarginContainer/Inventory")
+inventory = NodePath("TabContainer/Inventory")
+container = NodePath("TabContainer/Inventory/InventoryContainer/MarginContainer/Inventory")
 inv_slot = ExtResource("1_n0n2g")
 inv_node = ExtResource("1_1m6my")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-anchors_preset = -1
-anchor_right = 0.4
+[node name="TabContainer" type="TabContainer" parent="."]
+anchors_preset = 9
 anchor_bottom = 1.0
+offset_right = 150.0
 grow_vertical = 2
+tab_alignment = 1
+current_tab = 0
 
-[node name="EquipmentContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="Inventory" type="HBoxContainer" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="EquipmentContainer" type="PanelContainer" parent="TabContainer/Inventory"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/EquipmentContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Inventory/EquipmentContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="GridContainer" type="GridContainer" parent="HBoxContainer/EquipmentContainer/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="Helm" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Helm" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 1
 
-[node name="PowerCore" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="PowerCore" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 2
 
-[node name="Shoulder" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Shoulder" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 3
 
-[node name="Wrist" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Wrist" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 5
 
-[node name="Body" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Body" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 4
 
-[node name="Gloves" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Gloves" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 6
 
-[node name="Waist" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Waist" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 7
 
-[node name="Module" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Module" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 10
 
-[node name="Legs" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Legs" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 8
 
-[node name="Module2" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Module2" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 10
 
-[node name="Feet" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Feet" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 9
 
-[node name="Module3" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Module3" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 10
 
-[node name="Weapon" parent="HBoxContainer/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Weapon" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 11
 
-[node name="InventoryContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="InventoryContainer" type="PanelContainer" parent="TabContainer/Inventory"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/InventoryContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Inventory/InventoryContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Inventory" type="GridContainer" parent="HBoxContainer/InventoryContainer/MarginContainer"]
+[node name="Inventory" type="GridContainer" parent="TabContainer/Inventory/InventoryContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

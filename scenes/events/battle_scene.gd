@@ -1,4 +1,5 @@
-# The main scene for all battle handling.
+## Handles generating the battle, enemies involved and choosing any additional modifiers for generating
+## the battle.
 extends BaseEventScene
 
 #region Declarations
@@ -15,13 +16,10 @@ extends BaseEventScene
 # difficulty rating.
 
 var enemy_count : int = 0
-var difficulty : float = 1.0
 var reward_tier : int = 1
 var elite_modifier : float = 1.0
-var special_ability : bool = true
-var boss_tier : int = 1
+var special_ability : bool = false
 var boss_type : int = 1
-var player_turn : bool = false
 #endregion
 # TODO: Move battle generation to this script later
 # The actual battle generation will happen here and then get passed to board
@@ -29,39 +27,27 @@ var player_turn : bool = false
 
 #region Events
 func _ready() -> void:
-	CombatManager.current_scene = self
-	
-	_determine_battle_view_size()
+	_determine_battle_view_size() # Grabs the size of the 
 	_fill_actions()
 	enemy_count = 3
 	_generate_battle()
-	CombatManager.current_board.init()
 	
 	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
 	hp_label.text = "HP: %s" % PlayerManager.hp
 	
-	if CombatManager.current_board:
-		CombatManager.current_board.end_map.connect(_on_map_ended)
-	
-	GameGlobalEvents.hp_changed.connect(_on_hp_changed)
-	GameGlobalEvents.battle_end.connect(_on_battle_ended)
-	GameGlobalEvents.game_end.connect(_on_game_ended)
+	_signal_initialization()
 
-func start_battle(battle_type: StringName) -> void:
-	pass
-#endregion
-
-#region Setups
+## Grab the size of the battle map and viewport for resizing within the scene.
 func _determine_battle_view_size() -> void:
 	if not battle_viewport:
 		push_warning("There is no viewport to change...")
 		return
 	
 	# TODO: This is currently hard-coded, need to extrapolate later...
-	var board_size = CombatManager.current_board.board_area.size
+	var board_size = battle_board.board_area.size
 	var map_min = mini(board_size.x, board_size.y)
 	var map_max = maxi(board_size.x, board_size.y)
-	var l = map_max * CombatManager.current_board.board_tile_size.x
+	var l = map_max * battle_board.board_tile_size.x
 	var l_delta = l
 	var m = 1.
 	var h_len = get_window().size.x * .4
@@ -79,8 +65,7 @@ func _determine_battle_view_size() -> void:
 	battle_viewport.stretch = true
 	battle_viewport.stretch_shrink = int(m)
 	@warning_ignore("integer_division")
-	CombatManager.current_board.position += Vector2((map_max - map_min) / 2, 0) * CombatManager.current_board.board_tile_size.x
-	print(CombatManager.current_board.position)
+	battle_board.position += Vector2((map_max - map_min) / 2, 0) * battle_board.board_tile_size.x
 
 # TODO: Replace with ActionMenu Functionality
 func _fill_actions() -> void:
@@ -89,7 +74,7 @@ func _fill_actions() -> void:
 
 # TODO: Fix generation later
 func _generate_battle() -> void:
-	var board_size = CombatManager.current_board.board_area.size
+	var board_size = battle_board.board_area.size
 	var available_spots : Array[Vector2i]
 	for x in range(board_size.x):
 		for y in range(board_size.y):
@@ -98,42 +83,21 @@ func _generate_battle() -> void:
 	for i in range(enemy_count):
 		var pos = available_spots.pick_random()
 		available_spots.erase(pos)
-		CombatManager.current_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.enemy_compendium.get(0))
+		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.enemy_compendium.get(0))
 	
 	var obstacle_count : int = 2
 	for i in range(obstacle_count):
 		var pos = available_spots.pick_random()
 		available_spots.erase(pos)
-		CombatManager.current_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.obstacle_compendium.get(0))
-#endregion
+		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.obstacle_compendium.get(0))
 
-#region Process?
-func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
-	if not turn_tracker:
-		return
+## Sets up all the signals within the _ready function
+func _signal_initialization() -> void:
+	battle_board.end_map.connect(_on_map_ended)
 	
-	for actor in turn_tracker.turn_list:
-		if actor is PlayerManager:
-			player_turn = true
-			await GameGlobalEvents.player_turn
-			turn_tracker.reorder_turns()
-			continue
-		
-		actor.commit_action()
-		await actor.turn_finished
-		turn_tracker.reorder_turns()
-		if battle_board.map_ended:
-			return
-	
-	if rounds == -1 and not battle_board.map_ended:
-		battle_loop()
-	elif battle_board.map_ended:
-		return
-	else:
-		if cur_round < rounds:
-			battle_loop(rounds, cur_round + 1)
-		else:
-			return
+	GameGlobalEvents.hp_changed.connect(_on_hp_changed)
+	GameGlobalEvents.battle_end.connect(_on_battle_ended)
+	GameGlobalEvents.game_end.connect(_on_game_ended)
 #endregion
 
 #region Signal Callbacks
@@ -144,20 +108,22 @@ func _on_map_ended() -> void:
 	_on_pressed()
 
 func _on_attack_pressed() -> void:
-	battle_log.log_item("This is log test...")
-	print(player_turn)
-	if not CombatManager.selected_action or not player_turn:
-		return
+	# TODO: Attach to Battle_board instead of actuating here.
+	#battle_log.log_item("This is log test...")
+	#print(player_turn)
+	#if not CombatManager.selected_action or not player_turn:
+	#	return
 	
-	get_tree().call_group(&"tiles", "defend", CombatManager.selected_action)
-	player_turn = false
-	GameGlobalEvents.player_turn.emit()
-	CombatManager.current_board.determine_selectables()
+	#get_tree().call_group(&"tiles", "defend", CombatManager.selected_action)
+	#player_turn = false
+	#GameGlobalEvents.player_turn.emit()
+	#CombatManager.current_board.determine_selectables()
+	pass
 
+## Changes the hp label based on current value.
 func _on_hp_changed() -> void:
 	hp_label.text = "HP: %s" % PlayerManager.hp
 
-# TODO: Refactor redundant functions later just need this for function population before collapse
 func _on_battle_ended() -> void:
 	_on_map_ended()
 

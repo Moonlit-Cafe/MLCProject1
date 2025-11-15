@@ -16,18 +16,18 @@ var is_frequency := false
 var generation_height : int = 3
 #endregion
 
-#region Built-Ins
+#region Events
 func _ready() -> void:
 	SceneManager.prog_scene = self
 	_setup_progression()
 	
 	generate_next_events()
-#endregion
 
-#region Scene Generation
 func generate_next_events() -> void:
 	button_container.get_parent().show()
 	current_scene_index += 1
+	@warning_ignore("integer_division")
+	CombatManager.level_number = current_scene_index / 10
 	var event_set : Array[EventHolder] = _generate_events()
 	for event_button in button_container.get_children():
 		button_container.remove_child(event_button)
@@ -39,6 +39,13 @@ func generate_next_events() -> void:
 		_generate_event_button(event_set)
 	
 	button_container.set_position(Vector2.ZERO)
+
+func _setup_progression() -> void:
+	for event in event_references:
+		if event.spawn_frequency != -1:
+			frequency_events.append(event)
+		else:
+			random_events.append(event)
 
 func _generate_events() -> Array[EventHolder]:
 	var valid_events : Array[EventHolder] = []
@@ -60,15 +67,6 @@ func _generate_events() -> Array[EventHolder]:
 		return random_events
 	
 	return valid_events
-#endregion
-
-#region Helpers
-func _setup_progression() -> void:
-	for event in event_references:
-		if event.spawn_frequency != -1:
-			frequency_events.append(event)
-		else:
-			random_events.append(event)
 
 func _generate_event_button(event_set: Array[EventHolder]) -> void:
 	var event_button := EventButton.new()
@@ -78,12 +76,18 @@ func _generate_event_button(event_set: Array[EventHolder]) -> void:
 	button_container.add_child(event_button)
 	event_button.next_event.connect(_on_event_button_pressed)
 
+func _choose_event(event_list: Array[EventHolder]) -> EventHolder:
+	# Create weights excluding BossScene and CraftScene since they're handled by floor patterns
+	var weights : PackedFloat32Array = []
+	for event in event_list:
+		weights.append(float(event.weight))
+	var _index = GameGlobal.rng.rand_weighted(weights)
+	return event_list.get(GameGlobal.rng.rand_weighted(weights))
+
 func _clear_event_buttons() -> void:
 	for button in button_container.get_children():
 		button_container.remove_child(button)
-#endregion
 
-#region Publics
 func get_event_history() -> Array[String]:
 	return event_history.duplicate()
 
@@ -98,16 +102,7 @@ func get_deterministic_value(min_val: int, max_val: int, d_offset: int = 0) -> i
 	temp_rng.seed = GameGlobal.rng.seed
 	temp_rng.state = GameGlobal.rng.state + current_scene_index + d_offset
 	return temp_rng.randi_range(min_val, max_val)
-#endregion
 
-#region Privates
-func _choose_event(event_list: Array[EventHolder]) -> EventHolder:
-	# Create weights excluding BossScene and CraftScene since they're handled by floor patterns
-	var weights : PackedFloat32Array = []
-	for event in event_list:
-		weights.append(float(event.weight))
-	var _index = GameGlobal.rng.rand_weighted(weights)
-	return event_list.get(GameGlobal.rng.rand_weighted(weights))
 #endregion
 
 #region Signal Callbacks

@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+#region Declarations
 @export var rand_items : Array[Item]
 
 @export var inventory : HBoxContainer
@@ -10,7 +11,10 @@ extends CanvasLayer
 
 @export var inv_node : PackedScene
 
+@onready var tab_container : TabContainer = $TabContainer
+
 var hidden := true
+#endregion
 
 func _ready() -> void:
 	if container:
@@ -18,6 +22,7 @@ func _ready() -> void:
 	
 	_generate_inventory()
 	_generate_random_itemnodes()
+	await GameGlobal.delay(0.5)
 	hide_inv()
 
 func _input(event: InputEvent) -> void:
@@ -45,10 +50,10 @@ func _generate_random_itemnodes() -> void:
 
 func show_inv() -> void:
 	var tween := create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(inventory, "position", Vector2(0, 0), 0.5)
+	tween.tween_property(tab_container, "position", Vector2(0, 0), 0.5)
 	hidden = false
 
 func hide_inv() -> void:
 	var tween := create_tween().bind_node(self).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(inventory, "position", Vector2(-inventory.size.x, 0), 0.5)
+	tween.tween_property(tab_container, "position", Vector2(-inventory.size.x, 0), 0.5)
 	hidden = true

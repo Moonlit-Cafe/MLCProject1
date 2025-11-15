@@ -3,9 +3,14 @@ extends PanelContainer
 #region Declarations
 @onready var menu_actions : VBoxContainer = $MarginContainer/MenuActionsContainer
 @onready var actions : VBoxContainer = $MarginContainer/ActionsContainer
+
+var battle_scene : BaseEventScene
 #endregion
 
-#region Handling
+#region Events
+func _ready() -> void:
+	battle_scene = find_parent("BattleScene")
+
 func add_to_actions(ac: Action) -> void:
 	var button := DataButton.new()
 	button.data = ac
@@ -31,5 +36,5 @@ func _on_return_pressed() -> void:
 func _on_data_sent(data: Variant) -> void:
 	if data is Action:
 		CombatManager.selected_action = data
-		CombatManager.current_board.determine_selectables()
+		battle_scene.battle_board.determine_selectables()
 #endregion

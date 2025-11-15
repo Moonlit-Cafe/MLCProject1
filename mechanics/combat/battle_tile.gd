@@ -12,6 +12,7 @@ enum BattleState {
 
 @export var obj_sprite : AnimatedSprite2D
 @export var select_sprite : AnimatedSprite2D
+
 var hp : int = -1 :
 	set(value):
 		if not held_object:
@@ -46,12 +47,10 @@ var selected : bool = false :
 var state : BattleState
 #endregion
 
-#region Built-Ins
+#region Events
 func _ready() -> void:
 	add_to_group(&"tiles")
-#endregion
 
-#region Setup
 func attach_object(obj: Variant) -> void:
 	if not obj is EnemyCharacter and not obj is ObstacleObject:
 		return
@@ -77,9 +76,7 @@ func clear_object() -> void:
 	name = "(%s, %s)" % [tile_position.x, tile_position.y]
 	state = BattleState.EMPTY
 	_check_other_tiles()
-#endregion
 
-#region Combat
 func commit_action() -> void:
 	attack()
 	await GameGlobal.delay(0.5)
@@ -96,9 +93,7 @@ func defend(ac: Action) -> void:
 		return
 	
 	hp -= held_object.defend(ac)
-#endregion
 
-#region Handling
 func _check_other_tiles() -> void:
 	var enemies : int = 0
 	var tiles = get_tree().get_nodes_in_group(&"tiles")
@@ -141,4 +136,13 @@ func _on_gui_input(_viewport: Node, event: InputEvent, _idx: int) -> void:
 	
 	if event.double_click and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
 		_select(CombatManager.selected_action)
+
+func _on_mouse_entered() -> void:
+	if not CombatManager.selected_action:
+		return
+	
+	_select(CombatManager.selected_action)
+
+func _on_mouse_exited() -> void:
+	pass
 #endregion

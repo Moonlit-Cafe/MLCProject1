@@ -64,3 +64,5 @@ sprite_frames = SubResource("SpriteFrames_bvqvx")
 shape = SubResource("RectangleShape2D_2gpie")
 
 [connection signal="input_event" from="Area2D" to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_mouse_exited"]

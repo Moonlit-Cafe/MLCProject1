@@ -26,16 +26,14 @@ var is_being_dragged: bool = false
 var drag_offset: Vector2 = Vector2.ZERO
 #endregion
 
-#region Built-Ins
+#region Events
 func _ready() -> void:
 	# Initialize the item display
 	update_display()
 	# TODO: Connect to CraftManager for texture atlas
 	# if item and CraftManager:
 	#     icon = CraftManager.get_item_texture(item.texture)
-#endregion
 
-#region Item Helpers
 ## Initialize item display
 func setup_item(new_item: Item, initial_count: int = 1) -> void:
 	item = new_item
@@ -56,9 +54,7 @@ func update_display() -> void:
 	if count_label:
 		count_label.text = str(count) if count > 1 else ""
 		count_label.visible = count > 1
-#endregion
 
-#region Drag and Drop System
 ## Check if this item can stack with another
 func can_stack_with(other_item: Item) -> bool:
 	if not item or not other_item:

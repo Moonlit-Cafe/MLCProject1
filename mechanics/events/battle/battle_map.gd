@@ -1,3 +1,4 @@
+## Handles the actual battle system, as in actually handling the order of enemies and what not.
 class_name BattleMap extends Node2D
 
 #region Declarations
@@ -20,14 +21,14 @@ var board : Array = []
 var board_area : Rect2i
 var board_tile_size : Vector2i
 var map_ended : bool = false
+var player_turn : bool = true
 #endregion
 
-#region Built-Ins
+#region Events
 func _ready() -> void:
 	if not battle_board:
 		return
 	
-	CombatManager.current_board = self
 	end_map.connect(func(): map_ended = true)
 	scene = find_parent("BattleScene")
 	
@@ -37,13 +38,6 @@ func _ready() -> void:
 		board_area = determine_board(corner)
 	
 	_generate_board()
-#endregion
-
-#region Setup
-func init() -> void:
-	define_enemy_arrays()
-	generate_turn_order()
-	CombatManager.battle_loop()
 
 func find_top_left_corner() -> Vector2i:
 	for y in range(search_range.x, search_range.y + 1):
@@ -88,6 +82,13 @@ func _generate_board() -> void:
 	
 	board = map
 
+func init() -> void:
+	define_enemy_arrays()
+	generate_turn_order()
+	CombatManager.battle_loop()
+#endregion
+
+#region Setup
 func define_enemy_arrays() -> void:
 	var all_tiles = get_tree().get_nodes_in_group(&"tiles")
 	for tile in all_tiles:
@@ -192,3 +193,30 @@ func get_tile_data(pos: Vector2) -> TileData:
 	
 	return battle_board.get_cell_tile_data(battle_board.local_to_map(pos))
 #endregion
+
+#func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
+#	if not turn_tracker:
+#		return
+#	
+#	for actor in turn_tracker.turn_list:
+#		if actor is PlayerManager:
+#			battle_board.player_turn = true
+#			await GameGlobalEvents.player_turn
+#			turn_tracker.reorder_turns()
+#			continue
+#		
+#		actor.commit_action()
+#		await actor.turn_finished
+#		turn_tracker.reorder_turns()
+#		if battle_board.map_ended:
+#			return
+#	
+#	if rounds == -1 and not battle_board.map_ended:
+#		battle_loop()
+#	elif battle_board.map_ended:
+#		return
+#	else:
+#		if cur_round < rounds:
+#			battle_loop(rounds, cur_round + 1)
+#		else:
+#			return

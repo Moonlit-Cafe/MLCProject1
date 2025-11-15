@@ -4,7 +4,7 @@ extends Node
 @export var enemy_compendium : Array[EnemyCharacter] = []
 @export var obstacle_compendium : Array[ObstacleObject] = []
 
-var current_difficulty : float = 1
+var game_difficulty : float = 1
 var difficulty_modifier : float = 1
 var level_number : float = 1
 var selected_action : Action
@@ -13,5 +13,5 @@ var turn_tracker : Control
 
 #region Events
 func update_difficulty() -> void:
-	difficulty_modifier = current_difficulty * pow(5, (level_number - 1) / 10)
+	difficulty_modifier = game_difficulty * pow(5, (level_number - 1) / 10)
 #endregion
