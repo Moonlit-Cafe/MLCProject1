@@ -10,6 +10,7 @@ extends CanvasLayer
 @export var inv_slot : PackedScene
 
 @export var inv_node : PackedScene
+@export var wep_node : PackedScene
 
 @onready var tab_container : TabContainer = $TabContainer
 
@@ -44,7 +45,11 @@ func _generate_random_itemnodes() -> void:
 		while slot.get_child_count() > 0:
 			slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		
-		var new_node : ItemNode = inv_node.instantiate()
+		var new_node
+		if item is WeaponItem:
+			new_node = wep_node.instantiate()
+		else:
+			new_node = inv_node.instantiate()
 		new_node.setup_item(item)
 		slot.add_child(new_node)
 

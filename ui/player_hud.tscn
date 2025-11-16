@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://npre0wq4yuc7"]
+[gd_scene load_steps=9 format=3 uid="uid://npre0wq4yuc7"]
 
 [ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="1_1m6my"]
 [ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory_slot.tscn" id="1_n0n2g"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/items/res_def/item_resource.gd" id="2_sjha8"]
 [ext_resource type="Resource" uid="uid://bscxov3hd6xwq" path="res://mechanics/items/equippable/test_cap.tres" id="2_w11uw"]
 [ext_resource type="Resource" uid="uid://c4hn4h0euet1w" path="res://mechanics/items/equippable/test_wep.tres" id="4_q84jv"]
+[ext_resource type="PackedScene" uid="uid://c2djdhoksebun" path="res://mechanics/inventory/weapon_node.tscn" id="7_f87sx"]
+[ext_resource type="PackedScene" uid="uid://ye7pl4xy273r" path="res://ui/inventory/weapon_window.tscn" id="7_q84jv"]
 
 [node name="PlayerHud" type="CanvasLayer" node_paths=PackedStringArray("inventory", "container")]
 script = ExtResource("1_w11uw")
@@ -14,6 +16,7 @@ inventory = NodePath("TabContainer/Inventory")
 container = NodePath("TabContainer/Inventory/InventoryContainer/MarginContainer/Inventory")
 inv_slot = ExtResource("1_n0n2g")
 inv_node = ExtResource("1_1m6my")
+wep_node = ExtResource("7_f87sx")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 anchors_preset = 9
@@ -110,3 +113,7 @@ theme_override_constants/margin_bottom = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="WeaponWindow" parent="." node_paths=PackedStringArray("weapon_slot") instance=ExtResource("7_q84jv")]
+visible = false
+weapon_slot = NodePath("../TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer/Weapon")

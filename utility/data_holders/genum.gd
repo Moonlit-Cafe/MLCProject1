@@ -65,7 +65,10 @@ enum EquipLocation {
 	LEGS,
 	FEET,
 	MODULE,
-	WEAPON
+	WEAPON,
+	FOCUS,
+	FRAME,
+	MATRIX
 }
 
 enum ComponentType {

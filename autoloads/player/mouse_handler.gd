@@ -48,7 +48,12 @@ func _inventory_handling(event: InputEventMouseButton) -> void:
 						_switch_with_hovered()
 				else:
 					_move_to_hovered()
-	pass
+	
+	if event.button_index == MouseButton.MOUSE_BUTTON_RIGHT:
+		if event.pressed and hovered_slot:
+			if hovered_slot.can_slot == Genum.EquipLocation.WEAPON:
+				if hovered_slot.held_item != null:
+					GameGlobalEvents.weapon_open.emit()
 
 func _combat_tile_handling(event: InputEventMouseButton) -> void:
 	if not CombatManager.player_turn:
@@ -59,9 +64,10 @@ func _combat_tile_handling(event: InputEventMouseButton) -> void:
 	elif event.double_click and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
 		GameGlobalEvents.attack_tile.emit()
 	elif event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_RIGHT:
-		var prev_tile = selected_tile
-		selected_tile = null
-		prev_tile.refresh_highlight()
+		if selected_tile:
+			var prev_tile = selected_tile
+			selected_tile = null
+			prev_tile.refresh_highlight()
 
 func _move_to_hovered() -> void:
 	var item_to_move : ItemNode = container.held_item

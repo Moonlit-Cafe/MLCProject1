@@ -11,3 +11,4 @@ signal game_end
 signal hp_changed
 signal player_turn
 signal stop_dragging
+signal weapon_open
