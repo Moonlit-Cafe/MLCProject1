@@ -23,6 +23,7 @@ var hp : int = -1 :
 			hp = -1
 		else:
 			hp = value
+var max_hp : int = 0
 var held_object : Variant
 var tile_position : Vector2i = Vector2i.ZERO
 var selectable : bool = false :
@@ -33,7 +34,7 @@ var selectable : bool = false :
 			select_sprite.play(&"selectable")
 		
 		selectable = value
-var selected : bool = false :
+var highlighted : bool = false :
 	set(value):
 		if not value:
 			if selectable:
@@ -43,7 +44,8 @@ var selected : bool = false :
 		else:
 			select_sprite.play(&"selected")
 		
-		selected = value
+		highlighted = value
+var mouse_inside : bool = false
 var state : BattleState
 #endregion
 
@@ -57,10 +59,12 @@ func attach_object(obj: Variant) -> void:
 	
 	if obj is EnemyCharacter:
 		state = BattleState.ENEMY
-		hp = obj.stats.get(&"hp")
+		hp = obj.stats.get(&"hp") * (CombatManager.difficulty_modifier * obj.stats_scaling.get(&"hp"))
 	else:
 		state = BattleState.OBSTACLE
 		hp = obj.stats.get(&"hp")
+	
+	max_hp = hp
 	
 	held_object = obj
 	name = obj.o_name
@@ -72,7 +76,7 @@ func clear_object() -> void:
 	
 	obj_sprite.sprite_frames = null
 	held_object = null
-	CombatManager.turn_tracker.remove_turn(self)
+	GameGlobalEvents.battle_removed.emit(self)
 	name = "(%s, %s)" % [tile_position.x, tile_position.y]
 	state = BattleState.EMPTY
 	_check_other_tiles()
@@ -89,10 +93,27 @@ func attack() -> void:
 	PlayerManager.hp -= held_object.attack()
 
 func defend(ac: Action) -> void:
-	if not state == BattleState.ENEMY or not selected:
-		return
+	var tiles = _get_all_tiles_in_shape(ac.shape)
+	for tile in tiles:
+		if tile.state == BattleState.EMPTY:
+			continue
+		tile.hp -= tile.held_object.defend(ac)
+
+func refresh_highlight() -> void:
+	for tile in get_tree().get_nodes_in_group(&"tiles"):
+		if tile.mouse_inside:
+			tile._highlight(CombatManager.selected_action)
+
+func get_hp() -> Vector2i:
+	return Vector2i(hp, max_hp)
+
+func _get_all_tiles_in_shape(ac: ActionShape) -> Array[BattleTile]:
+	var tiles_returned : Array[BattleTile] = []
+	for tile in get_tree().get_nodes_in_group(&"tiles"):
+		if (tile.tile_position - tile_position) in ac.shape_pos_arr:
+			tiles_returned.append(tile)
 	
-	hp -= held_object.defend(ac)
+	return tiles_returned
 
 func _check_other_tiles() -> void:
 	var enemies : int = 0
@@ -104,10 +125,13 @@ func _check_other_tiles() -> void:
 	if enemies == 0:
 		GameGlobalEvents.battle_end.emit()
 
-func _select(ac: Action) -> void:
+func _highlight(ac: Action) -> void:
+	if MouseHandler.selected_tile != null:
+		return
+	
 	for tile in get_tree().get_nodes_in_group(&"tiles"):
-		if tile.selected:
-			tile.selected = false
+		if tile.highlighted:
+			tile.highlighted = false
 		
 		if tile.select_sprite.animation == &"adj_selected":
 			if tile.selectable:
@@ -115,11 +139,14 @@ func _select(ac: Action) -> void:
 			else:
 				tile.select_sprite.play(&"default")
 	
-	selected = true
+	if not selectable:
+		return
+	
+	highlighted = true
 	if not ac:
 		return
 	
-	var shape : Array[Vector2i] = ac.shape.shape_pos_arr
+	var shape : Array[Vector2i] = ac.shape.shape_pos_arr.duplicate()
 	shape.erase(Vector2i.ZERO)
 	for vec in shape:
 		for tile in get_tree().get_nodes_in_group(&"tiles"):
@@ -134,15 +161,16 @@ func _on_gui_input(_viewport: Node, event: InputEvent, _idx: int) -> void:
 	if not event is InputEventMouseButton or not selectable:
 		return
 	
-	if event.double_click and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
-		_select(CombatManager.selected_action)
+	if event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+		MouseHandler.selected_tile = self
 
 func _on_mouse_entered() -> void:
 	if not CombatManager.selected_action:
 		return
 	
-	_select(CombatManager.selected_action)
+	mouse_inside = true
+	_highlight(CombatManager.selected_action)
 
 func _on_mouse_exited() -> void:
-	pass
+	mouse_inside = false
 #endregion

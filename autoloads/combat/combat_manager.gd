@@ -8,7 +8,7 @@ var game_difficulty : float = 1
 var difficulty_modifier : float = 1
 var level_number : float = 1
 var selected_action : Action
-var turn_tracker : Control
+var player_turn : bool = true
 #endregion
 
 #region Events

@@ -57,6 +57,7 @@ select_sprite = NodePath("SelectableSprite")
 
 [node name="SelectableSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_bvqvx")
+animation = &"selectable"
 
 [node name="Area2D" type="Area2D" parent="."]
 

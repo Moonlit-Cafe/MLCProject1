@@ -11,6 +11,9 @@ extends BaseEventScene
 @onready var battle_log : VBoxContainer = $MarginContainer/BattleLog
 @onready var turn_tracker : Control = $TurnTracker
 @onready var battle_board : Node2D = $SubViewportContainer/SubViewport/BattleMap
+@onready var enemy_info : MarginContainer = $EnemyInspect
+@onready var enemy_label : Label = $EnemyInspect/VBoxContainer/EnemyName
+@onready var enemy_hp_bar : ProgressBar = $EnemyInspect/VBoxContainer/HealthBar
 
 # TODO: Need to procedurally determine what enemies are able to fight based off of the current
 # difficulty rating.
@@ -32,10 +35,12 @@ func _ready() -> void:
 	enemy_count = 3
 	_generate_battle()
 	
+	battle_board.turn_tracker = turn_tracker
 	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
 	hp_label.text = "HP: %s" % PlayerManager.hp
 	
 	_signal_initialization()
+	battle_board.init()
 
 ## Grab the size of the battle map and viewport for resizing within the scene.
 func _determine_battle_view_size() -> void:
@@ -98,6 +103,29 @@ func _signal_initialization() -> void:
 	GameGlobalEvents.hp_changed.connect(_on_hp_changed)
 	GameGlobalEvents.battle_end.connect(_on_battle_ended)
 	GameGlobalEvents.game_end.connect(_on_game_ended)
+	GameGlobalEvents.attack_tile.connect(_attack_tile)
+#endregion
+
+#region Processes
+func _process(_delta: float) -> void:
+	_update_hp_label()
+
+# FIXME: Bug with the health-bars, related to still having Selected Tile in mouse handler probably.
+func _update_hp_label() -> void:
+	if not MouseHandler.selected_tile:
+		if enemy_info.visible:
+			enemy_info.hide()
+		return
+	
+	if MouseHandler.selected_tile.state == BattleTile.BattleState.EMPTY:
+		return
+	
+	if not enemy_info.visible:
+		enemy_info.show()
+	enemy_label.text = MouseHandler.selected_tile.name
+	enemy_hp_bar.max_value = MouseHandler.selected_tile.max_hp
+	enemy_hp_bar.step = float(MouseHandler.selected_tile.max_hp) / 10000
+	enemy_hp_bar.value = MouseHandler.selected_tile.hp
 #endregion
 
 #region Signal Callbacks
@@ -107,18 +135,19 @@ func _on_pressed() -> void:
 func _on_map_ended() -> void:
 	_on_pressed()
 
-func _on_attack_pressed() -> void:
+func _attack_tile() -> void:
 	# TODO: Attach to Battle_board instead of actuating here.
-	#battle_log.log_item("This is log test...")
-	#print(player_turn)
-	#if not CombatManager.selected_action or not player_turn:
-	#	return
-	
-	#get_tree().call_group(&"tiles", "defend", CombatManager.selected_action)
-	#player_turn = false
-	#GameGlobalEvents.player_turn.emit()
-	#CombatManager.current_board.determine_selectables()
-	pass
+	battle_log.log_item("This is log test...")
+	if not CombatManager.selected_action or not CombatManager.player_turn:
+		return
+
+	MouseHandler.selected_tile.defend(CombatManager.selected_action)
+	var prev_tile = MouseHandler.selected_tile
+	MouseHandler.selected_tile = null
+	prev_tile.refresh_highlight()
+	CombatManager.player_turn = false
+	GameGlobalEvents.player_turn.emit()
+	battle_board.determine_selectables()
 
 ## Changes the hp label based on current value.
 func _on_hp_changed() -> void:

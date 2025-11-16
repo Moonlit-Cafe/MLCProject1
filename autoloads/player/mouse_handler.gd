@@ -9,7 +9,7 @@ extends Node2D
 var prior_slot : InventorySlot
 var hovered_slot : InventorySlot
 # Variables for combat handling
-
+var selected_tile : BattleTile
 #endregion
 
 # TODO: There seems to be some problem with the mouse that causes it to not register
@@ -20,6 +20,7 @@ var hovered_slot : InventorySlot
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		_inventory_handling(event)
+		_combat_tile_handling(event)
 
 ## Handles all the inventory handling code for input.
 func _inventory_handling(event: InputEventMouseButton) -> void:
@@ -48,6 +49,19 @@ func _inventory_handling(event: InputEventMouseButton) -> void:
 				else:
 					_move_to_hovered()
 	pass
+
+func _combat_tile_handling(event: InputEventMouseButton) -> void:
+	if not CombatManager.player_turn:
+		return
+	
+	if event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT and not selected_tile:
+		GameGlobalEvents.battle_tile_selected.emit()
+	elif event.double_click and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+		GameGlobalEvents.attack_tile.emit()
+	elif event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_RIGHT:
+		var prev_tile = selected_tile
+		selected_tile = null
+		prev_tile.refresh_highlight()
 
 func _move_to_hovered() -> void:
 	var item_to_move : ItemNode = container.held_item

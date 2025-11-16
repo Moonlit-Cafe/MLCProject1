@@ -21,7 +21,6 @@ var board : Array = []
 var board_area : Rect2i
 var board_tile_size : Vector2i
 var map_ended : bool = false
-var player_turn : bool = true
 #endregion
 
 #region Events
@@ -85,10 +84,8 @@ func _generate_board() -> void:
 func init() -> void:
 	define_enemy_arrays()
 	generate_turn_order()
-	CombatManager.battle_loop()
-#endregion
+	battle_loop()
 
-#region Setup
 func define_enemy_arrays() -> void:
 	var all_tiles = get_tree().get_nodes_in_group(&"tiles")
 	for tile in all_tiles:
@@ -110,9 +107,7 @@ func generate_turn_order() -> void:
 	turn_order = _zip_orders(player_order, enemy_orders)
 	turn_tracker.turn_list = turn_order
 	turn_tracker.generate_turns()
-#endregion
 
-#region Publics
 func determine_selectables() -> void:
 	if not select_holder:
 		return
@@ -134,9 +129,7 @@ func determine_selectables() -> void:
 				break
 			
 			tile.selectable = true
-#endregion
 
-#region Helpers
 func _get_enemy_order() -> Array:
 	var all_orders : Array = []
 	for enemy in active_enemies:
@@ -194,29 +187,29 @@ func get_tile_data(pos: Vector2) -> TileData:
 	return battle_board.get_cell_tile_data(battle_board.local_to_map(pos))
 #endregion
 
-#func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
-#	if not turn_tracker:
-#		return
-#	
-#	for actor in turn_tracker.turn_list:
-#		if actor is PlayerManager:
-#			battle_board.player_turn = true
-#			await GameGlobalEvents.player_turn
-#			turn_tracker.reorder_turns()
-#			continue
-#		
-#		actor.commit_action()
-#		await actor.turn_finished
-#		turn_tracker.reorder_turns()
-#		if battle_board.map_ended:
-#			return
-#	
-#	if rounds == -1 and not battle_board.map_ended:
-#		battle_loop()
-#	elif battle_board.map_ended:
-#		return
-#	else:
-#		if cur_round < rounds:
-#			battle_loop(rounds, cur_round + 1)
-#		else:
-#			return
+func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
+	if not turn_tracker:
+		return
+	
+	for actor in turn_tracker.turn_list:
+		if actor is PlayerManager:
+			CombatManager.player_turn = true
+			await GameGlobalEvents.player_turn
+			turn_tracker.reorder_turns()
+			continue
+		
+		actor.commit_action()
+		await actor.turn_finished
+		turn_tracker.reorder_turns()
+		if map_ended:
+			return
+	
+	if rounds == -1 and not map_ended:
+		battle_loop()
+	elif map_ended:
+		return
+	else:
+		if cur_round < rounds:
+			battle_loop(rounds, cur_round + 1)
+		else:
+			return

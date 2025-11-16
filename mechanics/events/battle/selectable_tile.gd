@@ -24,7 +24,7 @@ func _ready() -> void:
 	add_to_group(&"select_tiles")
 
 func generate_highlights(tile_size: int, bounds: Vector2) -> void:
-	var shape_arr = shape.shape_pos_arr
+	var shape_arr = shape.shape_pos_arr.duplicate()
 	shape_arr.erase(Vector2i.ZERO)
 	
 	for point in shape_arr:
