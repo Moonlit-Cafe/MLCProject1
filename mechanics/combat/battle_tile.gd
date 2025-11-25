@@ -1,6 +1,9 @@
 ## Contains all the functionality for the Tiles belonging to the BattleMap.
 class_name BattleTile extends Node2D
 
+# FIXME: There's a bug where the selection stops showing after an action takes place
+# unless the player right-clicks.
+
 #region Declarations
 signal turn_finished
 

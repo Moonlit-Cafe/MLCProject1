@@ -204,6 +204,8 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 		if map_ended:
 			return
 	
+	_check_map_move()
+	
 	if rounds == -1 and not map_ended:
 		battle_loop()
 	elif map_ended:
@@ -213,3 +215,25 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 			battle_loop(rounds, cur_round + 1)
 		else:
 			return
+
+func _check_map_move() -> void:
+	var last_row : Array[BattleTile]
+	for x in board:
+		last_row.append(x.get(x.size() - 1))
+	
+	var can_move := true
+	for tile in last_row:
+		if tile.state != BattleTile.BattleState.EMPTY:
+			can_move = false
+			break
+	
+	if can_move:
+		var pos := Vector2i.ZERO
+		for x in board:
+			pos.y = 0
+			x = DataManipulationHelper.shift_array(x, 1)
+			for tile in x:
+				tile.tile_position = pos
+				tile.position = Vector2(pos.x * board_tile_size.x, pos.y * board_tile_size.y) + Vector2(board_tile_size) / 2
+				pos.y += 1
+			pos.x += 1

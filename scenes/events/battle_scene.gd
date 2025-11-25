@@ -41,6 +41,7 @@ func _ready() -> void:
 	
 	_signal_initialization()
 	battle_board.init()
+	CombatManager.selected_action = PlayerManager.available_skills[0]  ## Just testing auto selecting first action as the "first action in the players available skills"
 
 ## Grab the size of the battle map and viewport for resizing within the scene.
 func _determine_battle_view_size() -> void:
