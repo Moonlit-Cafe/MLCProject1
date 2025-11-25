@@ -8,12 +8,12 @@ extends BaseEventScene
 @export var hp_label : Label
 
 @onready var actions_menu : PanelContainer = $ActionMenu
-@onready var battle_log : VBoxContainer = $MarginContainer/BattleLog
+@onready var battle_log : VBoxContainer = $InfoPanel/VBoxContainer/BattleLog
 @onready var turn_tracker : Control = $TurnTracker
 @onready var battle_board : Node2D = $SubViewportContainer/SubViewport/BattleMap
-@onready var enemy_info : MarginContainer = $EnemyInspect
-@onready var enemy_label : Label = $EnemyInspect/VBoxContainer/EnemyName
-@onready var enemy_hp_bar : ProgressBar = $EnemyInspect/VBoxContainer/HealthBar
+@onready var enemy_info : VBoxContainer = $InfoPanel/VBoxContainer/EnemyInfo
+@onready var enemy_label : Label = $InfoPanel/VBoxContainer/EnemyInfo/EnemyName
+@onready var enemy_hp_bar : ProgressBar = $InfoPanel/VBoxContainer/EnemyInfo/HealthBar
 
 # TODO: Need to procedurally determine what enemies are able to fight based off of the current
 # difficulty rating.

@@ -36,7 +36,7 @@ render_target_update_mode = 4
 [node name="BattleMap" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("turn_tracker") instance=ExtResource("2_c52ab")]
 turn_tracker = NodePath("../../../TurnTracker")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="InfoPanel" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -50,8 +50,23 @@ grow_vertical = 0
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="BattleLog" parent="MarginContainer" instance=ExtResource("4_dgmmm")]
+[node name="VBoxContainer" type="VBoxContainer" parent="InfoPanel"]
 layout_mode = 2
+alignment = 2
+
+[node name="BattleLog" parent="InfoPanel/VBoxContainer" instance=ExtResource("4_dgmmm")]
+layout_mode = 2
+
+[node name="EnemyInfo" type="VBoxContainer" parent="InfoPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="EnemyName" type="Label" parent="InfoPanel/VBoxContainer/EnemyInfo"]
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="InfoPanel/VBoxContainer/EnemyInfo"]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+fill_mode = 1
 
 [node name="ActionMenu" parent="." instance=ExtResource("4_hmtxi")]
 layout_mode = 1
@@ -80,28 +95,5 @@ offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Action Select"
-
-[node name="EnemyInspect" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -54.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="EnemyInspect"]
-layout_mode = 2
-
-[node name="EnemyName" type="Label" parent="EnemyInspect/VBoxContainer"]
-layout_mode = 2
-
-[node name="HealthBar" type="ProgressBar" parent="EnemyInspect/VBoxContainer"]
-custom_minimum_size = Vector2(125, 0)
-layout_mode = 2
-fill_mode = 1
 
 [connection signal="pressed" from="Button" to="." method="_on_attack_pressed"]
