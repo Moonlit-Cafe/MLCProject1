@@ -5,27 +5,41 @@
 [node name="ActionMenu" type="PanelContainer"]
 script = ExtResource("1_t12t3")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MenuContainers" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="MenuActionsContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="MenuActionsContainer" type="VBoxContainer" parent="MenuContainers"]
 layout_mode = 2
 
-[node name="Actions" type="Button" parent="MarginContainer/MenuActionsContainer"]
+[node name="Actions" type="Button" parent="MenuContainers/MenuActionsContainer"]
 layout_mode = 2
 text = "Actions"
 
-[node name="ActionsContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="Items" type="Button" parent="MenuContainers/MenuActionsContainer"]
+layout_mode = 2
+text = "Items"
+
+[node name="ActionsContainer" type="VBoxContainer" parent="MenuContainers"]
 visible = false
 layout_mode = 2
 
-[node name="Back" type="Button" parent="MarginContainer/ActionsContainer"]
+[node name="Back" type="Button" parent="MenuContainers/ActionsContainer"]
 layout_mode = 2
 text = "Back"
 
-[connection signal="pressed" from="MarginContainer/MenuActionsContainer/Actions" to="." method="_on_actions_menu_pressed"]
-[connection signal="pressed" from="MarginContainer/ActionsContainer/Back" to="." method="_on_return_pressed"]
+[node name="ItemsContainer" type="VBoxContainer" parent="MenuContainers"]
+visible = false
+layout_mode = 2
+
+[node name="Back" type="Button" parent="MenuContainers/ItemsContainer"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="MenuContainers/MenuActionsContainer/Actions" to="." method="_on_actions_menu_pressed"]
+[connection signal="pressed" from="MenuContainers/MenuActionsContainer/Items" to="." method="_on_items_menu_pressed"]
+[connection signal="pressed" from="MenuContainers/ActionsContainer/Back" to="." method="_on_return_pressed"]
+[connection signal="pressed" from="MenuContainers/ItemsContainer/Back" to="." method="_on_return_pressed"]

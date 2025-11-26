@@ -18,6 +18,8 @@ var hidden := true
 #endregion
 
 func _ready() -> void:
+	add_to_group(&"inventory")
+	
 	if container:
 		container.columns = inv_size.x
 	
@@ -62,3 +64,14 @@ func hide_inv() -> void:
 	var tween := create_tween().bind_node(self).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(tab_container, "position", Vector2(-inventory.size.x, 0), 0.5)
 	hidden = true
+
+func get_usables() -> Array[ItemNode]:
+	var usable_list : Array[ItemNode] = []
+	for child in container.get_children():
+		if not child.held_item:
+			continue
+		
+		if child.held_item.item is UsableItem:
+			usable_list.append(child.held_item)
+	
+	return usable_list

@@ -31,7 +31,7 @@ var boss_type : int = 1
 #region Events
 func _ready() -> void:
 	_determine_battle_view_size() # Grabs the size of the 
-	_fill_actions()
+	_fill_action_menu()
 	enemy_count = 3
 	_generate_battle()
 	
@@ -74,9 +74,12 @@ func _determine_battle_view_size() -> void:
 	battle_board.position += Vector2((map_max - map_min) / 2, 0) * battle_board.board_tile_size.x
 
 # TODO: Replace with ActionMenu Functionality
-func _fill_actions() -> void:
+func _fill_action_menu() -> void:
 	for action in PlayerManager.available_skills:
 		actions_menu.add_to_actions(action)
+	
+	for usable in PlayerManager.get_usables():
+		actions_menu.add_to_items(usable)
 
 # TODO: Fix generation later
 func _generate_battle() -> void:

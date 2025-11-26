@@ -31,6 +31,11 @@ var available_skills : Array[Action] = []
 #endregion
 
 #region Publics
+func get_usables() -> Array[ItemNode]:
+	var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
+	var usables : Array[ItemNode] = inventory.get_usables()
+	return usables
+
 func regen_combat_stats() -> void:
 	var stats_to_modify : Dictionary[Genum.StatType, Array]
 	for item in equipped_items:
