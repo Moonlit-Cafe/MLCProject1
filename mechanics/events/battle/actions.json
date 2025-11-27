@@ -1,8 +1,20 @@
 {
+	"attack": {
+		"name": "Basic Attack",
+		"shape": "single_target",
+		"damage_type": 0,
+		"value": 2
+	},
 	"fire_bolt": {
 		"name": "Fire Bolt",
 		"shape": "single_target",
 		"damage_type": 0,
 		"value": 10
+	},
+	"x_slash": {
+		"name": "X-Slash",
+		"shape": "x",
+		"damage_type": 0,
+		"value": 15
 	}
 }

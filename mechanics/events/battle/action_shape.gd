@@ -1,5 +1,5 @@
 ## A small packet of data for determining the positions or the "shape" of an
-## an action's occurance.
+## action's occurance.
 class_name ActionShape extends Resource
 
 #region Declaration
