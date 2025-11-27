@@ -1,0 +1,172 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwy7sf13joert"]
+
+[ext_resource type="Script" uid="uid://ccwdkb2lehmyq" path="res://assets/tools/shape_maker.gd" id="1"]
+
+[node name="ShapeMaker" type="Control" node_paths=PackedStringArray("tile_grid", "shape_name_input", "range_input", "save_button", "clear_button", "new_shape_button", "status_label", "source_label", "shapes_list", "move_up_button", "move_down_button", "delete_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+tile_grid = NodePath("MarginContainer/VBox/HBoxContainer/Panel/GridMargin/TileGrid")
+shape_name_input = NodePath("MarginContainer/VBox/NameRow/ShapeName")
+range_input = NodePath("MarginContainer/VBox/RangeRow/RangeInput")
+save_button = NodePath("MarginContainer/VBox/ButtonsRow/SaveButton")
+clear_button = NodePath("MarginContainer/VBox/ButtonsRow/ClearButton")
+new_shape_button = NodePath("MarginContainer/VBox/ButtonsRow/NewShapeButton")
+status_label = NodePath("MarginContainer/VBox/StatusLabel")
+source_label = NodePath("MarginContainer/VBox/SourceLabel")
+shapes_list = NodePath("MarginContainer/VBox/HBoxContainer/ShapesVBox/ShapesList")
+move_up_button = NodePath("MarginContainer/VBox/HBoxContainer/ShapesVBox/ShapesButtons/MoveUpButton")
+move_down_button = NodePath("MarginContainer/VBox/HBoxContainer/ShapesVBox/ShapesButtons/MoveDownButton")
+delete_button = NodePath("MarginContainer/VBox/HBoxContainer/ShapesVBox/ShapesButtons/DeleteButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="MarginContainer/VBox"]
+layout_mode = 2
+text = "Shape Maker Tool"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Instructions" type="RichTextLabel" parent="MarginContainer/VBox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[b]Controls[/b]
+• Left click toggles a tile.
+• Right click clears a tile (except the source).
+• Shift + Left click marks the new source tile.
+
+Tiles map to a 5x5 grid centered on (0, 0). Save results into attack_shapes.json."
+
+[node name="ShapesVBox" type="VBoxContainer" parent="MarginContainer/VBox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ShapesLabel" type="Label" parent="MarginContainer/VBox/HBoxContainer/ShapesVBox"]
+layout_mode = 2
+text = "Shapes"
+
+[node name="ShapesList" type="ItemList" parent="MarginContainer/VBox/HBoxContainer/ShapesVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 4
+item_0/text = "line"
+item_1/text = "meteor"
+item_2/text = "single_target"
+item_3/text = "x_shape"
+
+[node name="ShapesButtons" type="HBoxContainer" parent="MarginContainer/VBox/HBoxContainer/ShapesVBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="MoveUpButton" type="Button" parent="MarginContainer/VBox/HBoxContainer/ShapesVBox/ShapesButtons"]
+layout_mode = 2
+text = "Up"
+
+[node name="MoveDownButton" type="Button" parent="MarginContainer/VBox/HBoxContainer/ShapesVBox/ShapesButtons"]
+layout_mode = 2
+text = "Down"
+
+[node name="DeleteButton" type="Button" parent="MarginContainer/VBox/HBoxContainer/ShapesVBox/ShapesButtons"]
+layout_mode = 2
+text = "Delete"
+
+[node name="Panel" type="PanelContainer" parent="MarginContainer/VBox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridMargin" type="MarginContainer" parent="MarginContainer/VBox/HBoxContainer/Panel"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+size_flags_stretch_ratio = 2.7
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="TileGrid" type="GridContainer" parent="MarginContainer/VBox/HBoxContainer/Panel/GridMargin"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 5
+
+[node name="NameRow" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBox/NameRow"]
+layout_mode = 2
+text = "Shape ID"
+
+[node name="ShapeName" type="LineEdit" parent="MarginContainer/VBox/NameRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. x_strike"
+
+[node name="NameRow2" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RangeRow" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RangeLabel" type="Label" parent="MarginContainer/VBox/RangeRow"]
+layout_mode = 2
+text = "Range"
+
+[node name="RangeInput" type="SpinBox" parent="MarginContainer/VBox/RangeRow"]
+layout_mode = 2
+min_value = 1.0
+max_value = 10.0
+value = 3.0
+
+[node name="SourceLabel" type="Label" parent="MarginContainer/VBox"]
+layout_mode = 2
+text = "Source tile: (0, 0)"
+
+[node name="ButtonsRow" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ClearButton" type="Button" parent="MarginContainer/VBox/ButtonsRow"]
+layout_mode = 2
+text = "Clear"
+
+[node name="NewShapeButton" type="Button" parent="MarginContainer/VBox/ButtonsRow"]
+layout_mode = 2
+text = "New shape"
+
+[node name="SaveButton" type="Button" parent="MarginContainer/VBox/ButtonsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save to JSON"
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/VBox"]
+layout_mode = 2
+text = "Ready to build a shape."
