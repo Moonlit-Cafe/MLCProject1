@@ -23,10 +23,12 @@ func _ready() -> void:
 func _define_shapes() -> void:
 	# Single Target Shape Definition
 	var st_shape := ActionShape.new()
-	st_shape.generate_shape(&"single_target", [Vector2i.LEFT,Vector2i.ZERO], 3)
+	st_shape.generate_shape(&"single_target", [Vector2i.ZERO], 3)
 	
 	# Start adding in all the shapes
 	ac_shape_array.append(st_shape)
+	
+	## TODO: Add more shapes here
 
 ## After generating the action shapes, this method generates the actions themselves from file.
 func _define_actions() -> void:
