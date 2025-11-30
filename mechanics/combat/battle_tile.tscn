@@ -1,15 +1,30 @@
-[gd_scene load_steps=7 format=3 uid="uid://br1q5ufye6dp7"]
+[gd_scene load_steps=10 format=3 uid="uid://br1q5ufye6dp7"]
 
 [ext_resource type="Script" uid="uid://j4fp64n1btw6" path="res://mechanics/combat/battle_tile.gd" id="1_msxig"]
-[ext_resource type="Texture2D" uid="uid://c0voybpvyupfd" path="res://assets/sprites/selected_char.png" id="2_130xj"]
-[ext_resource type="Texture2D" uid="uid://b1ltmv2e58kmp" path="res://assets/sprites/select_char.png" id="3_81i8j"]
+[ext_resource type="Texture2D" uid="uid://tb2g0c2vnd52" path="res://assets/sprites/iso_tiles_select_atlas.png" id="2_bvqvx"]
 [ext_resource type="Texture2D" uid="uid://b88aq2346tk0v" path="res://assets/sprites/empty.png" id="3_bvqvx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2gpie"]
+atlas = ExtResource("2_bvqvx")
+region = Rect2(32, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_130xj"]
+atlas = ExtResource("2_bvqvx")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81i8j"]
+atlas = ExtResource("2_bvqvx")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvqvx"]
+atlas = ExtResource("2_bvqvx")
+region = Rect2(32, 16, 32, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bvqvx"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_130xj")
+"texture": SubResource("AtlasTexture_2gpie")
 }],
 "loop": true,
 "name": &"adj_selected",
@@ -25,7 +40,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_81i8j")
+"texture": SubResource("AtlasTexture_130xj")
 }],
 "loop": true,
 "name": &"selectable",
@@ -33,18 +48,18 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_81i8j")
+"texture": SubResource("AtlasTexture_81i8j")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_130xj")
+"texture": SubResource("AtlasTexture_bvqvx")
 }],
 "loop": true,
 "name": &"selected",
-"speed": 3.0
+"speed": 2.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2gpie"]
-size = Vector2(16, 16)
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_smo62"]
+points = PackedVector2Array(-16, 0, 0, 8, 16, 0, 0, -8)
 
 [node name="BattleTile" type="Node2D" node_paths=PackedStringArray("obj_sprite", "select_sprite")]
 script = ExtResource("1_msxig")
@@ -57,12 +72,13 @@ select_sprite = NodePath("SelectableSprite")
 
 [node name="SelectableSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_bvqvx")
-animation = &"selectable"
+animation = &"selected"
+frame_progress = 0.56937623
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_2gpie")
+shape = SubResource("ConvexPolygonShape2D_smo62")
 
 [connection signal="input_event" from="Area2D" to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_mouse_entered"]

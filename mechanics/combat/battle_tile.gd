@@ -16,6 +16,7 @@ enum BattleState {
 @export var obj_sprite : AnimatedSprite2D
 @export var select_sprite : AnimatedSprite2D
 
+var battle_map : Node2D
 var hp : int = -1 :
 	set(value):
 		if not held_object:
@@ -28,7 +29,7 @@ var hp : int = -1 :
 			hp = value
 var max_hp : int = 0
 var held_object : Variant
-var tile_position : Vector2i = Vector2i.ZERO
+var tile_position : Vector3i = Vector3i.ZERO
 var selectable : bool = false :
 	set(value):
 		if not value:
@@ -55,6 +56,7 @@ var state : BattleState
 #region Events
 func _ready() -> void:
 	add_to_group(&"tiles")
+	#battle_map = find_parent("BattleMap")
 
 func attach_object(obj: Variant) -> void:
 	if not obj is EnemyCharacter and not obj is ObstacleObject:
@@ -102,20 +104,22 @@ func defend(ac: Action) -> void:
 			continue
 		tile.hp -= tile.held_object.defend(ac)
 
-func refresh_highlight() -> void:
-	for tile in get_tree().get_nodes_in_group(&"tiles"):
-		if tile.mouse_inside:
-			tile._highlight(CombatManager.selected_action)
-
 func get_hp() -> Vector2i:
 	return Vector2i(hp, max_hp)
 
+func refresh_highlight() -> void:
+	if mouse_inside:
+		_highlight(CombatManager.selected_action)
+
 func _get_all_tiles_in_shape(ac: ActionShape) -> Array[BattleTile]:
 	var tiles_returned : Array[BattleTile] = []
-	for tile in get_tree().get_nodes_in_group(&"tiles"):
-		## Shouldn't this be for every tile IN shape_pos_arr? why are we subtracting by the position? is it to start the shape at 0,0?
-		if (tile.tile_position - tile_position) in ac.shape_pos_arr:
-			tiles_returned.append(tile)
+	if not battle_map:
+		for tile in get_tree().get_nodes_in_group(&"tiles"):
+			if (tile.tile_position - tile_position) in ac.shape_pos_arr:
+				tiles_returned.append(tile)
+	#else:
+	#	for tile_pos in ac.shape_pos_arr:
+	#		tiles_returned.append(battle_map.get_tile_at(tile_pos + tile_position))
 	
 	return tiles_returned
 
@@ -154,8 +158,8 @@ func _highlight(ac: Action) -> void:
 	shape.erase(Vector2i.ZERO)
 	for vec in shape:
 		for tile in get_tree().get_nodes_in_group(&"tiles"):
-			if not tile.tile_position == tile_position + vec:
-				continue
+			#if not tile.tile_position == tile_position + vec:
+			#	continue
 			
 			tile.select_sprite.play(&"adj_selected")
 #endregion
