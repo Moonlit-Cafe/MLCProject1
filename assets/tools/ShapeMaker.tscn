@@ -74,10 +74,10 @@ text = "Shapes"
 layout_mode = 2
 size_flags_vertical = 3
 item_count = 4
-item_0/text = "line"
-item_1/text = "meteor"
-item_2/text = "single_target"
-item_3/text = "x_shape"
+item_0/text = "single_target"
+item_1/text = "line"
+item_2/text = "x_shape"
+item_3/text = "meteor"
 
 [node name="ShapesButtons" type="HBoxContainer" parent="MarginContainer/VBox/HBoxContainer/ShapesVBox"]
 layout_mode = 2

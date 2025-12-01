@@ -3,6 +3,7 @@ extends Node
 
 #region Declarations
 @export_file("*.json") var action_file : String
+@export_file("*.json") var shape_file : String
 @export var set_compendium : Array[ItemSet]
 
 var ac_shape_array : Array[ActionShape]
@@ -14,21 +15,41 @@ func _ready() -> void:
 	_define_shapes()
 	_define_actions()
 	
-	# Remove later
-	PlayerManager.available_skills.append(all_actions.get(0))
+	for a in all_actions :
+		PlayerManager.available_skills.append(a)
 #endregion
 
 #region Setups
 ## Generates all the actions shapes available for action usage.
 func _define_shapes() -> void:
-	# Single Target Shape Definition
-	var st_shape := ActionShape.new()
-	st_shape.generate_shape(&"single_target", [Vector2i.ZERO], 3)
-	
-	# Start adding in all the shapes
-	ac_shape_array.append(st_shape)
+	## Single Target Shape Definition
+	#var st_shape := ActionShape.new()
+	#st_shape.generate_shape(&"single_target", [Vector2i.ZERO], 3)
+	#
+	## Start adding in all the shapes
+	#ac_shape_array.append(st_shape)
 	
 	## TODO: Add more shapes here
+	## ShapeMaker exists now in sandbox
+	var file = FileAccess.open(shape_file, FileAccess.READ)
+	var data = JSON.parse_string(file.get_as_text())
+	if not data:
+		push_warning("@SkillManager: Something wrong with file format")
+		return
+	
+	for shape in data.keys():
+		var ac_shape := ActionShape.new()
+		ac_shape.shape_id = data.get(shape).get("id")
+		var shap_arr = data.get(shape).get("positions")
+		for i in shap_arr :
+			ac_shape.shape_pos_arr.append(i)
+		
+		#ac_shape.shape_pos_arr = data.get(shape).get("positions")
+		ac_shape.action_range = data.get(shape).get("range")
+		
+		ac_shape.generate_shape(ac_shape.shape_id,ac_shape.shape_pos_arr,ac_shape.action_range)
+		
+		ac_shape_array.append(ac_shape)
 
 ## After generating the action shapes, this method generates the actions themselves from file.
 func _define_actions() -> void:

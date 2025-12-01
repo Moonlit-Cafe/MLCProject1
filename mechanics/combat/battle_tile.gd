@@ -113,7 +113,6 @@ func get_hp() -> Vector2i:
 func _get_all_tiles_in_shape(ac: ActionShape) -> Array[BattleTile]:
 	var tiles_returned : Array[BattleTile] = []
 	for tile in get_tree().get_nodes_in_group(&"tiles"):
-		## Shouldn't this be for every tile IN shape_pos_arr? why are we subtracting by the position? is it to start the shape at 0,0?
 		if (tile.tile_position - tile_position) in ac.shape_pos_arr:
 			tiles_returned.append(tile)
 	
