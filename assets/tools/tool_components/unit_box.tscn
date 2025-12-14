@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo5nd2e1fow6a"]
+
+[ext_resource type="PackedScene" uid="uid://df2m1fdk0u5r5" path="res://assets/tools/tool_components/stat_container.tscn" id="1_000dx"]
+[ext_resource type="Script" uid="uid://dxtsynt0gja3k" path="res://assets/tools/tool_components/unit_box.gd" id="1_61dpf"]
+
+[node name="UnitBox" type="VBoxContainer" node_paths=PackedStringArray("unit_name_label")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_61dpf")
+unit_name_label = NodePath("UnitName")
+
+[node name="UnitName" type="Label" parent="."]
+layout_mode = 2
+text = "Unit Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Unit" type="Panel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="UnitStatsVbox" type="VBoxContainer" parent="Unit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Health" parent="Unit/UnitStatsVbox" instance=ExtResource("1_000dx")]
+layout_mode = 2
+size_flags_vertical = 3
+stat_name = "Health"
+stat_amt = 100.0
+
+[node name="Mana" parent="Unit/UnitStatsVbox" instance=ExtResource("1_000dx")]
+layout_mode = 2
+size_flags_vertical = 3
+stat_name = "Mana"
+stat_amt = 50.0
+
+[node name="Movement" parent="Unit/UnitStatsVbox" instance=ExtResource("1_000dx")]
+layout_mode = 2
+size_flags_vertical = 3
+stat_name = "Movement"
+stat_amt = 6.0

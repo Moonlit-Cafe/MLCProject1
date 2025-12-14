@@ -7,6 +7,4 @@ script = ExtResource("1_8owe3")
 material_compendium = "res://mechanics/items/materials"
 usable_compendium = "res://mechanics/items/usable"
 equip_compendium = "res://mechanics/items/equippable"
-weapon_compendium = ""
-powercore_compendium = ""
 metadata/_custom_type_script = "uid://50a7am8a0d5o"

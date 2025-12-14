@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmcdxtd4yljf7"]
+
+[ext_resource type="Script" uid="uid://wkeftt6yuavq" path="res://assets/tools/tool_components/test_actions/test_actions.gd" id="1_pyvsc"]
+
+[node name="Light" type="Node"]
+script = ExtResource("1_pyvsc")
+ac_name = "light"
+ac_value = 5.0
+ac_range = 1
+metadata/_custom_type_script = "uid://wkeftt6yuavq"

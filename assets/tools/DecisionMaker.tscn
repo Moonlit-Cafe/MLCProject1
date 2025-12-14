@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://if2rrt1avexp"]
+
+[ext_resource type="Script" uid="uid://bkxb8l5odcsme" path="res://assets/tools/tool_components/decision_maker.gd" id="1_3wchp"]
+
+[node name="DecisionMaker" type="Node"]
+script = ExtResource("1_3wchp")

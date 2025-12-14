@@ -1,0 +1,147 @@
+[gd_scene load_steps=5 format=3 uid="uid://dd4ylbblcxjwa"]
+
+[ext_resource type="Script" uid="uid://p3352c31lkxd" path="res://assets/tools/considerations.gd" id="1_0821n"]
+[ext_resource type="PackedScene" uid="uid://bo5nd2e1fow6a" path="res://assets/tools/tool_components/unit_box.tscn" id="2_7skhk"]
+[ext_resource type="PackedScene" uid="uid://bcu6yk5psafon" path="res://assets/tools/tool_components/action_box.tscn" id="3_bew6y"]
+[ext_resource type="PackedScene" uid="uid://bk72msl0rq3ie" path="res://assets/tools/tool_components/move_box.tscn" id="4_nix6a"]
+
+[node name="Considerations" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0821n")
+p_health = 100.0
+p_mana = 50.0
+p_movement = 5.0
+e_health = 100.0
+e_mana = 50.0
+e_movement = 5.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConsiderationToolLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Considerations Testing Tool"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerVbox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerInteractionsHbox" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayerBox" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox" instance=ExtResource("2_7skhk")]
+layout_mode = 2
+unit_name = "Player"
+
+[node name="ActionBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ActionBox" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer" instance=ExtResource("3_bew6y")]
+layout_mode = 2
+name_label_text = "LightAttack"
+ac_desc_text = "Perform a light attack, dealing light damage.  Cost: 0 Mana. Range: 1 Unit"
+amt_label_text = "Light Attack: 5 Damage."
+
+[node name="HeavyAttack" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer" instance=ExtResource("3_bew6y")]
+layout_mode = 2
+name_label_text = "HeavyAttack"
+ac_desc_text = "Perform a Heavy Attack, dealing massive damage.  Cost: 15 Mana. Range: 1 Unit"
+amt_label_text = "Heavy Attack: 15 Damage."
+
+[node name="MagicAttack" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer" instance=ExtResource("3_bew6y")]
+layout_mode = 2
+name_label_text = "MagicAttack"
+ac_desc_text = "Sling a spell, dealing ranged magical damage.  Cost: 20 Mana. Range 3-6 Units."
+amt_label_text = "Magic Attack: 30 Damage."
+
+[node name="Heal" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer" instance=ExtResource("3_bew6y")]
+layout_mode = 2
+name_label_text = "LightHeal"
+ac_desc_text = "Cast a resrotative spell, mending wounds.  Cost: 25 Mana. Range: 0 - 6 Units"
+amt_label_text = "Light Heal: +15 Health Points."
+
+[node name="MoveAction" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer" instance=ExtResource("4_nix6a")]
+layout_mode = 2
+name_label_text = "Move"
+ac_desc_text = "Move away or towards the enemy.  Distance: 1 Unit Per Action."
+amt_label_text = "Movement Distance: 1 Unit"
+
+[node name="EndTurn" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "End Turn"
+
+[node name="EnemyVbox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.66
+
+[node name="ContentContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/EnemyVbox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EnemyBox" parent="VBoxContainer/HBoxContainer/VBoxContainer/EnemyVbox/ContentContainer" instance=ExtResource("2_7skhk")]
+layout_mode = 2
+size_flags_vertical = 3
+unit_name = "Enemy"
+
+[node name="ConsiderationsOutputVbox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/ConsiderationsOutputVbox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ConsiderationsOutputLabel" type="Label" parent="VBoxContainer/HBoxContainer/ConsiderationsOutputVbox/VBoxContainer"]
+layout_mode = 2
+text = "Considerations Output"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/ConsiderationsOutputVbox/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/ConsiderationsOutputVbox/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="EnemyConsideration" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/ConsiderationsOutputVbox/VBoxContainer/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Waiting for the player to act..."

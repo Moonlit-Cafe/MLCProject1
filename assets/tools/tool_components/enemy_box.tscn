@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnb2rmv4ufqwg"]
+
+[ext_resource type="Script" uid="uid://bfpgrrud08c5l" path="res://assets/tools/tool_components/enemy_box.gd" id="1_swlvu"]
+[ext_resource type="PackedScene" uid="uid://df2m1fdk0u5r5" path="res://assets/tools/tool_components/stat_container.tscn" id="2_0qb4m"]
+[ext_resource type="Script" uid="uid://bkxb8l5odcsme" path="res://assets/tools/tool_components/decision_maker.gd" id="3_0qb4m"]
+
+[node name="UnitBox" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_swlvu")
+
+[node name="UnitName" type="Label" parent="."]
+layout_mode = 2
+text = "Unit Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Unit" type="Panel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="UnitStatsVbox" type="VBoxContainer" parent="Unit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Health" parent="Unit/UnitStatsVbox" instance=ExtResource("2_0qb4m")]
+layout_mode = 2
+size_flags_vertical = 3
+stat_name = "Health"
+stat_amt = 100.0
+
+[node name="Mana" parent="Unit/UnitStatsVbox" instance=ExtResource("2_0qb4m")]
+layout_mode = 2
+size_flags_vertical = 3
+stat_name = "Mana"
+stat_amt = 50.0
+
+[node name="Movement" parent="Unit/UnitStatsVbox" instance=ExtResource("2_0qb4m")]
+layout_mode = 2
+size_flags_vertical = 3
+stat_name = "Movement"
+stat_amt = 6.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Unit/UnitStatsVbox"]
+layout_mode = 2
+
+[node name="DecisionMaker" type="Node" parent="."]
+script = ExtResource("3_0qb4m")
+metadata/_custom_type_script = "uid://bkxb8l5odcsme"
