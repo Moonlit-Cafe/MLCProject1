@@ -129,9 +129,9 @@ func _update_hp_label() -> void:
 	if not enemy_info.visible:
 		enemy_info.show()
 	enemy_label.text = MouseHandler.selected_tile.name
-	enemy_hp_bar.max_value = MouseHandler.selected_tile.max_hp
-	enemy_hp_bar.step = float(MouseHandler.selected_tile.max_hp) / 10000
-	enemy_hp_bar.value = MouseHandler.selected_tile.hp
+	enemy_hp_bar.max_value = MouseHandler.selected_tile.held_entity.max_hp
+	enemy_hp_bar.step = float(MouseHandler.selected_tile.held_entity.max_hp) / 10000
+	enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.hp
 #endregion
 
 #region Signal Callbacks

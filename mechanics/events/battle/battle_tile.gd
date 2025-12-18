@@ -20,17 +20,6 @@ enum BattleState {
 @onready var entity_holder : Node2D = $EntityHolder
 
 var battle_map : Node2D
-var hp : int = -1 :
-	set(value):
-		if not held_entity:
-			return
-		
-		if value <= 0:
-			clear_object()
-			hp = -1
-		else:
-			hp = value
-var max_hp : int = 0
 var held_entity : TileEntity
 var tile_position : Vector3i = Vector3i.ZERO
 var selectable : bool = false :
@@ -72,7 +61,7 @@ func attach_object(ent: Variant) -> void:
 		held_entity = tile_e
 		entity_holder.add_child(tile_e)
 		held_entity.update()
-		hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
+		held_entity.hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
 	else:
 		var tile_o : TileObstacle = packed_entity_reference.get(&"obstacle").instantiate()
 		tile_o.char = ent
@@ -80,10 +69,9 @@ func attach_object(ent: Variant) -> void:
 		entity_holder.add_child(tile_o)
 		held_entity.update()
 		state = BattleState.OBSTACLE
-		hp = ent.stats.get(&"hp")
+		held_entity.hp = ent.stats.get(&"hp")
 	
-	max_hp = hp
-	
+	held_entity.max_hp = held_entity.hp
 	name = ent.o_name
 	#obj_sprite.sprite_frames = ent.char.frames
 
@@ -114,10 +102,10 @@ func defend(ac: Action) -> void:
 	for tile in tiles:
 		if tile.state == BattleState.EMPTY:
 			continue
-		tile.hp -= tile.held_entity.char.defend(ac)
+		tile.held_entity.hp -= tile.held_entity.char.defend(ac)
 
 func get_hp() -> Vector2i:
-	return Vector2i(hp, max_hp)
+	return held_entity.get_hp() 
 
 func refresh_highlight() -> void:
 	if mouse_inside:
