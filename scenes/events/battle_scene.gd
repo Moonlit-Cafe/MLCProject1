@@ -7,6 +7,7 @@ extends BaseEventScene
 @export var label : Label
 @export var hp_label : Label
 
+@onready var hp_container : VBoxContainer = $HPContainer/VBoxContainer
 @onready var actions_menu : PanelContainer = $ActionMenu
 @onready var battle_log : VBoxContainer = $InfoPanel/VBoxContainer/BattleLog
 @onready var turn_tracker : Control = $TurnTracker
@@ -42,6 +43,7 @@ func _ready() -> void:
 	_signal_initialization()
 	battle_board.init()
 	CombatManager.selected_action = PlayerManager.available_skills[0]  ## Just testing auto selecting first action as the "first action in the players available skills"
+	hp_container.update_ticks(Vector3i(1, 0, 0))
 
 ## Grab the size of the battle map and viewport for resizing within the scene.
 func _determine_battle_view_size() -> void:
@@ -146,12 +148,11 @@ func _attack_tile() -> void:
 		return
 
 	MouseHandler.selected_tile.defend(CombatManager.selected_action)
-	var prev_tile = MouseHandler.selected_tile
 	MouseHandler.selected_tile = null
-	prev_tile.refresh_highlight()
+	battle_board.determine_selectables()
+	get_tree().call_group(&"tiles", "refresh_highlight")
 	CombatManager.player_turn = false
 	GameGlobalEvents.player_turn.emit()
-	battle_board.determine_selectables()
 
 ## Changes the hp label based on current value.
 func _on_hp_changed() -> void:

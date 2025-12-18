@@ -1,33 +1,17 @@
-[gd_scene load_steps=4 format=4 uid="uid://b445twsdht334"]
+[gd_scene load_steps=4 format=4 uid="uid://340482dtf03o"]
 
-[ext_resource type="Script" uid="uid://bai42xfpxbav1" path="res://scenes/events/battle_map.gd" id="1_gpx2j"]
-[ext_resource type="TileSet" uid="uid://cm0ox3rba3khh" path="res://assets/tilesets/iso_test_set.tres" id="1_vi5sh"]
-[ext_resource type="PackedScene" uid="uid://br1q5ufye6dp7" path="res://mechanics/combat/battle_tile.tscn" id="2_ecyv0"]
+[ext_resource type="TileSet" uid="uid://bp46seb3itgu7" path="res://assets/tilesets/test_set.tres" id="1_ak0ys"]
+[ext_resource type="Script" uid="uid://jyuud6a4am4" path="res://scenes/events/battle_map.gd" id="1_vcuvm"]
+[ext_resource type="PackedScene" uid="uid://br1q5ufye6dp7" path="res://mechanics/events/battle/battle_tile.tscn" id="2_3m7vc"]
 
-[node name="BattleMap" type="Node2D" node_paths=PackedStringArray("board_layers", "select_holder")]
-script = ExtResource("1_gpx2j")
-board_layers = [NodePath("Y0"), NodePath("Y1"), NodePath("Y2")]
-select_holder = NodePath("BattleTileHolder")
-b_tile = ExtResource("2_ecyv0")
-map = Rect2i(0, 0, 6, 6)
+[node name="BattleMap" type="Node2D" node_paths=PackedStringArray("battle_board", "select_holder")]
+script = ExtResource("1_vcuvm")
+battle_board = NodePath("BoardBG")
+select_holder = NodePath("SelectableHolder")
+b_tile = ExtResource("2_3m7vc")
 
-[node name="Y0" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAAAAAADAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAAFAAUAAAACAAAAAAAFAAQAAAACAAAAAAAFAAMAAAACAAAAAAAFAAIAAAACAAAAAAAEAAEAAAAAAAAAAAAFAAEAAAACAAAAAAAFAAAAAAACAAAAAAAEAAAAAAAAAAAAAAADAAAAAAAAAAAAAAACAAAAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAEAAAAAAACAAEAAAAEAAAAAAADAAEAAAAAAAAAAAABAAIAAAAEAAAAAAACAAIAAAAEAAAAAAADAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAABAAMAAAAEAAAAAAACAAMAAAAEAAAAAAADAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAABAAQAAAAEAAAAAAACAAQAAAAEAAAAAAADAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAA=")
-tile_set = ExtResource("1_vi5sh")
+[node name="BoardBG" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAgAAAAMAAAAAAAEAAgAAAAMAAAAAAAIAAgAAAAMAAAAAAAMAAgAAAAMAAAAAAAQAAgAAAAMAAAAAAAUAAgAAAAMAAAAAAAYAAgAAAAMAAAABAAAAAgAAAAMAAAABAAEAAgAAAAMAAAABAAIAAgAAAAMAAAABAAMAAgAAAAMAAAABAAQAAgAAAAMAAAABAAUAAgAAAAMAAAABAAYAAgAAAAMAAAACAAAAAgAAAAMAAAACAAEAAgAAAAMAAAACAAIAAgAAAAMAAAACAAMAAgAAAAMAAAACAAQAAgAAAAMAAAACAAUAAgAAAAMAAAACAAYAAgAAAAMAAAADAAAAAgAAAAMAAAADAAEAAgAAAAMAAAADAAIAAgAAAAMAAAADAAMAAgAAAAMAAAADAAQAAgAAAAMAAAADAAUAAgAAAAMAAAADAAYAAgAAAAMAAAAEAAAAAgAAAAMAAAAEAAEAAgAAAAMAAAAEAAIAAgAAAAMAAAAEAAMAAgAAAAMAAAAEAAQAAgAAAAMAAAAEAAUAAgAAAAMAAAAEAAYAAgAAAAMAAAA=")
+tile_set = ExtResource("1_ak0ys")
 
-[node name="Y1" type="TileMapLayer" parent="."]
-z_index = 1
-position = Vector2(0, -16)
-tile_map_data = PackedByteArray("AAACAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAABAAQAAAAAAAAAAAABAAMAAAAEAAAAAAABAAIAAAAEAAAAAAA=")
-tile_set = ExtResource("1_vi5sh")
-
-[node name="Y2" type="TileMapLayer" parent="."]
-z_index = 2
-position = Vector2(0, -32)
-tile_map_data = PackedByteArray("AAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAA=")
-tile_set = ExtResource("1_vi5sh")
-
-[node name="BattleTileHolder" type="Node2D" parent="."]
-y_sort_enabled = true
-
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="SelectableHolder" type="Node2D" parent="."]

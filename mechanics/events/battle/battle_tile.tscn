@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3 uid="uid://br1q5ufye6dp7"]
+
+[ext_resource type="Script" uid="uid://j4fp64n1btw6" path="res://mechanics/events/battle/battle_tile.gd" id="1_msxig"]
+[ext_resource type="Texture2D" uid="uid://c0voybpvyupfd" path="res://assets/sprites/tiles/selected_char.png" id="2_jsgv4"]
+[ext_resource type="Texture2D" uid="uid://b88aq2346tk0v" path="res://assets/sprites/empty.png" id="3_bvqvx"]
+[ext_resource type="Texture2D" uid="uid://b1ltmv2e58kmp" path="res://assets/sprites/tiles/select_char.png" id="4_k5873"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5ya1"]
+atlas = ExtResource("2_jsgv4")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi8ni"]
+atlas = ExtResource("4_k5873")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36gti"]
+atlas = ExtResource("4_k5873")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iccr6"]
+atlas = ExtResource("2_jsgv4")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bvqvx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5ya1")
+}],
+"loop": true,
+"name": &"adj_selected",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_bvqvx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gi8ni")
+}],
+"loop": true,
+"name": &"selectable",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36gti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iccr6")
+}],
+"loop": true,
+"name": &"selected",
+"speed": 2.0
+}]
+
+[node name="BattleTile" type="Node2D" node_paths=PackedStringArray("select_sprite")]
+script = ExtResource("1_msxig")
+select_sprite = NodePath("SelectableSprite")
+
+[node name="SelectableSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_bvqvx")
+animation = &"adj_selected"
+
+[node name="EntityHolder" type="Node2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(0, 8, 16, 0, 0, -8, -16, 0)
+
+[connection signal="input_event" from="Area2D" to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_mouse_exited"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ye7pl4xy273r"]
 
 [ext_resource type="Script" uid="uid://dw22cum64y5np" path="res://ui/inventory/weapon_window.gd" id="1_mk81c"]
-[ext_resource type="Script" uid="uid://bkcc31xye2eat" path="res://ui/inventory_slot.gd" id="2_3g42h"]
+[ext_resource type="Script" uid="uid://bkcc31xye2eat" path="res://ui/inventory/inventory_slot.gd" id="2_3g42h"]
 
 [node name="WeaponWindow" type="PanelContainer"]
 anchors_preset = 8

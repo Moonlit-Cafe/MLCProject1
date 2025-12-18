@@ -1,12 +1,12 @@
 [gd_scene load_steps=10 format=3 uid="uid://npre0wq4yuc7"]
 
 [ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="1_1m6my"]
-[ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory_slot.tscn" id="1_n0n2g"]
+[ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory/inventory_slot.tscn" id="1_n0n2g"]
 [ext_resource type="Script" uid="uid://decnctd8qfp08" path="res://ui/player_hud.gd" id="1_w11uw"]
-[ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/items/res_def/item_resource.gd" id="2_sjha8"]
-[ext_resource type="Resource" uid="uid://bscxov3hd6xwq" path="res://mechanics/items/equippable/test_cap.tres" id="2_w11uw"]
-[ext_resource type="Resource" uid="uid://c4hn4h0euet1w" path="res://mechanics/items/equippable/test_wep.tres" id="4_q84jv"]
-[ext_resource type="Resource" uid="uid://4ffbslydopid" path="res://mechanics/items/usable/test_usable.tres" id="5_7fmvv"]
+[ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/inventory/items/res_def/item_resource.gd" id="2_sjha8"]
+[ext_resource type="Resource" uid="uid://bscxov3hd6xwq" path="res://mechanics/inventory/items/equippable/test_cap.tres" id="2_w11uw"]
+[ext_resource type="Resource" uid="uid://c4hn4h0euet1w" path="res://mechanics/inventory/items/equippable/test_wep.tres" id="4_q84jv"]
+[ext_resource type="Resource" uid="uid://4ffbslydopid" path="res://mechanics/inventory/items/usable/test_usable.tres" id="5_7fmvv"]
 [ext_resource type="PackedScene" uid="uid://c2djdhoksebun" path="res://mechanics/inventory/weapon_node.tscn" id="7_f87sx"]
 [ext_resource type="PackedScene" uid="uid://ye7pl4xy273r" path="res://ui/inventory/weapon_window.tscn" id="7_q84jv"]
 

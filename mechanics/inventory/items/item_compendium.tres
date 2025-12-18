@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemCompendium" load_steps=2 format=3 uid="uid://c1eci1cb46wlw"]
+
+[ext_resource type="Script" uid="uid://50a7am8a0d5o" path="res://mechanics/inventory/items/res_def/item_compendium.gd" id="1_8owe3"]
+
+[resource]
+script = ExtResource("1_8owe3")
+material_compendium = "res://mechanics/items/materials"
+usable_compendium = "res://mechanics/items/usable"
+equip_compendium = "res://mechanics/items/equippable"
+weapon_compendium = ""
+powercore_compendium = ""
+metadata/_custom_type_script = "uid://50a7am8a0d5o"

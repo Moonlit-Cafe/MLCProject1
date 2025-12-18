@@ -28,6 +28,7 @@ var stats : Dictionary[Genum.StatType, int] = {
 }
 var combat_stats := stats
 var available_skills : Array[Action] = []
+var position : Vector2i = Vector2i.ZERO
 #endregion
 
 #region Publics

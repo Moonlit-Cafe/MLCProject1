@@ -1,10 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://ksmkpfann6ie"]
+[gd_scene load_steps=11 format=3 uid="uid://ksmkpfann6ie"]
 
 [ext_resource type="Script" uid="uid://bin8ph5h6xhm0" path="res://scenes/events/battle_scene.gd" id="1_w5vvb"]
-[ext_resource type="PackedScene" uid="uid://340482dtf03o" path="res://mechanics/events/battle/battle_map.tscn" id="2_c52ab"]
-[ext_resource type="PackedScene" uid="uid://b71p3f76aob3l" path="res://ui/battle_log.tscn" id="4_dgmmm"]
-[ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://ui/action_menu.tscn" id="4_hmtxi"]
-[ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/turn_tracker.tscn" id="4_sou65"]
+[ext_resource type="PackedScene" uid="uid://b445twsdht334" path="res://scenes/events/battle_map.tscn" id="3_gky5j"]
+[ext_resource type="PackedScene" uid="uid://b71p3f76aob3l" path="res://ui/events/battle/battle_log.tscn" id="4_dgmmm"]
+[ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://ui/events/battle/action_menu.tscn" id="4_hmtxi"]
+[ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/events/battle/turn_tracker.tscn" id="4_sou65"]
+[ext_resource type="Script" uid="uid://ca0n281tenyul" path="res://ui/events/battle/hp_panel.gd" id="6_n4nua"]
+[ext_resource type="Texture2D" uid="uid://yb6eq731bn5b" path="res://assets/sprites/ui/CombatUI.png" id="7_gky5j"]
+[ext_resource type="PackedScene" uid="uid://baeasrlqix5l7" path="res://ui/events/battle/ap_tick.tscn" id="7_uvxka"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvxka"]
+atlas = ExtResource("7_gky5j")
+region = Rect2(0, 8, 113, 5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bt28h"]
+atlas = ExtResource("7_gky5j")
+region = Rect2(0, 13, 113, 5)
 
 [node name="BattleScene" type="Control" node_paths=PackedStringArray("battle_viewport", "hp_label")]
 layout_mode = 3
@@ -33,8 +44,7 @@ physics_object_picking = true
 size = Vector2i(2, 2)
 render_target_update_mode = 4
 
-[node name="BattleMap" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("turn_tracker") instance=ExtResource("2_c52ab")]
-turn_tracker = NodePath("../../../TurnTracker")
+[node name="BattleMap" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_gky5j")]
 
 [node name="InfoPanel" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -78,6 +88,7 @@ offset_right = 85.0
 grow_vertical = 0
 
 [node name="hp_label" type="Label" parent="."]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
@@ -95,5 +106,29 @@ offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Action Select"
+
+[node name="HPContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HPContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("6_n4nua")
+tick_scene = ExtResource("7_uvxka")
+
+[node name="APBar" type="HBoxContainer" parent="HPContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HPBar" type="TextureProgressBar" parent="HPContainer/VBoxContainer"]
+layout_mode = 2
+texture_over = SubResource("AtlasTexture_uvxka")
+
+[node name="ResBar" type="TextureProgressBar" parent="HPContainer/VBoxContainer"]
+layout_mode = 2
+texture_over = SubResource("AtlasTexture_bt28h")
 
 [connection signal="pressed" from="Button" to="." method="_on_attack_pressed"]

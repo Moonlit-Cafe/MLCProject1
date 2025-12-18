@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dhvqk251orrf3"]
+
+[node name="BattleEntity" type="Node3D"]
