@@ -73,6 +73,7 @@ func attach_object(ent: Variant) -> void:
 	
 	held_entity.max_hp = held_entity.hp
 	name = ent.o_name
+	held_entity.parent_tile = self
 	#obj_sprite.sprite_frames = ent.char.frames
 
 func clear_object() -> void:
@@ -86,16 +87,6 @@ func clear_object() -> void:
 	state = BattleState.EMPTY
 	_check_other_tiles()
 
-func commit_action() -> void:
-	attack()
-	await GameGlobal.delay(0.5)
-	turn_finished.emit()
-
-func attack() -> void:
-	if state != BattleState.ENEMY:
-		return
-	
-	PlayerManager.hp -= held_entity.char.attack()
 
 func defend(ac: Action) -> void:
 	var tiles = _get_all_tiles_in_shape(ac.shape)
