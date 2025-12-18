@@ -15,11 +15,14 @@ enum BattleState {
 }
 
 @export var select_sprite : AnimatedSprite2D
+@export var packed_entity_reference : Dictionary[StringName, PackedScene]
+
+@onready var entity_holder : Node2D = $EntityHolder
 
 var battle_map : Node2D
 var hp : int = -1 :
 	set(value):
-		if not held_object:
+		if not held_entity:
 			return
 		
 		if value <= 0:
@@ -58,29 +61,38 @@ func _ready() -> void:
 	add_to_group(&"tiles")
 	battle_map = find_parent("BattleMap")
 
-func attach_object(obj: Variant) -> void:
-	if not obj is EnemyCharacter and not obj is ObstacleObject:
+func attach_object(ent: Variant) -> void:
+	if not ent is EnemyCharacter and not ent is ObstacleObject:
 		return
 	
-	if obj is EnemyCharacter:
+	if ent is EnemyCharacter:
 		state = BattleState.ENEMY
-		hp = obj.stats.get(&"hp") * (CombatManager.difficulty_modifier * obj.stats_scaling.get(&"hp"))
+		var tile_e : TileEnemy = packed_entity_reference.get(&"enemy").instantiate()
+		tile_e.char = ent
+		held_entity = tile_e
+		entity_holder.add_child(tile_e)
+		held_entity.update()
+		hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
 	else:
+		var tile_o : TileObstacle = packed_entity_reference.get(&"obstacle").instantiate()
+		tile_o.char = ent
+		held_entity = tile_o
+		entity_holder.add_child(tile_o)
+		held_entity.update()
 		state = BattleState.OBSTACLE
-		hp = obj.stats.get(&"hp")
+		hp = ent.stats.get(&"hp")
 	
 	max_hp = hp
 	
-	held_object = obj
-	name = obj.o_name
-	obj_sprite.sprite_frames = obj.frames
+	name = ent.o_name
+	#obj_sprite.sprite_frames = ent.char.frames
 
 func clear_object() -> void:
-	if not held_object:
+	if not held_entity:
 		return
 	
-	obj_sprite.sprite_frames = null
-	held_object = null
+	held_entity.queue_free()
+	held_entity = null
 	GameGlobalEvents.battle_removed.emit(self)
 	name = "(%s, %s)" % [tile_position.x, tile_position.y]
 	state = BattleState.EMPTY
@@ -95,14 +107,14 @@ func attack() -> void:
 	if state != BattleState.ENEMY:
 		return
 	
-	PlayerManager.hp -= held_object.attack()
+	PlayerManager.hp -= held_entity.char.attack()
 
 func defend(ac: Action) -> void:
 	var tiles = _get_all_tiles_in_shape(ac.shape)
 	for tile in tiles:
 		if tile.state == BattleState.EMPTY:
 			continue
-		tile.hp -= tile.held_object.defend(ac)
+		tile.hp -= tile.held_entity.char.defend(ac)
 
 func get_hp() -> Vector2i:
 	return Vector2i(hp, max_hp)

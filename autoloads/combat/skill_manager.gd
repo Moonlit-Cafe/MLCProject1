@@ -9,16 +9,14 @@ var ac_shape_array : Array[ActionShape]
 var all_actions : Array[Action]
 #endregion
 
-#region Built-Ins
+#region Events
 func _ready() -> void:
 	_define_shapes()
 	_define_actions()
 	
 	# Remove later
 	PlayerManager.available_skills.append(all_actions.get(0))
-#endregion
 
-#region Setups
 ## Generates all the actions shapes available for action usage.
 func _define_shapes() -> void:
 	# Single Target Shape Definition

@@ -92,7 +92,7 @@ func define_enemy_arrays() -> void:
 		if not tile.state == BattleTile.BattleState.ENEMY:
 			continue
 		
-		match(tile.held_object.current_state):
+		match(tile.held_entity.current_state):
 			EnemyCharacter.EnemyState.ACTIVE:
 				active_enemies.append(tile)
 
@@ -138,7 +138,7 @@ func _get_enemy_order() -> Array:
 	for enemy in active_enemies:
 		var enemy_order : Array = []
 		@warning_ignore("integer_division")
-		var turns : int = 1 if enemy.held_object.haste < 100 else (enemy.held_object.haste / 100) + 1
+		var turns : int = 1 if enemy.held_entity.haste < 100 else (enemy.held_entity.haste / 100) + 1
 		for i in range(turns):
 			enemy_order.append(enemy)
 		all_orders.append(enemy_order)
@@ -179,8 +179,8 @@ func _haste_sort(a, b) -> bool:
 	#if (not "haste" in a.held_object and not a is PlayerManager) or (not "haste" in b.held_object and not b is PlayerManager):
 	#	push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
 	
-	var haste_a : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if a is PlayerManager else a.held_object.haste
-	var haste_b : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if b is PlayerManager else b.held_object.haste
+	var haste_a : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if a is PlayerManager else a.held_entity.haste
+	var haste_b : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if b is PlayerManager else b.held_entity.haste
 	return haste_a > haste_b
 
 func get_tile_data(pos: Vector2) -> TileData:
@@ -236,7 +236,7 @@ func _check_map_move() -> void:
 			pos.y = 0
 			x = DataManipulationHelper.shift_array(x, 1)
 			for tile in x:
-				tile.tile_position = pos
+				tile.tile_position = Vector3i(pos.x, pos.y, 0)
 				tile.position = Vector2(pos.x * board_tile_size.x, pos.y * board_tile_size.y) + Vector2(board_tile_size) / 2
 				pos.y += 1
 			pos.x += 1
