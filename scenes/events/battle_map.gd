@@ -201,7 +201,7 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 			turn_tracker.reorder_turns()
 			continue
 		
-		actor.commit_action()
+		actor.held_entity.commit_action()
 		await actor.turn_finished
 		turn_tracker.reorder_turns()
 		if map_ended:
