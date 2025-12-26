@@ -18,7 +18,7 @@ signal end_map
 var scene : BaseEventScene
 var active_enemies : Array[BattleTile] = []
 var search_range := Vector2i(-100, 100)
-var board : Array = []
+var board : Dictionary[Vector2i, BattleTile] = {}
 var board_tile_size : Vector2i
 var map_ended : bool = false
 #endregion
@@ -46,13 +46,13 @@ func _generate_board() -> void:
 	# _generate_surface()
 	# _dectect_surface()
 	var surface_tiles := board_zone.scan_map(battle_board)
-	var map : Array = []
-	#for point in surface_tiles:
-		#var new_tile : BattleTile = b_tile.instantiate()
-		#new_tile.tile_position = Vector3i(x, y, 0)
-		#map.get(x).append(new_tile)
-		#select_holder.add_child(new_tile)
-		#new_tile.position = Vector2(x * board_tile_size.x, y * board_tile_size.y) + Vector2(board_tile_size) / 2
+	var map : Dictionary[Vector2i, BattleTile] = {}
+	for point in surface_tiles:
+		var new_tile : BattleTile = b_tile.instantiate()
+		new_tile.tile_position = point + Vector3i.UP
+		map.set(Vector2(point.x, point.y), new_tile)
+		select_holder.add_child(new_tile)
+		new_tile.position = battle_board.to_global(new_tile.tile_position)
 	
 	board = map
 
@@ -182,7 +182,7 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 		if map_ended:
 			return
 	
-	_check_map_move()
+	#_check_map_move()
 	
 	if rounds == -1 and not map_ended:
 		battle_loop()
@@ -194,26 +194,26 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 		else:
 			return
 
-func _check_map_move() -> void:
-	var last_row : Array[BattleTile]
-	for x in board:
-		last_row.append(x.get(x.size() - 1))
-	
-	var can_move := true
-	for tile in last_row:
-		if tile.state != BattleTile.BattleState.EMPTY:
-			can_move = false
-			break
-	
-	if can_move:
-		var pos := Vector2i.ZERO
-		for x in board:
-			pos.y = 0
-			x = DataManipulationHelper.shift_array(x, 1)
-			for tile in x:
-				tile.tile_position = Vector3i(pos.x, pos.y, 0)
-				tile.position = Vector2(pos.x * board_tile_size.x, pos.y * board_tile_size.y) + Vector2(board_tile_size) / 2
-				pos.y += 1
-			pos.x += 1
-		determine_selectables()
+#func _check_map_move() -> void:
+#	var last_row : Array[BattleTile]
+#	for x in board:
+#		last_row.append(x.get(x.size() - 1))
+#	
+#	var can_move := true
+#	for tile in last_row:
+#		if tile.state != BattleTile.BattleState.EMPTY:
+#			can_move = false
+#			break
+#	
+#	if can_move:
+#		var pos := Vector2i.ZERO
+#		for x in board:
+#			pos.y = 0
+#			x = DataManipulationHelper.shift_array(x, 1)
+#			for tile in x:
+#				tile.tile_position = Vector3i(pos.x, pos.y, 0)
+#				tile.position = Vector2(pos.x * board_tile_size.x, pos.y * board_tile_size.y) + Vector2(board_tile_size) / 2
+#				pos.y += 1
+#			pos.x += 1
+#		determine_selectables()
 		
