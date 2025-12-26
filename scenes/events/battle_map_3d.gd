@@ -1,15 +1,16 @@
 ## Handles the actual battle system, as in actually handling the order of enemies and what not.
-class_name BattleMap extends Node2D
+class_name BattleMap3D extends Node2D
 
 #region Declarations
 signal end_map
 # TODO: Make BoardLayer a seperate thing so that we can switch maps on the fly.
 # TODO: Make it so random enemies generate and can begin moving and attacking.
 
-@export var battle_board : TileMapLayer
+@export var battle_board : GridMap
 @export var turn_tracker : Control
 @export var select_holder : Node2D
 @export var b_tile : PackedScene
+@export var board_zone : MapBoundary
 
 # TODO: Change the entire scene to be a background with a custom grid definition 
 # TODO: With the custom grid definition, selection should be possible with a gui_input over the whole map
@@ -18,7 +19,6 @@ var scene : BaseEventScene
 var active_enemies : Array[BattleTile] = []
 var search_range := Vector2i(-100, 100)
 var board : Array = []
-var board_area : Rect2i
 var board_tile_size : Vector2i
 var map_ended : bool = false
 #endregion
@@ -32,37 +32,11 @@ func _ready() -> void:
 	scene = find_parent("BattleScene")
 	
 	board_tile_size = battle_board.tile_set.tile_size
-	var corner := find_top_left_corner()
-	if corner != Vector2i(search_range.x - 1, search_range.y + 1):
-		board_area = determine_board(corner)
+	if not board_zone:
+		push_warning("There is no defined boundary, exiting...")
+		return
 	
 	_generate_board()
-
-func find_top_left_corner() -> Vector2i:
-	for y in range(search_range.x, search_range.y + 1):
-		for x in range(search_range.x, search_range.y + 1):
-			var data = battle_board.get_cell_tile_data(Vector2i(x, y))
-			if data:
-				return Vector2i(x, y)
-	
-	return Vector2i(search_range.x - 1, search_range.y + 1)
-
-func determine_board(init_pos: Vector2i) -> Rect2i:
-	var area := Vector2i.ZERO
-	var cur_pos := init_pos
-	while area.x == 0 or area.y == 0:
-		if area.x == 0:
-			cur_pos.x += 1
-			if not battle_board.get_cell_tile_data(cur_pos):
-				area.x = cur_pos.x - init_pos.x
-		else:
-			if cur_pos.x != 0:
-				cur_pos.x = 0
-			cur_pos.y += 1
-			if not battle_board.get_cell_tile_data(cur_pos):
-				area.y = cur_pos.y - init_pos.y
-	
-	return Rect2i(init_pos, area)
 
 func _generate_board() -> void:
 	if not b_tile:
@@ -71,15 +45,14 @@ func _generate_board() -> void:
 	
 	# _generate_surface()
 	# _dectect_surface()
+	var surface_tiles := board_zone.scan_map(battle_board)
 	var map : Array = []
-	for x in range(board_area.size.x):
-		map.append([])
-		for y in range(board_area.size.y):
-			var new_tile : BattleTile = b_tile.instantiate()
-			new_tile.tile_position = Vector3i(x, y, 0)
-			map.get(x).append(new_tile)
-			select_holder.add_child(new_tile)
-			new_tile.position = Vector2(x * board_tile_size.x, y * board_tile_size.y) + Vector2(board_tile_size) / 2
+	#for point in surface_tiles:
+		#var new_tile : BattleTile = b_tile.instantiate()
+		#new_tile.tile_position = Vector3i(x, y, 0)
+		#map.get(x).append(new_tile)
+		#select_holder.add_child(new_tile)
+		#new_tile.position = Vector2(x * board_tile_size.x, y * board_tile_size.y) + Vector2(board_tile_size) / 2
 	
 	board = map
 
@@ -185,11 +158,11 @@ func _haste_sort(a, b) -> bool:
 	var haste_b : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if b is PlayerManager else b.held_entity.haste
 	return haste_a > haste_b
 
-func get_tile_data(pos: Vector2) -> TileData:
+func get_tile_data(pos: Vector3) -> int:
 	if not battle_board:
-		return
+		return GridMap.INVALID_CELL_ITEM
 	
-	return battle_board.get_cell_tile_data(battle_board.local_to_map(pos))
+	return battle_board.get_cell_item(battle_board.local_to_map(pos))
 #endregion
 
 func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0hffyiu0s820"]
+
+[ext_resource type="Script" uid="uid://dp5gy60d8vuyp" path="res://scenes/events/battle_map_3d.gd" id="1_357td"]
+[ext_resource type="MeshLibrary" uid="uid://kher62vvgh5c" path="res://assets/tilesets/basic_mesh_lib.tres" id="2_i4jl2"]
+
+[node name="BattleMap3D" type="Node3D"]
+script = ExtResource("1_357td")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("2_i4jl2")
