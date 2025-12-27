@@ -3,7 +3,7 @@ class_name TileEntity extends Node2D
 #region Declarations
 @export var sprite : AnimatedSprite2D
 
-var char : Variant
+var character : Variant
 var parent_tile : BattleTile
 
 var hp : int = -1 :
@@ -23,7 +23,7 @@ var max_hp : int = 0
 #region Events
 func update() -> void:
 	if sprite:
-		sprite.sprite_frames = char.frames
+		sprite.sprite_frames = character.frames
 	
 	position = Vector2(0., 8.) ## TODO: Need to either settle on an offset, or grab thie from Battle Map
 	
@@ -32,7 +32,7 @@ func attack() -> void:
 	if parent_tile.state != parent_tile.BattleState.ENEMY:
 		return
 	
-	PlayerManager.hp -= char.attack()
+	PlayerManager.hp -= character.attack()
 	
 func commit_action() -> void:
 	attack()

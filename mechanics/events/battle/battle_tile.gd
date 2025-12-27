@@ -57,14 +57,14 @@ func attach_object(ent: Variant) -> void:
 	if ent is EnemyCharacter:
 		state = BattleState.ENEMY
 		var tile_e : TileEnemy = packed_entity_reference.get(&"enemy").instantiate()
-		tile_e.char = ent
+		tile_e.character = ent
 		held_entity = tile_e
 		entity_holder.add_child(tile_e)
 		held_entity.update()
 		held_entity.hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
 	else:
 		var tile_o : TileObstacle = packed_entity_reference.get(&"obstacle").instantiate()
-		tile_o.char = ent
+		tile_o.character = ent
 		held_entity = tile_o
 		entity_holder.add_child(tile_o)
 		held_entity.update()
@@ -74,7 +74,7 @@ func attach_object(ent: Variant) -> void:
 	held_entity.max_hp = held_entity.hp
 	name = ent.o_name
 	held_entity.parent_tile = self
-	#obj_sprite.sprite_frames = ent.char.frames
+	#obj_sprite.sprite_frames = ent.character.frames
 
 func clear_object() -> void:
 	if not held_entity:
@@ -93,7 +93,7 @@ func defend(ac: Action) -> void:
 	for tile in tiles:
 		if tile.state == BattleState.EMPTY:
 			continue
-		tile.held_entity.hp -= tile.held_entity.char.defend(ac)
+		tile.held_entity.hp -= tile.held_entity.character.defend(ac)
 
 func get_hp() -> Vector2i:
 	return held_entity.get_hp() 

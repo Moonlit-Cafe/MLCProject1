@@ -1,4 +1,4 @@
-class_name PlayerEntity extends TileEntity
+class_name TilePlayer extends TileEntity
 
 #region Declarations
 #endregion
@@ -6,7 +6,7 @@ class_name PlayerEntity extends TileEntity
 #region Events
 func update() -> void:
 	if sprite:
-		sprite.sprite_frames = char.frames
+		sprite.sprite_frames = character.frames
 	
 	position = Vector2(0., 8.) ## TODO: Need to either settle on an offset, or grab thie from Battle Map
 #endregion
@@ -24,10 +24,6 @@ func update() -> void:
 
 # TODO implement this
 # have battle map populate this guy into a tile
-	#what is spawning the enemies
-	# how does it decide what to spawn
-	# and where
-	# make an additional spawn
 	# set it to center column, bottom row
 # use arrows to move for now
 	# movin	is moving data to target tile
