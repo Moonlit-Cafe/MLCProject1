@@ -79,7 +79,7 @@ func _generate_board() -> void:
 			new_tile.tile_position = Vector3i(x, y, 0)
 			map.get(x).append(new_tile)
 			select_holder.add_child(new_tile)
-			new_tile.position = Vector2(x * board_tile_size.x, y * board_tile_size.y) + Vector2(board_tile_size) / 2
+			new_tile.position = Vector3(x, y, 0) + Vector3() / 2
 	
 	board = map
 

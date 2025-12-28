@@ -2,28 +2,31 @@
 class_name MapBoundary extends Resource
 
 #region Declarations
-var pos := Vector3i.ZERO
-var size := Vector3i.ONE
+@export var pos := Vector3i.ZERO
+@export var size := Vector3i.ONE
 #endregion
 
 #region Events
 ## Grabs the next point going from left to right, up to down, back to front.
 func next_point(point: Vector3i) -> Vector3i:
-	var new_pos := point
-	if point.x + 1 > (size.x + pos.x):
-		new_pos.x = pos.x
-		if point.z + 1 > (size.z + pos.z):
-			new_pos.z = pos.z
-			if point.y + 1 > (size.y + pos.y):
-				return pos - Vector3i.ONE
-			else:
-				new_pos.y += 1
-		else:
-			new_pos.y += 1
-	else:
-		new_pos.x += 1
+	var o_pos := pos
+	var f_pos := pos + size
 	
-	return new_pos
+	point.x += 1
+	if point.x < f_pos.x:
+		return point
+	point.x = o_pos.x
+	
+	point.z += 1
+	if point.z < f_pos.z:
+		return point
+	point.z = o_pos.z
+	
+	point.y += 1
+	if point.y < f_pos.y:
+		return point
+	
+	return o_pos - Vector3i.ONE
 
 ## Takes a given gridmap and scans within this boundary to find all the surface tiles.
 func scan_map(map: GridMap) -> Array[Vector3i]:

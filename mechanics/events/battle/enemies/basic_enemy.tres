@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="EnemyCharacter" load_steps=4 format=3 uid="uid://dphyv7hkvhq2c"]
 
-[ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://assets/sprites/characters/character_1_frame16x20.png" id="1_1copu"]
+[ext_resource type="Texture2D" uid="uid://sjbcyiproy2o" path="res://assets/sprites/characters/character_1_frame16x20.png" id="1_1copu"]
 [ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://mechanics/events/battle/enemies/enemy_resource.gd" id="1_yws0g"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ysqg6"]

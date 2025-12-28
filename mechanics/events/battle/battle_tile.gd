@@ -14,31 +14,31 @@ enum BattleState {
 	PLAYER
 }
 
-@export var select_sprite : AnimatedSprite2D
+#@export var select_sprite : AnimatedSprite3D
 @export var packed_entity_reference : Dictionary[StringName, PackedScene]
 
-@onready var entity_holder : Node2D = $EntityHolder
+@onready var entity_holder : Node3D = $EntityHolder
 
 var battle_map : Node2D
 var held_entity : TileEntity
 var tile_position : Vector3i = Vector3i.ZERO
 var selectable : bool = false :
 	set(value):
-		if not value:
-			select_sprite.play(&"default")
-		else:
-			select_sprite.play(&"selectable")
+		#if not value:
+		#	select_sprite.play(&"default")
+		#else:
+		#	select_sprite.play(&"selectable")
 		
 		selectable = value
 var highlighted : bool = false :
 	set(value):
-		if not value:
-			if selectable:
-				select_sprite.play(&"selectable")
-			else:
-				select_sprite.play(&"default")
-		else:
-			select_sprite.play(&"selected")
+		#if not value:
+		#	if selectable:
+		#		select_sprite.play(&"selectable")
+		#	else:
+		#		select_sprite.play(&"default")
+		#else:
+		#	select_sprite.play(&"selected")
 		
 		highlighted = value
 var mouse_inside : bool = false
@@ -129,31 +129,31 @@ func _highlight(ac: Action) -> void:
 	if MouseHandler.selected_tile != null:
 		return
 	
-	for tile in get_tree().get_nodes_in_group(&"tiles"):
-		if tile.highlighted:
-			tile.highlighted = false
-		
-		if tile.select_sprite.animation == &"adj_selected":
-			if tile.selectable:
-				tile.select_sprite.play(&"selectable")
-			else:
-				tile.select_sprite.play(&"default")
-	
-	if not selectable:
-		return
-	
-	highlighted = true
-	if not ac:
-		return
-	
-	var shape : Array[Vector2i] = ac.shape.shape_pos_arr.duplicate()
-	shape.erase(Vector2i.ZERO)
-	for vec in shape:
-		for tile in get_tree().get_nodes_in_group(&"tiles"):
-			#if not tile.tile_position == tile_position + vec:
-			#	continue
-			
-			tile.select_sprite.play(&"adj_selected")
+	#for tile in get_tree().get_nodes_in_group(&"tiles"):
+	#	if tile.highlighted:
+	#		tile.highlighted = false
+	#	
+	#	if tile.select_sprite.animation == &"adj_selected":
+	#		if tile.selectable:
+	#			tile.select_sprite.play(&"selectable")
+	#		else:
+	#			tile.select_sprite.play(&"default")
+	#
+	#if not selectable:
+	#	return
+	#
+	#highlighted = true
+	#if not ac:
+	#	return
+	#
+	#var shape : Array[Vector2i] = ac.shape.shape_pos_arr.duplicate()
+	#shape.erase(Vector2i.ZERO)
+	#for vec in shape:
+	#	for tile in get_tree().get_nodes_in_group(&"tiles"):
+	#		#if not tile.tile_position == tile_position + vec:
+	#		#	continue
+	#		
+	#		tile.select_sprite.play(&"adj_selected")
 #endregion
 
 #region Signal Callbacks

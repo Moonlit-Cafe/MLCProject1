@@ -70,7 +70,7 @@ func _check_item_sets(stats_mod: Dictionary[Genum.StatType, Array]) -> Dictionar
 	
 	for i_set in sets.keys():
 		var item_set : ItemSet
-		for ref_set in SkillManager.set_compendium:
+		for ref_set in CombatManager.skill_manager.set_compendium:
 			if ref_set.set_id == i_set:
 				item_set = ref_set
 		

@@ -1,5 +1,5 @@
 ## Handles all things related to skills.
-extends Node
+class_name SkillManager extends Node
 
 #region Declarations
 @export_file("*.json") var action_file : String
@@ -16,6 +16,8 @@ func _ready() -> void:
 	
 	# Remove later
 	PlayerManager.available_skills.append(all_actions.get(0))
+	
+	print("Initialized: SkillManager")
 
 ## Generates all the actions shapes available for action usage.
 func _define_shapes() -> void:

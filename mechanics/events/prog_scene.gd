@@ -1,11 +1,11 @@
 ## Progression Scene, wher the actual "game" is held. Controls the progression
 ## of events such as the Shop, Battle, etc.
-class_name ProgScene extends CanvasLayer
+class_name ProgScene extends Node
 
 #region Declarations
 @export var event_references : Array[EventHolder]
 @export var button_container : VBoxContainer
-@export var scene_holder : Control
+@export var scene_holder : Node
 
 var current_scene_index: int = 0
 var current_scene : BaseEventScene = null

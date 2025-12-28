@@ -7,14 +7,14 @@ extends BaseEventScene
 @export var label : Label
 @export var hp_label : Label
 
-@onready var hp_container : VBoxContainer = $HPContainer/VBoxContainer
-@onready var actions_menu : PanelContainer = $ActionMenu
-@onready var battle_log : VBoxContainer = $InfoPanel/VBoxContainer/BattleLog
-@onready var turn_tracker : Control = $TurnTracker
-@onready var battle_board : Node2D = $SubViewportContainer/SubViewport/BattleMap
-@onready var enemy_info : VBoxContainer = $InfoPanel/VBoxContainer/EnemyInfo
-@onready var enemy_label : Label = $InfoPanel/VBoxContainer/EnemyInfo/EnemyName
-@onready var enemy_hp_bar : ProgressBar = $InfoPanel/VBoxContainer/EnemyInfo/HealthBar
+@onready var hp_container : VBoxContainer = $CanvasLayer/HPContainer/VBoxContainer
+@onready var actions_menu : PanelContainer = $CanvasLayer/ActionMenu
+@onready var battle_log : VBoxContainer = $CanvasLayer/InfoPanel/VBoxContainer/BattleLog
+@onready var turn_tracker : Control = $CanvasLayer/TurnTracker
+@onready var battle_board : BattleMap3D = $BattleMap3D
+@onready var enemy_info : VBoxContainer = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo
+@onready var enemy_label : Label = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/EnemyName
+@onready var enemy_hp_bar : ProgressBar = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/HealthBar
 
 # TODO: Need to procedurally determine what enemies are able to fight based off of the current
 # difficulty rating.
@@ -31,10 +31,10 @@ var boss_type : int = 1
 
 #region Events
 func _ready() -> void:
-	_determine_battle_view_size() # Grabs the size of the 
+	#_determine_battle_view_size() # Grabs the size of the 
 	_fill_action_menu()
 	enemy_count = 3
-	_generate_battle()
+	#_generate_battle()
 	
 	battle_board.turn_tracker = turn_tracker
 	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
@@ -46,34 +46,34 @@ func _ready() -> void:
 	hp_container.update_ticks(Vector3i(1, 0, 0))
 
 ## Grab the size of the battle map and viewport for resizing within the scene.
-func _determine_battle_view_size() -> void:
-	if not battle_viewport:
-		push_warning("There is no viewport to change...")
-		return
-	
-	# TODO: This is currently hard-coded, need to extrapolate later...
-	var board_size = battle_board.board_area.size
-	var map_min = mini(board_size.x, board_size.y)
-	var map_max = maxi(board_size.x, board_size.y)
-	var l = map_max * battle_board.board_tile_size.x
-	var l_delta = l
-	var m = 1.
-	var h_len = get_window().size.x * .4
-	while l < h_len:
-		m += 1
-		l = l_delta * m
-	
-	# TODO: Optimize this later, it's clunky and assumes y-len > x-len
-	var h_size = l / get_window().size.x
-	var v_size = l / get_window().size.y
-	battle_viewport.anchor_top = (1 - v_size) / 2.
-	battle_viewport.anchor_bottom = 1 - ((1 - v_size) / 2.)
-	battle_viewport.anchor_left = (1 - h_size) / 2.
-	battle_viewport.anchor_right = 1 - ((1 - h_size) / 2.)
-	battle_viewport.stretch = true
-	battle_viewport.stretch_shrink = int(m)
-	@warning_ignore("integer_division")
-	battle_board.position += Vector2((map_max - map_min) / 2, 0) * battle_board.board_tile_size.x
+#func _determine_battle_view_size() -> void:
+#	if not battle_viewport:
+#		push_warning("There is no viewport to change...")
+#		return
+#	
+#	# TODO: This is currently hard-coded, need to extrapolate later...
+#	var board_size = battle_board.board_area.size
+#	var map_min = mini(board_size.x, board_size.y)
+#	var map_max = maxi(board_size.x, board_size.y)
+#	var l = map_max * battle_board.board_tile_size.x
+#	var l_delta = l
+#	var m = 1.
+#	var h_len = get_window().size.x * .4
+#	while l < h_len:
+#		m += 1
+#		l = l_delta * m
+#	
+#	# TODO: Optimize this later, it's clunky and assumes y-len > x-len
+#	var h_size = l / get_window().size.x
+#	var v_size = l / get_window().size.y
+#	battle_viewport.anchor_top = (1 - v_size) / 2.
+#	battle_viewport.anchor_bottom = 1 - ((1 - v_size) / 2.)
+#	battle_viewport.anchor_left = (1 - h_size) / 2.
+#	battle_viewport.anchor_right = 1 - ((1 - h_size) / 2.)
+#	battle_viewport.stretch = true
+#	battle_viewport.stretch_shrink = int(m)
+#	@warning_ignore("integer_division")
+#	battle_board.position += Vector2((map_max - map_min) / 2, 0) * battle_board.board_tile_size.x
 
 # TODO: Replace with ActionMenu Functionality
 func _fill_action_menu() -> void:
@@ -84,23 +84,22 @@ func _fill_action_menu() -> void:
 		actions_menu.add_to_items(usable)
 
 # TODO: Fix generation later
-func _generate_battle() -> void:
-	var board_size = battle_board.board_area.size
-	var available_spots : Array[Vector2i]
-	for x in range(board_size.x):
-		for y in range(board_size.y):
-			available_spots.append(Vector2i(x, y))
-	
-	for i in range(enemy_count):
-		var pos = available_spots.pick_random()
-		available_spots.erase(pos)
-		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.enemy_compendium.get(0))
-	
-	var obstacle_count : int = 2
-	for i in range(obstacle_count):
-		var pos = available_spots.pick_random()
-		available_spots.erase(pos)
-		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.obstacle_compendium.get(0))
+#func _generate_battle() -> void:
+#	var available_spots : Array[Vector2i]
+#	for x in range(battle_board.board_zone.size.x):
+#		for z in range(battle_board.board_zone.size.z):
+#			available_spots.append(Vector2i(x, z))
+#	
+#	for i in range(enemy_count):
+#		var pos = available_spots.pick_random()
+#		available_spots.erase(pos)
+#		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.enemy_compendium.get(0))
+#	
+#	var obstacle_count : int = 2
+#	for i in range(obstacle_count):
+#		var pos = available_spots.pick_random()
+#		available_spots.erase(pos)
+#		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.obstacle_compendium.get(0))
 
 ## Sets up all the signals within the _ready function
 func _signal_initialization() -> void:

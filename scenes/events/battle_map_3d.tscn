@@ -1,10 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0hffyiu0s820"]
+[gd_scene load_steps=8 format=3 uid="uid://c0hffyiu0s820"]
 
 [ext_resource type="Script" uid="uid://dp5gy60d8vuyp" path="res://scenes/events/battle_map_3d.gd" id="1_357td"]
+[ext_resource type="Script" uid="uid://duw3psw4s7174" path="res://utility/data_holders/map_boundary.gd" id="2_1s2bw"]
 [ext_resource type="MeshLibrary" uid="uid://kher62vvgh5c" path="res://assets/tilesets/basic_mesh_lib.tres" id="2_i4jl2"]
+[ext_resource type="PackedScene" uid="uid://br1q5ufye6dp7" path="res://mechanics/events/battle/battle_tile.tscn" id="2_x021i"]
+[ext_resource type="Script" uid="uid://sbgc1kqx3sb1" path="res://mechanics/events/battle/zones/zone_resource.gd" id="3_1s2bw"]
 
-[node name="BattleMap3D" type="Node3D"]
+[sub_resource type="Resource" id="Resource_x021i"]
+script = ExtResource("2_1s2bw")
+size = Vector3i(10, 10, 10)
+metadata/_custom_type_script = "uid://duw3psw4s7174"
+
+[sub_resource type="Resource" id="Resource_hlbek"]
+script = ExtResource("3_1s2bw")
+zone_id = &"test_zone"
+zone_title = &"Test Zone"
+tile_set = ExtResource("2_i4jl2")
+metadata/_custom_type_script = "uid://sbgc1kqx3sb1"
+
+[node name="BattleMap3D" type="Node3D" node_paths=PackedStringArray("battle_board", "select_holder")]
 script = ExtResource("1_357td")
+battle_board = NodePath("GridMap")
+select_holder = NodePath("SelectHolder")
+b_tile = ExtResource("2_x021i")
+board_zone = SubResource("Resource_x021i")
+test_zone = SubResource("Resource_hlbek")
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("2_i4jl2")
+
+[node name="SelectHolder" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
