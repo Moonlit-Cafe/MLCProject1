@@ -12,3 +12,6 @@ signal hp_changed
 signal player_turn
 signal stop_dragging
 signal weapon_open
+
+signal thinking
+signal act(a: Ability, b: String)

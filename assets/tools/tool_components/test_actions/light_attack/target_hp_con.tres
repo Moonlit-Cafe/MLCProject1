@@ -3,10 +3,11 @@
 [ext_resource type="Script" uid="uid://csb22hesulqet" path="res://assets/tools/tool_components/considerations/decider.gd" id="1_wuwr0"]
 
 [sub_resource type="Curve" id="Curve_wuwr0"]
-_data = [Vector2(0, 0.9), 0.0, 0.0, 0, 0, Vector2(1, 0.2), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 0.9), 0.0, 0.0, 0, 0, Vector2(1e-05, 0.1603691), 0.0, 0.0, 0, 0, Vector2(1, 0.49863887), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [resource]
 script = ExtResource("1_wuwr0")
+name = "target_hp"
 response = SubResource("Curve_wuwr0")
 metadata/_custom_type_script = "uid://csb22hesulqet"

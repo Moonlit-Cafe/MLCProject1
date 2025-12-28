@@ -8,5 +8,6 @@ point_count = 2
 
 [resource]
 script = ExtResource("1_cr2i6")
+name = "my_hp"
 response = SubResource("Curve_wuwr0")
 metadata/_custom_type_script = "uid://csb22hesulqet"

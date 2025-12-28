@@ -12,11 +12,13 @@ var all_actions : Array[Action]
 
 #region Built-Ins
 func _ready() -> void:
-	_define_shapes()
-	_define_actions()
-	
-	for a in all_actions :
-		PlayerManager.available_skills.append(a)
+	## TEMP DEBUG PASS
+	pass
+	#_define_shapes()
+	#_define_actions()
+	#
+	#for a in all_actions :
+		#PlayerManager.available_skills.append(a)
 #endregion
 
 #region Setups

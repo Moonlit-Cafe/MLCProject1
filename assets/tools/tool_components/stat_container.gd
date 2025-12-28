@@ -11,10 +11,9 @@ class_name StatsLabel extends HBoxContainer
 	get : return stat_name
 @export var stat_amt : float = 0.0 :
 	set(value) :
-		if value > -1 :
-			stat_amt = value
-			if amt_label.text != "" :
-				amt_label.text = str(value)
+		stat_amt = value
+		if amt_label.text != "" :
+			amt_label.text = str(value)
 	get : return stat_amt
 
 

@@ -1,5 +1,7 @@
 class_name ActionBox extends VBoxContainer
 
+@export var ability : String
+
 @export var name_label : Label
 @export var name_label_text : String = "" :
 	set(value) :
@@ -34,5 +36,16 @@ func _on_action_pressed() -> void:
 	# Update Mana
 	# etc...
 	# likely emit signal to do our thing.
+	print(name_label_text)
+	match name_label_text :
+		"LightAttack" :
+			GameGlobalEvents.act.emit("light", "enemy")
+		"HeavyAttack" :
+			GameGlobalEvents.act.emit("heavy", "enemy")
+		"MagicAttack" :
+			GameGlobalEvents.act.emit("magic", "enemy")
+		_:
+			# Do nothing if we just end the turn without matching an action name.
+			pass
 	
 	pass # Replace with function body.

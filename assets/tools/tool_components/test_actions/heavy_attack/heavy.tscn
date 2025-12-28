@@ -8,6 +8,7 @@
 [node name="Heavy" type="Node"]
 script = ExtResource("1_pc0jd")
 ac_name = "heavy"
+ac_cost = 5.0
 ac_value = 15.0
 ac_range = 1
 deciders = Array[ExtResource("2_iqjsg")]([ExtResource("3_sqf46"), ExtResource("4_mrlbi")])

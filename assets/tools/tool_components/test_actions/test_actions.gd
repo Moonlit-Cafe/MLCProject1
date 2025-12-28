@@ -18,6 +18,7 @@ var ac_score : float = 0.0 :
 
 func make_ac(_name,cost,value,range) -> void :
 	ac_name = _name
+	name = ac_name
 	ac_cost = cost
 	ac_value = value
 	ac_range = range

@@ -2,5 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bkxb8l5odcsme" path="res://assets/tools/tool_components/decision_maker.gd" id="1_3wchp"]
 
-[node name="DecisionMaker" type="Node"]
+[node name="DecisionMaker" type="Node" node_paths=PackedStringArray("ability_node")]
 script = ExtResource("1_3wchp")
+ability_node = NodePath("")

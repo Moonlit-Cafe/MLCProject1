@@ -73,23 +73,20 @@ unit_name = "Player"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LightAttack" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer" instance=ExtResource("3_bew6y")]
+[node name="ActionBox" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer" instance=ExtResource("3_bew6y")]
 layout_mode = 2
-ability = "light"
 name_label_text = "LightAttack"
 ac_desc_text = "Perform a light attack, dealing light damage.  Cost: 0 Mana. Range: 1 Unit"
 amt_label_text = "Light Attack: 5 Damage."
 
 [node name="HeavyAttack" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer" instance=ExtResource("3_bew6y")]
 layout_mode = 2
-ability = "heavy"
 name_label_text = "HeavyAttack"
 ac_desc_text = "Perform a Heavy Attack, dealing massive damage.  Cost: 15 Mana. Range: 1 Unit"
 amt_label_text = "Heavy Attack: 15 Damage."
 
 [node name="MagicAttack" parent="VBoxContainer/HBoxContainer/VBoxContainer/PlayerVbox/PlayerInteractionsHbox/ActionBoxContainer" instance=ExtResource("3_bew6y")]
 layout_mode = 2
-ability = "magic"
 name_label_text = "MagicAttack"
 ac_desc_text = "Sling a spell, dealing ranged magical damage.  Cost: 20 Mana. Range 3-6 Units."
 amt_label_text = "Magic Attack: 30 Damage."
@@ -123,7 +120,6 @@ size_flags_vertical = 3
 
 [node name="Enemy" parent="VBoxContainer/HBoxContainer/VBoxContainer/EnemyVbox/ContentContainer" instance=ExtResource("5_okf0x")]
 layout_mode = 2
-size_flags_vertical = 3
 actions = Array[String](["light", "heavy", "magic"])
 
 [node name="ConsiderationsOutputVbox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
