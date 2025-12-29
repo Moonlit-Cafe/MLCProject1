@@ -157,7 +157,7 @@ func _highlight(ac: Action) -> void:
 #endregion
 
 #region Signal Callbacks
-func _on_gui_input(_viewport: Node, event: InputEvent, _idx: int) -> void:
+func _on_gui_input(_viewport: Node, event: InputEvent,event_poition: Vector3, normal:Vector3, _idx: int) -> void:
 	if not event is InputEventMouseButton or not selectable:
 		return
 	

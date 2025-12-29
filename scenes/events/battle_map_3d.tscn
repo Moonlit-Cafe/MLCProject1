@@ -32,6 +32,6 @@ mesh_library = ExtResource("2_i4jl2")
 [node name="SelectHolder" type="Node3D" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+transform = Transform3D(0.70710677, 0.1830127, -0.68301266, 0, 0.9659258, 0.25881904, 0.70710677, -0.1830127, 0.68301266, 0, 5, 20)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
