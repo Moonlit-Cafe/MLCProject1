@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://c0hffyiu0s820"]
+[gd_scene load_steps=9 format=3 uid="uid://c0hffyiu0s820"]
 
 [ext_resource type="Script" uid="uid://dp5gy60d8vuyp" path="res://scenes/events/battle_map_3d.gd" id="1_357td"]
 [ext_resource type="Script" uid="uid://duw3psw4s7174" path="res://utility/data_holders/map_boundary.gd" id="2_1s2bw"]
 [ext_resource type="MeshLibrary" uid="uid://kher62vvgh5c" path="res://assets/tilesets/basic_mesh_lib.tres" id="2_i4jl2"]
 [ext_resource type="PackedScene" uid="uid://br1q5ufye6dp7" path="res://mechanics/events/battle/battle_tile.tscn" id="2_x021i"]
 [ext_resource type="Script" uid="uid://sbgc1kqx3sb1" path="res://mechanics/events/battle/zones/zone_resource.gd" id="3_1s2bw"]
+[ext_resource type="Script" uid="uid://b37r4oxby7m2r" path="res://scenes/entities/battle_cam.gd" id="6_hlbek"]
 
 [sub_resource type="Resource" id="Resource_x021i"]
 script = ExtResource("2_1s2bw")
@@ -34,5 +35,8 @@ cell_size = Vector3(1, 1, 1)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+script = ExtResource("6_hlbek")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+light_energy = 3.62
+light_angular_distance = 24.35

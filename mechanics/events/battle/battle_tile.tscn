@@ -5,7 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://nui0n8cj5g2o" path="res://scenes/entities/tile_obstacle.tscn" id="3_q5ya1"]
 [ext_resource type="Shader" uid="uid://bly0r8f25lksm" path="res://assets/shaders/tiles/highlight.gdshader" id="4_jsgv4"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_5b0sm"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_jsgv4"]
+size = Vector3(1, 0.2, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k5873"]
 render_priority = 0
@@ -13,10 +14,10 @@ shader = ExtResource("4_jsgv4")
 shader_parameter/line_thickness = 0.1
 shader_parameter/selected_color = Color(0, 0, 1, 1)
 shader_parameter/adj_color = Color(1, 0, 0, 1)
-shader_parameter/mode = 0
 
-[sub_resource type="BoxMesh" id="BoxMesh_q5ya1"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_q5ya1"]
 material = SubResource("ShaderMaterial_k5873")
+size = Vector2(1, 1)
 
 [node name="BattleTile" type="Node3D"]
 script = ExtResource("1_msxig")
@@ -27,15 +28,17 @@ packed_entity_reference = Dictionary[StringName, PackedScene]({
 
 [node name="EntityHolder" type="Node3D" parent="."]
 
-[node name="Area2D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
-[node name="CollisionShape2D" type="CollisionShape3D" parent="Area2D"]
-shape = SubResource("BoxShape3D_5b0sm")
+[node name="CollisionShape2D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9802322e-08, 0)
+shape = SubResource("BoxShape3D_jsgv4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-mesh = SubResource("BoxMesh_q5ya1")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("PlaneMesh_q5ya1")
 
-[connection signal="input_event" from="Area2D" to="." method="_on_gui_input"]
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_mouse_exited"]
+[connection signal="input_event" from="Area3D" to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_mouse_exited"]

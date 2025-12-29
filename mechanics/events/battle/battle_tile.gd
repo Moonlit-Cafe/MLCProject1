@@ -18,16 +18,17 @@ enum BattleState {
 @export var packed_entity_reference : Dictionary[StringName, PackedScene]
 
 @onready var entity_holder : Node3D = $EntityHolder
+@onready var mesh : MeshInstance3D = $MeshInstance3D
 
 var battle_map : Node2D
 var held_entity : TileEntity
 var tile_position : Vector3i = Vector3i.ZERO
 var selectable : bool = false :
 	set(value):
-		#if not value:
-		#	select_sprite.play(&"default")
-		#else:
-		#	select_sprite.play(&"selectable")
+		if not value:
+			mesh.set_instance_shader_parameter(&"mode", 0)
+		else:
+			mesh.set_instance_shader_parameter(&"mode", 1)
 		
 		selectable = value
 var highlighted : bool = false :

@@ -11,7 +11,6 @@ class_name MapBoundary extends Resource
 func next_point(point: Vector3i) -> Vector3i:
 	var o_pos := pos
 	var f_pos := pos + size
-	
 	point.x += 1
 	if point.x < f_pos.x:
 		return point
@@ -39,7 +38,7 @@ func scan_map(map: GridMap) -> Array[Vector3i]:
 			continue
 		
 		var cell = map.get_cell_item(point)
-		if cell:
+		if cell != map.INVALID_CELL_ITEM:
 			block_arr.append(Vector2i(point.x, point.y))
 			ret_arr.append(point)
 		point = next_point(point)

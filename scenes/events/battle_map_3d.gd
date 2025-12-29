@@ -13,15 +13,16 @@ signal end_map
 @export var board_zone : MapBoundary
 @export var test_zone : ZoneResource
 
+@onready var camera : Camera3D = $Camera3D
+
 # TODO: Change the entire scene to be a background with a custom grid definition 
 # TODO: With the custom grid definition, selection should be possible with a gui_input over the whole map
 # TODO: Action Selection should come from this selection process.
 var scene : BaseEventScene
 var active_enemies : Array[BattleTile] = []
-var search_range := Vector2i(-100, 100)
 var board : Dictionary[Vector2i, BattleTile] = {}
-var board_tile_size : Vector2i
 var map_ended : bool = false
+var tile_offset := Vector3(0.5, 1.501, 0.5)
 #endregion
 
 #region Events
@@ -36,6 +37,8 @@ func _ready() -> void:
 		push_warning("There is no defined boundary, exiting...")
 		return
 	
+	var board_size := board_zone.size
+	camera.init(Vector3(board_zone.pos) + Vector3(board_size.x, 0, board_size.z) / 2)
 	_generate_board()
 
 func _generate_board() -> void:
@@ -49,10 +52,11 @@ func _generate_board() -> void:
 	var map : Dictionary[Vector2i, BattleTile] = {}
 	for point in surface_tiles:
 		var new_tile : BattleTile = b_tile.instantiate()
-		new_tile.tile_position = point + Vector3i.UP
+		new_tile.tile_position = point
 		map.set(Vector2i(point.x, point.y), new_tile)
 		select_holder.add_child(new_tile)
-		new_tile.position = battle_board.to_global(new_tile.tile_position)
+		new_tile.position = battle_board.to_global(Vector3(new_tile.tile_position) + tile_offset)
+		new_tile.selectable = true
 	
 	board = map
 
