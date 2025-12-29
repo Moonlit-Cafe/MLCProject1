@@ -51,9 +51,6 @@ func _ready() -> void:
 	battle_map = find_parent("BattleMap")
 
 func attach_object(ent: Variant) -> void:
-	if not ent is EnemyCharacter and not ent is ObstacleObject:
-		return
-	
 	if ent is EnemyCharacter:
 		state = BattleState.ENEMY
 		var tile_e : TileEnemy = packed_entity_reference.get(&"enemy").instantiate()
@@ -62,7 +59,7 @@ func attach_object(ent: Variant) -> void:
 		entity_holder.add_child(tile_e)
 		held_entity.update()
 		held_entity.hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
-	else:
+	elif ent is ObstacleObject:
 		var tile_o : TileObstacle = packed_entity_reference.get(&"obstacle").instantiate()
 		tile_o.character = ent
 		held_entity = tile_o
@@ -70,6 +67,16 @@ func attach_object(ent: Variant) -> void:
 		held_entity.update()
 		state = BattleState.OBSTACLE
 		held_entity.hp = ent.stats.get(&"hp")
+	elif ent is PlayerCharacter:
+		state = BattleState.PLAYER
+		var tile_p : TilePlayer = packed_entity_reference.get(&"player").instantiate()
+		tile_p.character = ent
+		held_entity = tile_p
+		entity_holder.add_child(tile_p)
+		held_entity.update()
+		held_entity.hp = ent.stats.get(&"hp")
+	else:
+		return
 	
 	held_entity.max_hp = held_entity.hp
 	name = ent.o_name

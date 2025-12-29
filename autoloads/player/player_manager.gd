@@ -29,6 +29,7 @@ var stats : Dictionary[Genum.StatType, int] = {
 var combat_stats := stats
 var available_skills : Array[Action] = []
 var position : Vector2i = Vector2i.ZERO
+@export var character_data : PlayerCharacter
 #endregion
 
 #region Publics
@@ -85,3 +86,9 @@ func _check_item_sets(stats_mod: Dictionary[Genum.StatType, Array]) -> Dictionar
 	print(stats_mod)
 	return stats_mod
 #endregion
+
+
+
+	#held_entity.max_hp = held_entity.hp
+	#name = ent.o_name
+	#held_entity.parent_tile = self

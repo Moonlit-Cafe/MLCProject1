@@ -4,11 +4,6 @@ class_name TilePlayer extends TileEntity
 #endregion
 
 #region Events
-func update() -> void:
-	if sprite:
-		sprite.sprite_frames = character.frames
-	
-	position = Vector2(0., 8.) ## TODO: Need to either settle on an offset, or grab thie from Battle Map
 #endregion
 
 #region Processes
@@ -23,8 +18,6 @@ func update() -> void:
 
 
 # TODO implement this
-# have battle map populate this guy into a tile
-	# set it to center column, bottom row
 # use arrows to move for now
 	# movin	is moving data to target tile
 	# the clearing OG parent tile

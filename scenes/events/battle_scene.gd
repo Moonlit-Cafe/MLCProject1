@@ -7,6 +7,7 @@ extends BaseEventScene
 @export var label : Label
 @export var hp_label : Label
 
+# TODO? could specify the var's classes more
 @onready var hp_container : VBoxContainer = $HPContainer/VBoxContainer
 @onready var actions_menu : PanelContainer = $ActionMenu
 @onready var battle_log : VBoxContainer = $InfoPanel/VBoxContainer/BattleLog
@@ -91,14 +92,18 @@ func _generate_battle() -> void:
 		for y in range(board_size.y):
 			available_spots.append(Vector2i(x, y))
 	
+	var pos = available_spots[20]
+	available_spots.erase(pos)
+	battle_board.board.get(pos.x).get(pos.y).attach_object(PlayerManager.character_data)
+	
 	for i in range(enemy_count):
-		var pos = available_spots.pick_random()
+		pos = available_spots.pick_random()
 		available_spots.erase(pos)
 		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.enemy_compendium.get(0))
 	
 	var obstacle_count : int = 2
 	for i in range(obstacle_count):
-		var pos = available_spots.pick_random()
+		pos = available_spots.pick_random()
 		available_spots.erase(pos)
 		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.obstacle_compendium.get(0))
 
