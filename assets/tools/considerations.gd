@@ -23,6 +23,7 @@ var characters:Dictionary = {}
 func _ready() -> void:
 	characters["player"] = [player_unit.health,player_unit.mana,player_unit.movement]
 	characters["enemy"] = [enemy_unit.health,enemy_unit.mana,enemy_unit.movement]
+	consideration_log.scroll_following = true
 	GameGlobalEvents.act.connect(handle_actions)
 	GameGlobalEvents.thinking.connect(print_thought)
 	
@@ -58,7 +59,7 @@ func _on_end_turn_pressed() -> void :
 	#consider()
 	consideration_log.append_text("\nThinking about my turn...\n")
 	## Think for two seconds...
-	await get_tree().create_timer(2.0).timeout
+	#await get_tree().create_timer(2.0).timeout
 	#var choices = enemy_unit.brain.decide(player_unit)
 	enemy_unit.process_turn(player_unit)
 
