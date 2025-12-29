@@ -28,6 +28,7 @@ test_zone = SubResource("Resource_hlbek")
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("2_i4jl2")
+cell_size = Vector3(1, 1, 1)
 
 [node name="SelectHolder" type="Node3D" parent="."]
 
