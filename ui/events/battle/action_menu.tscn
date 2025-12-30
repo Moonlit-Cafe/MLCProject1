@@ -15,6 +15,10 @@ theme_override_constants/margin_bottom = 10
 [node name="MenuActionsContainer" type="VBoxContainer" parent="MenuContainers"]
 layout_mode = 2
 
+[node name="Move" type="Button" parent="MenuContainers/MenuActionsContainer"]
+layout_mode = 2
+text = "Move"
+
 [node name="Actions" type="Button" parent="MenuContainers/MenuActionsContainer"]
 layout_mode = 2
 text = "Actions"
@@ -39,7 +43,17 @@ layout_mode = 2
 layout_mode = 2
 text = "Back"
 
+[node name="MoveContainer" type="VBoxContainer" parent="MenuContainers"]
+visible = false
+layout_mode = 2
+
+[node name="Back" type="Button" parent="MenuContainers/MoveContainer"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="MenuContainers/MenuActionsContainer/Move" to="." method="_on_move_pressed"]
 [connection signal="pressed" from="MenuContainers/MenuActionsContainer/Actions" to="." method="_on_actions_menu_pressed"]
 [connection signal="pressed" from="MenuContainers/MenuActionsContainer/Items" to="." method="_on_items_menu_pressed"]
 [connection signal="pressed" from="MenuContainers/ActionsContainer/Back" to="." method="_on_return_pressed"]
 [connection signal="pressed" from="MenuContainers/ItemsContainer/Back" to="." method="_on_return_pressed"]
+[connection signal="pressed" from="MenuContainers/MoveContainer/Back" to="." method="_on_return_pressed"]

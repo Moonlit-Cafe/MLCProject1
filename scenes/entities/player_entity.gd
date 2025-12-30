@@ -18,11 +18,7 @@ class_name TilePlayer extends TileEntity
 
 
 # TODO implement this
-# use arrows to move for now
+#Player should be able to move to tiles
+	# use arrows to move for now
 	# movin	is moving data to target tile
 	# the clearing OG parent tile
-# Selectability of tiles should be decided by where the player is, instead of the bottom row of the map
-	# find where selectability is decided
-	# chang eit to find the tile with player?
-	# then base it off of that? Somehow?
-	# what about verticality?

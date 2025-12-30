@@ -4,6 +4,7 @@ extends PanelContainer
 @onready var menu_actions : VBoxContainer = $MenuContainers/MenuActionsContainer
 @onready var actions : VBoxContainer = $MenuContainers/ActionsContainer
 @onready var items : VBoxContainer = $MenuContainers/ItemsContainer
+@onready var moves : VBoxContainer = $MenuContainers/MoveContainer
 
 var battle_scene : BaseEventScene
 #endregion
@@ -46,10 +47,17 @@ func _on_items_menu_pressed() -> void:
 	menu_actions.hide()
 	items.show()
 
+func _on_move_pressed() -> void:
+	menu_actions.hide()
+	moves.show()
+	
 func _on_return_pressed() -> void:
 	menu_actions.show()
 	actions.hide()
 	items.hide()
+	moves.hide()
+	
+	
 
 func _on_data_sent(data: Variant) -> void:
 	if data is Action:
