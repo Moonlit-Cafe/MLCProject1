@@ -129,6 +129,9 @@ func determine_selectables() -> void:
 	
 	# TODO: Introduce some more checking on board_area and board later...
 	# TODO this should also have considerations for the shape
+		# could probably make this a function in the shape itself
+		# that creates an array of xy coords based on the player pos
+		# Then the board can validate if any of those positions exist
 	for x in range(board.size()):
 		if x != player_pos.x:
 			continue

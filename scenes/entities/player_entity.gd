@@ -19,6 +19,5 @@ class_name TilePlayer extends TileEntity
 
 # TODO implement this
 #Player should be able to move to tiles
-	# use arrows to move for now
 	# movin	is moving data to target tile
 	# the clearing OG parent tile

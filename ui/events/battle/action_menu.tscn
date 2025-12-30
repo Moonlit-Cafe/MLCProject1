@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cneml13no85su"]
+[gd_scene load_steps=3 format=3 uid="uid://cneml13no85su"]
 
 [ext_resource type="Script" uid="uid://dfxn5xfyvfgbb" path="res://ui/events/battle/action_menu.gd" id="1_t12t3"]
+[ext_resource type="Script" uid="uid://m4dltirsbh7b" path="res://ui/events/battle/move_button.gd" id="2_fqkdn"]
 
 [node name="ActionMenu" type="PanelContainer"]
 script = ExtResource("1_t12t3")
@@ -18,6 +19,8 @@ layout_mode = 2
 [node name="Move" type="Button" parent="MenuContainers/MenuActionsContainer"]
 layout_mode = 2
 text = "Move"
+script = ExtResource("2_fqkdn")
+metadata/_custom_type_script = "uid://d4iv8pvagt7yf"
 
 [node name="Actions" type="Button" parent="MenuContainers/MenuActionsContainer"]
 layout_mode = 2
