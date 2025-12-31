@@ -11,7 +11,13 @@ size = Vector3(1, 0.2, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k5873"]
 render_priority = 0
 shader = ExtResource("4_jsgv4")
-shader_parameter/line_thickness = 0.1
+shader_parameter/thickness = 0.04
+shader_parameter/feather = 0.01
+shader_parameter/dash_repeat = 12.0
+shader_parameter/dash_duty = 0.55
+shader_parameter/speed = 1.0
+shader_parameter/alpha = 1.0
+shader_parameter/selectable_color = Color(0, 1, 0, 1)
 shader_parameter/selected_color = Color(0, 0, 1, 1)
 shader_parameter/adj_color = Color(1, 0, 0, 1)
 
