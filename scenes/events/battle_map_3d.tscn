@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c0hffyiu0s820"]
+[gd_scene load_steps=10 format=3 uid="uid://c0hffyiu0s820"]
 
 [ext_resource type="Script" uid="uid://dp5gy60d8vuyp" path="res://scenes/events/battle_map_3d.gd" id="1_357td"]
 [ext_resource type="Script" uid="uid://duw3psw4s7174" path="res://utility/data_holders/map_boundary.gd" id="2_1s2bw"]
 [ext_resource type="MeshLibrary" uid="uid://kher62vvgh5c" path="res://assets/tilesets/basic_mesh_lib.tres" id="2_i4jl2"]
+[ext_resource type="PackedScene" uid="uid://dgqco5nxf2j7h" path="res://scenes/entities/tile_player.tscn" id="2_uxn2w"]
 [ext_resource type="PackedScene" uid="uid://br1q5ufye6dp7" path="res://mechanics/events/battle/battle_tile.tscn" id="2_x021i"]
 [ext_resource type="Script" uid="uid://sbgc1kqx3sb1" path="res://mechanics/events/battle/zones/zone_resource.gd" id="3_1s2bw"]
 [ext_resource type="Script" uid="uid://b37r4oxby7m2r" path="res://scenes/entities/battle_cam.gd" id="6_hlbek"]
@@ -21,6 +22,7 @@ metadata/_custom_type_script = "uid://sbgc1kqx3sb1"
 
 [node name="BattleMap3D" type="Node3D" node_paths=PackedStringArray("battle_board", "select_holder")]
 script = ExtResource("1_357td")
+player_ref = ExtResource("2_uxn2w")
 battle_board = NodePath("GridMap")
 select_holder = NodePath("SelectHolder")
 b_tile = ExtResource("2_x021i")

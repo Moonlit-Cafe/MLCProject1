@@ -6,6 +6,7 @@ signal end_map
 # TODO: Make BoardLayer a seperate thing so that we can switch maps on the fly.
 # TODO: Make it so random enemies generate and can begin moving and attacking.
 
+@export var player_ref : PackedScene
 @export var battle_board : GridMap
 @export var turn_tracker : Control
 @export var select_holder : Node3D
@@ -23,12 +24,16 @@ var active_enemies : Array[BattleTile] = []
 var board : Dictionary[Vector2i, BattleTile] = {}
 var map_ended : bool = false
 var tile_offset := Vector3(0.5, 1.501, 0.5)
+var player : TilePlayer
+var is_ready = false
 #endregion
 
 #region Events
 func _ready() -> void:
 	if not battle_board:
 		return
+	
+	board_zone.scan_complete.connect(func(): is_ready = true)
 	
 	end_map.connect(func(): map_ended = true)
 	scene = find_parent("BattleScene")
@@ -52,19 +57,32 @@ func _generate_board() -> void:
 	var map : Dictionary[Vector2i, BattleTile] = {}
 	for point in surface_tiles:
 		var new_tile : BattleTile = b_tile.instantiate()
+		new_tile.name = "Tile(%s,%s)" % [point.x, point.z]
 		new_tile.tile_position = point
-		map.set(Vector2i(point.x, point.y), new_tile)
+		map.set(Vector2i(point.x, point.z), new_tile)
 		select_holder.add_child(new_tile)
 		new_tile.position = battle_board.to_global(Vector3(new_tile.tile_position) + tile_offset)
-		new_tile.selectable = true
 	
-	board = map
+	board = map.duplicate()
 
 func init() -> void:
+	if not ready:
+		await board_zone.scan_complete
+	
+	place_player()
+	determine_selectables()
 	#define_enemy_arrays()
 	#generate_turn_order()
 	#battle_loop()
 	pass
+
+func place_player() -> void:
+	player = player_ref.instantiate()
+	
+	var start_point = board_zone.pos + board_zone.size / 2
+	var start_tile = board.get(Vector2i(start_point.x, start_point.y)) as BattleTile
+	print(start_tile.name)
+	start_tile.attach_object(player)
 
 func define_enemy_arrays() -> void:
 	var all_tiles = get_tree().get_nodes_in_group(&"tiles")
@@ -88,27 +106,18 @@ func generate_turn_order() -> void:
 	turn_tracker.turn_list = turn_order
 	turn_tracker.generate_turns()
 
-#func determine_selectables() -> void:
-#	if not select_holder:
-#		return
-#	
-#	for child in select_holder.get_children():
-#		child.selectable = false
-#	
-#	# TODO: Introduce some more checking on board_area and board later...
-#	for x in range(board.size()):
-#		for y in range(board.get(x).size()):
-#			if y >= CombatManager.selected_action.shape.action_range:
-#				break
-#			
-#			var tile = board.get(x).get(board.get(x).size() - (y + 1))
-#			if not tile:
-#				continue
-#			if tile.state == BattleTile.BattleState.OBSTACLE:
-#				tile.selectable = true
-#				break
-#			
-#			tile.selectable = true
+func determine_selectables() -> void:
+	if not select_holder:
+		return
+	
+	for child in select_holder.get_children():
+		child.selectable = false
+	
+	# TODO: Introduce some more checking on board_area and board later...
+	await get_tree().process_frame
+	var detected := await player.get_detected()
+	for tile in detected:
+		tile.selectable = true
 
 func get_tile_at(pos: Vector2i) -> BattleTile:
 	return board.get(pos)

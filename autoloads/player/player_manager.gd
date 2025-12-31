@@ -52,7 +52,6 @@ func regen_combat_stats() -> void:
 	for stat in stats_to_modify.keys():
 		for modifier in stats_to_modify.get(stat):
 			combat_stats.set(stat, combat_stats.get(stat) + modifier)
-	print(combat_stats)
 #endregion
 
 #region Helpers
@@ -82,6 +81,5 @@ func _check_item_sets(stats_mod: Dictionary[Genum.StatType, Array]) -> Dictionar
 				for bonus in item_set.set_bonuses.get(set_i):
 					stats_mod.get(bonus.stat).append(bonus.modify_amount)
 	
-	print(stats_mod)
 	return stats_mod
 #endregion

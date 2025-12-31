@@ -25,7 +25,6 @@ func generate_map(map: GridMap, boundary: MapBoundary) -> void:
 	
 	_get_meshes(map)
 	_get_surface_meshes()
-	print(surface_meshes)
 
 func _get_meshes(map: GridMap) -> void:
 	var mesh_list := map.get_meshes()

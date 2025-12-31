@@ -22,7 +22,7 @@ var max_hp : int = 0
 
 #region Events
 func update() -> void:
-	if sprite:
+	if sprite and char:
 		sprite.sprite_frames = char.frames
 	
 	position = Vector3(0., 8., 0) ## TODO: Need to either settle on an offset, or grab thie from Battle Map
@@ -39,10 +39,7 @@ func commit_action() -> void:
 	await GameGlobal.delay(0.5)
 	parent_tile.turn_finished.emit()
 	
-	
 func get_hp() -> Vector2i:
 	return Vector2i(hp, max_hp)
 	
-	
-
 #endregion

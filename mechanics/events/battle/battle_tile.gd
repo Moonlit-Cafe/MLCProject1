@@ -14,6 +14,13 @@ enum BattleState {
 	PLAYER
 }
 
+enum Highlight {
+	NULL,
+	SELECTABLE,
+	SELECTED,
+	ADJACENT
+}
+
 #@export var select_sprite : AnimatedSprite3D
 @export var packed_entity_reference : Dictionary[StringName, PackedScene]
 
@@ -26,20 +33,20 @@ var tile_position : Vector3i = Vector3i.ZERO
 var selectable : bool = false :
 	set(value):
 		if not value:
-			mesh.set_instance_shader_parameter(&"mode", 0)
+			_set_highlight(Highlight.NULL)
 		else:
-			mesh.set_instance_shader_parameter(&"mode", 1)
+			_set_highlight(Highlight.SELECTABLE)
 		
 		selectable = value
 var highlighted : bool = false :
 	set(value):
-		#if not value:
-		#	if selectable:
-		#		select_sprite.play(&"selectable")
-		#	else:
-		#		select_sprite.play(&"default")
-		#else:
-		#	select_sprite.play(&"selected")
+		if not value:
+			if selectable:
+				_set_highlight(Highlight.SELECTABLE)
+			else:
+				_set_highlight(Highlight.NULL)
+		else:
+			_set_highlight(Highlight.SELECTED)
 		
 		highlighted = value
 var mouse_inside : bool = false
@@ -52,9 +59,6 @@ func _ready() -> void:
 	battle_map = find_parent("BattleMap")
 
 func attach_object(ent: Variant) -> void:
-	if not ent is EnemyCharacter and not ent is ObstacleObject:
-		return
-	
 	if ent is EnemyCharacter:
 		state = BattleState.ENEMY
 		var tile_e : TileEnemy = packed_entity_reference.get(&"enemy").instantiate()
@@ -63,6 +67,12 @@ func attach_object(ent: Variant) -> void:
 		entity_holder.add_child(tile_e)
 		held_entity.update()
 		held_entity.hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
+	elif ent is TilePlayer:
+		state = BattleState.PLAYER
+		held_entity = ent
+		entity_holder.add_child(ent)
+		ent.update()
+		ent.position = Vector3.ZERO
 	else:
 		var tile_o : TileObstacle = packed_entity_reference.get(&"obstacle").instantiate()
 		tile_o.char = ent
@@ -73,7 +83,8 @@ func attach_object(ent: Variant) -> void:
 		held_entity.hp = ent.stats.get(&"hp")
 	
 	held_entity.max_hp = held_entity.hp
-	name = ent.o_name
+	if not (ent is TilePlayer):
+		name = ent.o_name
 	held_entity.parent_tile = self
 	#obj_sprite.sprite_frames = ent.char.frames
 
@@ -126,35 +137,45 @@ func _check_other_tiles() -> void:
 	if enemies == 0:
 		GameGlobalEvents.battle_end.emit()
 
+func _set_highlight(idx: int) -> void:
+	mesh.set_instance_shader_parameter(&"mode", idx)
+
+func _get_highlight() -> int:
+	var ret = mesh.get_instance_shader_parameter(&"mode")
+	if ret is int:
+		return ret
+	else:
+		return Highlight.NULL
+
 func _highlight(ac: Action) -> void:
 	if MouseHandler.selected_tile != null:
 		return
 	
-	#for tile in get_tree().get_nodes_in_group(&"tiles"):
-	#	if tile.highlighted:
-	#		tile.highlighted = false
-	#	
-	#	if tile.select_sprite.animation == &"adj_selected":
-	#		if tile.selectable:
-	#			tile.select_sprite.play(&"selectable")
-	#		else:
-	#			tile.select_sprite.play(&"default")
-	#
-	#if not selectable:
-	#	return
-	#
-	#highlighted = true
-	#if not ac:
-	#	return
-	#
-	#var shape : Array[Vector2i] = ac.shape.shape_pos_arr.duplicate()
-	#shape.erase(Vector2i.ZERO)
-	#for vec in shape:
-	#	for tile in get_tree().get_nodes_in_group(&"tiles"):
-	#		#if not tile.tile_position == tile_position + vec:
-	#		#	continue
-	#		
-	#		tile.select_sprite.play(&"adj_selected")
+	for tile in get_tree().get_nodes_in_group(&"tiles"):
+		if tile.highlighted:
+			tile.highlighted = false
+		
+		if _get_highlight() == Highlight.ADJACENT:
+			if tile.selectable:
+				_set_highlight(Highlight.SELECTABLE)
+			else:
+				_set_highlight(Highlight.NULL)
+	
+	if not selectable:
+		return
+	
+	highlighted = true
+	if not ac:
+		return
+	
+	var shape : Array[Vector2i] = ac.shape.shape_pos_arr.duplicate()
+	shape.erase(Vector2i.ZERO)
+	for vec in shape:
+		for tile in get_tree().get_nodes_in_group(&"tiles"):
+			#if not tile.tile_position == tile_position + vec:
+			#	continue
+			
+			tile._set_highlight(Highlight.ADJACENT)
 #endregion
 
 #region Signal Callbacks

@@ -14,8 +14,6 @@ func init() -> void:
 	load_items(equip_compendium)
 	load_items(weapon_compendium)
 	load_items(powercore_compendium)
-	
-	print(item_reference)
 	# TODO: Put a sort function here to sort the items by id, but also assign IDs in the right order.
 
 func load_items(path: String) -> void:
