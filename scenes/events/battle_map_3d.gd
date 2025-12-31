@@ -71,9 +71,9 @@ func init() -> void:
 	
 	place_player()
 	determine_selectables()
-	#define_enemy_arrays()
-	#generate_turn_order()
-	#battle_loop()
+	define_enemy_arrays()
+	generate_turn_order()
+	battle_loop()
 	pass
 
 func place_player() -> void:
@@ -85,12 +85,11 @@ func place_player() -> void:
 	start_tile.attach_object(player)
 
 func define_enemy_arrays() -> void:
-	var all_tiles = get_tree().get_nodes_in_group(&"tiles")
-	for tile in all_tiles:
+	for tile in board.values():
 		if not tile.state == BattleTile.BattleState.ENEMY:
 			continue
 		
-		match(tile.held_entity.current_state):
+		match(tile.held_entity.char.current_state):
 			EnemyCharacter.EnemyState.ACTIVE:
 				active_enemies.append(tile)
 
@@ -206,28 +205,4 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 		if cur_round < rounds:
 			battle_loop(rounds, cur_round + 1)
 		else:
-			return
-
-#func _check_map_move() -> void:
-#	var last_row : Array[BattleTile]
-#	for x in board:
-#		last_row.append(x.get(x.size() - 1))
-#	
-#	var can_move := true
-#	for tile in last_row:
-#		if tile.state != BattleTile.BattleState.EMPTY:
-#			can_move = false
-#			break
-#	
-#	if can_move:
-#		var pos := Vector2i.ZERO
-#		for x in board:
-#			pos.y = 0
-#			x = DataManipulationHelper.shift_array(x, 1)
-#			for tile in x:
-#				tile.tile_position = Vector3i(pos.x, pos.y, 0)
-#				tile.position = Vector2(pos.x * board_tile_size.x, pos.y * board_tile_size.y) + Vector2(board_tile_size) / 2
-#				pos.y += 1
-#			pos.x += 1
-#		determine_selectables()
-		
+			return 

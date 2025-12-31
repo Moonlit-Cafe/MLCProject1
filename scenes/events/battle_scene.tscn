@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://ui/events/battle/action_menu.tscn" id="4_hmtxi"]
 [ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/events/battle/turn_tracker.tscn" id="4_sou65"]
 [ext_resource type="Script" uid="uid://ca0n281tenyul" path="res://ui/events/battle/hp_panel.gd" id="6_n4nua"]
-[ext_resource type="Texture2D" uid="uid://yb6eq731bn5b" path="res://assets/sprites/ui/CombatUI.png" id="7_gky5j"]
+[ext_resource type="Texture2D" uid="uid://d0ffq0odj30oa" path="res://assets/sprites/ui/CombatUI.png" id="7_gky5j"]
 [ext_resource type="PackedScene" uid="uid://baeasrlqix5l7" path="res://ui/events/battle/ap_tick.tscn" id="7_uvxka"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uvxka"]

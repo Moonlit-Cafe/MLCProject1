@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c0hffyiu0s820"]
+[gd_scene load_steps=11 format=3 uid="uid://c0hffyiu0s820"]
 
 [ext_resource type="Script" uid="uid://dp5gy60d8vuyp" path="res://scenes/events/battle_map_3d.gd" id="1_357td"]
 [ext_resource type="Script" uid="uid://duw3psw4s7174" path="res://utility/data_holders/map_boundary.gd" id="2_1s2bw"]
@@ -19,6 +19,9 @@ zone_id = &"test_zone"
 zone_title = &"Test Zone"
 tile_set = ExtResource("2_i4jl2")
 metadata/_custom_type_script = "uid://sbgc1kqx3sb1"
+
+[sub_resource type="Environment" id="Environment_uxn2w"]
+background_mode = 1
 
 [node name="BattleMap3D" type="Node3D" node_paths=PackedStringArray("battle_board", "select_holder")]
 script = ExtResource("1_357td")
@@ -42,3 +45,6 @@ script = ExtResource("6_hlbek")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 light_energy = 3.62
 light_angular_distance = 24.35
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_uxn2w")

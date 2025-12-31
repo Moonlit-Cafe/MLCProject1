@@ -61,8 +61,8 @@ func _combat_tile_handling(event: InputEventMouseButton) -> void:
 	
 	if event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT and not selected_tile:
 		GameGlobalEvents.battle_tile_selected.emit()
-	elif event.double_click and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
-		GameGlobalEvents.attack_tile.emit()
+	#elif event.double_click and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+	#	GameGlobalEvents.attack_tile.emit()
 	elif event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_RIGHT:
 		if selected_tile:
 			var prev_tile = selected_tile

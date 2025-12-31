@@ -67,6 +67,7 @@ func attach_object(ent: Variant) -> void:
 		entity_holder.add_child(tile_e)
 		held_entity.update()
 		held_entity.hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
+		tile_e.position = Vector3.ZERO
 	elif ent is TilePlayer:
 		state = BattleState.PLAYER
 		held_entity = ent
@@ -81,6 +82,7 @@ func attach_object(ent: Variant) -> void:
 		held_entity.update()
 		state = BattleState.OBSTACLE
 		held_entity.hp = ent.stats.get(&"hp")
+		tile_o.position = Vector3.ZERO
 	
 	held_entity.max_hp = held_entity.hp
 	if not (ent is TilePlayer):
@@ -184,6 +186,7 @@ func _on_gui_input(_camera: Node, event: InputEvent, _event_pos: Vector3, _norma
 		return
 	
 	if event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+		highlighted = true
 		MouseHandler.selected_tile = self
 
 func _on_mouse_entered() -> void:

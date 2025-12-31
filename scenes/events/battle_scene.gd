@@ -34,7 +34,7 @@ func _ready() -> void:
 	#_determine_battle_view_size() # Grabs the size of the 
 	_fill_action_menu()
 	enemy_count = 3
-	#_generate_battle()
+	_generate_battle()
 	
 	battle_board.turn_tracker = turn_tracker
 	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
@@ -84,22 +84,23 @@ func _fill_action_menu() -> void:
 		actions_menu.add_to_items(usable)
 
 # TODO: Fix generation later
-#func _generate_battle() -> void:
-#	var available_spots : Array[Vector2i]
-#	for x in range(battle_board.board_zone.size.x):
-#		for z in range(battle_board.board_zone.size.z):
-#			available_spots.append(Vector2i(x, z))
-#	
-#	for i in range(enemy_count):
-#		var pos = available_spots.pick_random()
-#		available_spots.erase(pos)
-#		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.enemy_compendium.get(0))
-#	
-#	var obstacle_count : int = 2
-#	for i in range(obstacle_count):
-#		var pos = available_spots.pick_random()
-#		available_spots.erase(pos)
-#		battle_board.board.get(pos.x).get(pos.y).attach_object(CombatManager.obstacle_compendium.get(0))
+func _generate_battle() -> void:
+	var available_spots : Array[Vector2i]
+	for tile in battle_board.board.keys():
+		if battle_board.board.get(tile).state == BattleTile.BattleState.EMPTY:
+			available_spots.append(tile)
+	
+	for i in range(enemy_count):
+		var pos = available_spots.pick_random()
+		available_spots.erase(pos)
+		print("Attached enemy on tile %s" % pos)
+		battle_board.board.get(pos).attach_object(CombatManager.enemy_compendium.get(0))
+	
+	var obstacle_count : int = 2
+	for i in range(obstacle_count):
+		var pos = available_spots.pick_random()
+		available_spots.erase(pos)
+		battle_board.board.get(pos).attach_object(CombatManager.obstacle_compendium.get(0))
 
 ## Sets up all the signals within the _ready function
 func _signal_initialization() -> void:
