@@ -90,15 +90,19 @@ func _generate_battle() -> void:
 		if battle_board.board.get(tile).state == BattleTile.BattleState.EMPTY:
 			available_spots.append(tile)
 	
+	var pos = available_spots[20]
+	available_spots.erase(pos)
+	battle_board.board.get(pos.x).get(pos.y).attach_object(PlayerManager.character_data)
+	
 	for i in range(enemy_count):
-		var pos = available_spots.pick_random()
+		pos = available_spots.pick_random()
 		available_spots.erase(pos)
 		print("Attached enemy on tile %s" % pos)
 		battle_board.board.get(pos).attach_object(CombatManager.enemy_compendium.get(0))
 	
 	var obstacle_count : int = 2
 	for i in range(obstacle_count):
-		var pos = available_spots.pick_random()
+		pos = available_spots.pick_random()
 		available_spots.erase(pos)
 		battle_board.board.get(pos).attach_object(CombatManager.obstacle_compendium.get(0))
 

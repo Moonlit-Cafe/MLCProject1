@@ -62,7 +62,7 @@ func attach_object(ent: Variant) -> void:
 	if ent is EnemyCharacter:
 		state = BattleState.ENEMY
 		var tile_e : TileEnemy = packed_entity_reference.get(&"enemy").instantiate()
-		tile_e.char = ent
+		tile_e.character = ent
 		held_entity = tile_e
 		entity_holder.add_child(tile_e)
 		held_entity.update()
@@ -76,13 +76,25 @@ func attach_object(ent: Variant) -> void:
 		ent.position = Vector3.ZERO
 	else:
 		var tile_o : TileObstacle = packed_entity_reference.get(&"obstacle").instantiate()
-		tile_o.char = ent
+		tile_o.character = ent
 		held_entity = tile_o
 		entity_holder.add_child(tile_o)
 		held_entity.update()
 		state = BattleState.OBSTACLE
 		held_entity.hp = ent.stats.get(&"hp")
 		tile_o.position = Vector3.ZERO
+#		held_entity.hp = ent.stats.get(&"hp")
+#	elif ent is PlayerCharacter:
+#		state = BattleState.PLAYER
+#		var tile_p : TilePlayer = packed_entity_reference.get(&"player").instantiate()
+#		tile_p.character = ent
+#		held_entity = tile_p
+#		entity_holder.add_child(tile_p)
+#		held_entity.update()
+#		held_entity.hp = ent.stats.get(&"hp")
+#		PlayerManager.occupied_tile = self
+#	else:
+#		return
 	
 	held_entity.max_hp = held_entity.hp
 	if not (ent is TilePlayer):
@@ -105,9 +117,15 @@ func clear_object() -> void:
 func defend(ac: Action) -> void:
 	var tiles = _get_all_tiles_in_shape(ac.shape)
 	for tile in tiles:
+		if ac is MoveAction:
+			var source:BattleTile = PlayerManager.occupied_tile
+			attach_object(PlayerManager.character_data)
+			source.clear_object()
+			# TODO this probably doesnt let player track stats like HP
+			return
 		if tile.state == BattleState.EMPTY:
 			continue
-		tile.held_entity.hp -= tile.held_entity.char.defend(ac)
+		tile.held_entity.hp -= tile.held_entity.character.defend(ac)
 
 func get_hp() -> Vector2i:
 	return held_entity.get_hp() 

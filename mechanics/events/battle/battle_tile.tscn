@@ -29,7 +29,8 @@ size = Vector2(1, 1)
 script = ExtResource("1_msxig")
 packed_entity_reference = Dictionary[StringName, PackedScene]({
 &"enemy": ExtResource("2_k5873"),
-&"obstacle": ExtResource("3_q5ya1")
+&"obstacle": ExtResource("3_q5ya1"),
+&"player": ExtResource("4_gi8ni")
 })
 
 [node name="EntityHolder" type="Node3D" parent="."]
