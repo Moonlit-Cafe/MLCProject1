@@ -30,6 +30,7 @@ var combat_stats := stats
 var available_skills : Array[Action] = []
 var position : Vector2i = Vector2i.ZERO
 @export var character_data : PlayerCharacter
+var occupied_tile:BattleTile
 #endregion
 
 #region Publics

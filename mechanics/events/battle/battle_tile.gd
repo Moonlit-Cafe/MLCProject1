@@ -75,6 +75,7 @@ func attach_object(ent: Variant) -> void:
 		entity_holder.add_child(tile_p)
 		held_entity.update()
 		held_entity.hp = ent.stats.get(&"hp")
+		PlayerManager.occupied_tile = self
 	else:
 		return
 	
@@ -98,6 +99,12 @@ func clear_object() -> void:
 func defend(ac: Action) -> void:
 	var tiles = _get_all_tiles_in_shape(ac.shape)
 	for tile in tiles:
+		if ac is MoveAction:
+			var source:BattleTile = PlayerManager.occupied_tile
+			attach_object(PlayerManager.character_data)
+			source.clear_object()
+			# TODO this probably doesnt let player track stats like HP
+			return
 		if tile.state == BattleState.EMPTY:
 			continue
 		tile.held_entity.hp -= tile.held_entity.character.defend(ac)
