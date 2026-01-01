@@ -58,49 +58,28 @@ func _ready() -> void:
 	add_to_group(&"tiles")
 	battle_map = find_parent("BattleMap")
 
-func attach_object(ent: Variant) -> void:
-	if ent is EnemyCharacter:
-		state = BattleState.ENEMY
-		var tile_e : TileEnemy = packed_entity_reference.get(&"enemy").instantiate()
-		tile_e.character = ent
-		held_entity = tile_e
-		entity_holder.add_child(tile_e)
-		held_entity.update()
-		held_entity.hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
-		tile_e.position = Vector3.ZERO
-	elif ent is TilePlayer:
+func attach_object(ent: CharacterResource) -> void:
+	var tile := _gen_tile_entity(ent)
+	
+	if ent is PlayerCharacter:
 		state = BattleState.PLAYER
-		held_entity = ent
-		entity_holder.add_child(ent)
-		ent.update()
-		ent.position = Vector3.ZERO
-	else:
-		var tile_o : TileObstacle = packed_entity_reference.get(&"obstacle").instantiate()
-		tile_o.character = ent
-		held_entity = tile_o
-		entity_holder.add_child(tile_o)
-		held_entity.update()
+		PlayerManager.occupied_tile = self
+	elif ent is EnemyCharacter:
+		state = BattleState.ENEMY
+	elif ent is ObstacleObject:
 		state = BattleState.OBSTACLE
-		held_entity.hp = ent.stats.get(&"hp")
-		tile_o.position = Vector3.ZERO
-#		held_entity.hp = ent.stats.get(&"hp")
-#	elif ent is PlayerCharacter:
-#		state = BattleState.PLAYER
-#		var tile_p : TilePlayer = packed_entity_reference.get(&"player").instantiate()
-#		tile_p.character = ent
-#		held_entity = tile_p
-#		entity_holder.add_child(tile_p)
-#		held_entity.update()
-#		held_entity.hp = ent.stats.get(&"hp")
-#		PlayerManager.occupied_tile = self
-#	else:
-#		return
+	
+	tile.character = ent
+	tile.character.init()
+	held_entity = tile
+	held_entity.hp = tile.character.stats.get(&"hp")
+	entity_holder.add_child(tile)
+	held_entity.update()
+	tile.position = Vector3.ZERO
 	
 	held_entity.max_hp = held_entity.hp
-	if not (ent is TilePlayer):
-		name = ent.o_name
+	name = held_entity.character.o_name
 	held_entity.parent_tile = self
-	#obj_sprite.sprite_frames = ent.char.frames
 
 func clear_object() -> void:
 	if not held_entity:
@@ -109,7 +88,7 @@ func clear_object() -> void:
 	held_entity.queue_free()
 	held_entity = null
 	GameGlobalEvents.battle_removed.emit(self)
-	name = "(%s, %s)" % [tile_position.x, tile_position.y]
+	name = "(%s, %s)" % [tile_position.x, tile_position.z]
 	state = BattleState.EMPTY
 	_check_other_tiles()
 
@@ -133,6 +112,16 @@ func get_hp() -> Vector2i:
 func refresh_highlight() -> void:
 	if mouse_inside:
 		_highlight(CombatManager.selected_action)
+
+func _gen_tile_entity(ent: CharacterResource) -> TileEntity:
+	if ent is PlayerCharacter:
+		return packed_entity_reference.get(&"player").instantiate()
+	elif ent is EnemyCharacter:
+		return packed_entity_reference.get(&"enemy").instantiate()
+	elif ent is ObstacleObject:
+		return packed_entity_reference.get(&"obstacle").instantiate()
+	else:
+		return null
 
 func _get_all_tiles_in_shape(ac: ActionShape) -> Array[BattleTile]:
 	var tiles_returned : Array[BattleTile] = []

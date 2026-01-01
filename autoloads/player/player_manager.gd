@@ -1,6 +1,8 @@
 extends Node
 
 #region Declarations
+@export var character_data : PlayerCharacter
+
 var hp : int = 10 :
 	set(value):
 		if value <= 0:
@@ -29,8 +31,7 @@ var stats : Dictionary[Genum.StatType, int] = {
 var combat_stats := stats
 var available_skills : Array[Action] = []
 var position : Vector2i = Vector2i.ZERO
-@export var character_data : PlayerCharacter
-var occupied_tile:BattleTile
+var occupied_tile : BattleTile
 #endregion
 
 #region Publics

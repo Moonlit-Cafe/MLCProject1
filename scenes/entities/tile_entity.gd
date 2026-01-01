@@ -3,7 +3,7 @@ class_name TileEntity extends Node3D
 #region Declarations
 @export var sprite : AnimatedSprite3D
 
-var char : Variant
+var character : CharacterResource
 var parent_tile : BattleTile
 
 var hp : int = -1 :

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://br1q5ufye6dp7"]
+[gd_scene load_steps=9 format=3 uid="uid://br1q5ufye6dp7"]
 
 [ext_resource type="Script" uid="uid://j4fp64n1btw6" path="res://mechanics/events/battle/battle_tile.gd" id="1_msxig"]
 [ext_resource type="PackedScene" uid="uid://xklg5gjudy1b" path="res://scenes/entities/tile_enemy.tscn" id="2_k5873"]
 [ext_resource type="PackedScene" uid="uid://nui0n8cj5g2o" path="res://scenes/entities/tile_obstacle.tscn" id="3_q5ya1"]
 [ext_resource type="Shader" uid="uid://bly0r8f25lksm" path="res://assets/shaders/tiles/highlight.gdshader" id="4_jsgv4"]
+[ext_resource type="PackedScene" uid="uid://dgqco5nxf2j7h" path="res://scenes/entities/tile_player.tscn" id="4_k5873"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jsgv4"]
 size = Vector3(1, 0.2, 1)
@@ -30,7 +31,7 @@ script = ExtResource("1_msxig")
 packed_entity_reference = Dictionary[StringName, PackedScene]({
 &"enemy": ExtResource("2_k5873"),
 &"obstacle": ExtResource("3_q5ya1"),
-&"player": ExtResource("4_gi8ni")
+&"player": ExtResource("4_k5873")
 })
 
 [node name="EntityHolder" type="Node3D" parent="."]

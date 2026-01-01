@@ -90,21 +90,23 @@ func _generate_battle() -> void:
 		if battle_board.board.get(tile).state == BattleTile.BattleState.EMPTY:
 			available_spots.append(tile)
 	
-	var pos = available_spots[20]
-	available_spots.erase(pos)
-	battle_board.board.get(pos.x).get(pos.y).attach_object(PlayerManager.character_data)
+	var start_pos = (battle_board.board_zone.size / 2) + battle_board.board_zone.pos - Vector3i.ONE
+	start_pos = Vector2i(start_pos.x, start_pos.z)
+	available_spots.erase(start_pos)
+	battle_board.board.get(start_pos).attach_object(PlayerManager.character_data)
+	battle_board.player = battle_board.board.get(start_pos).held_entity
 	
 	for i in range(enemy_count):
-		pos = available_spots.pick_random()
-		available_spots.erase(pos)
-		print("Attached enemy on tile %s" % pos)
-		battle_board.board.get(pos).attach_object(CombatManager.enemy_compendium.get(0))
+		start_pos = available_spots.pick_random()
+		available_spots.erase(start_pos)
+		print("Attached enemy on tile %s" % start_pos)
+		battle_board.board.get(start_pos).attach_object(CombatManager.enemy_compendium.get(0))
 	
 	var obstacle_count : int = 2
 	for i in range(obstacle_count):
-		pos = available_spots.pick_random()
-		available_spots.erase(pos)
-		battle_board.board.get(pos).attach_object(CombatManager.obstacle_compendium.get(0))
+		start_pos = available_spots.pick_random()
+		available_spots.erase(start_pos)
+		battle_board.board.get(start_pos).attach_object(CombatManager.obstacle_compendium.get(0))
 
 ## Sets up all the signals within the _ready function
 func _signal_initialization() -> void:

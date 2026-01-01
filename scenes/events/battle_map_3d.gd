@@ -69,27 +69,18 @@ func init() -> void:
 	if not ready:
 		await board_zone.scan_complete
 	
-	place_player()
 	determine_selectables()
 	define_enemy_arrays()
 	generate_turn_order()
 	battle_loop()
 	pass
 
-func place_player() -> void:
-	player = player_ref.instantiate()
-	
-	var start_point = board_zone.pos + board_zone.size / 2
-	var start_tile = board.get(Vector2i(start_point.x, start_point.y)) as BattleTile
-	print(start_tile.name)
-	start_tile.attach_object(player)
-
 func define_enemy_arrays() -> void:
 	for tile in board.values():
 		if not tile.state == BattleTile.BattleState.ENEMY:
 			continue
 		
-		match(tile.held_entity.char.current_state):
+		match(tile.held_entity.character.current_state):
 			EnemyCharacter.EnemyState.ACTIVE:
 				active_enemies.append(tile)
 
