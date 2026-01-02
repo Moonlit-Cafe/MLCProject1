@@ -110,6 +110,16 @@ func _update_hp_label() -> void:
 	enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.hp
 #endregion
 
+#region Helpers
+func action_on_tiles(tile: BattleTile, action: Action) -> void:
+	var tile_pos := tile.tile_position
+	var center_pos := Vector2i(tile_pos.x, tile_pos.z)
+	var tiles := battle_board.grab_other_tiles(action.shape.shape_pos_arr.duplicate(), center_pos)
+	tile.defend(action)
+	for other_tile in tiles:
+		other_tile.defend(action)
+#endregion
+
 #region Signal Callbacks
 func _on_pressed() -> void:
 	SceneManager.load_next_scene()
@@ -126,7 +136,6 @@ func _attack_tile() -> void:
 	MouseHandler.selected_tile.defend(CombatManager.selected_action)
 	MouseHandler.selected_tile = null
 	battle_board.determine_selectables()
-	get_tree().call_group(&"tiles", "refresh_highlight")
 	CombatManager.player_turn = false
 	GameGlobalEvents.player_turn.emit()
 

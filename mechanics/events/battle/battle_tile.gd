@@ -92,19 +92,15 @@ func clear_object() -> void:
 	state = BattleState.EMPTY
 	_check_other_tiles()
 
-
 func defend(ac: Action) -> void:
-	var tiles = _get_all_tiles_in_shape(ac.shape)
-	for tile in tiles:
-		if ac is MoveAction:
-			var source:BattleTile = PlayerManager.occupied_tile
-			attach_object(PlayerManager.character_data)
-			source.clear_object()
-			# TODO this probably doesnt let player track stats like HP
-			return
-		if tile.state == BattleState.EMPTY:
-			continue
-		tile.held_entity.hp -= tile.held_entity.character.defend(ac)
+	if ac is MoveAction:
+		var source:BattleTile = PlayerManager.occupied_tile
+		attach_object(PlayerManager.character_data)
+		source.clear_object()
+		# TODO this probably doesnt let player track stats like HP
+		return
+	
+	held_entity.hp -= held_entity.character.defend(ac)
 
 func get_hp() -> Vector2i:
 	return held_entity.get_hp() 
@@ -122,19 +118,6 @@ func _gen_tile_entity(ent: CharacterResource) -> TileEntity:
 		return packed_entity_reference.get(&"obstacle").instantiate()
 	else:
 		return null
-
-func _get_all_tiles_in_shape(ac: ActionShape) -> Array[BattleTile]:
-	var tiles_returned : Array[BattleTile] = []
-	if not battle_map:
-		for tile in get_tree().get_nodes_in_group(&"tiles"):
-			if (tile.tile_position - tile_position) in ac.shape_pos_arr:
-				tiles_returned.append(tile)
-	else:
-		for tile_pos in ac.shape_pos_arr:
-			var pos_2d := Vector2i(tile_position.x, tile_position.y)
-			tiles_returned.append(battle_map.get_tile_at(tile_pos + pos_2d))
-	
-	return tiles_returned
 
 func _check_other_tiles() -> void:
 	var enemies : int = 0

@@ -57,7 +57,6 @@ func _on_return_pressed() -> void:
 	items.hide()
 	moves.hide()
 	
-	
 
 func _on_data_sent(data: Variant) -> void:
 	if data is Action:

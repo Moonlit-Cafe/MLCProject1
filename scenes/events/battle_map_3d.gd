@@ -168,6 +168,16 @@ func get_tile_data(pos: Vector3) -> int:
 		return GridMap.INVALID_CELL_ITEM
 	
 	return battle_board.get_cell_item(battle_board.local_to_map(pos))
+
+func grab_other_tiles(tiles_to_grab: Array[Vector2i], center_pos) -> Array[BattleTile]:
+	var ret_arr : Array[BattleTile] = []
+	if Vector2i.ZERO in tiles_to_grab:
+		tiles_to_grab.erase(Vector2i.ZERO)
+	
+	for tile in tiles_to_grab:
+		ret_arr.append(board.get(tile + center_pos))
+	
+	return ret_arr
 #endregion
 
 func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
