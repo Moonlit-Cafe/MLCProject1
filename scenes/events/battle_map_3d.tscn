@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dgqco5nxf2j7h" path="res://scenes/entities/tile_player.tscn" id="2_uxn2w"]
 [ext_resource type="PackedScene" uid="uid://br1q5ufye6dp7" path="res://mechanics/events/battle/battle_tile.tscn" id="2_x021i"]
 [ext_resource type="Script" uid="uid://sbgc1kqx3sb1" path="res://mechanics/events/battle/zones/zone_resource.gd" id="3_1s2bw"]
-[ext_resource type="Script" uid="uid://b37r4oxby7m2r" path="res://scenes/entities/battle_cam.gd" id="6_hlbek"]
+[ext_resource type="PackedScene" uid="uid://cfykw172ltxx1" path="res://scenes/entities/battle_cam.tscn" id="7_uxn2w"]
 
 [sub_resource type="Resource" id="Resource_x021i"]
 script = ExtResource("2_1s2bw")
@@ -38,9 +38,7 @@ cell_size = Vector3(1, 1, 1)
 
 [node name="SelectHolder" type="Node3D" parent="."]
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
-script = ExtResource("6_hlbek")
+[node name="BattleCam" parent="." instance=ExtResource("7_uxn2w")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 light_energy = 3.62

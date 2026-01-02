@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfykw172ltxx1"]
+
+[ext_resource type="Script" uid="uid://b37r4oxby7m2r" path="res://scenes/entities/battle_cam.gd" id="1_5a6j0"]
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_4wjde"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_5a6j0")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+collision_mask = 2
+shape = SubResource("SeparationRayShape3D_4wjde")
+spring_length = 10.0
+
+[node name="BattleCam" type="Camera3D" parent="SpringArm3D"]
+projection = 1
+size = 8.0
+
+[node name="Timer" type="Timer" parent="."]

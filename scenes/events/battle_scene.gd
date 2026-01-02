@@ -45,36 +45,6 @@ func _ready() -> void:
 	CombatManager.selected_action = PlayerManager.available_skills[0]  ## Just testing auto selecting first action as the "first action in the players available skills"
 	hp_container.update_ticks(Vector3i(1, 0, 0))
 
-## Grab the size of the battle map and viewport for resizing within the scene.
-#func _determine_battle_view_size() -> void:
-#	if not battle_viewport:
-#		push_warning("There is no viewport to change...")
-#		return
-#	
-#	# TODO: This is currently hard-coded, need to extrapolate later...
-#	var board_size = battle_board.board_area.size
-#	var map_min = mini(board_size.x, board_size.y)
-#	var map_max = maxi(board_size.x, board_size.y)
-#	var l = map_max * battle_board.board_tile_size.x
-#	var l_delta = l
-#	var m = 1.
-#	var h_len = get_window().size.x * .4
-#	while l < h_len:
-#		m += 1
-#		l = l_delta * m
-#	
-#	# TODO: Optimize this later, it's clunky and assumes y-len > x-len
-#	var h_size = l / get_window().size.x
-#	var v_size = l / get_window().size.y
-#	battle_viewport.anchor_top = (1 - v_size) / 2.
-#	battle_viewport.anchor_bottom = 1 - ((1 - v_size) / 2.)
-#	battle_viewport.anchor_left = (1 - h_size) / 2.
-#	battle_viewport.anchor_right = 1 - ((1 - h_size) / 2.)
-#	battle_viewport.stretch = true
-#	battle_viewport.stretch_shrink = int(m)
-#	@warning_ignore("integer_division")
-#	battle_board.position += Vector2((map_max - map_min) / 2, 0) * battle_board.board_tile_size.x
-
 # TODO: Replace with ActionMenu Functionality
 func _fill_action_menu() -> void:
 	for action in PlayerManager.available_skills:

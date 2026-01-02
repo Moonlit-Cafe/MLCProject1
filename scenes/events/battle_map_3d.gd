@@ -14,7 +14,7 @@ signal end_map
 @export var board_zone : MapBoundary
 @export var test_zone : ZoneResource
 
-@onready var camera : Camera3D = $Camera3D
+@onready var camera : BattleCam = $BattleCam
 
 # TODO: Change the entire scene to be a background with a custom grid definition 
 # TODO: With the custom grid definition, selection should be possible with a gui_input over the whole map
@@ -105,6 +105,7 @@ func determine_selectables() -> void:
 	
 	# TODO: Introduce some more checking on board_area and board later...
 	await get_tree().process_frame
+	player.range = CombatManager.selected_action.shape.action_range
 	var detected := await player.get_detected()
 	for tile in detected:
 		tile.selectable = true
