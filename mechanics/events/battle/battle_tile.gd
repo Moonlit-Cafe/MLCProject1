@@ -81,6 +81,17 @@ func attach_object(ent: CharacterResource) -> void:
 	name = held_entity.character.o_name
 	held_entity.parent_tile = self
 
+func attach_entity(entity: TileEntity) -> void:
+	if held_entity:
+		return
+	
+	var source = entity.get_parent()
+	source.remove_child(entity)
+	entity.parent_tile.held_entity = null
+	entity_holder.add_child(entity)
+	entity.position = Vector3.ZERO
+	held_entity = entity
+
 func clear_object() -> void:
 	if not held_entity:
 		return

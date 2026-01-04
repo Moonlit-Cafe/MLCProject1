@@ -8,6 +8,7 @@ class_name BattleCam extends Node3D
 @export var linear_zoom_speed : float = 16.
 @export var linear_zoom_limits := Vector2(2, 16)
 @export var timer_delay : float = 0.2
+@export var ray_length : float = 50.
 
 @onready var spring_arm : SpringArm3D = $SpringArm3D
 @onready var camera : Camera3D = $SpringArm3D/BattleCam
@@ -30,8 +31,30 @@ func _ready() -> void:
 	timer.timeout.connect(_on_timer_timeout)
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		var tile = _raycast_tile()
+		if not tile:
+			return
+		
+		if not tile.selectable:
+			return
+		
+		if MouseHandler.hovered_tile != tile and MouseHandler.hovered_tile != null:
+			MouseHandler.hovered_tile.highlighted = false
+		
+		MouseHandler.hovered_tile = tile
+		tile.highlighted = true
+	
 	if not event is InputEventMouseButton:
 		return
+	
+	if event.is_action_pressed("mouse_action"):
+		# TODO: Might wanna change this later
+		var tile = _raycast_tile()
+		MouseHandler.selected_tile = tile
+		if CombatManager.moving and tile != null:
+			tile.attach_entity(PlayerManager.occupied_tile.held_entity)
+			PlayerManager.occupied_tile = tile
 	
 	if Input.is_action_pressed(&"zoom_in"):
 		camera.size -= linear_zoom_speed * get_physics_process_delta_time()
@@ -48,6 +71,27 @@ func init(center: Vector3) -> void:
 	_generate_positions()
 	spring_arm.rotation_degrees.x = -45
 	x_rotation_range = Vector2(-deg_to_rad(x_rotation_range.x), -deg_to_rad(x_rotation_range.y))
+
+func _raycast_tile() -> BattleTile:
+	var space_state := camera.get_world_3d().direct_space_state
+	var query := PhysicsRayQueryParameters3D.new()
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	query.collision_mask = 0x0002 # Layer 2
+	
+	var mouse_pos := get_viewport().get_mouse_position()
+	var from := camera.project_ray_origin(mouse_pos)
+	var to := from + camera.project_ray_normal(mouse_pos) * ray_length
+	query.from = from
+	query.to = to
+	
+	var result : Dictionary = space_state.intersect_ray(query)
+	if result.has("collider"):
+		var collider : Area3D = result.get("collider")
+		var tile : BattleTile = collider.get_parent()
+		return tile
+	return null
+	
 #endregion
 
 #region Processes
@@ -79,7 +123,6 @@ func _cam_movement(delta: float) -> void:
 		elif spring_arm.rotation.x < x_rotation_range.y:
 			spring_arm.rotation.x = x_rotation_range.y
 		spring_arm.rotate_x(x_angular_speed * delta * rot_dir.y)
-	
 
 func _generate_positions() -> void:
 	var factor : float = 2. / position_count

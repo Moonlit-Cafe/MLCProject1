@@ -24,15 +24,15 @@ text = "Actions"
 layout_mode = 2
 text = "Items"
 
-[node name="ActionsContainer" type="VBoxContainer" parent="MenuContainers"]
-visible = false
-layout_mode = 2
-
-[node name="Move" type="Button" parent="MenuContainers/ActionsContainer"]
+[node name="Move" type="Button" parent="MenuContainers/MenuActionsContainer"]
 layout_mode = 2
 text = "Move"
 script = ExtResource("2_fqkdn")
 metadata/_custom_type_script = "uid://d4iv8pvagt7yf"
+
+[node name="ActionsContainer" type="VBoxContainer" parent="MenuContainers"]
+visible = false
+layout_mode = 2
 
 [node name="Back" type="Button" parent="MenuContainers/ActionsContainer"]
 layout_mode = 2
@@ -56,7 +56,8 @@ text = "Back"
 
 [connection signal="pressed" from="MenuContainers/MenuActionsContainer/Actions" to="." method="_on_actions_menu_pressed"]
 [connection signal="pressed" from="MenuContainers/MenuActionsContainer/Items" to="." method="_on_items_menu_pressed"]
-[connection signal="send_data" from="MenuContainers/ActionsContainer/Move" to="." method="_on_data_sent"]
+[connection signal="pressed" from="MenuContainers/MenuActionsContainer/Move" to="." method="_on_move_pressed"]
+[connection signal="send_data" from="MenuContainers/MenuActionsContainer/Move" to="." method="_on_data_sent"]
 [connection signal="pressed" from="MenuContainers/ActionsContainer/Back" to="." method="_on_return_pressed"]
 [connection signal="pressed" from="MenuContainers/ItemsContainer/Back" to="." method="_on_return_pressed"]
 [connection signal="pressed" from="MenuContainers/MoveContainer/Back" to="." method="_on_return_pressed"]

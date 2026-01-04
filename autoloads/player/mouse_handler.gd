@@ -10,6 +10,7 @@ var prior_slot : InventorySlot
 var hovered_slot : InventorySlot
 # Variables for combat handling
 var selected_tile : BattleTile
+var hovered_tile : BattleTile
 #endregion
 
 # TODO: There seems to be some problem with the mouse that causes it to not register

@@ -48,10 +48,12 @@ func _on_items_menu_pressed() -> void:
 	items.show()
 
 func _on_move_pressed() -> void:
+	CombatManager.moving = true
 	menu_actions.hide()
 	moves.show()
 	
 func _on_return_pressed() -> void:
+	CombatManager.moving = false
 	menu_actions.show()
 	actions.hide()
 	items.hide()
