@@ -161,7 +161,7 @@ func _clear_tiles_only() -> void:
 func _new_shape() -> void:
 	_clear_grid()
 	if shapes_list:
-		shapes_list.unselect_all()
+		shapes_list.deselect_all()
 	_set_status("Started a new shape.")
 
 func _save_shape() -> void:

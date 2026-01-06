@@ -7,11 +7,11 @@ var haste : int
 
 #region Events
 func update() -> void:
-	if not char:
+	if not character:
 		push_error("Error: There is no enemy to update on node %s." % name)
 		return
 	
-	haste = char.haste
+	haste = character.haste
 	
 	super()
 #endregion

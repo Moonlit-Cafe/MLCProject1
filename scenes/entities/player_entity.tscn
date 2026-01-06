@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvesunmn7urwp"]
+
+[ext_resource type="Script" uid="uid://bw3anuuky5svv" path="res://scenes/entities/player_entity.gd" id="1_jrk8v"]
+
+[node name="TileEntity" type="Node2D" node_paths=PackedStringArray("sprite")]
+script = ExtResource("1_jrk8v")
+sprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
