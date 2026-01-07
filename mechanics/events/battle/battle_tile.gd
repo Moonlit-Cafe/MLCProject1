@@ -20,17 +20,6 @@ enum BattleState {
 @onready var entity_holder : Node2D = $EntityHolder
 
 var battle_map : Node2D
-var hp : int = -1 :
-	set(value):
-		if not held_entity:
-			return
-		
-		if value <= 0:
-			clear_object()
-			hp = -1
-		else:
-			hp = value
-var max_hp : int = 0
 var held_entity : TileEntity
 var tile_position : Vector3i = Vector3i.ZERO
 var selectable : bool = false :
@@ -62,30 +51,38 @@ func _ready() -> void:
 	battle_map = find_parent("BattleMap")
 
 func attach_object(ent: Variant) -> void:
-	if not ent is EnemyCharacter and not ent is ObstacleObject:
-		return
-	
 	if ent is EnemyCharacter:
 		state = BattleState.ENEMY
 		var tile_e : TileEnemy = packed_entity_reference.get(&"enemy").instantiate()
-		tile_e.char = ent
+		tile_e.character = ent
 		held_entity = tile_e
 		entity_holder.add_child(tile_e)
 		held_entity.update()
-		hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
-	else:
+		held_entity.hp = ent.stats.get(&"hp") * (CombatManager.difficulty_modifier * ent.stats_scaling.get(&"hp"))
+	elif ent is ObstacleObject:
 		var tile_o : TileObstacle = packed_entity_reference.get(&"obstacle").instantiate()
-		tile_o.char = ent
+		tile_o.character = ent
 		held_entity = tile_o
 		entity_holder.add_child(tile_o)
 		held_entity.update()
 		state = BattleState.OBSTACLE
-		hp = ent.stats.get(&"hp")
+		held_entity.hp = ent.stats.get(&"hp")
+	elif ent is PlayerCharacter:
+		state = BattleState.PLAYER
+		var tile_p : TilePlayer = packed_entity_reference.get(&"player").instantiate()
+		tile_p.character = ent
+		held_entity = tile_p
+		entity_holder.add_child(tile_p)
+		held_entity.update()
+		held_entity.hp = ent.stats.get(&"hp")
+		PlayerManager.occupied_tile = self
+	else:
+		return
 	
-	max_hp = hp
-	
+	held_entity.max_hp = held_entity.hp
 	name = ent.o_name
-	#obj_sprite.sprite_frames = ent.char.frames
+	held_entity.parent_tile = self
+	#obj_sprite.sprite_frames = ent.character.frames
 
 func clear_object() -> void:
 	if not held_entity:
@@ -98,26 +95,22 @@ func clear_object() -> void:
 	state = BattleState.EMPTY
 	_check_other_tiles()
 
-func commit_action() -> void:
-	attack()
-	await GameGlobal.delay(0.5)
-	turn_finished.emit()
-
-func attack() -> void:
-	if state != BattleState.ENEMY:
-		return
-	
-	PlayerManager.hp -= held_entity.char.attack()
 
 func defend(ac: Action) -> void:
 	var tiles = _get_all_tiles_in_shape(ac.shape)
 	for tile in tiles:
+		if ac is MoveAction:
+			var source:BattleTile = PlayerManager.occupied_tile
+			attach_object(PlayerManager.character_data)
+			source.clear_object()
+			# TODO this probably doesnt let player track stats like HP
+			return
 		if tile.state == BattleState.EMPTY:
 			continue
-		tile.hp -= tile.held_entity.char.defend(ac)
+		tile.held_entity.hp -= tile.held_entity.character.defend(ac)
 
 func get_hp() -> Vector2i:
-	return Vector2i(hp, max_hp)
+	return held_entity.get_hp() 
 
 func refresh_highlight() -> void:
 	if mouse_inside:

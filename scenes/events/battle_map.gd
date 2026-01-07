@@ -46,6 +46,16 @@ func find_top_left_corner() -> Vector2i:
 				return Vector2i(x, y)
 	
 	return Vector2i(search_range.x - 1, search_range.y + 1)
+	
+func find_player() -> Vector2i:
+	for x in range(0, board.size()):
+		for y in range(0, board[x].size()):
+			var ent = board[x][y].held_entity
+			if ent:
+				if ent.character.o_name == &"Player":
+					return Vector2i(x,y)
+	
+	return Vector2i(search_range.x - 1, search_range.y + 1)
 
 func determine_board(init_pos: Vector2i) -> Rect2i:
 	var area := Vector2i.ZERO
@@ -115,8 +125,17 @@ func determine_selectables() -> void:
 	for child in select_holder.get_children():
 		child.selectable = false
 	
+	var player_pos:Vector2i = find_player()
+	
 	# TODO: Introduce some more checking on board_area and board later...
+	# TODO this should also have considerations for the shape
+		# could probably make this a function in the shape itself
+		# that creates an array of xy coords based on the player pos
+		# Then the board can validate if any of those positions exist
 	for x in range(board.size()):
+		if x != player_pos.x:
+			continue
+			
 		for y in range(board.get(x).size()):
 			if y >= CombatManager.selected_action.shape.action_range:
 				break
@@ -201,7 +220,7 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 			turn_tracker.reorder_turns()
 			continue
 		
-		actor.commit_action()
+		actor.held_entity.commit_action()
 		await actor.turn_finished
 		turn_tracker.reorder_turns()
 		if map_ended:
