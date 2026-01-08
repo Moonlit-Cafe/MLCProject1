@@ -1,8 +1,9 @@
 ## Handles all things related to skills.
-extends Node
+class_name SkillManager extends Node
 
 #region Declarations
 @export_file("*.json") var action_file : String
+@export_file("*.json") var action_shapes : String
 @export var set_compendium : Array[ItemSet]
 
 var ac_shape_array : Array[ActionShape]
@@ -16,17 +17,34 @@ func _ready() -> void:
 	
 	# Remove later
 	PlayerManager.available_skills.append(all_actions.get(0))
+	
+	print("Initialized: SkillManager")
 
 ## Generates all the actions shapes available for action usage.
 func _define_shapes() -> void:
+	if not action_shapes:
+		push_error("@SkillManager: There are no action shapes file attached")
+		return
+	var file = FileAccess.open(action_shapes, FileAccess.READ)
+	var data = JSON.parse_string(file.get_as_text())
+	if not data:
+		push_warning("@SkillManager: Something is wrong with Shapes file format")
+		return
+	
 	# Single Target Shape Definition
-	var st_shape := ActionShape.new()
-	st_shape.generate_shape(&"single_target", [Vector2i.ZERO], 4)
+	for shape in data.keys():
+		var shape_data = data.get(shape)
+		
+		var new_shape := ActionShape.new()
+		var id = shape_data.get("id")
+		var positions : Array[Vector2i] = []
+		for position in shape_data.get("positions"):
+			positions.append(Vector2i(int(position.get(0)), int(position.get(1))))
+		var a_range = shape_data.get("range")
+		new_shape.generate_shape(id, positions, a_range)
 	
-	# Start adding in all the shapes
-	ac_shape_array.append(st_shape)
-	
-	## TODO: Add more shapes here
+		# Start adding in all the shapes
+		ac_shape_array.append(new_shape)
 
 ## After generating the action shapes, this method generates the actions themselves from file.
 func _define_actions() -> void:

@@ -1,4 +1,4 @@
-class_name EnemyCharacter extends Resource
+class_name EnemyCharacter extends CharacterResource
 
 #region Declarations
 enum AIType {
@@ -16,15 +16,13 @@ enum EnemyState {
 	SUPPORT
 }
 
-@export var o_name : StringName ## The name of the enemy type
 @export var haste : int = 10 ## How fast the enemy is
 ## The base stats of the enemy
-@export var stats : Dictionary[StringName, int] = {
-	&"hp" : 10,
-	&"p_def": 0,
-	&"m_def": 0,
-	&"p_atk": 1,
-	&"m_atk": 0,
+@export var enemy_stats : Dictionary[StringName, float] = {
+	&"p_def": 0.,
+	&"m_def": 0.,
+	&"p_atk": 1.,
+	&"m_atk": 0.,
 }
 ## The rate at which the enemy's stats scale with difficulty
 @export var stats_scaling : Dictionary[StringName, float] = {
@@ -38,10 +36,13 @@ enum EnemyState {
 @export var ai_type : AIType = AIType.NULL ## The type of AI the enemy uses
 @export var current_state : EnemyState = EnemyState.ACTIVE ## The type of unit this enemy is
 # TODO: Later, need to standardize the animation scheme for the enemies
-@export var frames : SpriteFrames ## The visual animations of the enemy
 #endregion
 
 #region Events
+func init() -> void:
+	super()
+	_build_stats(enemy_stats)
+
 ## Used when the enemy is attacking.
 func attack() -> int:
 	# TODO: Will later use consideration system to potentially separate the attack types.

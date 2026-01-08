@@ -1,7 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://s2lvh6a0pcqp"]
+[gd_scene load_steps=3 format=3 uid="uid://cfykw172ltxx1"]
 
-[ext_resource type="Script" uid="uid://b37r4oxby7m2r" path="res://scenes/entities/battle_cam.gd" id="1_4wjde"]
+[ext_resource type="Script" uid="uid://b37r4oxby7m2r" path="res://scenes/entities/battle_cam.gd" id="1_5a6j0"]
 
-[node name="BattleCam" type="Camera2D"]
-zoom = Vector2(2, 2)
-script = ExtResource("1_4wjde")
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_4wjde"]
+
+[node name="BattleCam" type="Node3D"]
+script = ExtResource("1_5a6j0")
+bounds = Rect2(0.1, 0.1, 0.9, 0.9)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+collision_mask = 2
+shape = SubResource("SeparationRayShape3D_4wjde")
+spring_length = 10.0
+
+[node name="BattleCam" type="Camera3D" parent="SpringArm3D"]
+projection = 1
+size = 8.0
+
+[node name="Timer" type="Timer" parent="."]

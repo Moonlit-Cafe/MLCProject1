@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://dgqco5nxf2j7h"]
+
+[ext_resource type="PackedScene" uid="uid://dnhen0hl8o0bv" path="res://scenes/entities/tile_entity.tscn" id="1_o8bxy"]
+[ext_resource type="Script" uid="uid://bijxvfbqe43q4" path="res://scenes/entities/tile_player.gd" id="2_5pd5b"]
+[ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://assets/sprites/characters/character_1_frame16x20.png" id="3_ayvag"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kc8yn"]
+atlas = ExtResource("3_ayvag")
+region = Rect2(0, 0, 13, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_st76g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kc8yn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_o8bxy"]
+
+[node name="TilePlayer" instance=ExtResource("1_o8bxy")]
+script = ExtResource("2_5pd5b")
+default_range = 2.0
+
+[node name="AnimatedSprite3D" parent="." index="0"]
+texture_filter = 2
+sprite_frames = SubResource("SpriteFrames_st76g")
+
+[node name="DetectionSphere" type="Area3D" parent="." index="1"]
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionSphere" index="0"]
+shape = SubResource("SphereShape3D_o8bxy")

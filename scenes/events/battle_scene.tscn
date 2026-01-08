@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://ksmkpfann6ie"]
 
 [ext_resource type="Script" uid="uid://bin8ph5h6xhm0" path="res://scenes/events/battle_scene.gd" id="1_w5vvb"]
-[ext_resource type="PackedScene" uid="uid://340482dtf03o" path="res://scenes/events/battle_map.tscn" id="3_gky5j"]
+[ext_resource type="PackedScene" uid="uid://c0hffyiu0s820" path="res://scenes/events/battle_map_3d.tscn" id="3_gky5j"]
 [ext_resource type="PackedScene" uid="uid://b71p3f76aob3l" path="res://ui/events/battle/battle_log.tscn" id="4_dgmmm"]
 [ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://ui/events/battle/action_menu.tscn" id="4_hmtxi"]
 [ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/events/battle/turn_tracker.tscn" id="4_sou65"]
@@ -17,118 +17,94 @@ region = Rect2(0, 8, 113, 5)
 atlas = ExtResource("7_gky5j")
 region = Rect2(0, 13, 113, 5)
 
-[node name="BattleScene" type="Control" node_paths=PackedStringArray("battle_viewport", "hp_label")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="BattleScene" type="Node" node_paths=PackedStringArray("hp_label")]
 script = ExtResource("1_w5vvb")
-battle_viewport = NodePath("SubViewportContainer")
-hp_label = NodePath("hp_label")
+hp_label = NodePath("CanvasLayer/hp_label")
 
-[node name="TurnTracker" parent="." instance=ExtResource("4_sou65")]
-layout_mode = 1
+[node name="BattleMap3D" parent="." node_paths=PackedStringArray("turn_tracker") instance=ExtResource("3_gky5j")]
+turn_tracker = NodePath("../CanvasLayer/TurnTracker")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TurnTracker" parent="CanvasLayer" instance=ExtResource("4_sou65")]
 mouse_filter = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-layout_mode = 1
-stretch = true
-stretch_shrink = 3
-
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
-disable_3d = true
-handle_input_locally = false
-physics_object_picking = true
-size = Vector2i(2, 2)
-render_target_update_mode = 4
-
-[node name="BattleMap" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_gky5j")]
-
-[node name="InfoPanel" type="MarginContainer" parent="."]
-layout_mode = 1
+[node name="InfoPanel" type="MarginContainer" parent="CanvasLayer"]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
+offset_left = -135.0
+offset_top = -68.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="InfoPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/InfoPanel"]
 layout_mode = 2
 alignment = 2
 
-[node name="BattleLog" parent="InfoPanel/VBoxContainer" instance=ExtResource("4_dgmmm")]
+[node name="BattleLog" parent="CanvasLayer/InfoPanel/VBoxContainer" instance=ExtResource("4_dgmmm")]
 layout_mode = 2
 
-[node name="EnemyInfo" type="VBoxContainer" parent="InfoPanel/VBoxContainer"]
+[node name="EnemyInfo" type="VBoxContainer" parent="CanvasLayer/InfoPanel/VBoxContainer"]
 layout_mode = 2
 
-[node name="EnemyName" type="Label" parent="InfoPanel/VBoxContainer/EnemyInfo"]
+[node name="EnemyName" type="Label" parent="CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo"]
 layout_mode = 2
 
-[node name="HealthBar" type="ProgressBar" parent="InfoPanel/VBoxContainer/EnemyInfo"]
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo"]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 fill_mode = 1
 
-[node name="ActionMenu" parent="." instance=ExtResource("4_hmtxi")]
-layout_mode = 1
+[node name="ActionMenu" parent="CanvasLayer" instance=ExtResource("4_hmtxi")]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -51.0
+offset_top = -86.0
 offset_right = 85.0
 grow_vertical = 0
 
-[node name="hp_label" type="Label" parent="."]
+[node name="hp_label" type="Label" parent="CanvasLayer"]
 visible = false
-layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 1
+[node name="Button" type="Button" parent="CanvasLayer"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -8.0
-offset_right = 4.0
+offset_left = -54.0
+offset_top = -31.0
+offset_right = 54.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Action Select"
 
-[node name="HPContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
+[node name="HPContainer" type="MarginContainer" parent="CanvasLayer"]
+offset_right = 123.0
 offset_bottom = 40.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HPContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HPContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 script = ExtResource("6_n4nua")
 tick_scene = ExtResource("7_uvxka")
 
-[node name="APBar" type="HBoxContainer" parent="HPContainer/VBoxContainer"]
+[node name="APBar" type="HBoxContainer" parent="CanvasLayer/HPContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HPBar" type="TextureProgressBar" parent="HPContainer/VBoxContainer"]
+[node name="HPBar" type="TextureProgressBar" parent="CanvasLayer/HPContainer/VBoxContainer"]
 layout_mode = 2
 texture_over = SubResource("AtlasTexture_uvxka")
 
-[node name="ResBar" type="TextureProgressBar" parent="HPContainer/VBoxContainer"]
+[node name="ResBar" type="TextureProgressBar" parent="CanvasLayer/HPContainer/VBoxContainer"]
 layout_mode = 2
 texture_over = SubResource("AtlasTexture_bt28h")
-
-[connection signal="pressed" from="Button" to="." method="_on_attack_pressed"]

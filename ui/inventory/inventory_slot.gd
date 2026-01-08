@@ -30,7 +30,6 @@ func _ready() -> void:
 func generate_item(i_name: StringName, count : int = 1) -> void:
 	var node : ItemNode = item_node.instantiate()
 	node.item = CraftManager.find_item(i_name.to_snake_case())
-	print(node.item.i_name)
 	node.count = count
 	add_child(node)
 	held_item = node

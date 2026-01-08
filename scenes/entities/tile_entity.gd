@@ -1,9 +1,9 @@
-class_name TileEntity extends Node2D
+class_name TileEntity extends Node3D
 
 #region Declarations
-@export var sprite : AnimatedSprite2D
+@export var sprite : AnimatedSprite3D
 
-var character : Variant
+var character : CharacterResource
 var parent_tile : BattleTile
 
 var hp : int = -1 :
@@ -18,14 +18,29 @@ var hp : int = -1 :
 		else:
 			hp = value
 var max_hp : int = 0
+#var character : Variant
+#var parent_tile : BattleTile
+#
+#var hp : int = -1 :
+#	set(value):
+#		#if not held_entity:
+#			#return
+#		
+#		if value <= 0:
+#			# PLANNED setup signal instead of double get_parent() call
+#			parent_tile.clear_object()
+#			hp = -1
+#		else:
+#			hp = value
+#var max_hp : int = 0
 #endregion
 
 #region Events
 func update() -> void:
-	if sprite:
+	if sprite and char:
 		sprite.sprite_frames = character.frames
 	
-	position = Vector2(0., 8.) ## TODO: Need to either settle on an offset, or grab thie from Battle Map
+	position = Vector3(0., 8., 0) ## TODO: Need to either settle on an offset, or grab thie from Battle Map
 	
 	
 func attack() -> void:
@@ -39,10 +54,7 @@ func commit_action() -> void:
 	await GameGlobal.delay(0.5)
 	parent_tile.turn_finished.emit()
 	
-	
 func get_hp() -> Vector2i:
 	return Vector2i(hp, max_hp)
 	
-	
-
 #endregion

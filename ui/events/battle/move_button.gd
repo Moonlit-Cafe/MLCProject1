@@ -6,7 +6,5 @@ func _ready() -> void:
 	data.shape = ActionShape.new()
 	# HACK magic numbers
 	# should pull from PlayerManager
-	data.shape = SkillManager.ac_shape_array[0]
-
-
+	data.shape = CombatManager.skill_manager.ac_shape_array[0]
 #endregion

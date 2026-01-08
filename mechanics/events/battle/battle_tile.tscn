@@ -1,88 +1,184 @@
-[gd_scene load_steps=13 format=3 uid="uid://br1q5ufye6dp7"]
+[gd_scene load_steps=24 format=3 uid="uid://br1q5ufye6dp7"]
 
 [ext_resource type="Script" uid="uid://j4fp64n1btw6" path="res://mechanics/events/battle/battle_tile.gd" id="1_msxig"]
-[ext_resource type="Texture2D" uid="uid://bkrq0pdnvffoj" path="res://assets/sprites/tiles/selected_char.png" id="2_jsgv4"]
 [ext_resource type="PackedScene" uid="uid://xklg5gjudy1b" path="res://scenes/entities/tile_enemy.tscn" id="2_k5873"]
-[ext_resource type="Texture2D" uid="uid://b88aq2346tk0v" path="res://assets/sprites/empty.png" id="3_bvqvx"]
 [ext_resource type="PackedScene" uid="uid://nui0n8cj5g2o" path="res://scenes/entities/tile_obstacle.tscn" id="3_q5ya1"]
-[ext_resource type="PackedScene" uid="uid://cvesunmn7urwp" path="res://scenes/entities/player_entity.tscn" id="4_gi8ni"]
-[ext_resource type="Texture2D" uid="uid://bb0us2b616h64" path="res://assets/sprites/tiles/select_char.png" id="4_k5873"]
+[ext_resource type="PackedScene" uid="uid://dgqco5nxf2j7h" path="res://scenes/entities/tile_player.tscn" id="4_k5873"]
+[ext_resource type="Texture2D" uid="uid://cirq0h1gvntej" path="res://assets/sprites/empty.png" id="5_iccr6"]
+[ext_resource type="Texture2D" uid="uid://cw5cgob7oaiv" path="res://assets/sprites/tiles/Fade.png" id="6_8ubjv"]
+[ext_resource type="Texture2D" uid="uid://b2kbc7eft01ny" path="res://assets/sprites/tiles/Spin.png" id="7_eu0ew"]
+[ext_resource type="Texture2D" uid="uid://bhexu13tn6fww" path="res://assets/sprites/tiles/Still.png" id="8_3fyv0"]
+[ext_resource type="Texture2D" uid="uid://broa7dhkd64o5" path="res://assets/sprites/tiles/Selected.png" id="9_x8x7b"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q5ya1"]
-atlas = ExtResource("2_jsgv4")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gi8ni"]
-atlas = ExtResource("4_k5873")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_36gti"]
-atlas = ExtResource("4_k5873")
-region = Rect2(0, 0, 16, 16)
+[sub_resource type="BoxShape3D" id="BoxShape3D_jsgv4"]
+size = Vector3(1, 0.2, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iccr6"]
-atlas = ExtResource("2_jsgv4")
-region = Rect2(0, 0, 16, 16)
+atlas = ExtResource("6_8ubjv")
+region = Rect2(0, 0, 144, 144)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_bvqvx"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ubjv"]
+atlas = ExtResource("6_8ubjv")
+region = Rect2(144, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eu0ew"]
+atlas = ExtResource("6_8ubjv")
+region = Rect2(288, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fyv0"]
+atlas = ExtResource("6_8ubjv")
+region = Rect2(432, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0drp"]
+atlas = ExtResource("7_eu0ew")
+region = Rect2(0, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mxib"]
+atlas = ExtResource("7_eu0ew")
+region = Rect2(144, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrxht"]
+atlas = ExtResource("7_eu0ew")
+region = Rect2(288, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0flc1"]
+atlas = ExtResource("7_eu0ew")
+region = Rect2(432, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nlh8u"]
+atlas = ExtResource("9_x8x7b")
+region = Rect2(0, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjogm"]
+atlas = ExtResource("9_x8x7b")
+region = Rect2(144, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmm16"]
+atlas = ExtResource("9_x8x7b")
+region = Rect2(288, 0, 144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hge86"]
+atlas = ExtResource("9_x8x7b")
+region = Rect2(432, 0, 144, 144)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hni26"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_q5ya1")
-}],
-"loop": true,
-"name": &"adj_selected",
-"speed": 5.0
+"texture": ExtResource("5_iccr6")
 }, {
-"frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_bvqvx")
+"texture": ExtResource("5_iccr6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_iccr6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_iccr6")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gi8ni")
-}],
-"loop": true,
-"name": &"selectable",
-"speed": 0.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_36gti")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_iccr6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ubjv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eu0ew")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3fyv0")
+}],
+"loop": true,
+"name": &"selectable_fade",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0drp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mxib")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xrxht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0flc1")
+}],
+"loop": true,
+"name": &"selectable_spin",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_3fyv0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3fyv0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3fyv0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3fyv0")
+}],
+"loop": true,
+"name": &"selectable_still",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nlh8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cjogm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmm16")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hge86")
 }],
 "loop": true,
 "name": &"selected",
-"speed": 2.0
+"speed": 8.0
 }]
 
-[node name="BattleTile" type="Node2D" node_paths=PackedStringArray("select_sprite")]
+[node name="BattleTile" type="Node3D"]
 script = ExtResource("1_msxig")
-select_sprite = NodePath("SelectableSprite")
 packed_entity_reference = Dictionary[StringName, PackedScene]({
 &"enemy": ExtResource("2_k5873"),
 &"obstacle": ExtResource("3_q5ya1"),
-&"player": ExtResource("4_gi8ni")
+&"player": ExtResource("4_k5873")
+})
+selection_colors = Dictionary[int, Color]({
+0: Color(0, 0, 0, 0),
+1: Color(0, 0.6745098, 1, 1),
+2: Color(0, 0.93333334, 0.15686275, 1),
+3: Color(0.8509804, 0, 0, 1)
 })
 
-[node name="SelectableSprite" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_bvqvx")
-animation = &"adj_selected"
+[node name="EntityHolder" type="Node3D" parent="."]
 
-[node name="EntityHolder" type="Node2D" parent="."]
-position = Vector2(0, -8)
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+collision_layer = 3
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9802322e-08, 0)
+shape = SubResource("BoxShape3D_jsgv4")
 
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Area2D"]
-polygon = PackedVector2Array(0, 8, 16, 0, 0, -8, -16, 0)
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.5, 0)
+pixel_size = 0.007
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_hni26")
+animation = &"selectable_fade"
+frame_progress = 0.40813005
 
-[connection signal="input_event" from="Area2D" to="." method="_on_gui_input"]
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_mouse_exited"]
+[connection signal="input_event" from="Area3D" to="." method="_on_gui_input"]
