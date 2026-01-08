@@ -1,6 +1,8 @@
 extends Node
 
 #region Declarations
+@export var character_data : PlayerCharacter
+
 var hp : int = 10 :
 	set(value):
 		if value <= 0:
@@ -29,8 +31,7 @@ var stats : Dictionary[Genum.StatType, int] = {
 var combat_stats := stats
 var available_skills : Array[Action] = []
 var position : Vector2i = Vector2i.ZERO
-@export var character_data : PlayerCharacter
-var occupied_tile:BattleTile
+var occupied_tile : BattleTile
 #endregion
 
 #region Publics
@@ -54,7 +55,6 @@ func regen_combat_stats() -> void:
 	for stat in stats_to_modify.keys():
 		for modifier in stats_to_modify.get(stat):
 			combat_stats.set(stat, combat_stats.get(stat) + modifier)
-	print(combat_stats)
 #endregion
 
 #region Helpers
@@ -72,7 +72,7 @@ func _check_item_sets(stats_mod: Dictionary[Genum.StatType, Array]) -> Dictionar
 	
 	for i_set in sets.keys():
 		var item_set : ItemSet
-		for ref_set in SkillManager.set_compendium:
+		for ref_set in CombatManager.skill_manager.set_compendium:
 			if ref_set.set_id == i_set:
 				item_set = ref_set
 		
@@ -84,7 +84,6 @@ func _check_item_sets(stats_mod: Dictionary[Genum.StatType, Array]) -> Dictionar
 				for bonus in item_set.set_bonuses.get(set_i):
 					stats_mod.get(bonus.stat).append(bonus.modify_amount)
 	
-	print(stats_mod)
 	return stats_mod
 #endregion
 

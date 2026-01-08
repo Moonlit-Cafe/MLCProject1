@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bh5bax0128ecw"]
+
+[ext_resource type="Shader" uid="uid://ckbixxhi26t82" path="res://assets/shaders/tiles/single_color.gdshader" id="1_gxjxm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f4pmr"]
+render_priority = 0
+shader = ExtResource("1_gxjxm")
+shader_parameter/color = Color(0.051479973, 0.54, 0.043199994, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3fdye"]
+material = SubResource("ShaderMaterial_f4pmr")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gxjxm"]
+
+[node name="Grass" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_3fdye")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_gxjxm")

@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bytx0id1j8bji" path="res://scenes/entities/tile_entity.gd" id="1_fnnd0"]
 
-[node name="TileEntity" type="Node2D" node_paths=PackedStringArray("sprite")]
+[node name="TileEntity" type="Node3D" node_paths=PackedStringArray("sprite")]
 script = ExtResource("1_fnnd0")
-sprite = NodePath("AnimatedSprite2D")
+sprite = NodePath("AnimatedSprite3D")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+billboard = 1

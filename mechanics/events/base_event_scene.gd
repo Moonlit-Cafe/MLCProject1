@@ -1,5 +1,5 @@
 # BaseEventScene.gd - Base class for all event scenes
-class_name BaseEventScene extends Control
+class_name BaseEventScene extends Node
 
 var scene_data: Dictionary
 signal scene_completed(result: Dictionary)
