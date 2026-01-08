@@ -4,8 +4,9 @@
 
 [sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_4wjde"]
 
-[node name="Node3D" type="Node3D"]
+[node name="BattleCam" type="Node3D"]
 script = ExtResource("1_5a6j0")
+bounds = Rect2(0.1, 0.1, 0.9, 0.9)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="."]
 collision_mask = 2

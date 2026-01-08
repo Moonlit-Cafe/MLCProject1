@@ -4,11 +4,12 @@ class_name BattleCam extends Node3D
 @export_range(1., 16., 1.) var position_count : int = 8
 @export var x_rotation_range := Vector2(30, 70)
 @export var x_angular_speed : float = PI / 8.
-@export var linear_move_speed : float = 20.
+@export var linear_move_speed : float = 5.
 @export var linear_zoom_speed : float = 16.
 @export var linear_zoom_limits := Vector2(2, 16)
 @export var timer_delay : float = 0.2
 @export var ray_length : float = 50.
+@export var bounds : Rect2
 
 @onready var spring_arm : SpringArm3D = $SpringArm3D
 @onready var camera : Camera3D = $SpringArm3D/BattleCam
@@ -40,6 +41,7 @@ func _input(event: InputEvent) -> void:
 		
 		if not tile.selectable:
 			return
+		
 		
 		if MouseHandler.selected_tile != null:
 			return
@@ -121,6 +123,23 @@ func _cam_input() -> void:
 	mov_dir = Input.get_axis(&"cam_backward", &"cam_forward")
 
 func _cam_movement(delta: float) -> void:
+	if bounds != Rect2(0., 0., 0., 0.):
+		# TODO: Get this to detect if it's over gui, worst case is a dead zone.
+		var rel_pos : Vector2 = get_viewport().get_mouse_position() / Vector2(DisplayServer.window_get_size(0))
+		var rel_dir := Vector3.ZERO
+		if rel_pos.x < bounds.position.x:
+			rel_dir.x = -linear_move_speed
+		elif rel_pos.x > bounds.size.x:
+			rel_dir.x = linear_move_speed
+		
+		if rel_pos.y < bounds.position.y:
+			rel_dir.z = -linear_move_speed
+		elif rel_pos.y > bounds.size.y:
+			rel_dir.z = linear_move_speed
+		
+		
+		position += rel_dir.rotated(Vector3.UP, rotation.y) * delta
+	
 	if rot_dir.x != 0 and can_swivel:
 		var next_position : int = current_position + rot_dir.x
 		if next_position >= available_positions.size():
