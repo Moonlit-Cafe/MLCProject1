@@ -12,6 +12,7 @@ uniform float alpha = 1.0;
 uniform vec4 selectable_color : source_color = vec4(0., 1., 0., 1.);
 uniform vec4 selected_color : source_color = vec4(0., 0., 1., 1.);
 uniform vec4 adj_color : source_color = vec4(1., 0., 0., 1.);
+uniform sampler2D tex;
 instance uniform int mode : hint_enum("Unselected", "Selectable", "Selected", "Adjacent") = 0;
 
 float dash_pattern(float t) {

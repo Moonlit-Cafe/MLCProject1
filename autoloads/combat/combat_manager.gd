@@ -28,11 +28,13 @@ var player_turn : bool = true ## Is it currently the player's turn?
 var skill_manager : SkillManager ## The skill manager node
 var zone_manager : ZoneManager ## The zone manager node
 var moving : bool = false
+var tile_signal_pool : SignalPooler
 #endregion
 
 #region Events
 func _ready() -> void:
 	_instantiate_managers()
+	tile_signal_pool = SignalPooler.new()
 
 ## Updates the game's difficulty, if [param can_increase] is true, then will auto increment [br]
 ## the level_number.

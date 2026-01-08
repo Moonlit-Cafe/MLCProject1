@@ -24,11 +24,13 @@ var can_swivel : bool = true:
 		can_swivel = value
 var available_positions : Dictionary[int, Vector3] = {}
 var current_position : int = 0
+var battle_board : BattleMap3D
 #endregion
 
 #region Events
 func _ready() -> void:
 	timer.timeout.connect(_on_timer_timeout)
+	battle_board = get_parent()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -39,22 +41,37 @@ func _input(event: InputEvent) -> void:
 		if not tile.selectable:
 			return
 		
+		if MouseHandler.selected_tile != null:
+			return
+		
 		if MouseHandler.hovered_tile != tile and MouseHandler.hovered_tile != null:
 			MouseHandler.hovered_tile.highlighted = false
 		
+		for p_tile in battle_board.board.values():
+			if p_tile.highlighted:
+				p_tile.highlighted = false
+		
 		MouseHandler.hovered_tile = tile
 		tile.highlighted = true
+		if CombatManager.selected_action != null:
+			var tile_pos := Vector2i(tile.tile_position.x, tile.tile_position.z)
+			for pos in CombatManager.selected_action.shape.shape_pos_arr:
+				var adj_tile : BattleTile = battle_board.board.get(tile_pos + pos)
+				adj_tile.highlighted = true
 	
 	if not event is InputEventMouseButton:
 		return
 	
-	if event.is_action_pressed("mouse_action"):
+	if event.is_action_pressed(&"select"):
 		# TODO: Might wanna change this later
 		var tile = _raycast_tile()
 		MouseHandler.selected_tile = tile
 		if CombatManager.moving and tile != null:
 			tile.attach_entity(PlayerManager.occupied_tile.held_entity)
 			PlayerManager.occupied_tile = tile
+	elif event.is_action_pressed(&"deselect"):
+		MouseHandler.selected_tile = null
+		# TODO: Extrapolate the highlight block to be used after this line
 	
 	if Input.is_action_pressed(&"zoom_in"):
 		camera.size -= linear_zoom_speed * get_physics_process_delta_time()

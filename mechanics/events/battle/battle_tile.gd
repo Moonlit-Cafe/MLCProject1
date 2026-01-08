@@ -23,9 +23,11 @@ enum Highlight {
 
 #@export var select_sprite : AnimatedSprite3D
 @export var packed_entity_reference : Dictionary[StringName, PackedScene]
+@export var selection_colors : Dictionary[Highlight, Color]
 
 @onready var entity_holder : Node3D = $EntityHolder
-@onready var mesh : MeshInstance3D = $MeshInstance3D
+@onready var select_sprite : AnimatedSprite3D = $AnimatedSprite3D
+#@onready var mesh : MeshInstance3D = $MeshInstance3D
 
 var battle_map : Node2D
 var held_entity : TileEntity
@@ -46,16 +48,19 @@ var highlighted : bool = false :
 			else:
 				_set_highlight(Highlight.NULL)
 		else:
-			_set_highlight(Highlight.SELECTED)
+			if self == MouseHandler.hovered_tile:
+				_set_highlight(Highlight.SELECTED)
+			else:
+				_set_highlight(Highlight.ADJACENT)
 		
 		highlighted = value
-var mouse_inside : bool = false
 var state : BattleState
 #endregion
 
 #region Events
 func _ready() -> void:
 	add_to_group(&"tiles")
+	CombatManager.tile_signal_pool.add_to_group("tiles", self)
 	battle_map = find_parent("BattleMap")
 
 func attach_object(ent: CharacterResource) -> void:
@@ -104,21 +109,11 @@ func clear_object() -> void:
 	_check_other_tiles()
 
 func defend(ac: Action) -> void:
-	if ac is MoveAction:
-		var source:BattleTile = PlayerManager.occupied_tile
-		attach_object(PlayerManager.character_data)
-		source.clear_object()
-		# TODO this probably doesnt let player track stats like HP
-		return
-	
+	# TODO: Comeback to this
 	held_entity.hp -= held_entity.character.defend(ac)
 
 func get_hp() -> Vector2i:
 	return held_entity.get_hp() 
-
-func refresh_highlight() -> void:
-	if mouse_inside:
-		_highlight(CombatManager.selected_action)
 
 func _gen_tile_entity(ent: CharacterResource) -> TileEntity:
 	if ent is PlayerCharacter:
@@ -141,14 +136,32 @@ func _check_other_tiles() -> void:
 		GameGlobalEvents.battle_end.emit()
 
 func _set_highlight(idx: int) -> void:
-	mesh.set_instance_shader_parameter(&"mode", idx)
+	#mesh.set_instance_shader_parameter(&"mode", idx)
+	var frame : int = select_sprite.get_frame()
+	var progress : float = select_sprite.get_frame_progress()
+	match (idx):
+		Highlight.NULL:
+			select_sprite.play("default")
+			select_sprite.modulate = selection_colors.get(Highlight.NULL)
+		Highlight.SELECTABLE:
+			select_sprite.play("selectable_still")
+			select_sprite.set_frame_and_progress(frame, progress)
+			select_sprite.modulate = selection_colors.get(Highlight.SELECTABLE)
+		Highlight.SELECTED:
+			select_sprite.play("selected")
+			select_sprite.modulate = selection_colors.get(Highlight.SELECTED)
+		Highlight.ADJACENT:
+			select_sprite.play("selectable_fade")
+			select_sprite.set_frame_and_progress(frame, progress)
+			select_sprite.modulate = selection_colors.get(Highlight.ADJACENT)
 
 func _get_highlight() -> int:
-	var ret = mesh.get_instance_shader_parameter(&"mode")
-	if ret is int:
-		return ret
-	else:
-		return Highlight.NULL
+	#var ret = mesh.get_instance_shader_parameter(&"mode")
+	#if ret is int:
+	#	return ret
+	#else:
+	#	return Highlight.NULL
+	return 0
 
 func _highlight(ac: Action) -> void:
 	if MouseHandler.selected_tile != null:
@@ -189,14 +202,4 @@ func _on_gui_input(_camera: Node, event: InputEvent, _event_pos: Vector3, _norma
 	if event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
 		highlighted = true
 		MouseHandler.selected_tile = self
-
-func _on_mouse_entered() -> void:
-	if not CombatManager.selected_action:
-		return
-	
-	mouse_inside = true
-	_highlight(CombatManager.selected_action)
-
-func _on_mouse_exited() -> void:
-	mouse_inside = false
 #endregion

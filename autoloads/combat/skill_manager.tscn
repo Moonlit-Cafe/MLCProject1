@@ -20,4 +20,5 @@ metadata/_custom_type_script = "uid://dkcl8fxjwm4oj"
 [node name="SkillManager" type="Node"]
 script = ExtResource("1_efu6c")
 action_file = "res://mechanics/events/battle/actions/actions.json"
+action_shapes = "res://assets/data/attack_shapes.json"
 set_compendium = Array[ExtResource("2_36nui")]([SubResource("Resource_un5it")])

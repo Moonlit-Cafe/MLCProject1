@@ -178,6 +178,52 @@ func grab_other_tiles(tiles_to_grab: Array[Vector2i], center_pos) -> Array[Battl
 		ret_arr.append(board.get(tile + center_pos))
 	
 	return ret_arr
+
+func check_tile_empty(pos: Vector2i) -> bool:
+	if not check_tile_exists(pos):
+		return false
+	
+	var tile : BattleTile = board.get(pos)
+	
+	if not tile.held_entity:
+		return true
+	return false
+
+func check_tile_exists(pos: Vector2i) -> bool:
+	if not pos in board.keys():
+		return false
+	return true
+
+func move_to_tile(cur_pos: Vector2i, dir: Vector2i) -> void:
+	var source_tile : BattleTile = board.get(cur_pos)
+	if not check_tile_empty(cur_pos + dir):
+		return
+	
+	var target_tile : BattleTile = board.get(cur_pos + dir)
+	target_tile.attach_entity(source_tile.held_entity)
+
+func dir_to_player(pos: Vector2i) -> Vector2i:
+	var source_tile : BattleTile = board.get(pos)
+	var player_tile : BattleTile = PlayerManager.occupied_tile
+	var x_dist : int = player_tile.tile_position.x - source_tile.tile_position.x
+	var z_dist : int = player_tile.tile_position.z - source_tile.tile_position.z
+	
+	if abs(x_dist) > abs(z_dist):
+		if x_dist > 0:
+			return Vector2i(1, 0)
+		return Vector2i(-1, 0)
+	else:
+		if z_dist > 0:
+			return Vector2i(0, 1)
+		return Vector2i(0, -1)
+
+func dist_to_player(pos: Vector2i) -> float:
+	var source_tile : BattleTile = board.get(pos)
+	var player_tile : BattleTile = PlayerManager.occupied_tile
+	var x_dist : int = player_tile.tile_position.x - source_tile.tile_position.x
+	var z_dist : int = player_tile.tile_position.z - source_tile.tile_position.z
+	var distance = Vector2i(x_dist, z_dist).length()
+	return distance
 #endregion
 
 func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
