@@ -50,7 +50,7 @@ func clean_up() -> void:
 	selected_action = null
 
 func _instantiate_managers() -> void:
-	if not skill_manager_scene and zone_manager_scene:
+	if not skill_manager_scene or not zone_manager_scene:
 		return
 	
 	print("Initializing: Combat sub-managers")
