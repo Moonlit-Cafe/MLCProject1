@@ -8,6 +8,11 @@
 
 config_version=5
 
+[addons]
+
+"Signal Lens/resize_panel_on_open"=false
+"Signal Lens/height_to_resize_to"=400.0
+
 [application]
 
 config/name="GameJamTemplate"

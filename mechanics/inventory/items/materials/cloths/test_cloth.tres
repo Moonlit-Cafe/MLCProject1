@@ -4,13 +4,8 @@
 
 [resource]
 script = ExtResource("1_drfpq")
-material_type = 0
 i_name = &"Test Cloth"
-id = 4
-value = 0
 tags = Array[int]([0])
 texture = Vector2i(12, 12)
 tooltip = "Just a piece of generic, no textured cloth!"
-tier = 0
-max_stack_size = 99
 metadata/_custom_type_script = "uid://4icxts2q6dqg"

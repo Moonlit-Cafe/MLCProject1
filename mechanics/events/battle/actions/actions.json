@@ -1,4 +1,10 @@
 {
+	"basic_attack": {
+		"name": "Basic Attack",
+		"shape": "single_target",
+		"damage_type": 0.0,
+		"value": 2.0
+	},
 	"fire_bolt": {
 		"name": "Fire Bolt",
 		"shape": "x_shape",
