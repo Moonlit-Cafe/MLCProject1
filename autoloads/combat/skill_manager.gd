@@ -61,14 +61,7 @@ func _define_actions() -> void:
 	for skill in data.keys():
 		var ac := Action.new()
 		ac.ac_id = skill
-		ac.ac_name = data.get(skill).get("name")
-		ac.damage_type = data.get(skill).get("damage_type") as Genum.DamageType
-		var shape = find_shape(data.get(skill).get("shape"))
-		if not shape:
-			push_warning("@SkillManager: There is no shape of id: %s" % data.get(skill).get("shape"))
-			return
-		ac.shape = find_shape(data.get(skill).get("shape"))
-		ac.value = data.get(skill).get("value")
+		attach_data(ac, data.get(skill))
 		
 		all_actions.append(ac)
 #endregion
@@ -80,4 +73,15 @@ func find_shape(shape_id: StringName) -> ActionShape:
 			return shape
 	
 	return null
+	
+	
+func attach_data(skill, ac_data):
+	skill.ac_name = ac_data.get("name")
+	skill.damage_type = ac_data.get("damage_type") as Genum.DamageType
+	var shape = find_shape(ac_data.get("shape"))
+	if not shape:
+		push_warning("@SkillManager: There is no shape of id: %s" % ac_data.get("shape"))
+		return
+	skill.shape = find_shape(ac_data.get("shape"))
+	skill.value = ac_data.get("value")
 #endregion
