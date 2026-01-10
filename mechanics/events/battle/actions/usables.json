@@ -1,0 +1,8 @@
+{
+	"test_item": {
+		"name": "TEST --- DROP THIS",
+		"shape": "Meteor",
+		"damage_type": 0.0,
+		"value": 10.0
+	}
+}

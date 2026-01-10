@@ -42,7 +42,7 @@ func _ready() -> void:
 	
 	_signal_initialization()
 	battle_board.init()
-	CombatManager.selected_action = PlayerManager.available_skills[0]  ## Just testing auto selecting first action as the "first action in the players available skills"
+	#CombatManager.selected_action = PlayerManager.available_skills[0]  ## Just testing auto selecting first action as the "first action in the players available skills"
 	hp_container.update_ticks(Vector3i(1, 0, 0))
 
 # TODO: Replace with ActionMenu Functionality
@@ -50,7 +50,7 @@ func _fill_action_menu() -> void:
 	for action in PlayerManager.available_skills:
 		actions_menu.add_to_actions(action)
 	
-	for usable in PlayerManager.get_usables():
+	for usable in PlayerManager.available_items:
 		actions_menu.add_to_items(usable)
 
 # TODO: Fix generation later

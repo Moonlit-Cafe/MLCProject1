@@ -1,12 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cykfbmrq47ycu"]
+[gd_scene load_steps=2 format=3 uid="uid://cykfbmrq47ycu"]
 
-[ext_resource type="Script" uid="uid://dfnier8g0rygk" path="res://autoloads/combat/combat_manager.gd" id="1_nkas6"]
-[ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://mechanics/events/battle/enemies/enemy_resource.gd" id="2_wpw1s"]
-[ext_resource type="Resource" uid="uid://dphyv7hkvhq2c" path="res://mechanics/events/battle/enemies/basic_enemy.tres" id="3_g6q7s"]
-[ext_resource type="Script" uid="uid://ddopx82rbetw2" path="res://mechanics/events/battle/obstacles/obstacle.gd" id="4_pqke8"]
-[ext_resource type="Resource" uid="uid://4mxxc5xw1ri1" path="res://mechanics/events/battle/obstacles/basic_obstacle.tres" id="5_ea21w"]
+[ext_resource type="Script" uid="uid://dyavcjxlj26hx" path="res://autoloads/combat/item_manager.gd" id="1_nskep"]
 
-[node name="CombatManager" type="Node"]
-script = ExtResource("1_nkas6")
-enemy_compendium = Array[ExtResource("2_wpw1s")]([ExtResource("3_g6q7s")])
-obstacle_compendium = Array[ExtResource("4_pqke8")]([ExtResource("5_ea21w")])
+[node name="ItemManager" type="Node"]
+script = ExtResource("1_nskep")
+action_file = "res://mechanics/events/battle/actions/actions.json"
+action_shapes = "res://assets/data/attack_shapes.json"
+set_compendium = null

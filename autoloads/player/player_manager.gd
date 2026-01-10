@@ -30,6 +30,7 @@ var stats : Dictionary[Genum.StatType, int] = {
 }
 var combat_stats := stats
 var available_skills : Array[Action] = []
+var available_items : Array[Action] = []
 var position : Vector2i = Vector2i.ZERO
 var occupied_tile : BattleTile
 #endregion
