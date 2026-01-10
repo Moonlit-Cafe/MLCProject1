@@ -71,7 +71,6 @@ func find_shape(shape_id: StringName) -> ActionShape:
 	for shape in ac_shape_array:
 		if shape.shape_id == shape_id:
 			return shape
-	
 	return null
 	
 	
