@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbml46t1bprfh"]
+[gd_scene load_steps=9 format=3 uid="uid://bbml46t1bprfh"]
 
 [ext_resource type="Script" uid="uid://dfnier8g0rygk" path="res://autoloads/combat/combat_manager.gd" id="1_rbhvc"]
 [ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://mechanics/events/battle/enemies/enemy_resource.gd" id="2_u5uuf"]
@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://4mxxc5xw1ri1" path="res://mechanics/events/battle/obstacles/basic_obstacle.tres" id="5_ephb6"]
 [ext_resource type="PackedScene" uid="uid://dtdtl6uj8wbea" path="res://autoloads/combat/skill_manager.tscn" id="6_usp70"]
 [ext_resource type="PackedScene" uid="uid://tn1nqplsl3iu" path="res://autoloads/combat/zone_manager.tscn" id="7_g3bif"]
+[ext_resource type="PackedScene" uid="uid://cykfbmrq47ycu" path="res://autoloads/combat/item_manager.tscn" id="8_g3bif"]
 
 [node name="CombatManager" type="Node"]
 script = ExtResource("1_rbhvc")
@@ -14,3 +15,4 @@ enemy_compendium = Array[ExtResource("2_u5uuf")]([ExtResource("3_1qc40")])
 obstacle_compendium = Array[ExtResource("4_ka4f6")]([ExtResource("5_ephb6")])
 skill_manager_scene = ExtResource("6_usp70")
 zone_manager_scene = ExtResource("7_g3bif")
+item_manager_scene = ExtResource("8_g3bif")
