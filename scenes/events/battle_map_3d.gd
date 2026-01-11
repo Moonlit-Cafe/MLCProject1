@@ -105,7 +105,7 @@ func determine_selectables() -> void:
 	
 	# TODO: Introduce some more checking on board_area and board later...
 	await get_tree().process_frame
-	player.range = CombatManager.selected_action.shape.action_range
+	#player.range = CombatManager.selected_action.shape.action_range
 	var detected := await player.get_detected()
 	for tile in detected:
 		tile.selectable = true

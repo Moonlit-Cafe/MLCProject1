@@ -2,12 +2,12 @@
 class_name ItemManager extends Node
 
 #region Declarations
-@export_file("*.json") var action_file : String
+@export_file("*.json") var usable_file : String
 @export_file("*.json") var action_shapes : String
 @export var set_compendium : Array[ItemSet]
 
 var ac_shape_array : Array[ActionShape]
-var all_actions : Array[Action]
+var all_usables : Array[Usable]
 #endregion
 
 #region Events
@@ -16,7 +16,7 @@ func _ready() -> void:
 	_define_actions()
 	
 	# Remove later
-	PlayerManager.available_items.append(all_actions.get(0))
+	PlayerManager.available_items.append(all_usables.get(0))
 	
 	print("Initialized: ItemManager")
 
@@ -50,22 +50,23 @@ func _define_shapes() -> void:
 	
 ## After generating the action shapes, this method generates the actions themselves from file.
 func _define_actions() -> void:
-	if not action_file:
+	if not usable_file:
 		push_warning("@ItemManager: There is no path to usables.json")
 		return
 	
-	var file = FileAccess.open(action_file, FileAccess.READ)
+	var file = FileAccess.open(usable_file, FileAccess.READ)
 	var data = JSON.parse_string(file.get_as_text())
 	if not data:
 		push_warning("@ItemManager: Something wrong with file format")
 		return
 		
-		
-	for usable in PlayerManager.get_usables():
-		var us = Action.new()
-		attach_data(us, data.get(usable))
-		
-		all_actions.append(us)
+	for usable in data.keys():
+		var us := Usable.new()
+		us.us_id = usable
+		if attach_data(us, data.get(usable)):
+			continue
+			
+		all_usables.append(us)
 #endregion
 
 
@@ -78,13 +79,12 @@ func find_shape(shape_id: StringName) -> ActionShape:
 	return null
 	
 func attach_data(usable, us_data):
-	us.us_id = usable.item_id
-	us.us_name = us_data.get("name")
-	us.damage_type = us_data.get("damage_type") as Genum.DamageType
+	usable.us_id = usable.us_id
+	usable.us_name = us_data.get("name")
 	var shape = find_shape(us_data.get("shape"))
 	if not shape:
 		push_warning("@ItemManager: There is no shape of id: %s" % us_data.get("shape"))
 		return
-	us.shape = find_shape(us_data.get("shape"))
-	us.value = us_data.get("value")
+	usable.shape = find_shape(us_data.get("shape"))
+	usable.value = us_data.get("value")
 #endregion

@@ -4,5 +4,5 @@
 
 [node name="ItemManager" type="Node"]
 script = ExtResource("1_nskep")
-usable_file = "res://mechanics/events/battle/actions/usables.json"
+action_file = "res://mechanics/events/battle/actions/actions.json"
 action_shapes = "res://assets/data/attack_shapes.json"

@@ -61,7 +61,8 @@ func _define_actions() -> void:
 	for skill in data.keys():
 		var ac := Action.new()
 		ac.ac_id = skill
-		attach_data(ac, data.get(skill))
+		if attach_data(ac, data.get(skill)):
+			continue
 		
 		all_actions.append(ac)
 #endregion
@@ -74,13 +75,14 @@ func find_shape(shape_id: StringName) -> ActionShape:
 	return null
 	
 	
-func attach_data(skill, ac_data):
+func attach_data(skill, ac_data) -> bool: 
 	skill.ac_name = ac_data.get("name")
 	skill.damage_type = ac_data.get("damage_type") as Genum.DamageType
 	var shape = find_shape(ac_data.get("shape"))
 	if not shape:
 		push_warning("@SkillManager: There is no shape of id: %s" % ac_data.get("shape"))
-		return
+		return true
 	skill.shape = find_shape(ac_data.get("shape"))
 	skill.value = ac_data.get("value")
+	return false
 #endregion
