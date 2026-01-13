@@ -9,7 +9,7 @@ class_name Ability extends Node
 
 @export var ac_range : int = 0 ## default is self target range
 
-@export var deciders : Array[Decider]
+#@export var deciders : Array[Decider]
 
 var ac_score : float = 0.0 :
 	set(value) :

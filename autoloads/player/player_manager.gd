@@ -34,7 +34,20 @@ var position : Vector2i = Vector2i.ZERO
 var occupied_tile : BattleTile
 #endregion
 
-#region Publics
+#region Events
+func init_character_data() -> void:
+	var new_data := PlayerCharacter.new()
+	for data_piece in stats.keys():
+		if data_piece in new_data.player_stats.keys():
+			continue
+		elif data_piece == Genum.StatType.HASTE:
+			continue
+		new_data.set(data_piece, stats.get(data_piece))
+	
+	new_data.haste = stats.get(Genum.StatType.HASTE)
+	new_data.init()
+	character_data = new_data
+
 func get_usables() -> Array[ItemNode]:
 	var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
 	var usables : Array[ItemNode] = inventory.get_usables()

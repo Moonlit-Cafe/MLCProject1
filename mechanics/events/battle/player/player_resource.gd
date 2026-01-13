@@ -4,14 +4,13 @@ class_name PlayerCharacter extends CharacterResource
 #region Declarations
 @export var haste : int = 10 ## How fast the enemy is
 ## The base stats of the enemy
-@export var player_stats : Dictionary[StringName, float] = {
-	&"hp" : 10.,
-	&"p_def": 0.,
-	&"m_def": 0.,
-	&"p_atk": 1.,
-	&"m_atk": 0.,
+@export var player_stats : Dictionary[Genum.StatType, float] = {
+	Genum.StatType.HEALTH: 10.,
+	Genum.StatType.STAMINA: 0.,
+	Genum.StatType.BARRIER: 0.,
+	Genum.StatType.ATTACK: 1.,
+	Genum.StatType.MAGIC: 0.,
 }
-# TODO: Later, need to standardize the animation scheme for the enemies
 #endregion
 
 #region Events

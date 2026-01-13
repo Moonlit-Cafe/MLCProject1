@@ -26,6 +26,7 @@ var can_swivel : bool = true:
 var available_positions : Dictionary[int, Vector3] = {}
 var current_position : int = 0
 var battle_board : BattleMap3D
+var can_move := true
 #endregion
 
 #region Events
@@ -36,12 +37,13 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		var tile = _raycast_tile()
+		can_move = _check_can_move()
+		
 		if not tile:
 			return
 		
 		if not tile.selectable:
 			return
-		
 		
 		if MouseHandler.selected_tile != null:
 			return
@@ -59,7 +61,8 @@ func _input(event: InputEvent) -> void:
 			var tile_pos := Vector2i(tile.tile_position.x, tile.tile_position.z)
 			for pos in CombatManager.selected_action.shape.shape_pos_arr:
 				var adj_tile : BattleTile = battle_board.board.get(tile_pos + pos)
-				adj_tile.highlighted = true
+				if adj_tile:
+					adj_tile.highlighted = true
 	
 	if not event is InputEventMouseButton:
 		return
@@ -67,10 +70,14 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"select"):
 		# TODO: Might wanna change this later
 		var tile = _raycast_tile()
-		MouseHandler.selected_tile = tile
+		if tile != null:
+			print("Selecting %s" % tile)
+			MouseHandler.selected_tile = tile
+		
 		if CombatManager.moving and tile != null:
 			tile.attach_entity(PlayerManager.occupied_tile.held_entity)
 			PlayerManager.occupied_tile = tile
+			battle_board.determine_selectables()
 	elif event.is_action_pressed(&"deselect"):
 		MouseHandler.selected_tile = null
 		# TODO: Extrapolate the highlight block to be used after this line
@@ -110,7 +117,10 @@ func _raycast_tile() -> BattleTile:
 		var tile : BattleTile = collider.get_parent()
 		return tile
 	return null
-	
+
+func _check_can_move() -> bool:
+	var hovered_control = get_viewport().gui_get_hovered_control()
+	return true
 #endregion
 
 #region Processes
@@ -123,7 +133,7 @@ func _cam_input() -> void:
 	mov_dir = Input.get_axis(&"cam_backward", &"cam_forward")
 
 func _cam_movement(delta: float) -> void:
-	if bounds != Rect2(0., 0., 0., 0.):
+	if bounds != Rect2(0., 0., 0., 0.) and can_move:
 		# TODO: Get this to detect if it's over gui, worst case is a dead zone.
 		var rel_pos : Vector2 = get_viewport().get_mouse_position() / Vector2(DisplayServer.window_get_size(0))
 		var rel_dir := Vector3.ZERO

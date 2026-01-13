@@ -8,6 +8,5 @@ point_count = 3
 
 [resource]
 script = ExtResource("1_5d23x")
-name = "target_hp"
 response = SubResource("Curve_pg83d")
 metadata/_custom_type_script = "uid://csb22hesulqet"

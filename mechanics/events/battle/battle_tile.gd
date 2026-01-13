@@ -29,7 +29,7 @@ enum Highlight {
 @onready var select_sprite : AnimatedSprite3D = $AnimatedSprite3D
 #@onready var mesh : MeshInstance3D = $MeshInstance3D
 
-var battle_map : Node2D
+var battle_map : BattleMap3D
 var held_entity : TileEntity
 var tile_position : Vector3i = Vector3i.ZERO
 var selectable : bool = false :
@@ -77,12 +77,11 @@ func attach_object(ent: CharacterResource) -> void:
 	tile.character = ent
 	tile.character.init()
 	held_entity = tile
-	held_entity.hp = tile.character.stats.get(&"hp")
+	held_entity.stats = tile.character.stats.duplicate()
 	entity_holder.add_child(tile)
 	held_entity.update()
 	tile.position = Vector3.ZERO
 	
-	held_entity.max_hp = held_entity.hp
 	name = held_entity.character.o_name
 	held_entity.parent_tile = self
 
@@ -108,7 +107,7 @@ func clear_object() -> void:
 	state = BattleState.EMPTY
 	_check_other_tiles()
 
-func defend(ac: Action) -> void:
+func defend(ac: CombatAction) -> void:
 	# TODO: Comeback to this
 	held_entity.hp -= held_entity.character.defend(ac)
 
@@ -163,7 +162,7 @@ func _get_highlight() -> int:
 	#	return Highlight.NULL
 	return 0
 
-func _highlight(ac: Action) -> void:
+func _highlight(ac: CombatAction) -> void:
 	if MouseHandler.selected_tile != null:
 		return
 	

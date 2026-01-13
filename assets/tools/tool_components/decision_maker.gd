@@ -25,6 +25,7 @@ func set_actions(abilities : Array[String] = ["light","heavy","magic"]) :
 				think_out_loud("Adding Ability: %s" % c.ac_name)
 				my_abilities.append(c)
 	think_out_loud("Done thinking about abilities...")
+
 func decide(target:UnitBox, origin_unit:UnitBox) -> Array[Variant] :
 	think_out_loud("Clearing my head...")
 	_best_action = Ability.new()

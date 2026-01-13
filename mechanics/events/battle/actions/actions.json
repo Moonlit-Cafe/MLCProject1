@@ -3,12 +3,14 @@
 		"name": "Basic Attack",
 		"shape": "single_target",
 		"damage_type": 0.0,
-		"value": 2.0
+		"value": 2.0,
+		"range": 1
 	},
 	"fire_bolt": {
 		"name": "Fire Bolt",
 		"shape": "x_shape",
 		"damage_type": 0.0,
-		"value": 10.0
+		"value": 10.0,
+		"range": 3
 	}
 }

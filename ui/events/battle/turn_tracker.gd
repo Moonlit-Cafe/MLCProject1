@@ -1,4 +1,4 @@
-extends Control
+class_name TurnTracker extends Control
 
 @export var turn_tracker : VBoxContainer
 var turn_list : Array = []

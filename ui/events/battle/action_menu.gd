@@ -13,7 +13,7 @@ var battle_scene : BaseEventScene
 func _ready() -> void:
 	battle_scene = find_parent("BattleScene")
 
-func add_to_actions(ac: Action) -> void:
+func add_to_actions(ac: CombatAction) -> void:
 	_create_new_button(actions, ac, ac.ac_name)
 
 func add_to_items(usable: ItemNode) -> void:

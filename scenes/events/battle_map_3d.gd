@@ -8,7 +8,7 @@ signal end_map
 
 @export var player_ref : PackedScene
 @export var battle_board : GridMap
-@export var turn_tracker : Control
+@export var turn_tracker : TurnTracker
 @export var select_holder : Node3D
 @export var b_tile : PackedScene
 @export var board_zone : MapBoundary
@@ -105,7 +105,7 @@ func determine_selectables() -> void:
 	
 	# TODO: Introduce some more checking on board_area and board later...
 	await get_tree().process_frame
-	player.range = CombatManager.selected_action.shape.action_range
+	player.range = CombatManager.selected_action.a_range if CombatManager.selected_action is CombatAction else 3
 	var detected := await player.get_detected()
 	for tile in detected:
 		tile.selectable = true
@@ -237,7 +237,7 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 			turn_tracker.reorder_turns()
 			continue
 		
-		actor.commit_action()
+		actor.held_entity.commit_action()
 		await actor.turn_finished
 		turn_tracker.reorder_turns()
 		if map_ended:

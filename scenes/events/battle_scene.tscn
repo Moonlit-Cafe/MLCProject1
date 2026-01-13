@@ -108,3 +108,5 @@ texture_over = SubResource("AtlasTexture_uvxka")
 [node name="ResBar" type="TextureProgressBar" parent="CanvasLayer/HPContainer/VBoxContainer"]
 layout_mode = 2
 texture_over = SubResource("AtlasTexture_bt28h")
+
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="_attack_tile"]

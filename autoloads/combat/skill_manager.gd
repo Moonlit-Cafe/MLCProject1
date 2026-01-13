@@ -40,8 +40,7 @@ func _define_shapes() -> void:
 		var positions : Array[Vector2i] = []
 		for position in shape_data.get("positions"):
 			positions.append(Vector2i(int(position.get(0)), int(position.get(1))))
-		var a_range = shape_data.get("range")
-		new_shape.generate_shape(id, positions, a_range)
+		new_shape.generate_shape(id, positions)
 	
 		# Start adding in all the shapes
 		ac_shape_array.append(new_shape)
@@ -59,7 +58,7 @@ func _define_actions() -> void:
 		return
 	
 	for skill in data.keys():
-		var ac := Action.new()
+		var ac := CombatAction.new()
 		ac.ac_id = skill
 		ac.ac_name = data.get(skill).get("name")
 		ac.damage_type = data.get(skill).get("damage_type") as Genum.DamageType
@@ -69,6 +68,7 @@ func _define_actions() -> void:
 			return
 		ac.shape = find_shape(data.get(skill).get("shape"))
 		ac.value = data.get(skill).get("value")
+		ac.a_range = data.get(skill).get("range")
 		
 		all_actions.append(ac)
 #endregion

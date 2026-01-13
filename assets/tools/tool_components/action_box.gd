@@ -1,6 +1,6 @@
 class_name ActionBox extends VBoxContainer
 
-@export var ability : String
+@export var action : Action
 
 @export var name_label : Label
 @export var name_label_text : String = "" :

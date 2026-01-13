@@ -86,7 +86,7 @@ enum MaterialType {
 }
 
 enum StatType {
-	HEALTH,
+	HEALTH, ## The raw health of the Entity
 	AETHER,
 	ATTACK,
 	ATTACK_POWER,

@@ -8,6 +8,5 @@ point_count = 2
 
 [resource]
 script = ExtResource("1_g8slr")
-name = "my_hp"
 response = SubResource("Curve_pg83d")
 metadata/_custom_type_script = "uid://csb22hesulqet"
