@@ -1,8 +1,11 @@
 {
 	"test_item": {
-		"name": "TEST --- DROP THIS",
-		"shape": "Meteor",
+		"name": "TEST --- BEFUDDLER",
 		"damage_type": 0.0,
-		"value": 10.0
+		"shape_id": "meteor",
+		"value": 10.0,
+		"combat_ok": true,
+		"action_name": "BEFUDDLER",
+		"uses_left": 10
 	}
 }

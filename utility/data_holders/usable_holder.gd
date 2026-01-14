@@ -3,10 +3,10 @@ class_name Usable extends Resource
 #region Declarations
 @export var us_id : StringName
 @export var us_name : String
-@export var has_action : bool
+@export var shape_id : ActionShape
+@export var value : float
+@export var combat_ok : bool
 @export var action_name : StringName
-
-#@export var usable : bool
 @export var uses_left : int
 #@export var equippable : bool
 #@export var item_material : StringName
