@@ -50,7 +50,7 @@ func _fill_action_menu() -> void:
 	for action in PlayerManager.available_skills:
 		actions_menu.add_to_actions(action)
 	
-	for usable in PlayerManager.available_items:
+	for usable in PlayerManager.get_usables():
 		actions_menu.add_to_items(usable)
 
 # TODO: Fix generation later

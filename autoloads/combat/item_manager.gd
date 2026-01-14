@@ -15,9 +15,6 @@ func _ready() -> void:
 	_define_shapes()
 	_define_actions()
 	
-	# Remove later
-	PlayerManager.available_items.append(all_usables.get(0))
-	
 	print("Initialized: ItemManager")
 
 
