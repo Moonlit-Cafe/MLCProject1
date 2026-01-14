@@ -51,6 +51,9 @@ func clean_up() -> void:
 	battle_map = null
 	selected_action = null
 
+func get_action(id: StringName) -> void:
+	pass
+
 func _instantiate_managers() -> void:
 	if not skill_manager_scene and zone_manager_scene:
 		return

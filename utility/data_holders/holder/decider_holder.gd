@@ -10,7 +10,7 @@ enum TargetType {
 }
 
 @export var target_type : TargetType = TargetType.PLAYER
-@export var action : CombatAction
+@export var action : StringName
 @export var target_stat := Genum.StatType.HEALTH
 @export var response : Curve
 @export var mod : float = 1

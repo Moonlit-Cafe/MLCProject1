@@ -133,9 +133,12 @@ func _attack_tile() -> void:
 	if not CombatManager.selected_action or not CombatManager.player_turn:
 		return
 	
-	MouseHandler.selected_tile.held_entity.defend(CombatManager.selected_action.value, battle_board.player)
-	MouseHandler.selected_tile = null
-	battle_board.determine_selectables()
+	var selected_tile : BattleTile = MouseHandler.selected_tile
+	if selected_tile.held_entity:
+		var entity : TileEntity = selected_tile.held_entity
+		battle_board.player.attack(entity, CombatManager.selected_action.value)
+		MouseHandler.selected_tile = null
+		battle_board.determine_selectables()
 	CombatManager.player_turn = false
 	GameGlobalEvents.player_turn.emit()
 

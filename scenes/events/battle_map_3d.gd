@@ -89,7 +89,7 @@ func generate_turn_order() -> void:
 	if not turn_tracker:
 		return
 	
-	var turn_order = []
+	var turn_order : Array[BattleTile] = []
 	var enemy_orders = _get_enemy_order()
 	var player_order = _get_player_order()
 	turn_order = _zip_orders(player_order, enemy_orders)
@@ -105,7 +105,11 @@ func determine_selectables() -> void:
 	
 	# TODO: Introduce some more checking on board_area and board later...
 	await get_tree().process_frame
-	player.range = CombatManager.selected_action.a_range if CombatManager.selected_action is CombatAction else 3
+	var new_range : float = 0.5
+	var selected_action = CombatManager.selected_action
+	if selected_action is CombatAction:
+		new_range = selected_action.a_range
+	player.d_range = new_range * 4
 	var detected := await player.get_detected()
 	for tile in detected:
 		tile.selectable = true
@@ -116,7 +120,7 @@ func get_tile_at(pos: Vector2i) -> BattleTile:
 func _get_enemy_order() -> Array:
 	var all_orders : Array = []
 	for enemy in active_enemies:
-		var enemy_order : Array = []
+		var enemy_order : Array[BattleTile] = []
 		@warning_ignore("integer_division")
 		var turns : int = 1 if enemy.held_entity.haste < 100 else (enemy.held_entity.haste / 100) + 1
 		for i in range(turns):
@@ -124,19 +128,19 @@ func _get_enemy_order() -> Array:
 		all_orders.append(enemy_order)
 	return all_orders
 
-func _get_player_order() -> Array:
-	var order : Array = []
-	var haste : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE)
+func _get_player_order() -> Array[BattleTile]:
+	var order : Array[BattleTile] = []
+	var haste : int = player.haste
 	@warning_ignore("integer_division")
 	var turns : int = 1 if haste < 100 else (haste / 100) + 1
 	for i in range(turns):
-		order.append(PlayerManager)
+		order.append(player.parent_tile)
 	return order
 
-func _zip_orders(plr_order: Array, emy_order: Array) -> Array:
-	var res_order : Array = []
+func _zip_orders(plr_order: Array[BattleTile], emy_order: Array) -> Array[BattleTile]:
+	var res_order : Array[BattleTile] = []
 	while plr_order.size() > 0 or _check_enemy_order_size(emy_order):
-		var sub_order : Array = []
+		var sub_order : Array[BattleTile] = []
 		sub_order.append(plr_order.pop_front())
 		for enemy in emy_order:
 			if enemy.size() == 0:
@@ -154,13 +158,13 @@ func _check_enemy_order_size(emy_order: Array) -> int:
 			largest_size = enemy.size()
 	return largest_size
 
-func _haste_sort(a, b) -> bool:
+func _haste_sort(a: BattleTile, b: BattleTile) -> bool:
 	# TODO: Come back to this check later.
 	#if (not "haste" in a.held_object and not a is PlayerManager) or (not "haste" in b.held_object and not b is PlayerManager):
 	#	push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
 	
-	var haste_a : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if a is PlayerManager else a.held_entity.haste
-	var haste_b : int = PlayerManager.combat_stats.get(Genum.StatType.HASTE) if b is PlayerManager else b.held_entity.haste
+	var haste_a : int = a.held_entity.haste
+	var haste_b : int = b.held_entity.haste
 	return haste_a > haste_b
 
 func get_tile_data(pos: Vector3) -> int:
@@ -230,13 +234,16 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 	if not turn_tracker:
 		return
 	
+	print(turn_tracker.turn_list)
 	for actor in turn_tracker.turn_list:
-		if actor is PlayerManager:
+		print(typeof(actor.held_entity), ",", typeof(TilePlayer))
+		if actor.held_entity is TilePlayer:
 			CombatManager.player_turn = true
 			await GameGlobalEvents.player_turn
 			turn_tracker.reorder_turns()
 			continue
 		
+		print("%s: Committing Action" % actor.name)
 		actor.held_entity.commit_action()
 		await actor.turn_finished
 		turn_tracker.reorder_turns()

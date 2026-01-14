@@ -61,7 +61,7 @@ var state : BattleState
 func _ready() -> void:
 	add_to_group(&"tiles")
 	CombatManager.tile_signal_pool.add_to_group("tiles", self)
-	battle_map = find_parent("BattleMap")
+	battle_map = find_parent("BattleMap3D")
 
 func attach_object(ent: CharacterResource) -> void:
 	var tile := _gen_tile_entity(ent)

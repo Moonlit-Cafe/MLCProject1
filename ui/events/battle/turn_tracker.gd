@@ -1,7 +1,7 @@
 class_name TurnTracker extends Control
 
 @export var turn_tracker : VBoxContainer
-var turn_list : Array = []
+var turn_list : Array[BattleTile] = []
 
 # TODO: Rudimentary, but good start.
 func _ready() -> void:
@@ -16,7 +16,7 @@ func generate_turns() -> void:
 		turn_label.text = turn.name
 		turn_tracker.add_child(turn_label)
 
-func remove_turn(actor: Variant) -> void:
+func remove_turn(actor: BattleTile) -> void:
 	if not actor in turn_list:
 		return
 	

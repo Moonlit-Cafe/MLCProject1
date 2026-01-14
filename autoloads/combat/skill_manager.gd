@@ -16,7 +16,8 @@ func _ready() -> void:
 	_define_actions()
 	
 	# Remove later
-	PlayerManager.available_skills.append(all_actions.get(0))
+	for action in all_actions:
+		PlayerManager.available_skills.append(action)
 	
 	print("Initialized: SkillManager")
 
@@ -71,6 +72,12 @@ func _define_actions() -> void:
 		ac.a_range = data.get(skill).get("range")
 		
 		all_actions.append(ac)
+
+func get_action(id: StringName) -> CombatAction:
+	for action in all_actions:
+		if action.ac_id == id:
+			return action
+	return null
 #endregion
 
 #region Helpers

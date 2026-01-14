@@ -23,16 +23,20 @@ func decide(decision_target: TileEntity, decision_list : Array[DeciderHolder]) -
 	print_thought("Now thinking about my turn...")
 	for decider in decision_list:
 		var can_use := false
-		if decision_target.get_stat(Genum.StatType.AETHER).x - decider.action.ac_cost.cost_amount >= 0 :
+		var action : Action = CombatManager.skill_manager.get_action(decider.action)
+		if decision_target.get_stat(Genum.StatType.AETHER).x - action.ac_cost.cost_amount >= 0 :
 			can_use = true
-			print_thought("Can us %s..." % decider.action.ac_name)
+			print_thought("Can us %s..." % action.ac_name)
 		else :
-			print_thought("Not enough mp for %s..." % decider.action.ac_name)
+			print_thought("Not enough mp for %s..." % action.ac_name)
 			
-		if decider.score(decision_target) > _best_decision.score(decision_target) and can_use:
+		if not _best_decision:
 			_best_decision = decider
-			print_thought("New best action saved! Action: %s" % _best_decision.action.ac_name)
+		elif decider.score(decision_target) > _best_decision.score(decision_target) and can_use:
+			_best_decision = decider
+			print_thought("New best action saved! Action: %s" % action.ac_name)
 	
-	print_thought("Sending my decision... Action: %s" % _best_decision.action.ac_name)
+	var best_action = CombatManager.skill_manager.get_action(_best_decision.action)
+	print_thought("Sending my decision... Action: %s" % best_action.ac_name)
 	return _best_decision
 #endregion

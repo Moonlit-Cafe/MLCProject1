@@ -26,7 +26,6 @@ var can_swivel : bool = true:
 var available_positions : Dictionary[int, Vector3] = {}
 var current_position : int = 0
 var battle_board : BattleMap3D
-var can_move := true
 #endregion
 
 #region Events
@@ -36,8 +35,10 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
+		if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:
+			position -= (Vector3(event.relative.x, 0, event.relative.y) / 100).rotated(Vector3.UP, rotation.y)
+		
 		var tile = _raycast_tile()
-		can_move = _check_can_move()
 		
 		if not tile:
 			return
@@ -78,6 +79,8 @@ func _input(event: InputEvent) -> void:
 			tile.attach_entity(PlayerManager.occupied_tile.held_entity)
 			PlayerManager.occupied_tile = tile
 			battle_board.determine_selectables()
+			CombatManager.player_turn = false
+			GameGlobalEvents.player_turn.emit()
 	elif event.is_action_pressed(&"deselect"):
 		MouseHandler.selected_tile = null
 		# TODO: Extrapolate the highlight block to be used after this line
@@ -117,10 +120,6 @@ func _raycast_tile() -> BattleTile:
 		var tile : BattleTile = collider.get_parent()
 		return tile
 	return null
-
-func _check_can_move() -> bool:
-	var hovered_control = get_viewport().gui_get_hovered_control()
-	return true
 #endregion
 
 #region Processes
@@ -133,22 +132,17 @@ func _cam_input() -> void:
 	mov_dir = Input.get_axis(&"cam_backward", &"cam_forward")
 
 func _cam_movement(delta: float) -> void:
-	if bounds != Rect2(0., 0., 0., 0.) and can_move:
-		# TODO: Get this to detect if it's over gui, worst case is a dead zone.
-		var rel_pos : Vector2 = get_viewport().get_mouse_position() / Vector2(DisplayServer.window_get_size(0))
-		var rel_dir := Vector3.ZERO
-		if rel_pos.x < bounds.position.x:
-			rel_dir.x = -linear_move_speed
-		elif rel_pos.x > bounds.size.x:
-			rel_dir.x = linear_move_speed
-		
-		if rel_pos.y < bounds.position.y:
-			rel_dir.z = -linear_move_speed
-		elif rel_pos.y > bounds.size.y:
-			rel_dir.z = linear_move_speed
-		
-		
-		position += rel_dir.rotated(Vector3.UP, rotation.y) * delta
+	#if bounds != Rect2(0., 0., 0., 0.) and panning:
+	#	# TODO: Get this to detect if it's over gui, worst case is a dead zone.
+	#	var rel_pos : Vector2 = get_viewport().get_mouse_position() / Vector2(DisplayServer.window_get_size(0))
+	#	var rel_dir := Vector3.ZERO
+	#	if pan_vec == Vector2(rel_dir.x, rel_dir.z):
+	#		pan_vec = rel_pos
+	#	else:
+	#		rel_dir = Vector3(rel_pos.x - pan_vec.x, 0, rel_pos.y - pan_vec.y)
+	#		pan_vec = rel_pos
+	#	
+	#	position += Vector3(rel_pos.x, 0, rel_pos.y) * delta
 	
 	if rot_dir.x != 0 and can_swivel:
 		var next_position : int = current_position + rot_dir.x

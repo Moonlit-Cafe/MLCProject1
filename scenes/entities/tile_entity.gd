@@ -33,15 +33,19 @@ func update() -> void:
 	
 	position = Vector3(0., 8., 0) ## TODO: Need to either settle on an offset, or grab thie from Battle Map
 	
-	
+
 func attack(victim: TileEntity, damage: float) -> void:
 	# TODO: Need to come back to this for editings
+	print(victim.name)
 	victim.defend(damage, self)
 
 func defend(damage: float, _offender: TileEntity) -> void:
 	var hp = stats.get(Genum.StatType.HEALTH)
 	hp -= damage
 	stats.set(Genum.StatType.HEALTH, hp)
+	if hp <= 0:
+		print(self.name)
+		parent_tile.clear_object()
 
 func commit_action() -> void:
 	var action : Action = null
@@ -57,15 +61,16 @@ func commit_action() -> void:
 					target = self
 				DeciderHolder.TargetType.PLAYER:
 					target = parent_tile.battle_map.player
-			var decision = CombatManager.consideration_manager.decide(target, decision_set)
-			available_actions.append(decision.action)
+			var decision = CombatManager.consideration_manager.decide(target, decision_set.deciders)
+			available_actions.append(CombatManager.skill_manager.get_action(decision.action))
+			print(decision.score(target))
 			available_scores.append(decision.score(target))
 		
 		action = available_actions.get(GameGlobal.rng.rand_weighted(available_scores))
 	if action is CombatAction:
 		if character is EnemyCharacter:
 			var target = parent_tile.battle_map.player
-			target.defend(action.value, self)
+			attack(target, action.value)
 	elif action is MoveAction:
 		var board := parent_tile.battle_map
 		var cur_pos := Vector2i(parent_tile.tile_position.x, parent_tile.tile_position.z)
