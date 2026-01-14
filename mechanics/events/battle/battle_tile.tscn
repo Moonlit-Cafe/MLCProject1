@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://nui0n8cj5g2o" path="res://scenes/entities/tile_obstacle.tscn" id="3_q5ya1"]
 [ext_resource type="PackedScene" uid="uid://dgqco5nxf2j7h" path="res://scenes/entities/tile_player.tscn" id="4_k5873"]
 [ext_resource type="Texture2D" uid="uid://cirq0h1gvntej" path="res://assets/sprites/empty.png" id="5_iccr6"]
-[ext_resource type="Texture2D" uid="uid://cw5cgob7oaiv" path="res://assets/sprites/tiles/Fade.png" id="6_8ubjv"]
+[ext_resource type="Texture2D" uid="uid://0y3yv4nitsk6" path="res://assets/sprites/tiles/Fade.png" id="6_8ubjv"]
 [ext_resource type="Texture2D" uid="uid://b2kbc7eft01ny" path="res://assets/sprites/tiles/Spin.png" id="7_eu0ew"]
 [ext_resource type="Texture2D" uid="uid://bhexu13tn6fww" path="res://assets/sprites/tiles/Still.png" id="8_3fyv0"]
 [ext_resource type="Texture2D" uid="uid://broa7dhkd64o5" path="res://assets/sprites/tiles/Selected.png" id="9_x8x7b"]
