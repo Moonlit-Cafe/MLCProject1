@@ -87,15 +87,11 @@ func find_shape(shape_id: StringName) -> ActionShape:
 func attach_data(usable:Usable, us_data):
 	usable.us_id = usable.us_id
 	usable.us_name = us_data.get("name")
-	var shape = find_shape(us_data.get("shape_id"))
+	var shape = find_shape(us_data.get("shape"))
 	if not shape:
-		push_warning("@ItemManager: There is no shape of id: %s" % us_data.get("shape_id"))
+		push_warning("@ItemManager: There is no shape of id: %s" % us_data.get("shape"))
 		return
-	usable.shape_id = find_shape(us_data.get("shape_id"))
+	usable.shape = find_shape(us_data.get("shape"))
 	usable.value = us_data.get("value")
 	usable.combat_ok = us_data.get("combat_ok")
-	
-	if usable.combat_ok:
-		usable.uses_left = us_data.get("uses_left")
-		usable.action_name = us_data.get("action_name")
 #endregion

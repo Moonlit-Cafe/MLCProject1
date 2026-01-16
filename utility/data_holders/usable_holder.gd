@@ -1,13 +1,9 @@
-class_name Usable extends Resource
+class_name Usable extends Action
 
 #region Declarations
-@export var us_id : StringName
-@export var us_name : String
-@export var shape_id : ActionShape
-@export var value : float
+@export var us_id : StringName ## Internal id for name of usable's action
+@export var us_name : String ## Name that displays in game 
 @export var combat_ok : bool
-@export var action_name : StringName
-@export var uses_left : int
 
 var linked_slot : InventorySlot
 #@export var equippable : bool
