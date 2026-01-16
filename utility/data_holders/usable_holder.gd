@@ -9,7 +9,7 @@ class_name Usable extends Resource
 @export var action_name : StringName
 @export var uses_left : int
 
-var inventory_slot : ItemNode
+var linked_slot : InventorySlot
 #@export var equippable : bool
 #@export var item_material : StringName
 #@export var item_modifier : StringName

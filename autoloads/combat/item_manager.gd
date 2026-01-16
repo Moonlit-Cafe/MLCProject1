@@ -13,7 +13,7 @@ var all_usables : Array[Usable]
 #region Events
 func _ready() -> void:
 	_define_shapes()
-	_define_actions()
+	_define_usables()
 	
 	print("Initialized: ItemManager")
 
@@ -46,7 +46,7 @@ func _define_shapes() -> void:
 
 	
 ## After generating the action shapes, this method generates the actions themselves from file.
-func _define_actions() -> void:
+func _define_usables() -> void:
 	if not usable_file:
 		push_warning("@ItemManager: There is no path to usables.json")
 		return
@@ -64,6 +64,15 @@ func _define_actions() -> void:
 			continue
 			
 		all_usables.append(us)
+		
+func get_usable(given_id:String) -> Usable:
+	for usable:Usable in all_usables:
+		if usable.us_id == given_id:
+			return usable
+			
+	push_warning("@ItemManager: usable with id " + given_id + " not found.")
+
+	return null
 #endregion
 
 

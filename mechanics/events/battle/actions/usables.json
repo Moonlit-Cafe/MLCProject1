@@ -1,5 +1,5 @@
 {
-	"test_item": {
+	"test_usable": {
 		"name": "TEST --- BEFUDDLER",
 		"damage_type": 0.0,
 		"shape_id": "meteor",

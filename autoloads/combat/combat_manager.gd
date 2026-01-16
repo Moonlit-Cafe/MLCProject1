@@ -28,7 +28,7 @@ var selected_action : Action ## The currently selected action
 var player_turn : bool = true ## Is it currently the player's turn?
 var skill_manager : SkillManager ## The skill manager node
 var zone_manager : ZoneManager ## The zone manager node
-var item_manager
+var item_manager : ItemManager ## The item manager node
 var moving : bool = false
 var tile_signal_pool : SignalPooler
 #endregion

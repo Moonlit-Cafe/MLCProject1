@@ -64,10 +64,10 @@ func _on_data_sent(data: Variant) -> void:
 	if data is Action:
 		CombatManager.selected_action = data
 		battle_scene.battle_board.determine_selectables()
-	elif data is ItemNode:
-		
-		# data.count -= 1
-		# should be
-		# data.inventory_slot.count -= 1
+	elif data is Usable:
+		CombatManager.selected_action = data
+		battle_scene.battle_board.determine_selectables()
+		# TODO send this to wherever actions occur
+		#data.inventory_slot.count -= 1
 		
 #endregion

@@ -36,9 +36,9 @@ var occupied_tile : BattleTile
 #endregion
 
 #region Publics
-func get_usables() -> Array[ItemNode]:
+func get_usables() -> Array[Usable]:
 	var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
-	var usables : Array[ItemNode] = inventory.get_usables()
+	var usables : Array[Usable] = inventory.get_usables()
 	return usables
 
 func regen_combat_stats() -> void:

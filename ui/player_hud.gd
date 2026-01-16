@@ -65,13 +65,26 @@ func hide_inv() -> void:
 	tween.tween_property(tab_container, "position", Vector2(-inventory.size.x, 0), 0.5)
 	hidden = true
 
-func get_usables() -> Array[ItemNode]:
-	var usable_list : Array[ItemNode] = []
+func get_usables() -> Array[Usable]:
+	var usable_list : Array[Usable] = []
+	# FIXME this is an incredibly ugly way to do this but im slamming it down
+	var item_manager = get_tree().root
+	item_manager = item_manager.find_child("CombatManager", true, false)
+	item_manager = item_manager.find_child("ItemManager", true, false)
 	for child in container.get_children():
 		if not child.held_item:
 			continue
 		
 		if child.held_item.item is UsableItem:
-			usable_list.append(child.held_item)
+			var usable_data = item_manager.get_usable(child.held_item.item.i_name)
+			if usable_data == null:
+				continue
+				
+			usable_data.linked_slot = child
+			
+			usable_list.append(usable_data)
+			
+			
+			
 	
 	return usable_list
