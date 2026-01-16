@@ -1,34 +1,32 @@
-## Handles all things related to skills.
-class_name SkillManager extends Node
+## Autoload in charge of items' actions in combat.
+class_name ItemManager extends Node
 
 #region Declarations
-@export_file("*.json") var action_file : String
+@export_file("*.json") var usable_file : String
 @export_file("*.json") var action_shapes : String
 @export var set_compendium : Array[ItemSet]
 
 var ac_shape_array : Array[ActionShape]
-var all_actions : Array[Action]
+var all_usables : Array[Usable]
 #endregion
 
 #region Events
 func _ready() -> void:
 	_define_shapes()
-	_define_actions()
+	_define_usables()
 	
-	# Remove later
-	PlayerManager.available_skills.append(all_actions.get(0))
-	
-	print("Initialized: SkillManager")
+	print("Initialized: ItemManager")
+
 
 ## Generates all the actions shapes available for action usage.
 func _define_shapes() -> void:
 	if not action_shapes:
-		push_error("@SkillManager: There are no action shapes file attached")
+		push_error("@ItemManager: There are no action shapes file attached")
 		return
 	var file = FileAccess.open(action_shapes, FileAccess.READ)
 	var data = JSON.parse_string(file.get_as_text())
 	if not data:
-		push_warning("@SkillManager: Something is wrong with Shapes file format")
+		push_warning("@ItemManager: Something is wrong with Shapes file format")
 		return
 	
 	# Single Target Shape Definition
@@ -46,43 +44,54 @@ func _define_shapes() -> void:
 		# Start adding in all the shapes
 		ac_shape_array.append(new_shape)
 
+	
 ## After generating the action shapes, this method generates the actions themselves from file.
-func _define_actions() -> void:
-	if not action_file:
-		push_warning("@SkillManager: There is no path to actions.json")
+func _define_usables() -> void:
+	if not usable_file:
+		push_warning("@ItemManager: There is no path to usables.json")
 		return
 	
-	var file = FileAccess.open(action_file, FileAccess.READ)
+	var file = FileAccess.open(usable_file, FileAccess.READ)
 	var data = JSON.parse_string(file.get_as_text())
 	if not data:
-		push_warning("@SkillManager: Something wrong with file format")
+		push_warning("@ItemManager: Something wrong with file format")
 		return
-	
-	for skill in data.keys():
-		var ac := Action.new()
-		ac.ac_id = skill
-		if attach_data(ac, data.get(skill)):
-			continue
 		
-		all_actions.append(ac)
+	for usable in data.keys():
+		var us := Usable.new()
+		us.us_id = usable
+		if attach_data(us, data.get(usable)):
+			continue
+			
+		all_usables.append(us)
+		
+func get_usable(given_id:String) -> Usable:
+	for usable:Usable in all_usables:
+		if usable.us_id == given_id:
+			return usable
+			
+	push_warning("@ItemManager: usable with id " + given_id + " not found.")
+
+	return null
 #endregion
+
 
 #region Helpers
 func find_shape(shape_id: StringName) -> ActionShape:
 	for shape in ac_shape_array:
 		if shape.shape_id == shape_id:
 			return shape
+	
 	return null
 	
-	
-func attach_data(skill, ac_data) -> bool: 
-	skill.ac_name = ac_data.get("name")
-	skill.damage_type = ac_data.get("damage_type") as Genum.DamageType
-	var shape = find_shape(ac_data.get("shape"))
+func attach_data(usable:Usable, us_data):
+	usable.us_id = usable.us_id
+	usable.us_name = us_data.get("name")
+	var shape = find_shape(us_data.get("shape"))
 	if not shape:
-		push_warning("@SkillManager: There is no shape of id: %s" % ac_data.get("shape"))
-		return true
-	skill.shape = find_shape(ac_data.get("shape"))
-	skill.value = ac_data.get("value")
-	return false
+		push_warning("@ItemManager: There is no shape of id: %s" % us_data.get("shape"))
+		return
+	usable.shape = find_shape(us_data.get("shape"))
+	usable.value = us_data.get("value")
+	usable.combat_ok = us_data.get("combat_ok")
 #endregion

@@ -10,6 +10,7 @@ signal tile_in_arr(tile: BattleTile)
 @export_category(&"Manager Scenes")
 @export var skill_manager_scene : PackedScene ## A reference to the SkillManager Scene for instantiation
 @export var zone_manager_scene : PackedScene ## A reference to the ZoneManager for instatiation
+@export var item_manager_scene : PackedScene ## A reference to the ItemManager for instatiation
 
 ## A reference of the current Battle Map
 var battle_map : BattleMap :
@@ -27,6 +28,7 @@ var selected_action : Action ## The currently selected action
 var player_turn : bool = true ## Is it currently the player's turn?
 var skill_manager : SkillManager ## The skill manager node
 var zone_manager : ZoneManager ## The zone manager node
+var item_manager : ItemManager ## The item manager node
 var moving : bool = false
 var tile_signal_pool : SignalPooler
 #endregion
@@ -50,14 +52,16 @@ func clean_up() -> void:
 	selected_action = null
 
 func _instantiate_managers() -> void:
-	if not skill_manager_scene and zone_manager_scene:
+	if not skill_manager_scene or not zone_manager_scene:
 		return
 	
 	print("Initializing: Combat sub-managers")
 	skill_manager = skill_manager_scene.instantiate()
 	zone_manager = zone_manager_scene.instantiate()
+	item_manager = item_manager_scene.instantiate()
 	
 	add_child(skill_manager)
 	add_child(zone_manager)
+	add_child(item_manager)
 	print("Initialized: CombatManager")
 #endregion

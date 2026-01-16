@@ -16,8 +16,8 @@ func _ready() -> void:
 func add_to_actions(ac: Action) -> void:
 	_create_new_button(actions, ac, ac.ac_name)
 
-func add_to_items(usable: ItemNode) -> void:
-	_create_new_button(items, usable, usable.item.i_name)
+func add_to_items(usable: Usable) -> void:
+	_create_new_button(items, usable, usable.us_name)
 
 func clear_menu(menu: VBoxContainer) -> void:
 	for child in menu.get_children():
@@ -61,13 +61,13 @@ func _on_return_pressed() -> void:
 	
 
 func _on_data_sent(data: Variant) -> void:
-	if data is Action:
+	if data is Usable:
 		CombatManager.selected_action = data
 		battle_scene.battle_board.determine_selectables()
-	elif data is ItemNode:
-		print("Using item ", data.item.i_name, " . . . Unsuccessful. Try again next update.")
-		data.count -= 1
-		clear_menu(items)
-		for usable in PlayerManager.get_usables():
-			add_to_items(usable)
+		
+		# TODO send this to wherever actions occur
+		# data.linked_slot.count -= 1
+	elif data is Action:
+		CombatManager.selected_action = data
+		battle_scene.battle_board.determine_selectables()
 #endregion
