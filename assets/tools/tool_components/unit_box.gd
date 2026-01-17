@@ -9,20 +9,26 @@ class_name UnitBox extends VBoxContainer
 	get : return unit_name
 
 @export var health_box : StatsLabel
-@export var mana_box : StatsLabel
+@export var aether_box : StatsLabel
 @export var movement_box : StatsLabel
+@export var character : CharacterResource
 
-var health : float
-var mana : float
-var movement : float
+var tile_rep : TileEntity
 
 func _ready() -> void:
-	health = health_box.stat_amt
-	mana = mana_box.stat_amt
-	movement = movement_box.stat_amt
+	if not character:
+		push_error("UnitBox: There is no character to use for consideration...")
+		return
 	
+	if character is EnemyCharacter:
+		tile_rep = TileEnemy.new()
+		add_to_group(&"enemy")
+	elif character is PlayerCharacter:
+		tile_rep = TilePlayer.new()
+		add_to_group(&"player")
 	
+	if tile_rep != null:
+		tile_rep.character = character
+
 func update() -> void :
-	health_box.stat_amt = health
-	mana_box.stat_amt = mana
-	movement_box.stat_amt = movement
+	pass

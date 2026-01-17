@@ -20,11 +20,10 @@ signal end_map
 # TODO: With the custom grid definition, selection should be possible with a gui_input over the whole map
 # TODO: Action Selection should come from this selection process.
 var scene : BaseEventScene
-var active_enemies : Array[BattleTile] = []
+var active_enemies : Array[TileEntity] = []
 var board : Dictionary[Vector2i, BattleTile] = {}
 var map_ended : bool = false
 var tile_offset := Vector3(0.5, 1.501, 0.5)
-var player : TilePlayer
 var is_ready = false
 #endregion
 
@@ -82,14 +81,14 @@ func define_enemy_arrays() -> void:
 		
 		match(tile.held_entity.character.current_state):
 			EnemyCharacter.EnemyState.ACTIVE:
-				active_enemies.append(tile)
+				active_enemies.append(tile.held_entity)
 
 # TODO: Flesh this out so that it works for Support enemies, Allies, and the Player
 func generate_turn_order() -> void:
 	if not turn_tracker:
 		return
 	
-	var turn_order : Array[BattleTile] = []
+	var turn_order : Array[TileEntity] = []
 	var enemy_orders = _get_enemy_order()
 	var player_order = _get_player_order()
 	turn_order = _zip_orders(player_order, enemy_orders)
@@ -109,8 +108,8 @@ func determine_selectables() -> void:
 	var selected_action = CombatManager.selected_action
 	if selected_action is CombatAction:
 		new_range = selected_action.a_range
-	player.d_range = new_range * 4
-	var detected := await player.get_detected()
+	PlayerManager.entity_ref.d_range = new_range * 4
+	var detected : Array[BattleTile] = await PlayerManager.entity_ref.get_detected()
 	for tile in detected:
 		tile.selectable = true
 
@@ -120,27 +119,27 @@ func get_tile_at(pos: Vector2i) -> BattleTile:
 func _get_enemy_order() -> Array:
 	var all_orders : Array = []
 	for enemy in active_enemies:
-		var enemy_order : Array[BattleTile] = []
+		var enemy_order : Array[TileEntity] = []
 		@warning_ignore("integer_division")
-		var turns : int = 1 if enemy.held_entity.haste < 100 else (enemy.held_entity.haste / 100) + 1
+		var turns : int = 1 if enemy.haste < 100 else (enemy.haste / 100) + 1
 		for i in range(turns):
 			enemy_order.append(enemy)
 		all_orders.append(enemy_order)
 	return all_orders
 
-func _get_player_order() -> Array[BattleTile]:
-	var order : Array[BattleTile] = []
-	var haste : int = player.haste
+func _get_player_order() -> Array[TileEntity]:
+	var order : Array[TileEntity] = []
+	var haste : int = PlayerManager.entity_ref.haste
 	@warning_ignore("integer_division")
 	var turns : int = 1 if haste < 100 else (haste / 100) + 1
 	for i in range(turns):
-		order.append(player.parent_tile)
+		order.append(PlayerManager.entity_ref)
 	return order
 
-func _zip_orders(plr_order: Array[BattleTile], emy_order: Array) -> Array[BattleTile]:
-	var res_order : Array[BattleTile] = []
+func _zip_orders(plr_order: Array[TileEntity], emy_order: Array) -> Array[TileEntity]:
+	var res_order : Array[TileEntity] = []
 	while plr_order.size() > 0 or _check_enemy_order_size(emy_order):
-		var sub_order : Array[BattleTile] = []
+		var sub_order : Array[TileEntity] = []
 		sub_order.append(plr_order.pop_front())
 		for enemy in emy_order:
 			if enemy.size() == 0:
@@ -158,13 +157,13 @@ func _check_enemy_order_size(emy_order: Array) -> int:
 			largest_size = enemy.size()
 	return largest_size
 
-func _haste_sort(a: BattleTile, b: BattleTile) -> bool:
+func _haste_sort(a: TileEntity, b: TileEntity) -> bool:
 	# TODO: Come back to this check later.
 	#if (not "haste" in a.held_object and not a is PlayerManager) or (not "haste" in b.held_object and not b is PlayerManager):
 	#	push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
 	
-	var haste_a : int = a.held_entity.haste
-	var haste_b : int = b.held_entity.haste
+	var haste_a : int = a.haste
+	var haste_b : int = b.haste
 	return haste_a > haste_b
 
 func get_tile_data(pos: Vector3) -> int:
@@ -236,16 +235,15 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 	
 	print(turn_tracker.turn_list)
 	for actor in turn_tracker.turn_list:
-		print(typeof(actor.held_entity), ",", typeof(TilePlayer))
-		if actor.held_entity is TilePlayer:
+		if actor is TilePlayer:
 			CombatManager.player_turn = true
 			await GameGlobalEvents.player_turn
 			turn_tracker.reorder_turns()
 			continue
 		
 		print("%s: Committing Action" % actor.name)
-		actor.held_entity.commit_action()
-		await actor.turn_finished
+		actor.commit_action()
+		await actor.parent_tile.turn_finished
 		turn_tracker.reorder_turns()
 		if map_ended:
 			return

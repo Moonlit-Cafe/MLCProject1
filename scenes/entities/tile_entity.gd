@@ -9,6 +9,7 @@ var parent_tile : BattleTile
 var resource_type := CombatAction.ResourceType.NONE
 var resource : int = 0
 var stats : Dictionary[Genum.StatType, float]
+var brain : DeciderSet
 #var character : Variant
 #var parent_tile : BattleTile
 #
@@ -27,6 +28,16 @@ var stats : Dictionary[Genum.StatType, float]
 #endregion
 
 #region Events
+func _enter_tree() -> void:
+	if not character:
+		return
+	
+	if not character.decision_set:
+		return
+	
+	brain = character.decision_set.duplicate(true)
+	brain.init(self)
+
 func update() -> void:
 	if sprite and char:
 		sprite.sprite_frames = character.frames
@@ -49,28 +60,17 @@ func defend(damage: float, _offender: TileEntity) -> void:
 
 func commit_action() -> void:
 	var action : Action = null
-	if character is EnemyCharacter:
-		var available_actions : Array[Action] = []
-		var available_scores : Array[float] = []
-		for decision_key in character.deciders.keys():
-			var target : TileEntity = null
-			var decision_set = character.deciders.get(decision_key)
-			match (decision_key):
-				# TODO: Include the rest
-				DeciderHolder.TargetType.SELF:
-					target = self
-				DeciderHolder.TargetType.PLAYER:
-					target = parent_tile.battle_map.player
-			var decision = CombatManager.consideration_manager.decide(target, decision_set.deciders)
-			available_actions.append(CombatManager.skill_manager.get_action(decision.action))
-			print(decision.score(target))
-			available_scores.append(decision.score(target))
-		
-		action = available_actions.get(GameGlobal.rng.rand_weighted(available_scores))
+	if not brain:
+		push_error("TileEntity: There's no Decision Set to commit an action.")
+		await GameGlobal.delay(0.5)
+		parent_tile.turn_finished.emit()
+		return
+	
+	var decision_packet = brain.get_decision()
+	action = CombatManager.skill_manager.get_action(decision_packet.decision.action)
 	if action is CombatAction:
-		if character is EnemyCharacter:
-			var target = parent_tile.battle_map.player
-			attack(target, action.value)
+		var target = decision_packet.target
+		attack(target, action.value)
 	elif action is MoveAction:
 		var board := parent_tile.battle_map
 		var cur_pos := Vector2i(parent_tile.tile_position.x, parent_tile.tile_position.z)

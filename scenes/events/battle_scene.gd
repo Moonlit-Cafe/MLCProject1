@@ -64,7 +64,7 @@ func _generate_battle() -> void:
 	start_pos = Vector2i(start_pos.x, start_pos.z)
 	available_spots.erase(start_pos)
 	battle_board.board.get(start_pos).attach_object(PlayerManager.character_data)
-	battle_board.player = battle_board.board.get(start_pos).held_entity
+	PlayerManager.entity_ref = battle_board.board.get(start_pos).held_entity
 	
 	for i in range(enemy_count):
 		start_pos = available_spots.pick_random()

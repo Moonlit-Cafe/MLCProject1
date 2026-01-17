@@ -6,6 +6,7 @@ class_name CharacterResource extends Resource
 	Genum.StatType.HEALTH: 10.
 }
 @export var frames : SpriteFrames
+@export var decision_set : DeciderSet
 #endregion
 
 #region Events

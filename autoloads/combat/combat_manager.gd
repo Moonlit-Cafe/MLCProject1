@@ -24,13 +24,15 @@ var battle_map : BattleMap :
 var game_difficulty : float = 1 ## The chosen or set difficulty of the game
 var difficulty_modifier : float = 1 ## The growing difficulty as the game goes on
 var level_number : float = 1 ## The position on the difficulty curve, not yet defined
-var selected_action : Action ## The currently selected action
-var player_turn : bool = true ## Is it currently the player's turn?
+
 var skill_manager : SkillManager ## The skill manager node
 var zone_manager : ZoneManager ## The zone manager node
-var consideration_manager : Considerations
+
+var selected_action : Action ## The currently selected action
+var player_turn : bool = true ## Is it currently the player's turn?
 var moving : bool = false
 var tile_signal_pool : SignalPooler
+var player : TilePlayer
 #endregion
 
 #region Events
@@ -61,10 +63,8 @@ func _instantiate_managers() -> void:
 	print("Initializing: Combat sub-managers")
 	skill_manager = skill_manager_scene.instantiate()
 	zone_manager = zone_manager_scene.instantiate()
-	consideration_manager = Considerations.new()
 	
 	add_child(skill_manager)
 	add_child(zone_manager)
-	add_child(consideration_manager)
 	print("Initialized: CombatManager")
 #endregion

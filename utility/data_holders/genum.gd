@@ -1,6 +1,7 @@
 ## This is where all the game's common Enums are listed.
 class_name Genum
 
+#region System
 ## The Enum used for Audio Buses.
 enum BusID {
 	MASTER,
@@ -9,7 +10,9 @@ enum BusID {
 	UI,
 	AMBIENT
 }
+#endregion
 
+#region Items
 ## The Enum to attach to items to declare how that item is allowed to interact.
 enum ItemTags {
 	MATERIAL, ## Used for crafting
@@ -84,7 +87,9 @@ enum MaterialType {
 	METAL,
 	WOOD
 }
+#endregion
 
+#region Character
 enum StatType {
 	HEALTH, ## The raw health of the Entity
 	AETHER,
@@ -105,10 +110,18 @@ enum StatType {
 	ATH_ON_HIT
 }
 
-enum UniqueEventType {
+enum DamageType {
 	NULL
 }
 
-enum DamageType {
+enum TargetType {
+	SELF,
+	PLAYER,
+	ENEMY,
+	ALLY
+}
+#endregion
+
+enum UniqueEventType {
 	NULL
 }

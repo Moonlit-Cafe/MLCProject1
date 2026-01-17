@@ -1,32 +1,30 @@
 class_name EnemyBox extends UnitBox
 
 @export var actions : Array[String]
-@export var brain : DecisionMaker
 
-var choices_dict = {}
 var best_act : Ability
 var best_score : float = 0.0
 
 func _ready() -> void:
 	super._ready()
-	brain.set_actions(actions)
-	brain.set_resources(health,mana)
 	
 
 func process_turn(player:UnitBox) -> void :
-	var temp = brain.decide(player, self) ## Returns Variant Array (Ability, Score)
+	var decision_list = character.deciders.deciders.get(DeciderHolder.TargetType.PLAYER)
+	var player_ref = get_tree().get_first_node_in_group(&"player")
+	var temp = CombatManager.consideration_manager.decide(player_ref, decision_list) ## Returns Variant Array (Ability, Score)
 	best_act = temp[0]
 	best_score = temp[1]
 	
-	mana -= temp[0].ac_cost
-	brain.self_mp = mana
+	aether -= temp[0].ac_cost
+	brain.self_mp = aether
 	
 	do_action(best_act)
 	
 	## Clear after we've acted.
 	best_score = 0.0
 	best_act = Ability.new()
-	
+
 func do_action(_act:Ability) -> void :
 	GameGlobalEvents.act.emit(_act.ac_name,"player")
 	

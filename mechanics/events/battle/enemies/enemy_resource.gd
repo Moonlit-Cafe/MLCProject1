@@ -25,7 +25,6 @@ enum EnemyState {
 	Genum.StatType.MAGIC: 1.0,
 }
 # PLANNED: Might wanna make a couple Consideration Schemes and that could be the AI types
-@export var deciders : Dictionary[DeciderHolder.TargetType, DeciderSet]
 @export var current_state : EnemyState = EnemyState.ACTIVE ## The type of unit this enemy is
 # TODO: Later, need to standardize the animation scheme for the enemies
 #endregion

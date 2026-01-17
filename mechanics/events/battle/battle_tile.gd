@@ -91,10 +91,12 @@ func attach_entity(entity: TileEntity) -> void:
 	
 	var source = entity.get_parent()
 	source.remove_child(entity)
+	source.name = "(%s, %s)" % [tile_position.x, tile_position.z]
 	entity.parent_tile.held_entity = null
 	entity_holder.add_child(entity)
 	entity.position = Vector3.ZERO
 	held_entity = entity
+	name = held_entity.character.o_name
 
 func clear_object() -> void:
 	if not held_entity:
