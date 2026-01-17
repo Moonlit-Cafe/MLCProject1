@@ -33,7 +33,6 @@ var boss_type : int = 1
 func _ready() -> void:
 	#_determine_battle_view_size() # Grabs the size of the 
 	_fill_action_menu()
-	enemy_count = 3
 	_generate_battle()
 	
 	battle_board.turn_tracker = turn_tracker
@@ -42,7 +41,7 @@ func _ready() -> void:
 	
 	_signal_initialization()
 	battle_board.init()
-	#CombatManager.selected_action = PlayerManager.available_skills[0]  ## Just testing auto selecting first action as the "first action in the players available skills"
+	#CombatManager.selected_action = PlayerManager.available_skills[0]  ## HACK Just testing auto selecting first action as the "first action in the players available skills"
 	hp_container.update_ticks(Vector3i(1, 0, 0))
 
 # TODO: Replace with ActionMenu Functionality
@@ -55,6 +54,8 @@ func _fill_action_menu() -> void:
 
 # TODO: Fix generation later
 func _generate_battle() -> void:
+	enemy_count = 3
+	
 	var available_spots : Array[Vector2i]
 	for tile in battle_board.board.keys():
 		if battle_board.board.get(tile).state == BattleTile.BattleState.EMPTY:

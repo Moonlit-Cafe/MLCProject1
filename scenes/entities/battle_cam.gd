@@ -71,6 +71,13 @@ func _input(event: InputEvent) -> void:
 		if CombatManager.moving and tile != null:
 			tile.attach_entity(PlayerManager.occupied_tile.held_entity)
 			PlayerManager.occupied_tile = tile
+			# TODO should probably make it so player cant move infinitely in a turn
+			# TODO call battle map.determine_selectables() to refresh move range displayed
+		elif event is InputEventMouseButton and event.double_click:
+			GameGlobalEvents.attack_tile.emit()
+				
+			
+		
 	elif event.is_action_pressed(&"deselect"):
 		MouseHandler.selected_tile = null
 		# TODO: Extrapolate the highlight block to be used after this line
