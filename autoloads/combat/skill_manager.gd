@@ -16,7 +16,8 @@ func _ready() -> void:
 	_define_actions()
 	
 	# Remove later
-	PlayerManager.available_skills.append(all_actions.get(0))
+	for action in all_actions:
+		PlayerManager.available_skills.append(action)
 	
 	print("Initialized: SkillManager")
 
@@ -40,8 +41,7 @@ func _define_shapes() -> void:
 		var positions : Array[Vector2i] = []
 		for position in shape_data.get("positions"):
 			positions.append(Vector2i(int(position.get(0)), int(position.get(1))))
-		var a_range = shape_data.get("range")
-		new_shape.generate_shape(id, positions, a_range)
+		new_shape.generate_shape(id, positions)
 	
 		# Start adding in all the shapes
 		ac_shape_array.append(new_shape)
@@ -59,12 +59,25 @@ func _define_actions() -> void:
 		return
 	
 	for skill in data.keys():
-		var ac := Action.new()
+		var ac := CombatAction.new()
 		ac.ac_id = skill
-		if attach_data(ac, data.get(skill)):
-			continue
+		ac.ac_name = data.get(skill).get("name")
+		ac.damage_type = data.get(skill).get("damage_type") as Genum.DamageType
+		var shape = find_shape(data.get(skill).get("shape"))
+		if not shape:
+			push_warning("@SkillManager: There is no shape of id: %s" % data.get(skill).get("shape"))
+			return
+		ac.shape = find_shape(data.get(skill).get("shape"))
+		ac.value = data.get(skill).get("value")
+		ac.a_range = data.get(skill).get("range")
 		
 		all_actions.append(ac)
+
+func get_action(id: StringName) -> CombatAction:
+	for action in all_actions:
+		if action.ac_id == id:
+			return action
+	return null
 #endregion
 
 #region Helpers

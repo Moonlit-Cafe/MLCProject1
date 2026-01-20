@@ -35,13 +35,16 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
+		if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:
+			position -= (Vector3(event.relative.x, 0, event.relative.y) / 100).rotated(Vector3.UP, rotation.y)
+		
 		var tile = _raycast_tile()
+		
 		if not tile:
 			return
 		
 		if not tile.selectable:
 			return
-		
 		
 		if MouseHandler.selected_tile != null:
 			return
@@ -59,7 +62,8 @@ func _input(event: InputEvent) -> void:
 			var tile_pos := Vector2i(tile.tile_position.x, tile.tile_position.z)
 			for pos in CombatManager.selected_action.shape.shape_pos_arr:
 				var adj_tile : BattleTile = battle_board.board.get(tile_pos + pos)
-				adj_tile.highlighted = true
+				if adj_tile:
+					adj_tile.highlighted = true
 	
 	if not event is InputEventMouseButton:
 		return
@@ -67,17 +71,16 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"select"):
 		# TODO: Might wanna change this later
 		var tile = _raycast_tile()
-		MouseHandler.selected_tile = tile
+		if tile != null:
+			print("Selecting %s" % tile)
+			MouseHandler.selected_tile = tile
+		
 		if CombatManager.moving and tile != null:
 			tile.attach_entity(PlayerManager.occupied_tile.held_entity)
 			PlayerManager.occupied_tile = tile
-			# TODO should probably make it so player cant move infinitely in a turn
-			# TODO call battle map.determine_selectables() to refresh move range displayed
-		elif event is InputEventMouseButton and event.double_click:
-			GameGlobalEvents.attack_tile.emit()
-				
-			
-		
+			battle_board.determine_selectables()
+			CombatManager.player_turn = false
+			GameGlobalEvents.player_turn.emit()
 	elif event.is_action_pressed(&"deselect"):
 		MouseHandler.selected_tile = null
 		# TODO: Extrapolate the highlight block to be used after this line
@@ -117,7 +120,6 @@ func _raycast_tile() -> BattleTile:
 		var tile : BattleTile = collider.get_parent()
 		return tile
 	return null
-	
 #endregion
 
 #region Processes
@@ -130,22 +132,17 @@ func _cam_input() -> void:
 	mov_dir = Input.get_axis(&"cam_backward", &"cam_forward")
 
 func _cam_movement(delta: float) -> void:
-	if bounds != Rect2(0., 0., 0., 0.):
-		# TODO: Get this to detect if it's over gui, worst case is a dead zone.
-		var rel_pos : Vector2 = get_viewport().get_mouse_position() / Vector2(DisplayServer.window_get_size(0))
-		var rel_dir := Vector3.ZERO
-		if rel_pos.x < bounds.position.x:
-			rel_dir.x = -linear_move_speed
-		elif rel_pos.x > bounds.size.x:
-			rel_dir.x = linear_move_speed
-		
-		if rel_pos.y < bounds.position.y:
-			rel_dir.z = -linear_move_speed
-		elif rel_pos.y > bounds.size.y:
-			rel_dir.z = linear_move_speed
-		
-		
-		position += rel_dir.rotated(Vector3.UP, rotation.y) * delta
+	#if bounds != Rect2(0., 0., 0., 0.) and panning:
+	#	# TODO: Get this to detect if it's over gui, worst case is a dead zone.
+	#	var rel_pos : Vector2 = get_viewport().get_mouse_position() / Vector2(DisplayServer.window_get_size(0))
+	#	var rel_dir := Vector3.ZERO
+	#	if pan_vec == Vector2(rel_dir.x, rel_dir.z):
+	#		pan_vec = rel_pos
+	#	else:
+	#		rel_dir = Vector3(rel_pos.x - pan_vec.x, 0, rel_pos.y - pan_vec.y)
+	#		pan_vec = rel_pos
+	#	
+	#	position += Vector3(rel_pos.x, 0, rel_pos.y) * delta
 	
 	if rot_dir.x != 0 and can_swivel:
 		var next_position : int = current_position + rot_dir.x

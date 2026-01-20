@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://f4ie0ytcicf0"]
 
 [ext_resource type="Script" uid="uid://ls2x7al21flm" path="res://addons/signal_lens/editor/signal_lens_editor_panel.gd" id="1_abwge"]
-[ext_resource type="Texture2D" uid="uid://oxunlqgro5h8" path="res://addons/signal_lens/icons/icon_logo.png" id="6_wrl4d"]
+[ext_resource type="Texture2D" uid="uid://brdnqivcfnsun" path="res://addons/signal_lens/icons/icon_logo.png" id="6_wrl4d"]
 
 [sub_resource type="DPITexture" id="DPITexture_fhx01"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"m8 1a1 1 0 0 0 -1 1v5h-2c-1.108 0-2 .892-2 2v1h10v-1c0-1.108-.892-2-2-2h-2v-5a1 1 0 0 0 -1-1zm-5 10v4l10-1v-3z\"/></svg>

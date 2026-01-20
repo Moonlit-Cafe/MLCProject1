@@ -65,7 +65,7 @@ func _generate_battle() -> void:
 	start_pos = Vector2i(start_pos.x, start_pos.z)
 	available_spots.erase(start_pos)
 	battle_board.board.get(start_pos).attach_object(PlayerManager.character_data)
-	battle_board.player = battle_board.board.get(start_pos).held_entity
+	PlayerManager.entity_ref = battle_board.board.get(start_pos).held_entity
 	
 	for i in range(enemy_count):
 		start_pos = available_spots.pick_random()
@@ -106,13 +106,13 @@ func _update_hp_label() -> void:
 	if not enemy_info.visible:
 		enemy_info.show()
 	enemy_label.text = MouseHandler.selected_tile.name
-	enemy_hp_bar.max_value = MouseHandler.selected_tile.held_entity.max_hp
-	enemy_hp_bar.step = float(MouseHandler.selected_tile.held_entity.max_hp) / 10000
-	enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.hp
+	enemy_hp_bar.max_value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y
+	enemy_hp_bar.step = float(MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y) / 10000
+	enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).x
 #endregion
 
 #region Helpers
-func action_on_tiles(tile: BattleTile, action: Action) -> void:
+func action_on_tiles(tile: BattleTile, action: CombatAction) -> void:
 	var tile_pos := tile.tile_position
 	var center_pos := Vector2i(tile_pos.x, tile_pos.z)
 	var tiles := battle_board.grab_other_tiles(action.shape.shape_pos_arr.duplicate(), center_pos)
@@ -133,10 +133,13 @@ func _attack_tile() -> void:
 	battle_log.log_item("This is log test...")
 	if not CombatManager.selected_action or not CombatManager.player_turn:
 		return
-
-	MouseHandler.selected_tile.defend(CombatManager.selected_action)
-	MouseHandler.selected_tile = null
-	battle_board.determine_selectables()
+	
+	var selected_tile : BattleTile = MouseHandler.selected_tile
+	if selected_tile.held_entity:
+		var entity : TileEntity = selected_tile.held_entity
+		battle_board.player.attack(entity, CombatManager.selected_action.value)
+		MouseHandler.selected_tile = null
+		battle_board.determine_selectables()
 	CombatManager.player_turn = false
 	GameGlobalEvents.player_turn.emit()
 

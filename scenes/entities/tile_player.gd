@@ -8,19 +8,22 @@ signal overlap_checked
 @onready var detect_sphere : Area3D = $DetectionSphere
 @onready var coll_shape : CollisionShape3D = $DetectionSphere/CollisionShape3D
 
-var range : float = 1. :
+var d_range : float = 1. :
 	set(value):
 		_set_detect_radius(value)
-		range = value
+		d_range = value
 var coll_sphere : SphereShape3D
 var overlap : Array[Area3D]
 var check_overlap := false
+var haste : int
 #endregion
 
 #region Events
 func _ready() -> void:
+	add_to_group(&"player")
+	
 	coll_sphere = coll_shape.shape
-	range = default_range
+	d_range = default_range
 
 func get_detected() -> Array[BattleTile]:
 	check_overlap = true
@@ -38,7 +41,17 @@ func _set_detect_radius(radius: float) -> void:
 	if not coll_sphere:
 		return
 	
+	print("Setting Col Sphere to ", radius)
 	coll_sphere.radius = radius
+
+func update() -> void:
+	haste = character.haste
+	super()
+
+func defend(value: float, _offender: TileEntity) -> void:
+	super(value, _offender)
+	if stats.get(Genum.StatType.HEALTH) <= 0:
+		get_tree().quit()
 #endregion
 
 #region Processes

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b1lf4fn35e1h2" path="res://autoloads/combat/skill_manager.gd" id="1_efu6c"]
 [ext_resource type="Script" uid="uid://dkcl8fxjwm4oj" path="res://mechanics/inventory/items/item_set_resource.gd" id="2_36nui"]
-[ext_resource type="Script" path="res://utility/data_holders/stat_packet.gd" id="3_un5it"]
+[ext_resource type="Script" uid="uid://fwqq2q0ceu3n" path="res://utility/data_holders/packets/stat_packet.gd" id="3_un5it"]
 
 [sub_resource type="Resource" id="Resource_sx8c5"]
 script = ExtResource("3_un5it")

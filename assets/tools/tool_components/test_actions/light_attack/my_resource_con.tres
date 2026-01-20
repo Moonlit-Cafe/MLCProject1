@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Decider" load_steps=3 format=3 uid="uid://d32jpjvax4dt0"]
+
+[ext_resource type="Script" uid="uid://csb22hesulqet" path="res://assets/tools/tool_components/considerations/decider.gd" id="1_v5gky"]
+
+[sub_resource type="Curve" id="Curve_wuwr0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.09189189, 0.22471917), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[resource]
+script = ExtResource("1_v5gky")
+response = SubResource("Curve_wuwr0")
+metadata/_custom_type_script = "uid://csb22hesulqet"

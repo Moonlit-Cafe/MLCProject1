@@ -2,8 +2,9 @@
 extends Node
 
 #region Declarations
-@warning_ignore("unused_signal")
+@warning_ignore_start("unused_signal")
 signal tile_in_arr(tile: BattleTile)
+@warning_ignore_restore("unused_signal")
 
 @export var enemy_compendium : Array[EnemyCharacter] = [] ## The entire list of available enemies
 @export var obstacle_compendium : Array[ObstacleObject] = [] ## The entire list of available obstacles
@@ -24,13 +25,16 @@ var battle_map : BattleMap :
 var game_difficulty : float = 1 ## The chosen or set difficulty of the game
 var difficulty_modifier : float = 1 ## The growing difficulty as the game goes on
 var level_number : float = 1 ## The position on the difficulty curve, not yet defined
-var selected_action : Action ## The currently selected action
-var player_turn : bool = true ## Is it currently the player's turn?
+
 var skill_manager : SkillManager ## The skill manager node
 var zone_manager : ZoneManager ## The zone manager node
+
+var selected_action : Action ## The currently selected action
+var player_turn : bool = true ## Is it currently the player's turn?
 var item_manager : ItemManager ## The item manager node
 var moving : bool = false
 var tile_signal_pool : SignalPooler
+var player : TilePlayer
 #endregion
 
 #region Events
@@ -50,6 +54,9 @@ func update_difficulty(can_increase: bool = false) -> void:
 func clean_up() -> void:
 	battle_map = null
 	selected_action = null
+
+func get_action(id: StringName) -> void:
+	pass
 
 func _instantiate_managers() -> void:
 	if not skill_manager_scene or not zone_manager_scene:

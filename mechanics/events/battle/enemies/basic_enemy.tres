@@ -1,7 +1,32 @@
-[gd_resource type="Resource" script_class="EnemyCharacter" load_steps=4 format=3 uid="uid://dphyv7hkvhq2c"]
+[gd_resource type="Resource" script_class="EnemyCharacter" load_steps=11 format=3 uid="uid://dphyv7hkvhq2c"]
 
 [ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://assets/sprites/characters/character_1_frame16x20.png" id="1_ebwq0"]
+[ext_resource type="Script" uid="uid://cwnkhqmixlu7n" path="res://utility/data_holders/decisions/decision_array.gd" id="1_uf22c"]
 [ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://mechanics/events/battle/enemies/enemy_resource.gd" id="1_yws0g"]
+[ext_resource type="Script" uid="uid://c6agyx2bg8ebv" path="res://utility/data_holders/decisions/decider.gd" id="2_csnyl"]
+[ext_resource type="Script" uid="uid://c7jgrhv2ltdm4" path="res://utility/data_holders/decisions/decider_set.gd" id="2_gkji7"]
+
+[sub_resource type="Curve" id="Curve_rajqn"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Resource" id="Resource_0mqwv"]
+script = ExtResource("2_csnyl")
+action = &"basic_attack"
+response = SubResource("Curve_rajqn")
+metadata/_custom_type_script = "uid://c6agyx2bg8ebv"
+
+[sub_resource type="Resource" id="Resource_w1qa6"]
+script = ExtResource("1_uf22c")
+decision_list = Array[ExtResource("2_csnyl")]([SubResource("Resource_0mqwv")])
+metadata/_custom_type_script = "uid://cwnkhqmixlu7n"
+
+[sub_resource type="Resource" id="Resource_csnyl"]
+script = ExtResource("2_gkji7")
+decisions = Dictionary[int, ExtResource("1_uf22c")]({
+1: SubResource("Resource_w1qa6")
+})
+metadata/_custom_type_script = "uid://c7jgrhv2ltdm4"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ysqg6"]
 animations = [{
@@ -18,4 +43,5 @@ animations = [{
 script = ExtResource("1_yws0g")
 o_name = &"Bill"
 frames = SubResource("SpriteFrames_ysqg6")
+decision_set = SubResource("Resource_csnyl")
 metadata/_custom_type_script = "uid://68gwj4d56lqp"
