@@ -52,6 +52,8 @@ func init_character_data() -> void:
 
 func get_usables() -> Array[Usable]:
 	var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
+	if not inventory:
+		return []
 	var usables : Array[Usable] = inventory.get_usables()
 	return usables
 

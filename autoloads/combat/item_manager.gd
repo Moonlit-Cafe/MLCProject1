@@ -38,7 +38,6 @@ func _define_shapes() -> void:
 		var positions : Array[Vector2i] = []
 		for position in shape_data.get("positions"):
 			positions.append(Vector2i(int(position.get(0)), int(position.get(1))))
-		var a_range = shape_data.get("range")
 		new_shape.generate_shape(id, positions)
 	
 		# Start adding in all the shapes
