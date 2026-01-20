@@ -50,7 +50,7 @@ func init_character_data() -> void:
 	new_data.init()
 	character_data = new_data
 
-func get_usables() -> Array[ItemNode]:
+func get_usables() -> Array[Usable]:
 	var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
 	var usables : Array[Usable] = inventory.get_usables()
 	return usables
