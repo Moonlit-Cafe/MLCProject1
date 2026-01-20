@@ -134,7 +134,7 @@ func _check_other_tiles() -> void:
 			enemies += 1
 	
 	if enemies == 0:
-		GameGlobalEvents.battle_end.emit()
+		CombatManager.battle_end.emit()
 
 func _set_highlight(idx: int) -> void:
 	#mesh.set_instance_shader_parameter(&"mode", idx)

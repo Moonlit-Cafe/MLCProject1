@@ -8,6 +8,7 @@ var haste : int
 #region Events
 func _ready() -> void:
 	add_to_group(&"enemy")
+	add_to_group(&"unit")
 
 func update() -> void:
 	if not character:

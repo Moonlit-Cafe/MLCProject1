@@ -9,7 +9,7 @@ var hp : int = 10 :
 			GameGlobalEvents.game_end.emit()
 		else:
 			hp = value
-			GameGlobalEvents.hp_changed.emit()
+			CombatManager.hp_changed.emit()
 var equipped_items : Array[EquippableItem]
 var stats : Dictionary[Genum.StatType, int] = {
 	Genum.StatType.HEALTH: 10,
@@ -50,8 +50,10 @@ func init_character_data() -> void:
 	new_data.init()
 	character_data = new_data
 
-func get_usables() -> Array[ItemNode]:
+func get_usables() -> Array[Usable]:
 	var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
+	if not inventory:
+		return []
 	var usables : Array[Usable] = inventory.get_usables()
 	return usables
 

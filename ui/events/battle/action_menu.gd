@@ -12,6 +12,26 @@ var battle_scene : BaseEventScene
 #region Events
 func _ready() -> void:
 	battle_scene = find_parent("BattleScene")
+	$MenuContainers/MenuActionsContainer/Actions.grab_focus()
+	
+	CombatManager.use_action.connect(_on_used_action)
+
+func _input(event: InputEvent) -> void:
+	var focused_ui = get_viewport().gui_get_focus_owner()
+	# TODO: We'll need to account for bottom and top button cases later
+	
+	if event.is_action_pressed(&"menu_up"):
+		var next_focus = focused_ui.find_valid_focus_neighbor(SIDE_TOP)
+		if next_focus:
+			next_focus.grab_focus()
+	elif event.is_action_pressed(&"menu_down"):
+		var next_focus = focused_ui.find_valid_focus_neighbor(SIDE_BOTTOM)
+		if next_focus:
+			next_focus.grab_focus()
+	elif event.is_action_pressed(&"menu_right") and menu_actions.visible:
+		focused_ui.pressed.emit()
+	elif event.is_action_pressed(&"menu_left") and not menu_actions.visible:
+		_on_return_pressed()
 
 func add_to_actions(ac: CombatAction) -> void:
 	_create_new_button(actions, ac, ac.ac_name)
@@ -39,21 +59,29 @@ func _create_new_button(menu: VBoxContainer, data: Variant, text: String) -> voi
 #endregion
 
 #region Signal Callbacks
+func _on_used_action() -> void:
+	_on_return_pressed()
+	CombatManager.rehover.emit()
+
 func _on_actions_menu_pressed() -> void:
 	menu_actions.hide()
 	actions.show()
+	actions.get_child(0).grab_focus()
 
 func _on_items_menu_pressed() -> void:
 	menu_actions.hide()
 	items.show()
+	items.get_child(0).grab_focus()
 
 func _on_move_pressed() -> void:
 	CombatManager.moving = true
 	menu_actions.hide()
 	moves.show()
+	moves.get_child(0).grab_focus()
 	
 func _on_return_pressed() -> void:
 	CombatManager.moving = false
+	$MenuContainers/MenuActionsContainer/Actions.grab_focus()
 	menu_actions.show()
 	actions.hide()
 	items.hide()
