@@ -10,6 +10,8 @@ var resource_type := CombatAction.ResourceType.NONE
 var resource : int = 0
 var stats : Dictionary[Genum.StatType, float]
 var brain : DeciderSet
+
+var haste : int ## The decider of an object's place in the turn order.
 #var character : Variant
 #var parent_tile : BattleTile
 #

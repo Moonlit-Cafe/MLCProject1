@@ -238,13 +238,13 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 		if actor is TilePlayer:
 			CombatManager.player_turn = true
 			await GameGlobalEvents.player_turn
-			turn_tracker.reorder_turns()
+			turn_tracker.recycle_turn()
 			continue
 		
 		print("%s: Committing Action" % actor.name)
 		actor.commit_action()
 		await actor.parent_tile.turn_finished
-		turn_tracker.reorder_turns()
+		turn_tracker.recycle_turn()
 		if map_ended:
 			return
 	

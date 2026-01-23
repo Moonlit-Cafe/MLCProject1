@@ -15,7 +15,6 @@ var d_range : float = 1. :
 var coll_sphere : SphereShape3D
 var overlap : Array[Area3D]
 var check_overlap := false
-var haste : int
 #endregion
 
 #region Events
@@ -24,6 +23,7 @@ func _ready() -> void:
 	
 	coll_sphere = coll_shape.shape
 	d_range = default_range
+	
 
 func get_detected() -> Array[BattleTile]:
 	check_overlap = true

@@ -2,8 +2,8 @@ class_name PlayerCharacter extends CharacterResource
 
 
 #region Declarations
-@export var haste : int = 10 ## How fast the enemy is
-## The base stats of the enemy
+@export var haste : int = 10 ## How fast the player is
+## The base stats of the player
 @export var player_stats : Dictionary[Genum.StatType, float] = {
 	Genum.StatType.HEALTH: 10.,
 	Genum.StatType.STAMINA: 0.,
