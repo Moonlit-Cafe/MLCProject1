@@ -83,10 +83,11 @@ func _generate_battle() -> void:
 func _signal_initialization() -> void:
 	battle_board.end_map.connect(_on_map_ended)
 	
-	GameGlobalEvents.hp_changed.connect(_on_hp_changed)
-	GameGlobalEvents.battle_end.connect(_on_battle_ended)
 	GameGlobalEvents.game_end.connect(_on_game_ended)
-	GameGlobalEvents.attack_tile.connect(_attack_tile)
+	
+	CombatManager.hp_changed.connect(_on_hp_changed)
+	CombatManager.battle_end.connect(_on_battle_ended)
+	CombatManager.attack_tile.connect(_attack_tile)
 #endregion
 
 #region Processes
@@ -137,11 +138,12 @@ func _attack_tile() -> void:
 	var selected_tile : BattleTile = MouseHandler.selected_tile
 	if selected_tile.held_entity:
 		var entity : TileEntity = selected_tile.held_entity
-		battle_board.player.attack(entity, CombatManager.selected_action.value)
+		PlayerManager.entity_ref.attack(entity, CombatManager.selected_action.value)
 		MouseHandler.selected_tile = null
 		battle_board.determine_selectables()
 	CombatManager.player_turn = false
 	GameGlobalEvents.player_turn.emit()
+	CombatManager.use_action.emit()
 
 ## Changes the hp label based on current value.
 func _on_hp_changed() -> void:

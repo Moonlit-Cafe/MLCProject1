@@ -20,6 +20,7 @@ var check_overlap := false
 #region Events
 func _ready() -> void:
 	add_to_group(&"player")
+	add_to_group(&"unit")
 	
 	coll_sphere = coll_shape.shape
 	d_range = default_range

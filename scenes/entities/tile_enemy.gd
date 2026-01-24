@@ -9,6 +9,7 @@ var current_state : EnemyCharacter.EnemyState = EnemyCharacter.EnemyState.ACTIVE
 func _ready() -> void:
 	add_to_group(&"enemy")
 	haste = 9
+	add_to_group(&"unit")
 
 func update() -> void:
 	if not character:

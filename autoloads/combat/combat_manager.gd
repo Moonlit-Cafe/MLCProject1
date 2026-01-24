@@ -3,6 +3,11 @@ extends Node
 
 #region Declarations
 @warning_ignore_start("unused_signal")
+signal attack_tile
+signal battle_end
+signal hp_changed
+signal use_action
+signal rehover
 signal tile_in_arr(tile: BattleTile)
 @warning_ignore_restore("unused_signal")
 

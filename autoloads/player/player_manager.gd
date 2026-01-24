@@ -9,7 +9,7 @@ var hp : int = 10 :
 			GameGlobalEvents.game_end.emit()
 		else:
 			hp = value
-			GameGlobalEvents.hp_changed.emit()
+			CombatManager.hp_changed.emit()
 var equipped_items : Array[EquippableItem]
 var stats : Dictionary[Genum.StatType, int] = {
 	Genum.StatType.HEALTH: 10,

@@ -26,65 +26,117 @@ var can_swivel : bool = true:
 var available_positions : Dictionary[int, Vector3] = {}
 var current_position : int = 0
 var battle_board : BattleMap3D
+var focus_target : TileEntity
 #endregion
 
 #region Events
 func _ready() -> void:
+	CombatManager.rehover.connect(_tile_hover)
+	
 	timer.timeout.connect(_on_timer_timeout)
 	battle_board = get_parent()
+	
+	if get_tree().get_node_count_in_group(&"player") > 0:
+		focus_target = get_tree().get_first_node_in_group(&"player")
+		global_position = focus_target.global_position
 
 func _input(event: InputEvent) -> void:
+	# PLANNED: Come back to this later on to adapt to gamepad if we wanna add that.
 	if event is InputEventMouseMotion:
-		if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:
-			position -= (Vector3(event.relative.x, 0, event.relative.y) / 100).rotated(Vector3.UP, rotation.y)
+		_handle_mouse_motion(event)
+	
+	if event.is_action_pressed(&"rotate_cam"):
+		var next_position : int = current_position
+		if Input.is_key_pressed(KEY_SHIFT):
+			next_position -= 1
+		else:
+			next_position += 1
 		
-		var tile = _raycast_tile()
+		if next_position >= available_positions.size():
+			next_position = 0
+		elif next_position < 0:
+			next_position = available_positions.size() - 1
 		
-		if not tile:
-			return
+		_rotate_camera_y(next_position)
 		
-		if not tile.selectable:
-			return
+		current_position = next_position
+		can_swivel = false
+	
+	if event.is_action_pressed(&"focus_player"):
+		focus_target = get_tree().get_first_node_in_group(&"player")
+		_pan_camera(focus_target.global_position)
+	
+	if event.is_action_pressed(&"cycle"):
+		var enemies = get_tree().get_nodes_in_group(&"enemy")
+		var i : int = 0
+		if Input.is_key_pressed(KEY_SHIFT):
+			i = enemies.size() - 1
 		
-		if MouseHandler.selected_tile != null:
-			return
+		if focus_target in enemies:
+			i = enemies.find(focus_target)
+			if Input.is_key_pressed(KEY_SHIFT):
+				i -= 1
+			else:
+				i += 1
+			
+			if i == enemies.size():
+				i = 0
+			elif i == -1:
+				i = enemies.size() - 1
 		
-		if MouseHandler.hovered_tile != tile and MouseHandler.hovered_tile != null:
-			MouseHandler.hovered_tile.highlighted = false
-		
-		for p_tile in battle_board.board.values():
-			if p_tile.highlighted:
-				p_tile.highlighted = false
-		
-		MouseHandler.hovered_tile = tile
-		tile.highlighted = true
-		if CombatManager.selected_action != null:
-			var tile_pos := Vector2i(tile.tile_position.x, tile.tile_position.z)
-			for pos in CombatManager.selected_action.shape.shape_pos_arr:
-				var adj_tile : BattleTile = battle_board.board.get(tile_pos + pos)
-				if adj_tile:
-					adj_tile.highlighted = true
+		focus_target = enemies.get(i)
+		_pan_camera(focus_target.global_position)
 	
 	if not event is InputEventMouseButton:
 		return
 	
-	if event.is_action_pressed(&"select"):
-		# TODO: Might wanna change this later
-		var tile = _raycast_tile()
-		if tile != null:
-			print("Selecting %s" % tile)
-			MouseHandler.selected_tile = tile
-		
-		if CombatManager.moving and tile != null:
-			tile.attach_entity(PlayerManager.occupied_tile.held_entity)
-			PlayerManager.occupied_tile = tile
-			battle_board.determine_selectables()
-			CombatManager.player_turn = false
-			GameGlobalEvents.player_turn.emit()
-	elif event.is_action_pressed(&"deselect"):
-		MouseHandler.selected_tile = null
-		# TODO: Extrapolate the highlight block to be used after this line
+	_handle_mouse_clicks(event)
+
+func init(center: Vector3) -> void:
+	position = center
+	_generate_positions()
+	spring_arm.rotation_degrees.x = -45
+	x_rotation_range = Vector2(-deg_to_rad(x_rotation_range.x), -deg_to_rad(x_rotation_range.y))
+
+func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
+	if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:
+		position -= (Vector3(event.relative.x, 0, event.relative.y) / 100).rotated(Vector3.UP, rotation.y)
 	
+	var tile = _raycast_tile()
+	
+	if not tile:
+		return
+	
+	if not tile.selectable:
+		return
+	
+	_tile_hover(tile)
+
+func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
+	if MouseHandler.selected_tile != null:
+		return
+	
+	if MouseHandler.hovered_tile != tile and MouseHandler.hovered_tile != null:
+		MouseHandler.hovered_tile.highlighted = false
+	
+	for p_tile in battle_board.board.values():
+		if p_tile.highlighted:
+			p_tile.highlighted = false
+	
+	MouseHandler.hovered_tile = tile
+	tile.highlighted = true
+	if CombatManager.selected_action != null:
+		var tile_pos := Vector2i(tile.tile_position.x, tile.tile_position.z)
+		for pos in CombatManager.selected_action.shape.shape_pos_arr:
+			var adj_tile : BattleTile = battle_board.board.get(tile_pos + pos)
+			if adj_tile:
+				adj_tile.highlighted = true
+
+func _handle_mouse_clicks(event: InputEventMouseButton) -> void:
+	if event.is_action_pressed(&"tile_select"):
+		_tile_selection()
+	
+	# Zoom Behavior
 	if Input.is_action_pressed(&"zoom_in"):
 		camera.size -= linear_zoom_speed * get_physics_process_delta_time()
 	elif Input.is_action_pressed("zoom_out"):
@@ -94,12 +146,6 @@ func _input(event: InputEvent) -> void:
 		camera.size = linear_zoom_limits.x
 	elif camera.size > linear_zoom_limits.y:
 		camera.size = linear_zoom_limits.y
-
-func init(center: Vector3) -> void:
-	position = center
-	_generate_positions()
-	spring_arm.rotation_degrees.x = -45
-	x_rotation_range = Vector2(-deg_to_rad(x_rotation_range.x), -deg_to_rad(x_rotation_range.y))
 
 func _raycast_tile() -> BattleTile:
 	var space_state := camera.get_world_3d().direct_space_state
@@ -120,54 +166,25 @@ func _raycast_tile() -> BattleTile:
 		var tile : BattleTile = collider.get_parent()
 		return tile
 	return null
-#endregion
 
-#region Processes
-func _process(delta: float) -> void:
-	_cam_input()
-	_cam_movement(delta)
-
-func _cam_input() -> void:
-	rot_dir = Input.get_vector(&"cam_left", &"cam_right", &"cam_down", &"cam_up")
-	mov_dir = Input.get_axis(&"cam_backward", &"cam_forward")
-
-func _cam_movement(delta: float) -> void:
-	#if bounds != Rect2(0., 0., 0., 0.) and panning:
-	#	# TODO: Get this to detect if it's over gui, worst case is a dead zone.
-	#	var rel_pos : Vector2 = get_viewport().get_mouse_position() / Vector2(DisplayServer.window_get_size(0))
-	#	var rel_dir := Vector3.ZERO
-	#	if pan_vec == Vector2(rel_dir.x, rel_dir.z):
-	#		pan_vec = rel_pos
-	#	else:
-	#		rel_dir = Vector3(rel_pos.x - pan_vec.x, 0, rel_pos.y - pan_vec.y)
-	#		pan_vec = rel_pos
-	#	
-	#	position += Vector3(rel_pos.x, 0, rel_pos.y) * delta
+func _tile_selection() -> void:
+	var tile = _raycast_tile()
+	if tile == MouseHandler.selected_tile:
+		MouseHandler.selected_tile = null
+		return
 	
-	if rot_dir.x != 0 and can_swivel:
-		var next_position : int = current_position + rot_dir.x
-		if next_position >= available_positions.size():
-			next_position = 0
-		elif next_position < 0:
-			next_position = available_positions.size() - 1
-		
-		_rotate_camera_y(next_position)
-		
-		current_position = next_position
-		can_swivel = false
+	if tile != null:
+		print("Selecting %s" % tile)
+		MouseHandler.selected_tile = tile
 	
-	if rot_dir.y != 0:
-		print(spring_arm.rotation)
-		if spring_arm.rotation.x > x_rotation_range.x:
-			spring_arm.rotation.x = x_rotation_range.x
-		elif spring_arm.rotation.x < x_rotation_range.y:
-			spring_arm.rotation.x = x_rotation_range.y
-		spring_arm.rotate_x(x_angular_speed * delta * rot_dir.y)
-
-func _generate_positions() -> void:
-	var factor : float = 2. / position_count
-	for i in range(position_count):
-		available_positions.set(i, Vector3(0., PI * factor * i, 0.))
+	if CombatManager.moving and tile != null:
+		tile.attach_entity(PlayerManager.occupied_tile.held_entity)
+		PlayerManager.occupied_tile = tile
+		battle_board.determine_selectables()
+		CombatManager.player_turn = false
+		GameGlobalEvents.player_turn.emit()
+		_pan_camera(PlayerManager.entity_ref.global_position)
+		CombatManager.use_action.emit()
 
 func _rotate_camera_y(next_position: int) -> void:
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_CIRC).set_loops(1)
@@ -181,6 +198,29 @@ func _rotate_camera_y(next_position: int) -> void:
 		tween.tween_property(self, "rotation", dir, timer_delay)
 		return
 	tween.tween_property(self, "rotation", dir, timer_delay)
+
+func _pan_camera(target_pos: Vector3) -> void:
+	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC).set_loops(1)
+	tween.tween_property(self, "global_position", target_pos, 0.4)
+#endregion
+
+#region Processes
+func _process(delta: float) -> void:
+	_cam_movement(delta)
+
+func _cam_movement(delta: float) -> void:
+	if rot_dir.y != 0:
+		print(spring_arm.rotation)
+		if spring_arm.rotation.x > x_rotation_range.x:
+			spring_arm.rotation.x = x_rotation_range.x
+		elif spring_arm.rotation.x < x_rotation_range.y:
+			spring_arm.rotation.x = x_rotation_range.y
+		spring_arm.rotate_x(x_angular_speed * delta * rot_dir.y)
+
+func _generate_positions() -> void:
+	var factor : float = 2. / position_count
+	for i in range(position_count):
+		available_positions.set(i, Vector3(0., PI * factor * i, 0.))
 #endregion
 
 #region Signal Callbacks

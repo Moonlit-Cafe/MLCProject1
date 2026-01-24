@@ -3,12 +3,9 @@ extends Node
 
 @warning_ignore_start("unused_signal")
 signal action_selected(ac: Action)
-signal attack_tile(tile:BattleTile)
 signal battle_removed(node: Variant)
 signal battle_tile_selected
-signal battle_end
 signal game_end
-signal hp_changed
 signal player_turn
 signal stop_dragging
 signal weapon_open
