@@ -17,3 +17,5 @@ func init() -> void:
 				temp_d.get_or_add(name, val)
 			recipes[recipe_name] = temp_d
 		print(recipes)
+			
+			

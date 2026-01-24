@@ -6,7 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_omi38"]
 script = ExtResource("3_2aow2")
-compendium_path = "uid://c1rjmbtekn583"
+compendium_path = "uid://bg50f7vrri0rc"
 metadata/_custom_type_script = "uid://w6l5es8wnp35"
 
 [node name="CraftManager" type="Node"]
