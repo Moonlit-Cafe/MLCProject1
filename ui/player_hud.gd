@@ -24,6 +24,8 @@ func _ready() -> void:
 	
 	if container:
 		container.columns = inv_size.x
+		
+	item_manager = item_manager.find_child(".*/ItemManager", true, false)
 	
 	_generate_inventory()
 	_generate_random_itemnodes()
@@ -71,10 +73,6 @@ func get_usables() -> Array[Usable]:
 	var usable_list : Array[Usable] = []
 	
 	
-	# FIXME this is an incredibly ugly way to do this but im slamming it down
-	item_manager = get_tree().root
-	item_manager = item_manager.find_child("CombatManager", true, false)
-	item_manager = item_manager.find_child("ItemManager", true, false)
 	for child in container.get_children():
 		if not child.held_item:
 			continue
