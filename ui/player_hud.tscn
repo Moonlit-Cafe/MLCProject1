@@ -15,7 +15,6 @@ script = ExtResource("1_w11uw")
 rand_items = Array[ExtResource("2_sjha8")]([ExtResource("2_w11uw"), ExtResource("4_q84jv"), ExtResource("5_7fmvv")])
 inventory = NodePath("TabContainer/Inventory")
 container = NodePath("TabContainer/Inventory/InventoryContainer/MarginContainer/Inventory")
-inv_size = null
 inv_slot = ExtResource("1_n0n2g")
 inv_node = ExtResource("1_1m6my")
 wep_node = ExtResource("7_f87sx")

@@ -92,9 +92,6 @@ func _on_data_sent(data: Variant) -> void:
 	if data is Usable:
 		CombatManager.selected_action = data
 		battle_scene.battle_board.determine_selectables()
-		
-		# TODO send this to wherever actions occur
-		# data.linked_slot.count -= 1
 	elif data is Action:
 		CombatManager.selected_action = data
 		battle_scene.battle_board.determine_selectables()

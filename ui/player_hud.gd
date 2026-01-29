@@ -12,6 +12,8 @@ extends CanvasLayer
 @export var inv_node : PackedScene
 @export var wep_node : PackedScene
 
+@export var item_manager : Node
+
 @onready var tab_container : TabContainer = $TabContainer
 
 var hidden := true
@@ -67,8 +69,10 @@ func hide_inv() -> void:
 
 func get_usables() -> Array[Usable]:
 	var usable_list : Array[Usable] = []
+	
+	
 	# FIXME this is an incredibly ugly way to do this but im slamming it down
-	var item_manager = get_tree().root
+	item_manager = get_tree().root
 	item_manager = item_manager.find_child("CombatManager", true, false)
 	item_manager = item_manager.find_child("ItemManager", true, false)
 	for child in container.get_children():

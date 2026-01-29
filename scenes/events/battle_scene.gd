@@ -139,6 +139,8 @@ func _attack_tile() -> void:
 	if selected_tile.held_entity:
 		var entity : TileEntity = selected_tile.held_entity
 		PlayerManager.entity_ref.attack(entity, CombatManager.selected_action.value)
+		if CombatManager.selected_action is Usable:
+			CombatManager.selected_action.linked_slot.count -= 1
 		MouseHandler.selected_tile = null
 		battle_board.determine_selectables()
 	CombatManager.player_turn = false
