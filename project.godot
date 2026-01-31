@@ -13,21 +13,28 @@ config_version=5
 "Signal Lens/resize_panel_on_open"=false
 "Signal Lens/height_to_resize_to"=400.0
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="GameJamTemplate"
 config/version="2025.6.2-template.b132d5"
 run/main_scene="uid://bf0e0l206u8xd"
-config/features=PackedStringArray("4.5", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="uid://dvht62llvfwqd"
 
 [autoload]
 
 SaveManager="*res://autoloads/saving/save_manager.gd"
-MusicManager="*res://autoloads/audio/music_manager.tscn"
-SoundManager="*res://autoloads/audio/sound_manager.tscn"
 GameGlobal="*res://autoloads/general/game_global.gd"
 GameGlobalEvents="*res://autoloads/general/game_global_events.gd"
+AudioManager="*uid://bamjugiicnyji"
 CraftManager="*res://autoloads/player/craft_manager.tscn"
 PlayerManager="*res://autoloads/player/player_manager.tscn"
 SceneManager="*res://autoloads/scenes/scene_manager.tscn"
@@ -43,7 +50,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/csv-data-importer/plugin.cfg", "res://addons/signal_lens/plugin.cfg")
+enabled=PackedStringArray("res://addons/CSVAccess/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/signal_lens/plugin.cfg")
 
 [file_customization]
 

@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="EnemyCharacter" load_steps=11 format=3 uid="uid://dphyv7hkvhq2c"]
+[gd_resource type="Resource" script_class="EnemyCharacter" format=3 uid="uid://dphyv7hkvhq2c"]
 
-[ext_resource type="Texture2D" uid="uid://4xt8dndavy1t" path="res://assets/sprites/characters/character_1_frame16x20.png" id="1_ebwq0"]
-[ext_resource type="Script" uid="uid://cwnkhqmixlu7n" path="res://utility/data_holders/decisions/decision_array.gd" id="1_uf22c"]
+[ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://assets/sprites/characters/character_1_frame16x20.png" id="1_ebwq0"]
+[ext_resource type="Script" uid="uid://cwnkhqmixlu7n" path="res://utility/data_holders/decisions/decider_array.gd" id="1_uf22c"]
 [ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://mechanics/events/battle/enemies/enemy_resource.gd" id="1_yws0g"]
 [ext_resource type="Script" uid="uid://c6agyx2bg8ebv" path="res://utility/data_holders/decisions/decider.gd" id="2_csnyl"]
 [ext_resource type="Script" uid="uid://c7jgrhv2ltdm4" path="res://utility/data_holders/decisions/decider_set.gd" id="2_gkji7"]

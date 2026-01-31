@@ -27,19 +27,19 @@ var battle_map : BattleMap :
 		
 		battle_map.end_map.connect(clean_up)
 
-var game_difficulty : float = 1 ## The chosen or set difficulty of the game
 var difficulty_modifier : float = 1 ## The growing difficulty as the game goes on
+var game_difficulty : float = 1 ## The chosen or set difficulty of the game
 var level_number : float = 1 ## The position on the difficulty curve, not yet defined
 
+var item_manager : ItemManager ## The item manager node
 var skill_manager : SkillManager ## The skill manager node
 var zone_manager : ZoneManager ## The zone manager node
 
-var selected_action : Action ## The currently selected action
-var player_turn : bool = true ## Is it currently the player's turn?
-var item_manager : ItemManager ## The item manager node
-var moving : bool = false
-var tile_signal_pool : SignalPooler
-var player : TilePlayer
+var moving : bool = false ## A boolean determining if the Player is currently allowed to move
+var player : TilePlayer ## A reference to the actual TileEntity version of the Player
+var player_turn : bool = true ## Boolean trackig if it is currently the Player's turn
+var selected_action : Action ## The currently selected action within Combat
+var tile_signal_pool : SignalPooler ## Handles the information gathering in regards to tiles
 #endregion
 
 #region Events
@@ -47,22 +47,8 @@ func _ready() -> void:
 	_instantiate_managers()
 	tile_signal_pool = SignalPooler.new()
 
-## Updates the game's difficulty, if [param can_increase] is true, then will auto increment [br]
-## the level_number.
-func update_difficulty(can_increase: bool = false) -> void:
-	# PLANNED: Come back to this for tweaking when demo-ing the game.
-	if can_increase:
-		level_number += 1
-	difficulty_modifier = game_difficulty * pow(5, (level_number - 1) / 10)
-
-## Used to clean up the CombatManager of unnecessary references and values.
-func clean_up() -> void:
-	battle_map = null
-	selected_action = null
-
-func get_action(id: StringName) -> void:
-	pass
-
+## Starts up all the managers via instantiation and adding as children while passing their [br]
+## reference to the equivalently named [b]managers[/b]
 func _instantiate_managers() -> void:
 	if not skill_manager_scene or not zone_manager_scene:
 		return
@@ -76,4 +62,17 @@ func _instantiate_managers() -> void:
 	add_child(zone_manager)
 	add_child(item_manager)
 	print("Initialized: CombatManager")
+
+## Updates the game's difficulty, if [param can_increase] is true, then will auto increment [br]
+## the level_number.
+func update_difficulty(can_increase: bool = false) -> void:
+	# PLANNED: Come back to this for tweaking when demo-ing the game.
+	if can_increase:
+		level_number += 1
+	difficulty_modifier = game_difficulty * pow(5, (level_number - 1) / 10)
+
+## Used to clean up the CombatManager of unnecessary references and values.
+func clean_up() -> void:
+	battle_map = null
+	selected_action = null
 #endregion

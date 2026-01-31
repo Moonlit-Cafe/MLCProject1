@@ -2,15 +2,16 @@
 class_name Decider extends Resource
 
 #region Declarations
-@export var action : StringName
-@export var target_stat := Genum.StatType.HEALTH
-@export var response : Curve
-@export var mod : float = 1
+@export var action : StringName ## The id of the action associated with this decision
+@export var response : Curve ## The response curve for decision evaluation
+@export var mod : float = 1 ## The modifier to the result of the response value
 #endregion
 
 #region Events
 @warning_ignore_start("integer_division")
-func score(unit: TileEntity) -> float:
+## Takes a [TileEntity] via [param unit] to be evaluated against with the [param target_stat]
+## returns the resulting decision score based on [member response]
+func score(unit: TileEntity, target_stat: Genum.StatType) -> float:
 	if not response:
 		return -1.
 	
