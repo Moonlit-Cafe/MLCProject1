@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfykw172ltxx1"]
+[gd_scene format=3 uid="uid://cfykw172ltxx1"]
 
-[ext_resource type="Script" uid="uid://b37r4oxby7m2r" path="res://scenes/entities/battle_cam.gd" id="1_5a6j0"]
+[ext_resource type="Script" uid="uid://b37r4oxby7m2r" path="res://entities/player/battle_cam.gd" id="1_5a6j0"]
 
 [sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_4wjde"]
 

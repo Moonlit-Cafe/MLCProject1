@@ -35,15 +35,25 @@ func init() -> void:
 	_build_stats(enemy_stats)
 
 ## Used when the enemy is attacking.
-func attack() -> int:
+func attack(decision: Decider, c_stats: Dictionary[Genum.StatType, float]) -> int:
+	var action : CombatAction = CombatManager.skill_manager.get_action(decision.action)
+	
 	# TODO: Will later use consideration system to potentially separate the attack types.
 	var mod : float = CombatManager.difficulty_modifier
-	var attack_stat := Genum.StatType.ATTACK
-	var magic_stat := Genum.StatType.MAGIC
+	var attack_stat : Genum.StatType
+	var cost_stat : Genum.StatType
+	match(action.ac_cost.CostType):
+		AbilityCostPacket.CostType.MANA:
+			attack_stat = Genum.StatType.MAGIC
+			cost_stat = Genum.StatType.AETHER
+		AbilityCostPacket.CostType.STAMINA:
+			attack_stat = Genum.StatType.ATTACK
+			cost_stat = Genum.StatType.STAMINA
 	
-	var phys_attack := int(stats.get(attack_stat) * mod * stats_scaling.get(attack_stat))
-	var mag_attack := int(stats.get(magic_stat) * mod * stats_scaling.get(magic_stat))
-	return phys_attack + mag_attack
+	if action.ac_cost.cost_amount >= c_stats.get(cost_stat):
+		return action.value + c_stats.get(attack_stat) + mod
+	else:
+		return 0
 
 ## Used when the enemy is defending against an attack.
 func defend(ac: CombatAction) -> int:

@@ -2,12 +2,11 @@
 class_name SkillManager extends Node
 
 #region Declarations
-@export_file("*.json") var action_file : String
-@export_file("*.json") var action_shapes : String
-@export var set_compendium : Array[ItemSet]
+@export_file("*.json") var action_file : String ## All the available actions in the game
+@export_file("*.json") var action_shapes : String ## All the Shapes that are required for actions
 
-var ac_shape_array : Array[ActionShape]
-var all_actions : Array[Action]
+var ac_shape_array : Array[ActionShape] ## The array representing all the [ActionShape]s
+var all_actions : Array[Action] ## The array holding all the made [Action]s
 #endregion
 
 #region Events
@@ -21,7 +20,7 @@ func _ready() -> void:
 	
 	print("Initialized: SkillManager")
 
-## Generates all the actions shapes available for action usage.
+## Generates all the [ActionShape]s available for action usage based on [member action_shapes].
 func _define_shapes() -> void:
 	if not action_shapes:
 		push_error("@SkillManager: There are no action shapes file attached")
@@ -81,13 +80,14 @@ func get_action(id: StringName) -> CombatAction:
 #endregion
 
 #region Helpers
+## Returns an appropriate [ActionShape] based on the id given by [member shape_id]
 func find_shape(shape_id: StringName) -> ActionShape:
 	for shape in ac_shape_array:
 		if shape.shape_id == shape_id:
 			return shape
 	return null
-	
-	
+
+## Used to attach data from actions onto a skill, typically for items.
 func attach_data(skill, ac_data) -> bool: 
 	skill.ac_name = ac_data.get("name")
 	skill.damage_type = ac_data.get("damage_type") as Genum.DamageType

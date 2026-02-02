@@ -37,6 +37,8 @@ var entity_ref : TilePlayer
 #endregion
 
 #region Events
+## Initializes the character data based on the initial stats
+# TODO: Should be affected by saves later on.
 func init_character_data() -> void:
 	var new_data := PlayerCharacter.new()
 	for data_piece in stats.keys():
@@ -50,6 +52,7 @@ func init_character_data() -> void:
 	new_data.init()
 	character_data = new_data
 
+## Gets the player's available usable items from within the inventory
 func get_usables() -> Array[Usable]:
 	var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
 	if not inventory:
@@ -57,6 +60,7 @@ func get_usables() -> Array[Usable]:
 	var usables : Array[Usable] = inventory.get_usables()
 	return usables
 
+## Regenerates the combat stats, typically because they've been changed
 func regen_combat_stats() -> void:
 	var stats_to_modify : Dictionary[Genum.StatType, Array]
 	for item in equipped_items:
@@ -75,6 +79,7 @@ func regen_combat_stats() -> void:
 #endregion
 
 #region Helpers
+## Used to check if an Item Set prerequisite is met, if so then boosts stats.
 #TODO: Definitely need to come back and work on this more, but good enough for prototype
 func _check_item_sets(stats_mod: Dictionary[Genum.StatType, Array]) -> Dictionary[Genum.StatType, Array]:
 	var sets : Dictionary[StringName, int] = {}
@@ -103,9 +108,3 @@ func _check_item_sets(stats_mod: Dictionary[Genum.StatType, Array]) -> Dictionar
 	
 	return stats_mod
 #endregion
-
-
-
-	#held_entity.max_hp = held_entity.hp
-	#name = ent.o_name
-	#held_entity.parent_tile = self

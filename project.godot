@@ -57,6 +57,7 @@ enabled=PackedStringArray("res://addons/CSVAccess/plugin.cfg", "res://addons/Tod
 folder_colors={
 "res://assets/": "pink",
 "res://autoloads/": "yellow",
+"res://entities/": "blue",
 "res://mechanics/": "red",
 "res://ui/": "green",
 "res://utility/": "purple"

@@ -7,8 +7,8 @@ signal end_map
 # TODO: Make it so random enemies generate and can begin moving and attacking.
 
 @export var player_ref : PackedScene
-@export var battle_board : GridMap
-@export var turn_tracker : TurnTracker
+@export var battle_board : GridMap ## The Gridmap that acts as the actual map for the battle
+@export var turn_tracker : TurnTracker ## A local reference to the [TurnTracker]
 @export var select_holder : Node3D
 @export var b_tile : PackedScene
 @export var board_zone : MapBoundary
@@ -103,12 +103,12 @@ func determine_selectables() -> void:
 		child.selectable = false
 	
 	# TODO: Introduce some more checking on board_area and board later...
-	await get_tree().process_frame
 	var new_range : float = 0.5
 	var selected_action = CombatManager.selected_action
 	if selected_action is CombatAction:
 		new_range = selected_action.a_range
-	PlayerManager.entity_ref.d_range = new_range * 4
+	PlayerManager.entity_ref.d_range = new_range
+	await get_tree().process_frame
 	var detected : Array[BattleTile] = await PlayerManager.entity_ref.get_detected()
 	for tile in detected:
 		tile.selectable = true
