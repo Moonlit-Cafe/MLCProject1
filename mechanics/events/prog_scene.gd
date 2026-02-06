@@ -3,16 +3,16 @@
 class_name ProgScene extends Node
 
 #region Declarations
-@export var event_references : Array[EventHolder]
-@export var button_container : VBoxContainer
-@export var scene_holder : Node
+@export var event_references : Array[EventHolder] ## A reference list for all in-game events
+@export var button_container : VBoxContainer ## The container holding the buttons for next progression scene 
+@export var scene_holder : Node ## The Node that acts as a parent to the event scenes.
 
-var current_scene_index: int = 0
-var current_scene : BaseEventScene = null
-var event_history: Array[String] = []
-var frequency_events : Array[EventHolder]
-var random_events : Array[EventHolder]
-var is_frequency := false
+var current_scene_index: int = 0 ## The current scene index from start (0)
+var current_scene : BaseEventScene = null ## Reference of the current accessible scene
+var event_history: Array[String] = [] ## The total list of events that the player has gone through
+var frequency_events : Array[EventHolder] ## Events that rely on showing up in a reliable fashion
+var random_events : Array[EventHolder] ## Truly random events that are not dependent on [member current_scene_index]
+var is_frequency := false ## Is the current event a frequency event
 var generation_height : int = 3
 #endregion
 
@@ -23,6 +23,9 @@ func _ready() -> void:
 	
 	generate_next_events()
 
+## Generates the next set of events
+# TODO: Probably do a one or two over the current scene progression logic, there's definitely some
+# improvements to be made.
 func generate_next_events() -> void:
 	button_container.get_parent().show()
 	current_scene_index += 1

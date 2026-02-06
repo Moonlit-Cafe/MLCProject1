@@ -5,8 +5,10 @@ class_name BattleTile extends Node3D
 # unless the player right-clicks.
 
 #region Declarations
-signal turn_finished
+signal turn_finished ## Emitted when the Tile's Char's turn is finished.
 
+## The available battle States for the tile
+# TODO: Possibly remove this, possibly redundant on account of usually checking for entity's char
 enum BattleState {
 	EMPTY,
 	ENEMY,
@@ -14,6 +16,7 @@ enum BattleState {
 	PLAYER
 }
 
+## The highlight state of the tile
 enum Highlight {
 	NULL,
 	SELECTABLE,
@@ -22,16 +25,22 @@ enum Highlight {
 }
 
 #@export var select_sprite : AnimatedSprite3D
+## Holds a dictionary of different entities to then instantiate on the tile.
+# TODO: Probably move this outside of the tile and use a master compendium to draw from instead.
 @export var packed_entity_reference : Dictionary[StringName, PackedScene]
+## The colors for the highlight
 @export var selection_colors : Dictionary[Highlight, Color]
 
+## The node incharge of holding the actual entity of the tile.
 @onready var entity_holder : Node3D = $EntityHolder
+## The sprite responsible for our selection animation.
 @onready var select_sprite : AnimatedSprite3D = $AnimatedSprite3D
 #@onready var mesh : MeshInstance3D = $MeshInstance3D
 
-var battle_map : BattleMap3D
-var held_entity : TileEntity
-var tile_position : Vector3i = Vector3i.ZERO
+var battle_map : BattleMap3D ## Parent+ reference to the current battle_map
+var held_entity : TileEntity ## The currently held entity reference
+var tile_position : Vector3i = Vector3i.ZERO ## The position within [member battle_map]
+## If the tile is currently selectable or not
 var selectable : bool = false :
 	set(value):
 		if not value:
@@ -40,6 +49,7 @@ var selectable : bool = false :
 			_set_highlight(Highlight.SELECTABLE)
 		
 		selectable = value
+## If the tile is currently highlighted or not
 var highlighted : bool = false :
 	set(value):
 		if not value:
@@ -54,7 +64,7 @@ var highlighted : bool = false :
 				_set_highlight(Highlight.ADJACENT)
 		
 		highlighted = value
-var state : BattleState
+var state : BattleState ## The current state of the tile
 #endregion
 
 #region Events
@@ -63,6 +73,8 @@ func _ready() -> void:
 	CombatManager.tile_signal_pool.add_to_group("tiles", self)
 	battle_map = find_parent("BattleMap3D")
 
+## Attaches the character resource, [param ent], by generating the respective entity, attaching it
+## and then making it a child of [member entity_holder]
 func attach_object(ent: CharacterResource) -> void:
 	var tile := _gen_tile_entity(ent)
 	
@@ -85,6 +97,7 @@ func attach_object(ent: CharacterResource) -> void:
 	name = held_entity.character.o_name
 	held_entity.parent_tile = self
 
+## Attaches an already existing entity to this tile, usually used for moving between tiles
 func attach_entity(entity: TileEntity) -> void:
 	if held_entity:
 		return
@@ -98,6 +111,7 @@ func attach_entity(entity: TileEntity) -> void:
 	held_entity = entity
 	name = held_entity.character.o_name
 
+## Clears out the object and all the data relevant to it
 func clear_object() -> void:
 	if not held_entity:
 		return
@@ -107,15 +121,12 @@ func clear_object() -> void:
 	GameGlobalEvents.battle_removed.emit(self)
 	name = "(%s, %s)" % [tile_position.x, tile_position.z]
 	state = BattleState.EMPTY
-	_check_other_tiles()
 
-func defend(ac: CombatAction) -> void:
-	# TODO: Comeback to this
-	held_entity.hp -= held_entity.character.defend(ac)
-
+## Return the current hp value of [member held_entity]
 func get_hp() -> Vector2i:
 	return held_entity.get_hp() 
 
+## Generates a [TileEntity] from a given [CharacterResource]
 func _gen_tile_entity(ent: CharacterResource) -> TileEntity:
 	if ent is PlayerCharacter:
 		return packed_entity_reference.get(&"player").instantiate()
@@ -126,16 +137,7 @@ func _gen_tile_entity(ent: CharacterResource) -> TileEntity:
 	else:
 		return null
 
-func _check_other_tiles() -> void:
-	var enemies : int = 0
-	var tiles = get_tree().get_nodes_in_group(&"tiles")
-	for tile in tiles:
-		if tile.state == BattleState.ENEMY:
-			enemies += 1
-	
-	if enemies == 0:
-		CombatManager.battle_end.emit()
-
+## The entire highlighting logic for the tile.
 func _set_highlight(idx: int) -> void:
 	#mesh.set_instance_shader_parameter(&"mode", idx)
 	var frame : int = select_sprite.get_frame()
@@ -155,44 +157,6 @@ func _set_highlight(idx: int) -> void:
 			select_sprite.play("selectable_fade")
 			select_sprite.set_frame_and_progress(frame, progress)
 			select_sprite.modulate = selection_colors.get(Highlight.ADJACENT)
-
-func _get_highlight() -> int:
-	#var ret = mesh.get_instance_shader_parameter(&"mode")
-	#if ret is int:
-	#	return ret
-	#else:
-	#	return Highlight.NULL
-	return 0
-
-func _highlight(ac: CombatAction) -> void:
-	if MouseHandler.selected_tile != null:
-		return
-	
-	for tile in get_tree().get_nodes_in_group(&"tiles"):
-		if tile.highlighted:
-			tile.highlighted = false
-		
-		if _get_highlight() == Highlight.ADJACENT:
-			if tile.selectable:
-				_set_highlight(Highlight.SELECTABLE)
-			else:
-				_set_highlight(Highlight.NULL)
-	
-	if not selectable:
-		return
-	
-	highlighted = true
-	if not ac:
-		return
-	
-	var shape : Array[Vector2i] = ac.shape.shape_pos_arr.duplicate()
-	shape.erase(Vector2i.ZERO)
-	for vec in shape:
-		for tile in get_tree().get_nodes_in_group(&"tiles"):
-			#if not tile.tile_position == tile_position + vec:
-			#	continue
-			
-			tile._set_highlight(Highlight.ADJACENT)
 #endregion
 
 #region Signal Callbacks

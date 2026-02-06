@@ -112,16 +112,6 @@ func _update_hp_label() -> void:
 	enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).x
 #endregion
 
-#region Helpers
-func action_on_tiles(tile: BattleTile, action: CombatAction) -> void:
-	var tile_pos := tile.tile_position
-	var center_pos := Vector2i(tile_pos.x, tile_pos.z)
-	var tiles := battle_board.grab_other_tiles(action.shape.shape_pos_arr.duplicate(), center_pos)
-	tile.defend(action)
-	for other_tile in tiles:
-		other_tile.defend(action)
-#endregion
-
 #region Signal Callbacks
 func _on_pressed() -> void:
 	SceneManager.load_next_scene()
