@@ -178,9 +178,13 @@ func _tile_selection() -> void:
 		MouseHandler.selected_tile = tile
 	
 	if CombatManager.moving and tile != null:
+		battle_board.determine_selectables()
+		if not tile.selectable:
+			print("Tile already occupied!")
+			return
+		
 		tile.attach_entity(PlayerManager.occupied_tile.held_entity)
 		PlayerManager.occupied_tile = tile
-		battle_board.determine_selectables()
 		CombatManager.player_turn = false
 		GameGlobalEvents.player_turn.emit()
 		_pan_camera(PlayerManager.entity_ref.global_position)
