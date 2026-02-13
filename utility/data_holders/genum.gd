@@ -97,7 +97,8 @@ enum StatType {
 	ATTACK_POWER,
 	MAGIC,
 	MAGIC_POWER,
-	HASTE,
+	HASTE, ## Decides turn order
+	SPEED, ## Number of traversable tiles per turn
 	BARRIER,
 	STAMINA,
 	CRIT_RATE,

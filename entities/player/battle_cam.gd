@@ -179,8 +179,9 @@ func _tile_selection() -> void:
 	
 	if CombatManager.moving and tile != null:
 		battle_board.determine_selectables()
+		
 		if not tile.selectable:
-			print("Tile already occupied!")
+			print("Tile not selectable!")
 			return
 		
 		tile.attach_entity(PlayerManager.occupied_tile.held_entity)

@@ -19,6 +19,7 @@ var stats : Dictionary[Genum.StatType, int] = {
 	Genum.StatType.MAGIC: 1,
 	Genum.StatType.MAGIC_POWER: 100,
 	Genum.StatType.HASTE: 200,
+	Genum.StatType.SPEED: 3,
 	Genum.StatType.BARRIER: 0,
 	Genum.StatType.STAMINA: 10,
 	Genum.StatType.CRIT_RATE: 0,

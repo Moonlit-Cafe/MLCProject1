@@ -107,11 +107,18 @@ func determine_selectables() -> void:
 	var selected_action = CombatManager.selected_action
 	if selected_action is CombatAction:
 		new_range = selected_action.a_range
+	elif selected_action is MoveAction:
+		new_range = selected_action.move_range
 	PlayerManager.entity_ref.d_range = new_range
 	await get_tree().process_frame
 	var detected : Array[BattleTile] = await PlayerManager.entity_ref.get_detected()
 	for tile in detected:
 		tile.selectable = true
+		
+		if tile.held_entity:
+			if selected_action is MoveAction:
+				return
+
 
 func get_tile_at(pos: Vector2i) -> BattleTile:
 	return board.get(pos)
