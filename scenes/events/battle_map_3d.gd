@@ -95,6 +95,7 @@ func generate_turn_order() -> void:
 	turn_tracker.turn_list = turn_order
 	turn_tracker.generate_turns()
 
+
 func determine_selectables() -> void:
 	if not select_holder:
 		return
@@ -110,14 +111,16 @@ func determine_selectables() -> void:
 	elif selected_action is MoveAction:
 		new_range = selected_action.move_range
 	PlayerManager.entity_ref.d_range = new_range
+	
 	await get_tree().process_frame
+	
 	var detected : Array[BattleTile] = await PlayerManager.entity_ref.get_detected()
 	for tile in detected:
-		tile.selectable = true
-		
 		if tile.held_entity:
 			if selected_action is MoveAction:
-				return
+				continue
+
+		tile.selectable = true
 
 
 func get_tile_at(pos: Vector2i) -> BattleTile:
@@ -166,8 +169,8 @@ func _check_enemy_order_size(emy_order: Array) -> int:
 
 func _haste_sort(a: TileEntity, b: TileEntity) -> bool:
 	# TODO: Come back to this check later.
-	#if (not "haste" in a.held_object and not a is PlayerManager) or (not "haste" in b.held_object and not b is PlayerManager):
-	#	push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
+	# if (not "haste" in a.held_object and not a is PlayerManager) or (not "haste" in b.held_object and not b is PlayerManager):
+	# push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
 	
 	var haste_a : int = a.haste
 	var haste_b : int = b.haste
