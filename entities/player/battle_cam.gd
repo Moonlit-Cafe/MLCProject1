@@ -178,18 +178,19 @@ func _tile_selection() -> void:
 		MouseHandler.selected_tile = tile
 	
 	if CombatManager.moving and tile != null:
-		battle_board.determine_selectables()
-		
 		if not tile.selectable:
 			print("Tile not selectable!")
 			return
 		
+		battle_board.determine_selectables()
 		tile.attach_entity(PlayerManager.occupied_tile.held_entity)
 		PlayerManager.occupied_tile = tile
 		CombatManager.player_turn = false
 		GameGlobalEvents.player_turn.emit()
 		_pan_camera(PlayerManager.entity_ref.global_position)
 		CombatManager.use_action.emit()
+		
+		
 
 func _rotate_camera_y(next_position: int) -> void:
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_CIRC).set_loops(1)
