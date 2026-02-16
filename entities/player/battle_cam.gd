@@ -169,8 +169,9 @@ func _raycast_tile() -> BattleTile:
 
 func _tile_selection() -> void:
 	var tile = _raycast_tile()
-	if tile == MouseHandler.selected_tile:
-		MouseHandler.selected_tile = null
+	if tile == MouseHandler.selected_tile and tile != null:
+		if CombatManager.selected_action:
+			CombatManager.attack_tile.emit()
 		return
 	
 	if tile != null:
@@ -189,7 +190,6 @@ func _tile_selection() -> void:
 		GameGlobalEvents.player_turn.emit()
 		_pan_camera(PlayerManager.entity_ref.global_position)
 		CombatManager.use_action.emit()
-		
 		
 
 func _rotate_camera_y(next_position: int) -> void:
