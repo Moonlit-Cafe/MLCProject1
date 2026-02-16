@@ -17,6 +17,7 @@ class_name BattleCam extends Node3D
 
 var rot_dir := Vector2.ZERO
 var mov_dir : float = 0.
+var player_turn : bool = false
 var can_swivel : bool = true:
 	set(value):
 		if not value:
@@ -39,6 +40,7 @@ func _ready() -> void:
 	if get_tree().get_node_count_in_group(&"player") > 0:
 		focus_target = get_tree().get_first_node_in_group(&"player")
 		global_position = focus_target.global_position
+		
 
 func _input(event: InputEvent) -> void:
 	# PLANNED: Come back to this later on to adapt to gamepad if we wanna add that.
@@ -169,6 +171,9 @@ func _raycast_tile() -> BattleTile:
 
 func _tile_selection() -> void:
 	var tile = _raycast_tile()
+	if not player_turn:
+		return
+	
 	if tile == MouseHandler.selected_tile and tile != null:
 		if CombatManager.selected_action:
 			CombatManager.attack_tile.emit()

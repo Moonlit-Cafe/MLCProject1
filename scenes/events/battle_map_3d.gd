@@ -269,3 +269,9 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 			battle_loop(rounds, cur_round + 1)
 		else:
 			return 
+			
+			
+#region Signal Callbacks
+func _on_new_turn(cur_is_player : bool):
+	camera.player_turn = cur_is_player
+#endregion

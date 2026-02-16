@@ -15,6 +15,7 @@ extends BaseEventScene
 @onready var enemy_info : VBoxContainer = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo
 @onready var enemy_label : Label = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/EnemyName
 @onready var enemy_hp_bar : ProgressBar = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/HealthBar
+@onready var battle_map : BattleMap3D = $BattleMap3D
 
 # TODO: Need to procedurally determine what enemies are able to fight based off of the current
 # difficulty rating.
@@ -88,6 +89,8 @@ func _signal_initialization() -> void:
 	CombatManager.hp_changed.connect(_on_hp_changed)
 	CombatManager.battle_end.connect(_on_battle_ended)
 	CombatManager.attack_tile.connect(_attack_tile)
+	
+	turn_tracker.new_turn.connect(battle_map._on_new_turn)
 #endregion
 
 #region Processes

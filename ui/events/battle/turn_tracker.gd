@@ -1,7 +1,11 @@
 class_name TurnTracker extends Control
 
+signal new_turn(cur_is_player)
+
 @export var turn_labels : VBoxContainer
 var turn_list : Array[TileEntity] = []
+
+var player_turn : bool = false
 
 #region Events
 # TODO: Rudimentary, but good start.
@@ -16,12 +20,15 @@ func _ready() -> void:
 func reorder_turns() -> void:
 	if turn_list == []:
 		return
+	
 	if validate_turns():
 		return
 	
 	var list_header = turn_list[0]
 	
 	turn_list.sort_custom(_compare_haste)
+	
+	
 	
 	# HACK potential computation pain point
 	# dont know if its faster to do this or rearrange slices of the array
@@ -44,6 +51,9 @@ func generate_turns() -> void:
 		turn_labels.add_child(turn_label)
 	
 	turn_list.sort_custom(_compare_haste)
+	
+	new_turn.emit(turn_labels.get_children()[0].text == "Player")
+	
 
 func remove_turn(actor: TileEntity) -> void:
 	if not actor in turn_list:
@@ -62,6 +72,7 @@ func remove_turn(actor: TileEntity) -> void:
 func recycle_turn() -> void:
 	var turn = turn_labels.get_children().pop_front()
 	turn_labels.move_child(turn, turn_labels.get_child_count())
+	new_turn.emit(turn_labels.get_children()[0].text == "Player")
 
 
 func validate_turns() -> bool:
