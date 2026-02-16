@@ -55,7 +55,7 @@ func remove_turn(actor: TileEntity) -> void:
 	
 	turn_list.erase(actor)
 	for child in turn_labels.get_children():
-		if child.text == actor.name:
+		if child.text == actor.character.o_name:
 			child.queue_free()
 			return
 
