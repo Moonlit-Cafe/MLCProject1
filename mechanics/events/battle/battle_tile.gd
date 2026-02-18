@@ -89,10 +89,11 @@ func attach_entity(entity: TileEntity) -> void:
 	if held_entity:
 		return
 	
-	var source = entity.get_parent()
-	source.remove_child(entity)
-	source.name = "(%s, %s)" % [tile_position.x, tile_position.z]
+	var source_holder : Node3D = entity.get_parent()
+	source_holder.remove_child(entity)
+	entity.parent_tile.name = "Tile(%s,%s)" % [tile_position.x, tile_position.z]
 	entity.parent_tile.held_entity = null
+	
 	entity_holder.add_child(entity)
 	entity.position = Vector3.ZERO
 	held_entity = entity
