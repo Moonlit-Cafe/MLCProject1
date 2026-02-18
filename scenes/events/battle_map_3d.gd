@@ -117,7 +117,8 @@ func determine_selectables() -> void:
 	var detected : Array[BattleTile] = await PlayerManager.entity_ref.get_detected()
 	for tile in detected:
 		if tile.held_entity:
-			if selected_action is MoveAction:
+			if tile.held_entity is not TileEntity:
+				print("Tile %s not toggled", tile)
 				continue
 
 		tile.selectable = true

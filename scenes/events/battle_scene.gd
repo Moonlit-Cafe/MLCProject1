@@ -109,10 +109,12 @@ func _update_hp_label() -> void:
 	
 	if not enemy_info.visible:
 		enemy_info.show()
-	enemy_label.text = MouseHandler.selected_tile.name
-	enemy_hp_bar.max_value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y
-	enemy_hp_bar.step = float(MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y) / 10000
-	enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).x
+		
+		if MouseHandler.selected_tile.held_entity:
+			enemy_label.text = MouseHandler.selected_tile.name
+			enemy_hp_bar.max_value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y
+			enemy_hp_bar.step = float(MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y) / 10000
+			enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).x
 #endregion
 
 #region Helpers
