@@ -61,6 +61,7 @@ func defend(damage: float, _offender: TileEntity) -> void:
 	if hp <= 0:
 		print(self.name)
 		GameGlobalEvents.battle_removed.emit(self)
+		# TODO make a death function, in case of on death triggers like barrels exploding
 		parent_tile.clear_object()
 
 func commit_action() -> void:

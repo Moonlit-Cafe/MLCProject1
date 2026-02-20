@@ -197,7 +197,7 @@ func _tile_selection() -> void:
 	
 		#temp.clear_object()
 		
-	if tile == MouseHandler.selected_tile and tile == null:
+	if tile == MouseHandler.selected_tile and tile != null:
 		if CombatManager.selected_action:
 			CombatManager.attack_tile.emit()
 		return

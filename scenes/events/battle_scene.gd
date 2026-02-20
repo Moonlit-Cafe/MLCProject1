@@ -141,9 +141,11 @@ func _attack_tile() -> void:
 		return
 	
 	var selected_tile : BattleTile = MouseHandler.selected_tile
+	# TODO no check for held entities on tiles in shape of action
 	if selected_tile.held_entity:
 		var entity : TileEntity = selected_tile.held_entity
 		entity.defend(CombatManager.selected_action.value, PlayerManager.entity_ref)
+		battle_log.log_item(str(CombatManager.selected_action.value) + " damage dealt to " + str(entity.character.o_name))
 		if CombatManager.selected_action is Usable:
 			CombatManager.selected_action.linked_slot.count -= 1
 		MouseHandler.selected_tile = null
