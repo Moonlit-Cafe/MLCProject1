@@ -188,8 +188,10 @@ func grab_other_tiles(tiles_to_grab: Array[Vector2i], center_pos) -> Array[Battl
 	if Vector2i.ZERO in tiles_to_grab:
 		tiles_to_grab.erase(Vector2i.ZERO)
 	
-	for tile in tiles_to_grab:
-		ret_arr.append(board.get(tile + center_pos))
+	for tile_coords in tiles_to_grab:
+		if not check_tile_exists(tile_coords):
+			continue
+		ret_arr.append(board.get(tile_coords + center_pos))
 	
 	return ret_arr
 

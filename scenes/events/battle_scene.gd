@@ -143,8 +143,6 @@ func action_on_tiles() -> void:
 	CombatManager.use_action.emit()
 		
 func _attack_tile(cur_tile:BattleTile, action:CombatAction):
-	print(str(cur_tile.held_entity))
-	
 	if not cur_tile.held_entity:
 		return 
 	
