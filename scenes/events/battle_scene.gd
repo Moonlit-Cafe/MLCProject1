@@ -88,7 +88,7 @@ func _signal_initialization() -> void:
 	
 	CombatManager.hp_changed.connect(_on_hp_changed)
 	CombatManager.battle_end.connect(_on_battle_ended)
-	CombatManager.attack_tile.connect(_attack_tile)
+	CombatManager.attack_tile.connect(action_on_tiles)
 	
 	turn_tracker.new_turn.connect(battle_map._on_new_turn)
 #endregion
@@ -118,13 +118,41 @@ func _update_hp_label() -> void:
 #endregion
 
 #region Helpers
-func action_on_tiles(tile: BattleTile, action: CombatAction) -> void:
+func action_on_tiles() -> void:
+	# TODO: Attach to Battle_board instead of actuating here.
+	var tile : BattleTile = MouseHandler.selected_tile
+	var action = CombatManager.selected_action
+	battle_log.log_item("This is log test...")
+	
+	if not CombatManager.selected_action or not CombatManager.player_turn:
+		return
+		
 	var tile_pos := tile.tile_position
 	var center_pos := Vector2i(tile_pos.x, tile_pos.z)
 	var tiles := battle_board.grab_other_tiles(action.shape.shape_pos_arr.duplicate(), center_pos)
-	tile.defend(action)
-	for other_tile in tiles:
-		other_tile.defend(action)
+	tiles.append(tile)
+	
+	for cur_tile in tiles:
+		_attack_tile(cur_tile, action)
+
+
+	MouseHandler.selected_tile = null
+	battle_board.determine_selectables()
+	CombatManager.player_turn = false
+	GameGlobalEvents.player_turn.emit()
+	CombatManager.use_action.emit()
+		
+func _attack_tile(cur_tile:BattleTile, action:CombatAction):
+	print(str(cur_tile.held_entity))
+	
+	if not cur_tile.held_entity:
+		return 
+	
+	if CombatManager.selected_action is Usable:
+		CombatManager.selected_action.linked_slot.count -= 1
+			
+	battle_log.log_item(str(CombatManager.selected_action.value) + " damage dealt to " + str(cur_tile.held_entity.character.o_name))
+	cur_tile.defend(action, PlayerManager.entity_ref)
 #endregion
 
 #region Signal Callbacks
@@ -134,25 +162,8 @@ func _on_pressed() -> void:
 func _on_map_ended() -> void:
 	_on_pressed()
 
-func _attack_tile() -> void:
-	# TODO: Attach to Battle_board instead of actuating here.
-	battle_log.log_item("This is log test...")
-	if not CombatManager.selected_action or not CombatManager.player_turn:
-		return
+
 	
-	var selected_tile : BattleTile = MouseHandler.selected_tile
-	# TODO no check for held entities on tiles in shape of action
-	if selected_tile.held_entity:
-		var entity : TileEntity = selected_tile.held_entity
-		entity.defend(CombatManager.selected_action.value, PlayerManager.entity_ref)
-		battle_log.log_item(str(CombatManager.selected_action.value) + " damage dealt to " + str(entity.character.o_name))
-		if CombatManager.selected_action is Usable:
-			CombatManager.selected_action.linked_slot.count -= 1
-		MouseHandler.selected_tile = null
-		battle_board.determine_selectables()
-	CombatManager.player_turn = false
-	GameGlobalEvents.player_turn.emit()
-	CombatManager.use_action.emit()
 
 ## Changes the hp label based on current value.
 func _on_hp_changed() -> void:

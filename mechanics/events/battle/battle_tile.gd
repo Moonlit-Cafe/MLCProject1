@@ -110,9 +110,12 @@ func clear_object() -> void:
 	state = BattleState.EMPTY
 	_check_other_tiles()
 
-func defend(ac: CombatAction) -> void:
+func defend(ac: CombatAction, offender) -> void:
 	# TODO: Comeback to this
-	held_entity.hp -= held_entity.character.defend(ac)
+	if not held_entity:
+		return 
+		
+	held_entity.defend(ac.value, offender)
 
 func get_hp() -> Vector2i:
 	return held_entity.get_hp() 
