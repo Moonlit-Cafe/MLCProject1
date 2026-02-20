@@ -19,13 +19,17 @@ func detect_special_data(value: String) -> Variant:
 	return value
 
 func encode_special_data(value: Variant) -> String:
-	if value is Vector2:
+	if value is Vector2i:
 		return "Vec[%s,%s]" % [value.x, value.y]
 	elif value is Array[int]:
 		var string_arr : String = ""
 		for i in value:
 			string_arr += "%s;" % i
 		return string_arr
+	elif value is int:
+		return "%s" % value
+	elif (value is String) or (value is StringName):
+		return value
 	
 	return ""
 

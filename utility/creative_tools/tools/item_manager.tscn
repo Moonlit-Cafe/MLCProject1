@@ -2,14 +2,15 @@
 
 [ext_resource type="Script" uid="uid://danrvtjmr0qgc" path="res://utility/creative_tools/tools/item_manager.gd" id="1_8gjqj"]
 
-[node name="ItemManager" type="PanelContainer" unique_id=1343109431 node_paths=PackedStringArray("item_directory")]
+[node name="ItemManager" type="PanelContainer" unique_id=1343109431 node_paths=PackedStringArray("item_directory", "info_container")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8gjqj")
-item_directory = NodePath("MarginContainer/HBoxContainer/ItemDirectory")
+item_directory = NodePath("MarginContainer/HBoxContainer/ScrollContainer/ItemDirectory")
+info_container = NodePath("MarginContainer/HBoxContainer/VBoxContainer/ScrollContainer/InfoContainer")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1701354817]
 layout_mode = 2
@@ -21,6 +22,26 @@ theme_override_constants/margin_bottom = 10
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1991000661]
 layout_mode = 2
 
-[node name="ItemDirectory" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=2000132989]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer" unique_id=1895134903]
 layout_mode = 2
 size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="ItemDirectory" type="VBoxContainer" parent="MarginContainer/HBoxContainer/ScrollContainer" unique_id=2000132989]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer" unique_id=2106550135]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/margin_left = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1260857277]
+layout_mode = 2
+
+[node name="InfoContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/ScrollContainer" unique_id=1749710168]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

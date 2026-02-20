@@ -11,3 +11,8 @@ func save_data() -> Dictionary:
 	var data = super()
 	data.set("material_type", "%s" % material_type)
 	return data
+
+func get_manager_data() -> Dictionary[StringName, Variant]:
+	var data = super()
+	data.set(&"material_type", material_type)
+	return data

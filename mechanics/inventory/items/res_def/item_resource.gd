@@ -62,4 +62,18 @@ func save_data() -> Dictionary:
 		"max_stack_size": "%s" % max_stack_size
 	}
 	return data
+
+func get_manager_data() -> Dictionary[StringName, Variant]:
+	var data : Dictionary[StringName, Variant] = {
+		&"id": id,
+		&"name": i_name,
+		&"value": value,
+		&"tags": tags,
+		&"texture": texture,
+		&"tooltip": tooltip,
+		&"tier": tier,
+		&"equip_loc": equip_loc,
+		&"max_stack_size": max_stack_size
+	}
+	return data
 #endregion
