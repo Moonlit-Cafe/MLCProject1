@@ -4,6 +4,8 @@ extends PanelContainer
 # TODO: Replace with @onready when final design is made.
 @export var item_directory : VBoxContainer
 @export var info_container : VBoxContainer
+
+var i_data : Dictionary[StringName, Variant] = {}
 #endregion
 
 #region Events
@@ -22,6 +24,10 @@ func _load_data() -> void:
 		data_button.data = item
 		data_button.send_data.connect(_on_data_pressed)
 		item_directory.add_child(data_button)
+
+func _clear_info() -> void:
+	for child in item_directory.get_children():
+		item_directory.remove_child(child)
 #endregion
 
 #region Signal Callbacks
@@ -35,9 +41,22 @@ func _on_data_pressed(data: Variant) -> void:
 	var item_data : Dictionary[StringName, Variant] = data.get_manager_data()
 	var dmh := DataManipulationHelper.new()
 	for key in item_data.keys():
+		if item_data.get(key) is Vector2i:
+			var vec_field := CreativeUIGenerator.create_vector_field()
+			info_container.add_child(vec_field)
+			vec_field.set_data(item_data.get(key))
+			continue
 		var label := Label.new()
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		print(key)
 		label.text = dmh.encode_special_data(item_data.get(key))
 		info_container.add_child(label)
+	
+	var save_button := Button.new()
+	save_button.text = "Save Changes"
+	info_container.add_child(save_button)
+	i_data = item_data
+
+func _save_data_pressed() -> void:
+	pass
 #endregion
