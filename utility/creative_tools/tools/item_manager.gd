@@ -28,6 +28,40 @@ func _load_data() -> void:
 func _clear_info() -> void:
 	for child in item_directory.get_children():
 		item_directory.remove_child(child)
+
+func _create_controls_from_data(item_data: Dictionary[StringName, Variant]) -> void:
+	var dmh := DataManipulationHelper.new()
+	for key in item_data.keys():
+		var value = item_data.get(key)
+		if value is Vector2i:
+			var vec_field := CreativeUIGenerator.create_vector_field()
+			info_container.add_child(vec_field)
+			vec_field.set_data(item_data.get(key))
+			continue
+		elif value is int:
+			var int_field := CreativeUIGenerator.create_int_field()
+			info_container.add_child(int_field)
+			int_field.set_data(item_data.get(key))
+			int_field.label_text = key
+			continue
+		elif value is Array[int]:
+			var enum_field := CreativeUIGenerator.create_enum_array_field()
+			enum_field.init(Genum.ItemTags.keys(), value)
+			info_container.add_child(enum_field)
+			enum_field.text = key
+			continue
+		elif (value is String or value is StringName) and key != "id":
+			var line_edit := LineEdit.new()
+			line_edit.text = value
+			info_container.add_child(line_edit)
+			continue
+		
+		# Assumes any other type is a string
+		var label := Label.new()
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.text = dmh.encode_special_data(item_data.get(key))
+		info_container.add_child(label)
+	
 #endregion
 
 #region Signal Callbacks
@@ -39,18 +73,7 @@ func _on_data_pressed(data: Variant) -> void:
 		info_container.remove_child(child)
 	
 	var item_data : Dictionary[StringName, Variant] = data.get_manager_data()
-	var dmh := DataManipulationHelper.new()
-	for key in item_data.keys():
-		if item_data.get(key) is Vector2i:
-			var vec_field := CreativeUIGenerator.create_vector_field()
-			info_container.add_child(vec_field)
-			vec_field.set_data(item_data.get(key))
-			continue
-		var label := Label.new()
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		print(key)
-		label.text = dmh.encode_special_data(item_data.get(key))
-		info_container.add_child(label)
+	_create_controls_from_data(item_data)
 	
 	var save_button := Button.new()
 	save_button.text = "Save Changes"

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dy3kufgfgf4w4"]
 
 [ext_resource type="Script" uid="uid://lp4ljr4b0coe" path="res://ui/input/creative_tools/vector_input_field.gd" id="1_a0e5i"]
+[ext_resource type="PackedScene" uid="uid://ckddmbre1l627" path="res://ui/input/creative_tools/int_input_field.tscn" id="2_ocxji"]
 
 [node name="VectorInputField" type="HBoxContainer" unique_id=39059441]
 anchors_preset = 15
@@ -11,22 +12,12 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_a0e5i")
 
-[node name="XLabel" type="Label" parent="." unique_id=881185345]
+[node name="XInputField" parent="." unique_id=200047870 instance=ExtResource("2_ocxji")]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "X Position"
-horizontal_alignment = 1
+label_text = "X Position"
 
-[node name="XInput" type="LineEdit" parent="." unique_id=750737910]
+[node name="YInputField" parent="." unique_id=240965317 instance=ExtResource("2_ocxji")]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="YLabel" type="Label" parent="." unique_id=1883225109]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Y Position"
-horizontal_alignment = 1
-
-[node name="YInput" type="LineEdit" parent="." unique_id=256622751]
-layout_mode = 2
-size_flags_horizontal = 3
+label_text = "Y Position"
