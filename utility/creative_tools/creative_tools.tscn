@@ -1,3 +1,35 @@
 [gd_scene format=3 uid="uid://dbsfwx74buh37"]
 
-[node name="CreativeTools" type="CanvasLayer" unique_id=1479584945]
+[ext_resource type="Script" uid="uid://fn8vpji1omx4" path="res://utility/creative_tools/creative_tools.gd" id="1_n74oa"]
+[ext_resource type="PackedScene" uid="uid://dqr8cewbjc77n" path="res://utility/creative_tools/tools/item_manager.tscn" id="1_t4u3c"]
+
+[node name="CreativeTools" type="CanvasLayer" unique_id=464046822]
+script = ExtResource("1_n74oa")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1453855139]
+anchors_preset = -1
+anchor_left = 0.15
+anchor_top = 0.1
+anchor_right = 0.85
+anchor_bottom = 0.9
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=765684200]
+layout_mode = 2
+
+[node name="Exit" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1195777955]
+layout_direction = 3
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Exit Menu"
+
+[node name="TabContainer" type="TabContainer" parent="PanelContainer/VBoxContainer" unique_id=233163725]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+tabs_position = 1
+
+[node name="ItemManager" parent="PanelContainer/VBoxContainer/TabContainer" unique_id=1343109431 instance=ExtResource("1_t4u3c")]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

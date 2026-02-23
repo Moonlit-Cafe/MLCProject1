@@ -79,6 +79,39 @@ func _load_i_type_compendium(type: ItemType) -> Dictionary[StringName, Item]:
 	
 	return compendium
 
+func save_data() -> void:
+	_save_item_compendium()
+
+func _save_item_compendium() -> void:
+	var material_dict : Dictionary[String, Dictionary] = {}
+	var usable_dict : Dictionary[String, Dictionary] = {}
+	var equippable_dict : Dictionary[String, Dictionary] = {}
+	var weapon_dict : Dictionary[String, Dictionary] = {}
+	for item in item_compendium.keys():
+		var item_data = item_compendium.get(item).save_data()
+		if "MAT" in item:
+			material_dict.set(item_compendium.get(item).i_name, item_data)
+		elif "USE" in item:
+			usable_dict.set(item_compendium.get(item).i_name, item_data)
+		elif "EQP" in item:
+			equippable_dict.set(item_compendium.get(item).i_name, item_data)
+		elif "WEP" in item:
+			weapon_dict.set(item_compendium.get(item).i_name, item_data)
+		else:
+			push_error("@ResourceManager: Item's id type not found.")
+	
+	if material_data != "":
+		CSVAccess.save_csv_data(material_data, material_dict)
+	
+	if usable_data != "":
+		CSVAccess.save_csv_data(usable_data, usable_dict)
+	
+	if equippable_data != "":
+		CSVAccess.save_csv_data(equippable_data, equippable_dict)
+	
+	if weapon_data != "":
+		CSVAccess.save_csv_data(weapon_data, weapon_dict)
+
 func get_data_count(data_type: DataType, item_type: int = -1) -> int:
 	match(data_type):
 		DataType.ITEM:

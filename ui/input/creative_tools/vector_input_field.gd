@@ -12,6 +12,6 @@ func set_data(data: Vector2i) -> void:
 	x_input.set_data(data.x)
 	y_input.set_data(data.y)
 
-func grab_data() -> Vector2i:
+func get_data() -> Vector2i:
 	return Vector2i(x_input.get_data(), y_input.get_data())
 #endregion

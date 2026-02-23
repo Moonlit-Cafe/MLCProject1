@@ -14,8 +14,7 @@ func _ready() -> void:
 
 func _load_data() -> void:
 	# Clears the directory
-	for child in item_directory.get_children():
-		item_directory.remove_child(child)
+	_clear_directory()
 	
 	for item_id in ResourceManager.item_compendium.keys():
 		var data_button := DataButton.new()
@@ -25,9 +24,15 @@ func _load_data() -> void:
 		data_button.send_data.connect(_on_data_pressed)
 		item_directory.add_child(data_button)
 
-func _clear_info() -> void:
+func _clear_directory() -> void:
 	for child in item_directory.get_children():
 		item_directory.remove_child(child)
+
+func _clear_info() -> void:
+	for child in info_container.get_children():
+		info_container.remove_child(child)
+	
+	i_data = {}
 
 func _create_controls_from_data(item_data: Dictionary[StringName, Variant]) -> void:
 	var dmh := DataManipulationHelper.new()
@@ -78,8 +83,36 @@ func _on_data_pressed(data: Variant) -> void:
 	var save_button := Button.new()
 	save_button.text = "Save Changes"
 	info_container.add_child(save_button)
+	
+	save_button.pressed.connect(_save_data_pressed)
 	i_data = item_data
 
 func _save_data_pressed() -> void:
-	pass
+	var dmh := DataManipulationHelper.new()
+	var item : Item = ResourceManager.item_compendium.get(i_data.get(&"id"))
+	var data_keys := i_data.keys()
+	var idx : int = 0
+	for child in info_container.get_children():
+		if child is Label:
+			idx += 1
+			continue
+		elif child is LineEdit:
+			if data_keys.get(idx) == &"name":
+				# TODO: Fix this up
+				item.i_name = i_data.get(&"name")
+			i_data.set(data_keys.get(idx), child.text)
+		else:
+			if child is Button:
+				if child.text == "Save Changes":
+					continue
+			i_data.set(data_keys.get(idx), child.get_data())
+		idx += 1
+	
+	for key in i_data.keys():
+		i_data.set(key, dmh.encode_special_data(i_data.get(key)))
+	
+	item.load_data(i_data)
+	ResourceManager.save_data()
+	_clear_info()
+	_load_data()
 #endregion
