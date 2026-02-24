@@ -25,6 +25,8 @@ func encode_special_data(value: Variant) -> String:
 		var string_arr : String = ""
 		for i in value:
 			string_arr += "%s;" % i
+		if string_arr == "":
+			string_arr = ";"
 		return string_arr
 	elif value is int:
 		return "%s" % value

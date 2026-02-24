@@ -48,11 +48,10 @@ func _ready() -> void:
 ## Loads all the items available within the game
 func _load_item_compendium() -> void:
 	print("Loading: Items")
-	var mat_data = _load_i_type_compendium(ItemType.MATERIAL)
-	item_compendium = mat_data
+	_load_i_type_compendium(ItemType.MATERIAL)
 
 ## Loads all the items specific to [member material_data]
-func _load_i_type_compendium(type: ItemType) -> Dictionary[StringName, Item]:
+func _load_i_type_compendium(type: ItemType):
 	var comp_access : String = ""
 	var id_type : StringName = &""
 	match(type):
@@ -68,16 +67,25 @@ func _load_i_type_compendium(type: ItemType) -> Dictionary[StringName, Item]:
 	
 	var i : int = 0
 	var data = CSVAccess.load_csv_data(comp_access)
-	var compendium : Dictionary[StringName, Item] = {}
 	for item_name in data.keys():
 		var item := MaterialItem.new()
 		item.i_name = item_name
 		item.id = id_type % i
 		item.load_data(data.get(item_name))
-		compendium.set(item.id, item)
+		add_item(item)
 		i += 1
+
+func add_item(item: Item) -> void:
+	item_compendium.set(item.id, item)
+	if item is MaterialItem:
+		resource_count.set(&"Material", resource_count.get(&"Material") + 1)
+
+func remove_item(id: String) -> void:
+	var item : Item = item_compendium.get(id)
+	if item is MaterialItem:
+		resource_count.set(&"Material", resource_count.get(&"Material") - 1)
+	item_compendium.erase(id)
 	
-	return compendium
 
 func save_data() -> void:
 	_save_item_compendium()

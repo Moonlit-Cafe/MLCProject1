@@ -4,6 +4,8 @@ extends PanelContainer
 # TODO: Replace with @onready when final design is made.
 @export var item_directory : VBoxContainer
 @export var info_container : VBoxContainer
+@export var add_item_button : Button
+@export var item_choice_container : PanelContainer
 
 var i_data : Dictionary[StringName, Variant] = {}
 #endregion
@@ -44,6 +46,12 @@ func _create_controls_from_data(item_data: Dictionary[StringName, Variant]) -> v
 			vec_field.set_data(item_data.get(key))
 			continue
 		elif value is int:
+			if key == "material_type":
+				var enum_select := CreativeUIGenerator.create_enum_selector()
+				enum_select.init(Genum.MaterialType.keys(), value)
+				info_container.add_child(enum_select)
+				enum_select.text = key
+				continue
 			var int_field := CreativeUIGenerator.create_int_field()
 			info_container.add_child(int_field)
 			int_field.set_data(item_data.get(key))
@@ -83,11 +91,16 @@ func _on_data_pressed(data: Variant) -> void:
 	var save_button := Button.new()
 	save_button.text = "Save Changes"
 	info_container.add_child(save_button)
+	var delete_button := Button.new()
+	delete_button.text = "Delete Item"
+	info_container.add_child(delete_button)
 	
 	save_button.pressed.connect(_save_data_pressed)
+	delete_button.pressed.connect(_delete_data_pressed)
 	i_data = item_data
 
 func _save_data_pressed() -> void:
+	# TODO: MaterialItem Specific data missing on save.
 	var dmh := DataManipulationHelper.new()
 	var item : Item = ResourceManager.item_compendium.get(i_data.get(&"id"))
 	var data_keys := i_data.keys()
@@ -105,14 +118,51 @@ func _save_data_pressed() -> void:
 			if child is Button:
 				if child.text == "Save Changes":
 					continue
+				if child.text == "Delete Item":
+					continue
 			i_data.set(data_keys.get(idx), child.get_data())
 		idx += 1
 	
 	for key in i_data.keys():
+		print("Encoding key [%s] with value %s" % [key, i_data.get(key)])
 		i_data.set(key, dmh.encode_special_data(i_data.get(key)))
 	
+	print(i_data)
 	item.load_data(i_data)
 	ResourceManager.save_data()
 	_clear_info()
 	_load_data()
+
+func _delete_data_pressed() -> void:
+	if i_data.get("id") in ResourceManager.item_compendium:
+		ResourceManager.remove_item(i_data.get("id"))
+	i_data = {}
+	ResourceManager.save_data()
+	_clear_info()
+	_load_data()
+
+func _add_item_pressed() -> void:
+	item_choice_container.show()
+
+func _material_item_pressed() -> void:
+	var material_count : int = ResourceManager.get_data_count(ResourceManager.DataType.ITEM,
+		ResourceManager.ItemType.MATERIAL)
+	var item := MaterialItem.new()
+	item.id = &"MAT_%s" % material_count
+	item.i_name = "New Material %s" % material_count
+	ResourceManager.item_compendium.set(item.id, item)
+	_on_data_pressed(item)
+	item_choice_container.hide()
+
+func _usable_item_pressed() -> void:
+	item_choice_container.hide()
+
+func _equip_item_pressed() -> void:
+	item_choice_container.hide()
+
+func _weapon_item_pressed() -> void:
+	item_choice_container.hide()
+
+func _cancel_button_pressed() -> void:
+	item_choice_container.hide()
 #endregion
