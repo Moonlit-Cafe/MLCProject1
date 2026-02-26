@@ -15,6 +15,7 @@ class_name BattleCam extends Node3D
 @onready var camera : Camera3D = $SpringArm3D/BattleCam
 @onready var timer : Timer = $Timer
 
+var _info_timer
 var rot_dir := Vector2.ZERO
 var mov_dir : float = 0.
 var player_turn : bool = false
@@ -115,11 +116,18 @@ func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
 	_tile_hover(tile)
 
 func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
-	if MouseHandler.selected_tile != null:
-		return
-	
-	if MouseHandler.hovered_tile != tile and MouseHandler.hovered_tile != null:
+	if MouseHandler.hovered_tile != tile and MouseHandler.hovered_tile:
 		MouseHandler.hovered_tile.highlighted = false
+	
+	if _info_timer:
+		_info_timer.stop()
+		_info_timer.free()
+		
+	_info_timer = Timer.new()
+	_info_timer.one_shot = true
+	_info_timer.connect("timeout", _info_spawn)
+	add_child(_info_timer)
+	_info_timer.start(1.5)
 	
 	for p_tile in battle_board.board.values():
 		if p_tile.highlighted:
@@ -133,6 +141,10 @@ func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
 			var adj_tile : BattleTile = battle_board.board.get(tile_pos + pos)
 			if adj_tile:
 				adj_tile.highlighted = true
+				
+func _info_spawn():
+	print("%s hovered!" % MouseHandler.hovered_tile)
+	
 
 func _handle_mouse_clicks(event: InputEventMouseButton) -> void:
 	if event.is_action_pressed(&"tile_select"):
@@ -197,7 +209,7 @@ func _tile_selection() -> void:
 	
 		#temp.clear_object()
 		
-	if tile == MouseHandler.selected_tile and tile != null:
+	if tile == MouseHandler.selected_tile and tile and tile.selectable:
 		if CombatManager.selected_action:
 			CombatManager.attack_tile.emit()
 		return
