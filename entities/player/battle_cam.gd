@@ -1,6 +1,8 @@
 class_name BattleCam extends Node3D
 
 #region Declarations
+signal hover_tile
+
 @export_range(1., 16., 1.) var position_count : int = 8
 @export var x_rotation_range := Vector2(30, 70)
 @export var x_angular_speed : float = PI / 8.
@@ -15,7 +17,7 @@ class_name BattleCam extends Node3D
 @onready var camera : Camera3D = $SpringArm3D/BattleCam
 @onready var timer : Timer = $Timer
 
-var _info_timer
+var _hover_timer
 var rot_dir := Vector2.ZERO
 var mov_dir : float = 0.
 var player_turn : bool = false
@@ -110,24 +112,24 @@ func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
 	if not tile:
 		return
 	
-	if not tile.selectable:
-		return
-	
 	_tile_hover(tile)
 
 func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
 	if MouseHandler.hovered_tile != tile and MouseHandler.hovered_tile:
 		MouseHandler.hovered_tile.highlighted = false
 	
-	if _info_timer:
-		_info_timer.stop()
-		_info_timer.free()
+	# PLANNED This will have to be split for hovering over keywords and stats
+	if _hover_timer:
+		_hover_timer.stop()
+		_hover_timer.free()
 		
-	_info_timer = Timer.new()
-	_info_timer.one_shot = true
-	_info_timer.connect("timeout", _info_spawn)
-	add_child(_info_timer)
-	_info_timer.start(1.5)
+	_hover_timer = Timer.new()
+	_hover_timer.one_shot = true
+	_hover_timer.connect("timeout", hover_tile.emit)
+	add_child(_hover_timer)
+	_hover_timer.start(1.5)
+	
+	
 	
 	for p_tile in battle_board.board.values():
 		if p_tile.highlighted:
@@ -142,8 +144,6 @@ func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
 			if adj_tile:
 				adj_tile.highlighted = true
 				
-func _info_spawn():
-	print("%s hovered!" % MouseHandler.hovered_tile)
 	
 
 func _handle_mouse_clicks(event: InputEventMouseButton) -> void:

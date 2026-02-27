@@ -16,6 +16,7 @@ extends BaseEventScene
 @onready var enemy_label : Label = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/EnemyName
 @onready var enemy_hp_bar : ProgressBar = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/HealthBar
 @onready var battle_map : BattleMap3D = $BattleMap3D
+@onready var hover_panel : PanelContainer = $CanvasLayer/HoverPanel
 
 # TODO: Need to procedurally determine what enemies are able to fight based off of the current
 # difficulty rating.
@@ -89,6 +90,8 @@ func _signal_initialization() -> void:
 	CombatManager.hp_changed.connect(_on_hp_changed)
 	CombatManager.battle_end.connect(_on_battle_ended)
 	CombatManager.attack_tile.connect(action_on_tiles)
+	
+	battle_map.camera.hover_tile.connect(_on_tile_hovered)
 	
 	turn_tracker.new_turn.connect(battle_map._on_new_turn)
 #endregion
@@ -172,4 +175,7 @@ func _on_battle_ended() -> void:
 
 func _on_game_ended() -> void:
 	get_tree().quit()
+	
+func _on_tile_hovered() -> void:
+	hover_panel.tile_hover()
 #endregion
