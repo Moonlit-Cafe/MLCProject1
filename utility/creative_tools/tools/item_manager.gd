@@ -112,6 +112,7 @@ func _save_data_pressed() -> void:
 		elif child is LineEdit:
 			if data_keys.get(idx) == &"name":
 				# TODO: Fix this up
+				i_data.set(&"name", child.text)
 				item.i_name = i_data.get(&"name")
 			i_data.set(data_keys.get(idx), child.text)
 		else:

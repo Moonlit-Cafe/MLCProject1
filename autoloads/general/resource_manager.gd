@@ -97,14 +97,15 @@ func _save_item_compendium() -> void:
 	var weapon_dict : Dictionary[String, Dictionary] = {}
 	for item in item_compendium.keys():
 		var item_data = item_compendium.get(item).save_data()
+		var item_name : String = item_compendium.get(item).i_name
 		if "MAT" in item:
-			material_dict.set(item_compendium.get(item).i_name, item_data)
+			material_dict.set(item_name, item_data)
 		elif "USE" in item:
-			usable_dict.set(item_compendium.get(item).i_name, item_data)
+			usable_dict.set(item_name, item_data)
 		elif "EQP" in item:
-			equippable_dict.set(item_compendium.get(item).i_name, item_data)
+			equippable_dict.set(item_name, item_data)
 		elif "WEP" in item:
-			weapon_dict.set(item_compendium.get(item).i_name, item_data)
+			weapon_dict.set(item_name, item_data)
 		else:
 			push_error("@ResourceManager: Item's id type not found.")
 	
