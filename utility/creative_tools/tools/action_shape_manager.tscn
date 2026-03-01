@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dn8o0yq41f4w1"]
+
+[ext_resource type="Script" uid="uid://bpk7upxr2ufqs" path="res://utility/creative_tools/tools/action_shape_manager.gd" id="1_2xfkh"]
+
+[node name="ActionShapeManager" type="PanelContainer" unique_id=490346680]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2xfkh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1269678590]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1087743865]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LoadedActionShapes" type="PanelContainer" parent="VBoxContainer/HBoxContainer" unique_id=1439999692]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/LoadedActionShapes" unique_id=1003272240]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/LoadedActionShapes/MarginContainer" unique_id=541431093]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer" unique_id=1706029915]
+layout_mode = 2
+size_flags_horizontal = 3

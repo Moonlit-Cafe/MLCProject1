@@ -52,6 +52,12 @@ func _create_controls_from_data(item_data: Dictionary[StringName, Variant]) -> v
 				info_container.add_child(enum_select)
 				enum_select.text = key
 				continue
+			elif key == "equip_loc":
+				var enum_select := CreativeUIGenerator.create_enum_selector()
+				enum_select.init(Genum.EquipLocation.keys(), value)
+				info_container.add_child(enum_select)
+				enum_select.text = key
+				continue
 			var int_field := CreativeUIGenerator.create_int_field()
 			info_container.add_child(int_field)
 			int_field.set_data(item_data.get(key))

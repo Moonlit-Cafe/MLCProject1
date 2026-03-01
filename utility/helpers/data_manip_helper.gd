@@ -6,6 +6,14 @@ func detect_special_data(value: String) -> Variant:
 		rgx.compile("(\\d+),(\\d+)")
 		var result = rgx.search(value).get_string().split(",")
 		return Vector2(result.get(0).to_int(), result.get(1).to_int())
+	elif value.contains("VecArr["):
+		rgx.compile("(\\d+),(\\d+)")
+		var result = rgx.search_all(value)
+		var ret_result : Array[Vector2i] = []
+		for res in result:
+			var split_result = res.get_string().split(",")
+			ret_result.append(Vector2i(split_result.get(0).to_int(), split_result.get(1).to_int()))
+		return ret_result
 	elif value.contains(";"):
 		var ret_arr : Array[int] = []
 		for i in value.split(";"):
@@ -27,6 +35,13 @@ func encode_special_data(value: Variant) -> String:
 			string_arr += "%s;" % i
 		if string_arr == "":
 			string_arr = ";"
+		return string_arr
+	elif value is Array[Vector2i]:
+		# TODO: Make this more compact later, for now simple is fine.
+		var string_arr : String = "VecArr["
+		for i in value:
+			string_arr += "(%s, %s)" % [value.x, value.y]
+		string_arr += "]"
 		return string_arr
 	elif value is int:
 		return "%s" % value

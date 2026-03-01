@@ -1,3 +1,2 @@
-,value,tags,texture,tooltip,tier,equip_loc,max_stack_size,material_type
-Test Cloth,0,0;,"Vec[12,12]","Just a piece of generic, no textured cloth!",0,0,99,0
-Test Dust,0,0;,"Vec[8,12]","Just a piece of generic, no textured dust!",0,0,99,1
+id,equip_loc,material_type,max_stack_size,tags,texture,tier,tooltip,value
+Test Cloth,0,0,99,0;,"Vec[12,12]",0,"Just a piece of generic, no textured cloth!",0

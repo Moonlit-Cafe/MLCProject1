@@ -17,15 +17,18 @@ enum DataType {
 }
 
 @export_category("Item Data")
-@export_file(".csv") var material_data : String = "" ## Full collection of material items
+@export_file(".csv") var material_data : String = "" ## Full collection of [MaterialItem]s
 @export_file(".csv") var usable_data : String = ""
 @export_file(".csv") var equippable_data : String = ""
 @export_file(".csv") var weapon_data : String = ""
 @export_category("Skill Data")
+@export_file(".csv") var action_shape_data : String = "" ## Full collection of [ActionShapes]
+@export_file(".csv") var action_data : String = "" ## Full collection of [Action]s
 @export_category("Enemy Data")
 @export_category("Generation Data")
 
 var item_compendium : Dictionary[StringName, Item]
+var action_shape_compendium : Dictionary[StringName, ActionShape]
 var resource_count : Dictionary[StringName, int] = {
 	&"Material": 0,
 	&"Usable": 0,
@@ -42,13 +45,14 @@ var resource_count : Dictionary[StringName, int] = {
 func _ready() -> void:
 	print("Initializing: ResourceManager")
 	_load_item_compendium()
-	
-	print(item_compendium)
+	_load_action_shapes()
 
+#region Item Compendium
 ## Loads all the items available within the game
 func _load_item_compendium() -> void:
 	print("Loading: Items")
 	_load_i_type_compendium(ItemType.MATERIAL)
+	print("Loaded: Items")
 
 ## Loads all the items specific to [member material_data]
 func _load_i_type_compendium(type: ItemType):
@@ -120,6 +124,33 @@ func _save_item_compendium() -> void:
 	
 	if weapon_data != "":
 		CSVAccess.save_csv_data(weapon_data, weapon_dict)
+#endregion
+
+#region Action Compendiums
+func _load_action_shapes() -> void:
+	print("Loading: ActionShapes")
+	if action_shape_data == "":
+		push_warning("@ResourceManager: There is no connected action_shape data file, skipping...")
+		return
+	
+	var i : int = 0
+	var data := CSVAccess.load_csv_data(action_shape_data)
+	for shape_name in data.keys():
+		var action_shape := ActionShape.new()
+		action_shape.shape_id = "ACS_%s" % i
+		action_shape.load_data(data.get(shape_name))
+		add_action_shape(action_shape)
+		i += 1
+	print("Loaded: ActionShapes")
+
+func add_action_shape(acs: ActionShape) -> void:
+	action_shape_compendium.set(acs.shape_id, acs)
+	resource_count.set(&"ActionShape", resource_count.get(&"ActionShape") + 1)
+
+func remove_action_shape(acs: ActionShape) -> void:
+	action_shape_compendium.erase(acs.shape_id)
+	resource_count.set(&"ActionShape", resource_count.get(&"ActionShape") - 1)
+#endregion
 
 func get_data_count(data_type: DataType, item_type: int = -1) -> int:
 	match(data_type):
