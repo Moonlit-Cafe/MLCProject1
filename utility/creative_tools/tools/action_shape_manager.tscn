@@ -2,13 +2,15 @@
 
 [ext_resource type="Script" uid="uid://bpk7upxr2ufqs" path="res://utility/creative_tools/tools/action_shape_manager.gd" id="1_2xfkh"]
 
-[node name="ActionShapeManager" type="PanelContainer" unique_id=490346680]
+[node name="ActionShapeManager" type="PanelContainer" unique_id=490346680 node_paths=PackedStringArray("action_directory", "shape_grid")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2xfkh")
+action_directory = NodePath("VBoxContainer/HBoxContainer/LoadedActionShapes/MarginContainer/VBoxContainer/ScrollContainer/ActionDirectory")
+shape_grid = NodePath("VBoxContainer/HBoxContainer/GridContainer")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1269678590]
 layout_mode = 2
@@ -28,9 +30,23 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/LoadedActionShapes/MarginContainer" unique_id=541431093]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/LoadedActionShapes/MarginContainer" unique_id=1378677965]
 layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/LoadedActionShapes/MarginContainer/VBoxContainer" unique_id=184654015]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionDirectory" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/LoadedActionShapes/MarginContainer/VBoxContainer/ScrollContainer" unique_id=541431093]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NewAction" type="Button" parent="VBoxContainer/HBoxContainer/LoadedActionShapes/MarginContainer/VBoxContainer" unique_id=1730402540]
+layout_mode = 2
+text = "New Action"
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer" unique_id=1706029915]
 layout_mode = 2
 size_flags_horizontal = 3
+columns = 7
