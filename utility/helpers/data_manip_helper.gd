@@ -3,11 +3,11 @@ class_name DataManipulationHelper
 func detect_special_data(value: String) -> Variant:
 	var rgx := RegEx.new()
 	if value.contains("Vec["):
-		rgx.compile("(\\d+),(\\d+)")
+		rgx.compile("(-?\\d+),\\s*(-?\\d+)")
 		var result = rgx.search(value).get_string().split(",")
 		return Vector2(result.get(0).to_int(), result.get(1).to_int())
 	elif value.contains("VecArr["):
-		rgx.compile("(\\d+),(\\d+)")
+		rgx.compile("\\((-?\\d*),\\s*(-?\\d*)\\)")
 		var result = rgx.search_all(value)
 		var ret_result : Array[Vector2i] = []
 		for res in result:
@@ -20,7 +20,6 @@ func detect_special_data(value: String) -> Variant:
 			if i.is_empty():
 				continue
 			ret_arr.append(i.to_int())
-		print(ret_arr)
 		return ret_arr
 	elif value.is_valid_int():
 		return value.to_int()
@@ -39,8 +38,12 @@ func encode_special_data(value: Variant) -> String:
 	elif value is Array[Vector2i]:
 		# TODO: Make this more compact later, for now simple is fine.
 		var string_arr : String = "VecArr["
+		var idx : int = 0
 		for i in value:
-			string_arr += "(%s, %s)" % [value.x, value.y]
+			string_arr += "(%s, %s)" % [i.x, i.y]
+			if idx < value.size():
+				string_arr += ","
+			idx += 1
 		string_arr += "]"
 		return string_arr
 	elif value is int:

@@ -44,8 +44,15 @@ var resource_count : Dictionary[StringName, int] = {
 #region Events
 func _ready() -> void:
 	print("Initializing: ResourceManager")
+	load_data()
+
+func load_data() -> void:
 	_load_item_compendium()
 	_load_action_shapes()
+
+func save_data() -> void:
+	_save_item_compendium()
+	_save_action_shapes()
 
 #region Item Compendium
 ## Loads all the items available within the game
@@ -89,10 +96,6 @@ func remove_item(id: String) -> void:
 	if item is MaterialItem:
 		resource_count.set(&"Material", resource_count.get(&"Material") - 1)
 	item_compendium.erase(id)
-	
-
-func save_data() -> void:
-	_save_item_compendium()
 
 func _save_item_compendium() -> void:
 	var material_dict : Dictionary[String, Dictionary] = {}
@@ -138,6 +141,7 @@ func _load_action_shapes() -> void:
 	for shape_name in data.keys():
 		var action_shape := ActionShape.new()
 		action_shape.shape_id = "ACS_%s" % i
+		action_shape.shape_name = shape_name
 		action_shape.load_data(data.get(shape_name))
 		add_action_shape(action_shape)
 		i += 1
@@ -150,6 +154,18 @@ func add_action_shape(acs: ActionShape) -> void:
 func remove_action_shape(acs: ActionShape) -> void:
 	action_shape_compendium.erase(acs.shape_id)
 	resource_count.set(&"ActionShape", resource_count.get(&"ActionShape") - 1)
+
+func _save_action_shapes() -> void:
+	if not action_shape_data:
+		push_warning("@ResourceManager: There is no ActionShape data linked to save to...")
+		return
+	
+	var action_shape_dict : Dictionary[String, Dictionary] = {}
+	for shape in action_shape_compendium.values():
+		print("Saving %s with array %s" % [shape.shape_name, shape.shape_pos_arr])
+		action_shape_dict.set(shape.shape_name, shape.save_data())
+	
+	CSVAccess.save_csv_data(action_shape_data, action_shape_dict)
 #endregion
 
 func get_data_count(data_type: DataType, item_type: int = -1) -> int:
