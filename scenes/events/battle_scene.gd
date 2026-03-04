@@ -16,7 +16,7 @@ extends BaseEventScene
 @onready var enemy_label : Label = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/EnemyName
 @onready var enemy_hp_bar : ProgressBar = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/HealthBar
 @onready var battle_map : BattleMap3D = $BattleMap3D
-@onready var hover_panel : PanelContainer = $CanvasLayer/HoverPanel
+@onready var hover_panel : VBoxContainer = $CanvasLayer/HoverPanel
 
 # TODO: Need to procedurally determine what enemies are able to fight based off of the current
 # difficulty rating.
