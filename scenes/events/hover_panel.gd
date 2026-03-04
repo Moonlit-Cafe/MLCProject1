@@ -1,6 +1,6 @@
 extends PanelContainer
 
-@onready var sprite = $VBoxContainer/Subject/Sprite
+@onready var container = $VBoxContainer/Subject/Container
 @onready var title = $VBoxContainer/Subject/Label
 @onready var description = $VBoxContainer/Text/Description
 @onready var subinfo = $VBoxContainer/Text/SubLabel
@@ -8,20 +8,23 @@ extends PanelContainer
 
 
 func tile_hover(inc_tile : BattleTile = MouseHandler.hovered_tile):
-	_toggle()
-
 	var entity:TileEntity = inc_tile.held_entity
 	if not entity:
 		return
-	sprite = entity.sprite
-	title = entity.character.o_name
+		
+	enable()
+
+	var sprite = container.get_child(0)
+	
+	sprite.replace_by(entity.sprite.duplicate())
+	title.text = entity.character.o_name
 	subinfo.text = str(inc_tile.tile_position)
 	
 
-func _toggle():
-	visible = not visible
-	
-	if not visible:
-		return
-		
+func enable():
+	visible = true
 	self.position = get_global_mouse_position()
+
+
+func disable():
+	visible = false

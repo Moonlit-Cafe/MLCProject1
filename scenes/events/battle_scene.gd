@@ -92,6 +92,8 @@ func _signal_initialization() -> void:
 	CombatManager.attack_tile.connect(action_on_tiles)
 	
 	battle_map.camera.hover_tile.connect(_on_tile_hovered)
+	battle_map.camera.collapse_hover.connect(_collapse_tile_panel)
+	
 	
 	turn_tracker.new_turn.connect(battle_map._on_new_turn)
 #endregion
@@ -178,4 +180,7 @@ func _on_game_ended() -> void:
 	
 func _on_tile_hovered() -> void:
 	hover_panel.tile_hover()
+	
+func _collapse_tile_panel() -> void:
+	hover_panel.disable()
 #endregion

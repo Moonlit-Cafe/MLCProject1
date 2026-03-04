@@ -2,6 +2,7 @@ class_name BattleCam extends Node3D
 
 #region Declarations
 signal hover_tile
+signal collapse_hover
 
 @export_range(1., 16., 1.) var position_count : int = 8
 @export var x_rotation_range := Vector2(30, 70)
@@ -111,6 +112,9 @@ func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
 	
 	if not tile:
 		return
+
+	if tile == MouseHandler.hovered_tile:
+		return
 	
 	_tile_hover(tile)
 
@@ -120,6 +124,7 @@ func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
 	
 	# PLANNED This will have to be split for hovering over keywords and stats
 	if _hover_timer:
+		collapse_hover.emit()
 		_hover_timer.stop()
 		_hover_timer.free()
 		
@@ -127,7 +132,7 @@ func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
 	_hover_timer.one_shot = true
 	_hover_timer.connect("timeout", hover_tile.emit)
 	add_child(_hover_timer)
-	_hover_timer.start(1.5)
+	_hover_timer.start(0.5)
 	
 	
 	
