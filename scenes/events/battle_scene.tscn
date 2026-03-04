@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bt5keoj05l4qi" path="res://assets/sprites/ui/CombatUI.png" id="7_gky5j"]
 [ext_resource type="PackedScene" uid="uid://baeasrlqix5l7" path="res://ui/events/battle/ap_tick.tscn" id="7_uvxka"]
 [ext_resource type="Script" uid="uid://ct7hr4hqbqjj0" path="res://scenes/events/hover_panel.gd" id="9_uvxka"]
+[ext_resource type="Texture2D" uid="uid://4xt8dndavy1t" path="res://assets/sprites/characters/character_1_frame16x20.png" id="10_bt28h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uvxka"]
 atlas = ExtResource("7_gky5j")
@@ -17,6 +18,21 @@ region = Rect2(0, 8, 113, 5)
 [sub_resource type="AtlasTexture" id="AtlasTexture_bt28h"]
 atlas = ExtResource("7_gky5j")
 region = Rect2(0, 13, 113, 5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kc8yn"]
+atlas = ExtResource("10_bt28h")
+region = Rect2(0, 0, 13, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t2ffq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kc8yn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="BattleScene" type="Node" unique_id=54698120 node_paths=PackedStringArray("hp_label")]
 script = ExtResource("1_w5vvb")
@@ -110,30 +126,40 @@ texture_over = SubResource("AtlasTexture_uvxka")
 layout_mode = 2
 texture_over = SubResource("AtlasTexture_bt28h")
 
-[node name="HoverPanel" type="PanelContainer" parent="CanvasLayer" unique_id=520426185]
-visible = false
-offset_right = 40.0
-offset_bottom = 77.0
+[node name="HoverPanel" type="VBoxContainer" parent="CanvasLayer" unique_id=243338970]
+self_modulate = Color(0.25565878, 0.25565878, 0.25565878, 1)
+z_as_relative = false
+offset_right = 69.0
+offset_bottom = 118.0
 script = ExtResource("9_uvxka")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HoverPanel" unique_id=1669994668]
+[node name="Subject" type="HBoxContainer" parent="CanvasLayer/HoverPanel" unique_id=422615038]
 layout_mode = 2
 
-[node name="Subject" type="HBoxContainer" parent="CanvasLayer/HoverPanel/VBoxContainer" unique_id=422615038]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HoverPanel/Subject" unique_id=1561275788]
 layout_mode = 2
 
-[node name="Sprite" type="Sprite3D" parent="CanvasLayer/HoverPanel/VBoxContainer/Subject" unique_id=1744501663]
+[node name="Sprite" type="AnimatedSprite2D" parent="CanvasLayer/HoverPanel/Subject/MarginContainer" unique_id=1651831874]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_t2ffq")
+centered = false
 
-[node name="Label" type="Label" parent="CanvasLayer/HoverPanel/VBoxContainer/Subject" unique_id=400660375]
+[node name="Control" type="Control" parent="CanvasLayer/HoverPanel/Subject" unique_id=1793829073]
 layout_mode = 2
 
-[node name="Text" type="VBoxContainer" parent="CanvasLayer/HoverPanel/VBoxContainer" unique_id=764728420]
+[node name="Label" type="Label" parent="CanvasLayer/HoverPanel/Subject" unique_id=400660375]
+layout_mode = 2
+text = "Test Name"
+
+[node name="Text" type="VBoxContainer" parent="CanvasLayer/HoverPanel" unique_id=764728420]
 layout_mode = 2
 
-[node name="Description" type="Label" parent="CanvasLayer/HoverPanel/VBoxContainer/Text" unique_id=1417882914]
+[node name="Description" type="Label" parent="CanvasLayer/HoverPanel/Text" unique_id=1417882914]
 layout_mode = 2
+text = "Some stuff about him"
 
-[node name="SubLabel" type="Label" parent="CanvasLayer/HoverPanel/VBoxContainer/Text" unique_id=1847555901]
+[node name="SubLabel" type="Label" parent="CanvasLayer/HoverPanel/Text" unique_id=1847555901]
 layout_mode = 2
+text = "(100, 20, 3)"
 
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="_attack_tile"]
