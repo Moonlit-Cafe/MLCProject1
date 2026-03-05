@@ -17,7 +17,10 @@ var id : StringName
 #region Helpers
 ## Get display name (fallback to resource name if i_name is empty)
 func get_display_name() -> String:
-	return i_name if i_name != "" else resource_name
+	if i_name.is_empty():
+		return resource_name
+	else:
+		return i_name
 
 ## Check if item has a specific tag
 func has_tag(tag: Genum.ItemTags) -> bool:
@@ -34,4 +37,43 @@ func get_tier_color() -> Color:
 		Genum.Rarity.NEBULOUS: return Color.DARK_GOLDENROD
 		Genum.Rarity.COSMIC: return Color.SPRING_GREEN
 		_: return Color.WHITE
+
+## Load the item from a given set of data handled by ResourceManager
+func load_data(data: Dictionary) -> void:
+	var dmh = DataManipulationHelper.new()
+	value = dmh.detect_special_data(data.get("value"))
+	tags = dmh.detect_special_data(data.get("tags"))
+	texture = dmh.detect_special_data(data.get("texture"))
+	tooltip = dmh.detect_special_data(data.get("tooltip"))
+	tier = dmh.detect_special_data(data.get("tier"))
+	equip_loc = dmh.detect_special_data(data.get("equip_loc"))
+	max_stack_size = dmh.detect_special_data(data.get("max_stack_size"))
+
+## Saves the item data into a CSV, often by using CreativeTools
+func save_data() -> Dictionary:
+	var dmh = DataManipulationHelper.new()
+	var data : Dictionary = {
+		"value": "%s" % value,
+		"tags": "%s" % dmh.encode_special_data(tags),
+		"texture": "%s" % dmh.encode_special_data(texture),
+		"tooltip": tooltip,
+		"tier": "%s" % tier,
+		"equip_loc": "%s" % equip_loc,
+		"max_stack_size": "%s" % max_stack_size
+	}
+	return data
+
+func get_manager_data() -> Dictionary[StringName, Variant]:
+	var data : Dictionary[StringName, Variant] = {
+		&"id": id,
+		&"name": i_name,
+		&"value": value,
+		&"tags": tags,
+		&"texture": texture,
+		&"tooltip": tooltip,
+		&"tier": tier,
+		&"equip_loc": equip_loc,
+		&"max_stack_size": max_stack_size
+	}
+	return data
 #endregion

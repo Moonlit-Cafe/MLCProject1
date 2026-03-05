@@ -1,4 +1,4 @@
-[gd_resource type="MeshLibrary" load_steps=12 format=3 uid="uid://kher62vvgh5c"]
+[gd_resource type="MeshLibrary" format=3 uid="uid://kher62vvgh5c"]
 
 [ext_resource type="Shader" uid="uid://ckbixxhi26t82" path="res://assets/shaders/tiles/single_color.gdshader" id="1_a014y"]
 

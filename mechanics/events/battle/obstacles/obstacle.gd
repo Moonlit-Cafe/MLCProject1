@@ -1,6 +1,8 @@
 class_name ObstacleObject extends CharacterResource
 
 #region Declarations
+# TODO: Come back to this to improve design
+
 ## The general stats for the obstacle
 @export var obstacle_stats : Dictionary[Genum.StatType, float] = {
 	Genum.StatType.HEALTH: 10.,

@@ -36,7 +36,7 @@ func init() -> void:
 
 ## Used when the enemy is attacking.
 func attack(decision: Decider, c_stats: Dictionary[Genum.StatType, float]) -> int:
-	var action : CombatAction = CombatManager.skill_manager.get_action(decision.action)
+	var action : CombatAction = ResourceManager.action_compendium.get(decision.action)
 	
 	# TODO: Will later use consideration system to potentially separate the attack types.
 	var mod : float = CombatManager.difficulty_modifier
