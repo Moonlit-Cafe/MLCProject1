@@ -29,6 +29,7 @@ enum DataType {
 
 var item_compendium : Dictionary[StringName, Item]
 var action_shape_compendium : Dictionary[StringName, ActionShape]
+var action_compendium : Dictionary[StringName, CombatAction]
 var resource_count : Dictionary[StringName, int] = {
 	&"Material": 0,
 	&"Usable": 0,
@@ -49,10 +50,12 @@ func _ready() -> void:
 func load_data() -> void:
 	_load_item_compendium()
 	_load_action_shapes()
+	_load_actions()
 
 func save_data() -> void:
 	_save_item_compendium()
 	_save_action_shapes()
+	_save_actions()
 
 #region Item Compendium
 ## Loads all the items available within the game
@@ -147,13 +150,38 @@ func _load_action_shapes() -> void:
 		i += 1
 	print("Loaded: ActionShapes")
 
+func _load_actions() -> void:
+	print("Loading: Actions")
+	if action_data == "":
+		push_warning("@ResourceManager: There is no connected action data file, skipping...")
+		return
+	
+	var i : int = 0
+	var data := CSVAccess.load_csv_data(action_data)
+	for action_name in data.keys():
+		var action := CombatAction.new()
+		action.ac_id = "ACT_%s" % i
+		action.ac_name = action_name
+		action.load_data(data.get(action_name))
+		add_action(action)
+		i += 1
+	print("Loaded: Actions")
+
 func add_action_shape(acs: ActionShape) -> void:
 	action_shape_compendium.set(acs.shape_id, acs)
 	resource_count.set(&"ActionShape", resource_count.get(&"ActionShape") + 1)
 
+func add_action(act: CombatAction) -> void:
+	action_compendium.set(act.ac_id, act)
+	resource_count.set(&"Action", resource_count.get(&"Action") + 1)
+
 func remove_action_shape(acs: ActionShape) -> void:
 	action_shape_compendium.erase(acs.shape_id)
 	resource_count.set(&"ActionShape", resource_count.get(&"ActionShape") - 1)
+
+func remove_action(act: Action) -> void:
+	action_compendium.erase(act.ac_id)
+	resource_count.set(&"Action", resource_count.get(&"Action") - 1)
 
 func _save_action_shapes() -> void:
 	if not action_shape_data:
@@ -166,6 +194,17 @@ func _save_action_shapes() -> void:
 		action_shape_dict.set(shape.shape_name, shape.save_data())
 	
 	CSVAccess.save_csv_data(action_shape_data, action_shape_dict)
+
+func _save_actions() -> void:
+	if not action_data:
+		push_warning("@ResourceManager: There is no Action data linked to save to...")
+		return
+	
+	var action_dict : Dictionary[String, Dictionary] = {}
+	for action in action_compendium.values():
+		action_dict.set(action.ac_name, action.save_data())
+	
+	CSVAccess.save_csv_data(action_data, action_dict)
 #endregion
 
 func get_data_count(data_type: DataType, item_type: int = -1) -> int:

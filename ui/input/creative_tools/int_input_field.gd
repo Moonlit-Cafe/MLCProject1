@@ -1,6 +1,7 @@
 class_name IntInputField extends HBoxContainer
 
 #region Declarations
+# TODO: Update to spinbox . . . forgot those existed.
 @export var label_text : String = "" :
 	set(value):
 		if label:

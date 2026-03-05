@@ -6,3 +6,4 @@
 script = ExtResource("1_3xcrg")
 material_data = "res://assets/data/material_data.csv"
 action_shape_data = "res://assets/data/action_shape_data.csv"
+action_data = "res://assets/data/action_data.csv"

@@ -2,6 +2,7 @@
 class_name CreativeUIGenerator
 
 #region Declarations
+static var ability_cost_scene : String = "res://ui/input/creative_tools/ability_cost_input.tscn"
 static var enum_select_scene : String = "res://ui/input/creative_tools/enum_selector.tscn"
 static var enum_array_field_scene : String = "res://ui/input/creative_tools/enum_menu_button.tscn"
 static var int_input_field_scene : String = "res://ui/input/creative_tools/int_input_field.tscn"
@@ -9,6 +10,11 @@ static var vector_input_field_scene : String = "res://ui/input/creative_tools/ve
 #endregion
 
 #region Events
+static func create_ability_cost_input() -> AbilityCostInput:
+	var ability_cost_input : PackedScene = ResourceLoader.load(ability_cost_scene)
+	var ability_cost : AbilityCostInput = ability_cost_input.instantiate()
+	return ability_cost
+
 static func create_enum_selector() -> EnumSelectorButton:
 	var enum_selector_scene : PackedScene = ResourceLoader.load(enum_select_scene)
 	var enum_selector : EnumSelectorButton = enum_selector_scene.instantiate()

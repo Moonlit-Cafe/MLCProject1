@@ -106,7 +106,6 @@ func _on_data_pressed(data: Variant) -> void:
 	i_data = item_data
 
 func _save_data_pressed() -> void:
-	# TODO: MaterialItem Specific data missing on save.
 	var dmh := DataManipulationHelper.new()
 	var item : Item = ResourceManager.item_compendium.get(i_data.get(&"id"))
 	var data_keys := i_data.keys()

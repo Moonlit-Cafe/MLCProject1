@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://fn8vpji1omx4" path="res://utility/creative_tools/creative_tools.gd" id="1_n74oa"]
 [ext_resource type="PackedScene" uid="uid://dqr8cewbjc77n" path="res://utility/creative_tools/tools/item_manager.tscn" id="1_t4u3c"]
+[ext_resource type="PackedScene" uid="uid://dn8o0yq41f4w1" path="res://utility/creative_tools/tools/action_shape_manager.tscn" id="3_vgd7k"]
 
 [node name="CreativeTools" type="CanvasLayer" unique_id=464046822]
 script = ExtResource("1_n74oa")
@@ -31,5 +32,10 @@ tabs_position = 1
 [node name="ItemManager" parent="PanelContainer/VBoxContainer/TabContainer" unique_id=1343109431 instance=ExtResource("1_t4u3c")]
 layout_mode = 2
 metadata/_tab_index = 0
+
+[node name="ActionShapeManager" parent="PanelContainer/VBoxContainer/TabContainer" unique_id=490346680 instance=ExtResource("3_vgd7k")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
