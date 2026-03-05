@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dy2swoshyhmu5"]
+
+[ext_resource type="Script" uid="uid://05aasoq0nrxc" path="res://autoloads/general/resource_manager.gd" id="1_3xcrg"]
+
+[node name="ResourceManager" type="Node" unique_id=1621154007]
+script = ExtResource("1_3xcrg")
+material_data = "res://assets/data/material_data.csv"
+action_shape_data = "res://assets/data/action_shape_data.csv"
+action_data = "res://assets/data/action_data.csv"

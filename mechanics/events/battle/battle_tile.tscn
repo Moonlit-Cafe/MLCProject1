@@ -149,7 +149,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="BattleTile" type="Node3D"]
+[node name="BattleTile" type="Node3D" unique_id=88684091]
 script = ExtResource("1_msxig")
 packed_entity_reference = Dictionary[StringName, PackedScene]({
 &"enemy": ExtResource("2_k5873"),
@@ -163,17 +163,17 @@ selection_colors = Dictionary[int, Color]({
 3: Color(0.8509804, 0, 0, 1)
 })
 
-[node name="EntityHolder" type="Node3D" parent="."]
+[node name="EntityHolder" type="Node3D" parent="." unique_id=282917703]
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." unique_id=560326108]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 collision_layer = 3
 
-[node name="CollisionShape2D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape2D" type="CollisionShape3D" parent="Area3D" unique_id=1010693541]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9802322e-08, 0)
 shape = SubResource("BoxShape3D_jsgv4")
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=960342618]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.5, 0)
 pixel_size = 0.007
 texture_filter = 0

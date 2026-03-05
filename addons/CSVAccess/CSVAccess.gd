@@ -68,7 +68,6 @@ static func save_csv_data(path: String, data: Dictionary[String, Dictionary]) ->
 
 	# Write content (sorted by ID)
 	var sorted_ids = data.keys()
-	sorted_ids.sort()
 
 	for id in sorted_ids:
 		var row = [id]

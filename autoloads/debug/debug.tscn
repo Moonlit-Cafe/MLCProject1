@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://7dkukoab0mvt"]
+[gd_scene format=3 uid="uid://7dkukoab0mvt"]
 
 [ext_resource type="Script" uid="uid://bu6p8yohxqbyb" path="res://autoloads/debug/debug.gd" id="1_nhwjj"]
 
-[node name="Debug" type="CanvasLayer" node_paths=PackedStringArray("text_box", "text_line", "tier_select", "type_select", "amount_line", "add_button")]
+[node name="Debug" type="CanvasLayer" unique_id=1148133387 node_paths=PackedStringArray("text_box", "text_line", "tier_select", "type_select", "amount_line", "add_button")]
 visible = false
 script = ExtResource("1_nhwjj")
 text_box = NodePath("PanelContainer/MarginContainer/VBoxContainer/TextEdit")
@@ -12,22 +12,22 @@ type_select = NodePath("PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HB
 amount_line = NodePath("PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox/AmountLine")
 add_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox/AddButton")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1841861779]
 anchors_preset = -1
 anchor_right = 0.4
 anchor_bottom = 0.4
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1462244662]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=2057273534]
 layout_mode = 2
 
-[node name="TextEdit" type="TextEdit" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="TextEdit" type="TextEdit" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=630523952]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -35,44 +35,44 @@ editable = false
 wrap_mode = 1
 scroll_fit_content_width = true
 
-[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1480017763]
 layout_mode = 2
 size_flags_horizontal = 3
 keep_editing_on_text_submit = true
 
-[node name="DebugAdd" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="DebugAdd" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=449121426]
 layout_mode = 2
 
-[node name="HBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd"]
+[node name="HBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd" unique_id=698477362]
 layout_mode = 2
 
-[node name="TierLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+[node name="TierLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox" unique_id=1201780194]
 layout_mode = 2
 text = "Tier"
 
-[node name="TierSelect" type="OptionButton" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+[node name="TierSelect" type="OptionButton" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox" unique_id=510941611]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TypeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+[node name="TypeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox" unique_id=371879048]
 layout_mode = 2
 text = "Type"
 
-[node name="TypeSelect" type="OptionButton" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+[node name="TypeSelect" type="OptionButton" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox" unique_id=855699475]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AmountLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+[node name="AmountLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox" unique_id=218164758]
 layout_mode = 2
 text = "Amount"
 
-[node name="AmountLine" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+[node name="AmountLine" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox" unique_id=941376998]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "1"
 max_length = 4
 
-[node name="AddButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox"]
+[node name="AddButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/DebugAdd/HBox" unique_id=1823234601]
 layout_mode = 2
 text = "Add"
 

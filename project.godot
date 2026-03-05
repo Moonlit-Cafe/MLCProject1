@@ -42,6 +42,7 @@ CombatManager="*res://autoloads/combat/combat_manager.tscn"
 MouseHandler="*res://autoloads/player/mouse_handler.tscn"
 Debug="*res://autoloads/debug/debug.tscn"
 SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
+ResourceManager="*uid://dy2swoshyhmu5"
 
 [display]
 

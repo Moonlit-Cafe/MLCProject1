@@ -12,6 +12,7 @@ extends CanvasLayer
 @export var add_button: Button
 @export var materials_display: TextEdit
 
+var creative_tools_scene : PackedScene = preload("res://utility/creative_tools/creative_tools.tscn")
 var text : String = "Debug Terminal"
 #endregion
 
@@ -68,7 +69,7 @@ func _on_text_submit(new_text: String) -> void:
 		var command_text := new_text.split("/")[1]
 		var command := command_text.split(" ")
 		var command_name := command[0]
-		var args : Array[String] = []
+		var args : PackedStringArray = []
 		if command.size() > 1:
 			args = command.slice(1)
 		
@@ -90,7 +91,7 @@ func _on_text_submit(new_text: String) -> void:
 ## TODO: Fix the  "help" command
 
 ## When called it will either provide a list of available commands or give information about a particular command
-func help(args: Array[String]) -> void:
+func help(args: PackedStringArray) -> void:
 	if args.size() == 0:
 		var command_list : Array[String] = [
 			"help"
@@ -100,7 +101,12 @@ func help(args: Array[String]) -> void:
 		for command in command_list:
 			_add_line("%s" % command)
 
-func clear(_args: Array[String]) -> void:
+func open(args: PackedStringArray) -> void:
+	if args.get(0) == "CreativeTools":
+		var creative_tools = creative_tools_scene.instantiate()
+		add_child(creative_tools)
+
+func clear(_args: PackedStringArray) -> void:
 	text = "Debug Terminal"
 #endregion
 
