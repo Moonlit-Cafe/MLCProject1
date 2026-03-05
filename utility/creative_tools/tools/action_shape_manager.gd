@@ -134,4 +134,7 @@ func _on_delete_shape_pressed() -> void:
 	
 	modifying = null
 	shape_name_edit.text = ""
+	ResourceManager.save_data()
+	_clear_grid()
+	_load_shapes()
 #endregion

@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends PanelContainer
 
 #region Signal Callbacks
 func _on_exit_pressed() -> void:

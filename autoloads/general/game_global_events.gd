@@ -8,4 +8,3 @@ signal player_turn ## Emitted when the player has completed their turn
 signal weapon_open ## Emitted when a weapon item is clicked to open weapon info
 
 signal thinking
-signal act(a: Ability, b: String)
