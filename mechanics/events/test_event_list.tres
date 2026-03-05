@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UniqueEventList" load_steps=4 format=3 uid="uid://dr8nrnab5teql"]
+[gd_resource type="Resource" script_class="UniqueEventList" format=3 uid="uid://dr8nrnab5teql"]
 
 [ext_resource type="Script" uid="uid://bv4mbq73t4l03" path="res://mechanics/events/unique_event_resource.gd" id="1_glv8d"]
 [ext_resource type="Script" uid="uid://bimn80jxcj5ag" path="res://mechanics/events/unique_event_list.gd" id="1_jsfl7"]

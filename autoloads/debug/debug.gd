@@ -143,9 +143,9 @@ func _on_add_pressed() -> void:
 
 func _find_item_by_tier_and_type(tier: int, material_type: int) -> Item:
 	# Prefer exact tier match; fallback to any item of that material type
-	if CraftManager and CraftManager.item_compendium:
+	if CraftManager and ResourceManager.item_compendium:
 		var fallback: Item = null
-		for item in CraftManager.item_compendium.item_reference:
+		for item in ResourceManager.item_compendium.values():
 			if item is MaterialItem:
 				var mat_item := item as MaterialItem
 				if mat_item.material_type == material_type:

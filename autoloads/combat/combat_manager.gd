@@ -14,7 +14,6 @@ signal tile_in_arr(tile: BattleTile)
 @export var enemy_compendium : Array[EnemyCharacter] = [] ## The entire list of available enemies
 @export var obstacle_compendium : Array[ObstacleObject] = [] ## The entire list of available obstacles
 @export_category(&"Manager Scenes")
-@export var skill_manager_scene : PackedScene ## A reference to the SkillManager Scene for instantiation
 @export var zone_manager_scene : PackedScene ## A reference to the ZoneManager for instatiation
 @export var item_manager_scene : PackedScene ## A reference to the ItemManager for instatiation
 
@@ -32,9 +31,7 @@ var game_difficulty : float = 1 ## The chosen or set difficulty of the game
 var level_number : float = 1 ## The position on the difficulty curve, not yet defined
 
 var item_manager : ItemManager ## The item manager node
-var skill_manager : SkillManager ## The skill manager node
-var zone_manager : ZoneManager ## The zone manager node
-
+var zone_manager : ZoneManager
 var moving : bool = false ## A boolean determining if the Player is currently allowed to move
 var player : TilePlayer ## A reference to the actual TileEntity version of the Player
 var player_turn : bool = true ## Boolean trackig if it is currently the Player's turn
@@ -50,15 +47,10 @@ func _ready() -> void:
 ## Starts up all the managers via instantiation and adding as children while passing their [br]
 ## reference to the equivalently named [b]managers[/b]
 func _instantiate_managers() -> void:
-	if not skill_manager_scene or not zone_manager_scene:
-		return
-	
 	print("Initializing: Combat sub-managers")
-	skill_manager = skill_manager_scene.instantiate()
 	zone_manager = zone_manager_scene.instantiate()
 	item_manager = item_manager_scene.instantiate()
 	
-	add_child(skill_manager)
 	add_child(zone_manager)
 	add_child(item_manager)
 	print("Initialized: CombatManager")
