@@ -16,12 +16,16 @@ var held_item : ItemNode = null :
 			PlayerManager.regen_combat_stats()
 		
 		held_item = value
+		
+		
+const ITEM_DEFAULT_SIZE = 72
 #endregion
 
 #region Events
 func _ready() -> void:
 	add_to_group(&"inv_slots")
 	# NOTE: Consider adding visual feedback for slot state (empty/filled/hover)
+	self.custom_minimum_size = Vector2.ONE * ITEM_DEFAULT_SIZE
 	
 	child_entered_tree.connect(_on_child_entered)
 	child_exiting_tree.connect(_on_child_exited)
