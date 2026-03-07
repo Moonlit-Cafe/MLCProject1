@@ -8,3 +8,5 @@ export_credentials.cfg
 *.tmp
 
 *.import
+*.DS_Store
+*.translation

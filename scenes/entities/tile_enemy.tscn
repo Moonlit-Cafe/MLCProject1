@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://xklg5gjudy1b"]
-
-[ext_resource type="PackedScene" uid="uid://dnhen0hl8o0bv" path="res://scenes/entities/tile_entity.tscn" id="1_jop11"]
-[ext_resource type="Script" uid="uid://s2sxrm7iul2h" path="res://scenes/entities/tile_enemy.gd" id="2_t5hli"]
-
-[node name="TileEnemy" instance=ExtResource("1_jop11")]
-script = ExtResource("2_t5hli")

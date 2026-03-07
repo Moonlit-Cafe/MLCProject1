@@ -1,8 +1,6 @@
 extends CanvasLayer
 
 #region Declarations
-@export var rand_items : Array[Item]
-
 @export var inventory : HBoxContainer
 
 @export var container : GridContainer
@@ -12,7 +10,7 @@ extends CanvasLayer
 @export var inv_node : PackedScene
 @export var wep_node : PackedScene
 
-@export var item_manager : Node
+@export var item_manager : ItemManager
 
 @onready var tab_container : TabContainer = $TabContainer
 
@@ -25,7 +23,7 @@ func _ready() -> void:
 	if container:
 		container.columns = inv_size.x
 		
-	item_manager = item_manager.find_child(".*/ItemManager", true, false)
+	item_manager = CombatManager.item_manager
 	
 	_generate_inventory()
 	_generate_random_itemnodes()
@@ -34,7 +32,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	# TODO: Check if allowed to open inventory
-	if event.is_action_pressed("toggle_inventory"):
+	if event.is_action_pressed("inventory"):
 		if hidden:
 			show_inv()
 		else:
@@ -46,6 +44,32 @@ func _generate_inventory() -> void:
 		container.add_child(new_slot)
 
 func _generate_random_itemnodes() -> void:
+	var rand_items : Array[Item] = []
+	for i in range(2):
+		var rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
+		var item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
+		if item_count <= 0:
+			rand_type = ResourceManager.ItemType.MATERIAL
+			item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
+		var idx = randi_range(0, item_count - 1)
+		print(idx)
+		var type_str : String = ""
+		match(rand_type):
+			ResourceManager.ItemType.MATERIAL:
+				type_str = "MAT_%s"
+			ResourceManager.ItemType.USABLE:
+				type_str = "USE_%s"
+			ResourceManager.ItemType.EQUIPPABLE:
+				type_str = "EQP_%s"
+			ResourceManager.ItemType.WEAPON:
+				type_str = "WEP_%s"
+			_:
+				type_str = "Null"
+		
+		var item : Item = ResourceManager.item_compendium.get(type_str % idx)
+		rand_items.append(item)
+		print("Added Item: %s" % item.i_name)
+		
 	for item in rand_items:
 		var slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		while slot.get_child_count() > 0:
@@ -72,21 +96,17 @@ func hide_inv() -> void:
 func get_usables() -> Array[Usable]:
 	var usable_list : Array[Usable] = []
 	
-	
 	for child in container.get_children():
 		if not child.held_item:
 			continue
 		
 		if child.held_item.item is UsableItem:
-			var usable_data = item_manager.get_usable(child.held_item.item.i_name)
+			var usable_data = item_manager.get_usable(child.held_item.item.id)
 			if usable_data == null:
 				continue
 				
 			usable_data.linked_slot = child
 			
 			usable_list.append(usable_data)
-			
-			
-			
 	
 	return usable_list

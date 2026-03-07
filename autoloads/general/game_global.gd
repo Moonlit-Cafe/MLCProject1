@@ -3,7 +3,7 @@
 ## The actual Global containing all of the game's core information.
 extends Node
 
-var rng : RandomNumberGenerator
+var rng : RandomNumberGenerator ## The main RNG for the game
 
 #region Built-Ins
 func _ready() -> void:
@@ -13,6 +13,7 @@ func _ready() -> void:
 #endregion
 
 #region Helpers
+## Auto creates a way to delay time within a function
 func delay(time: float) -> void:
 	await get_tree().create_timer(time).timeout
 #endregion

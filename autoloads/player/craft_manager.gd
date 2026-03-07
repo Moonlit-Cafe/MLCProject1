@@ -6,7 +6,6 @@ signal craft_request ## Signal called when ever a craft is requested via [method
 @export var texture_atlas : Texture2D ## The atlas reference to use for giving item nodes their texture (W.I.P.)
 @export var texture_grid_size : Vector2i ## The size of each texture in [member texture_atlas]
 
-@export var item_compendium : ItemCompendium ## Reference to the Item Compendium used for the game
 @export var recipe_compendium : RecipeCompendium ## Reference to the Recipe Compendium used for the game
 
 var available_to_craft : Array[Item] ## All available items to craft since last [method request_craft_list] call
@@ -14,7 +13,6 @@ var available_to_craft : Array[Item] ## All available items to craft since last 
 #region Built-Ins
 func _ready() -> void:
 	# Initialize both compendiums so that their data is available.
-	item_compendium.init()
 	recipe_compendium.init()
 #endregion
 
@@ -100,7 +98,7 @@ func _craft_item(i_name: StringName, count: int, inventory: GridContainer) -> bo
 #region Helper Methods
 ## Finds if an item is available in the ItemCompendium by it's StringName.
 func find_item(item_name: StringName) -> Item:
-	for item in item_compendium.item_reference:
+	for item in ResourceManager.item_compendium.values():
 		if item.i_name.to_snake_case() == item_name:
 			return item
 	
@@ -109,7 +107,7 @@ func find_item(item_name: StringName) -> Item:
 
 ## Finds if an item is available in the ItemCompendium by it's ID.
 func find_item_by_id(id: StringName) -> Item:
-	for item in item_compendium.item_reference:
+	for item in ResourceManager.item_compendium.values():
 		if item.id == id:
 			return item
 	
@@ -202,7 +200,7 @@ func get_recipe_requirements(item_name: StringName) -> Dictionary:
 	return recipe
 
 func get_compendium_size() -> int:
-	return item_compendium.item_reference.size()
+	return ResourceManager.get_data_count(ResourceManager.DataType.ITEM)
 #endregion
 
 ## Grabs the specific portion of the texture to then set to the ItemNode's texture
@@ -211,9 +209,17 @@ func get_compendium_size() -> int:
 func get_item_texture(pos: Vector2i) -> AtlasTexture:
 	var return_texture := AtlasTexture.new()
 	return_texture.atlas = texture_atlas
-	return_texture.region = Rect2(pos * texture_grid_size, texture_grid_size)
+	return_texture.region = Rect2(pos * texture_grid_size.x, texture_grid_size)
 	return return_texture
 
 func get_random_item() -> Item:
-	var item = item_compendium.item_reference.get(randi_range(0, item_compendium.item_reference.size()))
+	var idx = randi_range(0, ResourceManager.get_data_count(ResourceManager.DataType.ITEM))
+	var item_type : String = ""
+	var item_type_int = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
+	match(item_type_int):
+		ResourceManager.ItemType.MATERIAL:
+			item_type = "MAT_%s"
+		_:
+			item_type = "Null"
+	var item : Item = ResourceManager.item_compendium.get(item_type % idx)
 	return item

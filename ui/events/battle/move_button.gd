@@ -4,7 +4,5 @@ class_name MoveButton extends DataButton
 func _ready() -> void:
 	data = MoveAction.new()
 	data.shape = ActionShape.new()
-	# HACK magic numbers
-	# should pull from PlayerManager
-	data.shape = CombatManager.skill_manager.find_shape(&"single_target")
+	data.shape = ResourceManager.action_shape_compendium.get(&"ACS_0")
 #endregion

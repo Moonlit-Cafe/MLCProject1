@@ -1,15 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://r5b8eavqvkig"]
+[gd_scene format=3 uid="uid://r5b8eavqvkig"]
 
 [ext_resource type="Script" uid="uid://bwtaxv5fchqjc" path="res://autoloads/player/craft_manager.gd" id="1_l6h75"]
-[ext_resource type="Resource" uid="uid://c1eci1cb46wlw" path="res://mechanics/inventory/items/item_compendium.tres" id="2_fvp5a"]
-[ext_resource type="Script" uid="uid://w6l5es8wnp35" path="res://mechanics/crafting/recipe_compendium.gd" id="3_2aow2"]
+[ext_resource type="Texture2D" uid="uid://cbcxh5fov5q8d" path="res://assets/sprites/items_sheet.png" id="2_2aow2"]
+[ext_resource type="Resource" uid="uid://bbij6odqtum6q" path="res://mechanics/crafting/recipe_compendium.tres" id="3_2aow2"]
 
-[sub_resource type="Resource" id="Resource_omi38"]
-script = ExtResource("3_2aow2")
-compendium_path = "uid://bg50f7vrri0rc"
-metadata/_custom_type_script = "uid://w6l5es8wnp35"
-
-[node name="CraftManager" type="Node"]
+[node name="CraftManager" type="Node" unique_id=1440912480]
 script = ExtResource("1_l6h75")
-item_compendium = ExtResource("2_fvp5a")
-recipe_compendium = SubResource("Resource_omi38")
+texture_atlas = ExtResource("2_2aow2")
+texture_grid_size = Vector2i(16, 16)
+recipe_compendium = ExtResource("3_2aow2")

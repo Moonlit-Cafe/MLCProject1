@@ -2,13 +2,9 @@
 extends Node
 
 @warning_ignore_start("unused_signal")
-signal action_selected(ac: Action)
-signal battle_removed(node: Variant)
-signal battle_tile_selected
-signal game_end
-signal player_turn
-signal stop_dragging
-signal weapon_open
+signal battle_removed(node: Variant) ## Emitted to have a specific node removed from trackers
+signal game_end ## Emitted upon the game ending
+signal player_turn ## Emitted when the player has completed their turn
+signal weapon_open ## Emitted when a weapon item is clicked to open weapon info
 
 signal thinking
-signal act(a: Ability, b: String)

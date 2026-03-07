@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://clst672u7riq4"]
+[gd_scene format=3 uid="uid://clst672u7riq4"]
 
 [ext_resource type="Script" uid="uid://cstsybkhhy3dw" path="res://autoloads/player/player_manager.gd" id="1_snm0b"]
 [ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://assets/sprites/characters/character_1_frame16x20.png" id="2_thk80"]
@@ -25,6 +25,6 @@ o_name = &"Player"
 frames = SubResource("SpriteFrames_jakli")
 metadata/_custom_type_script = "uid://dq2wcllo0fdv5"
 
-[node name="PlayerManager" type="Node"]
+[node name="PlayerManager" type="Node" unique_id=1672167298]
 script = ExtResource("1_snm0b")
 character_data = SubResource("Resource_nkho7")

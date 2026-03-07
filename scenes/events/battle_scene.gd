@@ -15,6 +15,8 @@ extends BaseEventScene
 @onready var enemy_info : VBoxContainer = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo
 @onready var enemy_label : Label = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/EnemyName
 @onready var enemy_hp_bar : ProgressBar = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/HealthBar
+@onready var battle_map : BattleMap3D = $BattleMap3D
+@onready var hover_panel : VBoxContainer = $CanvasLayer/HoverPanel
 
 # TODO: Need to procedurally determine what enemies are able to fight based off of the current
 # difficulty rating.
@@ -87,7 +89,13 @@ func _signal_initialization() -> void:
 	
 	CombatManager.hp_changed.connect(_on_hp_changed)
 	CombatManager.battle_end.connect(_on_battle_ended)
-	CombatManager.attack_tile.connect(_attack_tile)
+	CombatManager.attack_tile.connect(action_on_tiles)
+	
+	battle_map.camera.hover_tile.connect(_on_tile_hovered)
+	battle_map.camera.collapse_hover.connect(_collapse_tile_panel)
+	
+	
+	turn_tracker.new_turn.connect(battle_map._on_new_turn)
 #endregion
 
 #region Processes
@@ -106,20 +114,48 @@ func _update_hp_label() -> void:
 	
 	if not enemy_info.visible:
 		enemy_info.show()
-	enemy_label.text = MouseHandler.selected_tile.name
-	enemy_hp_bar.max_value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y
-	enemy_hp_bar.step = float(MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y) / 10000
-	enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).x
+		
+		if MouseHandler.selected_tile.held_entity:
+			enemy_label.text = MouseHandler.selected_tile.name
+			enemy_hp_bar.max_value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y
+			enemy_hp_bar.step = float(MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y) / 10000
+			enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).x
 #endregion
 
 #region Helpers
-func action_on_tiles(tile: BattleTile, action: CombatAction) -> void:
+func action_on_tiles() -> void:
+	# TODO: Attach to Battle_board instead of actuating here.
+	var tile : BattleTile = MouseHandler.selected_tile
+	var action = CombatManager.selected_action
+	battle_log.log_item("This is log test...")
+	
+	if not CombatManager.selected_action or not CombatManager.player_turn:
+		return
+		
 	var tile_pos := tile.tile_position
 	var center_pos := Vector2i(tile_pos.x, tile_pos.z)
 	var tiles := battle_board.grab_other_tiles(action.shape.shape_pos_arr.duplicate(), center_pos)
-	tile.defend(action)
-	for other_tile in tiles:
-		other_tile.defend(action)
+	tiles.append(tile)
+	
+	for cur_tile in tiles:
+		_attack_tile(cur_tile, action)
+
+
+	MouseHandler.selected_tile = null
+	battle_board.determine_selectables()
+	CombatManager.player_turn = false
+	GameGlobalEvents.player_turn.emit()
+	CombatManager.use_action.emit()
+		
+func _attack_tile(cur_tile:BattleTile, action:CombatAction):
+	if not cur_tile.held_entity:
+		return 
+	
+	if CombatManager.selected_action is Usable:
+		CombatManager.selected_action.linked_slot.count -= 1
+			
+	battle_log.log_item(str(CombatManager.selected_action.value) + " damage dealt to " + str(cur_tile.held_entity.character.o_name))
+	cur_tile.defend(action, PlayerManager.entity_ref)
 #endregion
 
 #region Signal Callbacks
@@ -129,23 +165,8 @@ func _on_pressed() -> void:
 func _on_map_ended() -> void:
 	_on_pressed()
 
-func _attack_tile() -> void:
-	# TODO: Attach to Battle_board instead of actuating here.
-	battle_log.log_item("This is log test...")
-	if not CombatManager.selected_action or not CombatManager.player_turn:
-		return
+
 	
-	var selected_tile : BattleTile = MouseHandler.selected_tile
-	if selected_tile.held_entity:
-		var entity : TileEntity = selected_tile.held_entity
-		PlayerManager.entity_ref.attack(entity, CombatManager.selected_action.value)
-		if CombatManager.selected_action is Usable:
-			CombatManager.selected_action.linked_slot.count -= 1
-		MouseHandler.selected_tile = null
-		battle_board.determine_selectables()
-	CombatManager.player_turn = false
-	GameGlobalEvents.player_turn.emit()
-	CombatManager.use_action.emit()
 
 ## Changes the hp label based on current value.
 func _on_hp_changed() -> void:
@@ -156,4 +177,10 @@ func _on_battle_ended() -> void:
 
 func _on_game_ended() -> void:
 	get_tree().quit()
+	
+func _on_tile_hovered() -> void:
+	hover_panel.tile_hover()
+	
+func _collapse_tile_panel() -> void:
+	hover_panel.disable()
 #endregion

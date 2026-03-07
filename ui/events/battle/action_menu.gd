@@ -81,11 +81,13 @@ func _on_move_pressed() -> void:
 	
 func _on_return_pressed() -> void:
 	CombatManager.moving = false
+	CombatManager.selected_action = null
 	$MenuContainers/MenuActionsContainer/Actions.grab_focus()
 	menu_actions.show()
 	actions.hide()
 	items.hide()
 	moves.hide()
+	battle_scene.battle_board.determine_selectables()
 	
 
 func _on_data_sent(data: Variant) -> void:

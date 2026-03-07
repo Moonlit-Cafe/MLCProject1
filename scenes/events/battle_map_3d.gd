@@ -7,8 +7,8 @@ signal end_map
 # TODO: Make it so random enemies generate and can begin moving and attacking.
 
 @export var player_ref : PackedScene
-@export var battle_board : GridMap
-@export var turn_tracker : TurnTracker
+@export var battle_board : GridMap ## The Gridmap that acts as the actual map for the battle
+@export var turn_tracker : TurnTracker ## A local reference to the [TurnTracker]
 @export var select_holder : Node3D
 @export var b_tile : PackedScene
 @export var board_zone : MapBoundary
@@ -95,6 +95,7 @@ func generate_turn_order() -> void:
 	turn_tracker.turn_list = turn_order
 	turn_tracker.generate_turns()
 
+
 func determine_selectables() -> void:
 	if not select_holder:
 		return
@@ -103,15 +104,25 @@ func determine_selectables() -> void:
 		child.selectable = false
 	
 	# TODO: Introduce some more checking on board_area and board later...
-	await get_tree().process_frame
 	var new_range : float = 0.5
 	var selected_action = CombatManager.selected_action
 	if selected_action is CombatAction:
 		new_range = selected_action.a_range
-	PlayerManager.entity_ref.d_range = new_range * 4
+	elif selected_action is MoveAction:
+		new_range = selected_action.move_range
+	PlayerManager.entity_ref.d_range = new_range
+	
+	await get_tree().process_frame
+	
 	var detected : Array[BattleTile] = await PlayerManager.entity_ref.get_detected()
 	for tile in detected:
+		if tile.held_entity:
+			if tile.held_entity is not TileEntity:
+				print("Tile %s not toggled", tile)
+				continue
+
 		tile.selectable = true
+
 
 func get_tile_at(pos: Vector2i) -> BattleTile:
 	return board.get(pos)
@@ -159,8 +170,8 @@ func _check_enemy_order_size(emy_order: Array) -> int:
 
 func _haste_sort(a: TileEntity, b: TileEntity) -> bool:
 	# TODO: Come back to this check later.
-	#if (not "haste" in a.held_object and not a is PlayerManager) or (not "haste" in b.held_object and not b is PlayerManager):
-	#	push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
+	# if (not "haste" in a.held_object and not a is PlayerManager) or (not "haste" in b.held_object and not b is PlayerManager):
+	# push_error("%s cannot be compared with %s since one doesn't have the haste attribute" % [a, b])
 	
 	var haste_a : int = a.haste
 	var haste_b : int = b.haste
@@ -177,8 +188,10 @@ func grab_other_tiles(tiles_to_grab: Array[Vector2i], center_pos) -> Array[Battl
 	if Vector2i.ZERO in tiles_to_grab:
 		tiles_to_grab.erase(Vector2i.ZERO)
 	
-	for tile in tiles_to_grab:
-		ret_arr.append(board.get(tile + center_pos))
+	for tile_coords in tiles_to_grab:
+		if not check_tile_exists(tile_coords):
+			continue
+		ret_arr.append(board.get(tile_coords + center_pos))
 	
 	return ret_arr
 
@@ -259,3 +272,9 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 			battle_loop(rounds, cur_round + 1)
 		else:
 			return 
+			
+			
+#region Signal Callbacks
+func _on_new_turn(cur_is_player : bool):
+	camera.player_turn = cur_is_player
+#endregion
