@@ -20,6 +20,7 @@ enum DataType {
 @export_file(".csv") var material_data : String = "" ## Full collection of [MaterialItem]s
 @export_file(".csv") var usable_data : String = ""
 @export_file(".csv") var equippable_data : String = ""
+@export_file(".csv") var equipset_data : String = ""
 @export_file(".csv") var weapon_data : String = ""
 @export_category("Skill Data")
 @export_file(".csv") var action_shape_data : String = "" ## Full collection of [ActionShapes]
@@ -207,6 +208,7 @@ func _save_actions() -> void:
 	CSVAccess.save_csv_data(action_data, action_dict)
 #endregion
 
+#region
 func get_data_count(data_type: DataType, item_type: int = -1) -> int:
 	match(data_type):
 		DataType.ITEM:
