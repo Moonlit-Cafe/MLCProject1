@@ -70,6 +70,10 @@ func _generate_random_itemnodes() -> void:
 		rand_items.append(item)
 		print("Added Item: %s" % item.i_name)
 		
+	# TODO TYLER add Bomba items to rand_items
+	# TODO TYLER add Bomba items to compendiums
+	# TODO TYLER add bomba item set effect to data
+		
 	for item in rand_items:
 		var slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		while slot.get_child_count() > 0:
