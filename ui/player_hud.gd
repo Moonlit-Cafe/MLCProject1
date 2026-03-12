@@ -46,33 +46,8 @@ func _generate_inventory() -> void:
 func _generate_random_itemnodes() -> void:
 	var rand_items : Array[Item] = []
 	for i in range(2):
-		var rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
-		var item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
-		if item_count <= 0:
-			rand_type = ResourceManager.ItemType.MATERIAL
-			item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
-		var idx = randi_range(0, item_count - 1)
-		print(idx)
-		var type_str : String = ""
-		match(rand_type):
-			ResourceManager.ItemType.MATERIAL:
-				type_str = "MAT_%s"
-			ResourceManager.ItemType.USABLE:
-				type_str = "USE_%s"
-			ResourceManager.ItemType.EQUIPPABLE:
-				type_str = "EQP_%s"
-			ResourceManager.ItemType.WEAPON:
-				type_str = "WEP_%s"
-			_:
-				type_str = "Null"
 		
-		var item : Item = ResourceManager.item_compendium.get(type_str % idx)
-		rand_items.append(item)
-		print("Added Item: %s" % item.i_name)
-		
-	# TODO TYLER add Bomba items to rand_items
-	# TODO TYLER add Bomba items to compendiums
-	# TODO TYLER add bomba item set effect to data
+		rand_items.append(_random_item())
 		
 	for item in rand_items:
 		var slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
@@ -86,6 +61,37 @@ func _generate_random_itemnodes() -> void:
 			new_node = inv_node.instantiate()
 		new_node.setup_item(item)
 		slot.add_child(new_node)
+		
+func _random_item():
+	var rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
+	var item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
+	if item_count <= 0:
+		rand_type = ResourceManager.ItemType.MATERIAL
+		item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
+	var idx = randi_range(0, item_count - 1)
+	print(idx)
+	var type_str : String = ""
+	match(rand_type):
+		ResourceManager.ItemType.MATERIAL:
+			type_str = "MAT_%s"
+		ResourceManager.ItemType.USABLE:
+			type_str = "USE_%s"
+		ResourceManager.ItemType.EQUIPPABLE:
+			type_str = "EQP_%s"
+		ResourceManager.ItemType.WEAPON:
+			type_str = "WEP_%s"
+		_:
+			type_str = "Null"
+	
+	var item : Item = ResourceManager.item_compendium.get(type_str % idx)
+	print("Added Item: %s" % item.i_name)
+	return item
+		
+	# TODO TYLER add Bomba items to rand_items
+	# TODO TYLER add Bomba items to compendiums
+	# TODO TYLER add bomba item set effect to data
+		
+	
 
 func show_inv() -> void:
 	var tween := create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC)
