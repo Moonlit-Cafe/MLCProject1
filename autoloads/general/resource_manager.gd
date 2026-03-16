@@ -63,27 +63,39 @@ func save_data() -> void:
 func _load_item_compendium() -> void:
 	print("Loading: Items")
 	_load_i_type_compendium(ItemType.MATERIAL)
+	_load_i_type_compendium(ItemType.EQUIPPABLE)
 	print("Loaded: Items")
 
 ## Loads all the items specific to [member material_data]
 func _load_i_type_compendium(type: ItemType):
 	var comp_access : String = ""
 	var id_type : StringName = &""
+	var type_data :String
+	var item
+	
 	match(type):
 		ItemType.MATERIAL:
-			if not material_data:
-				push_warning("@ResourceManager: There is no connected material data file, skipping...")
-				return {}
+			type_data = material_data
 			id_type = &"MAT_%s"
-			comp_access = material_data
+			item = MaterialItem.new()
+		ItemType.EQUIPPABLE:
+			type_data = equippable_data
+			id_type = &"EQP_%s"
+			item = EquippableItem.new()
 		_:
 			push_warning("@ResourceManager: The given ItemType is incorrect, returning empty dictionary.")
 			return {}
+			
+	if not type_data:
+		push_warning("@ResourceManager: There is no connected %s data file, skipping...", type)
+		return {}
+		
+	comp_access = type_data
 	
 	var i : int = 0
 	var data = CSVAccess.load_csv_data(comp_access)
 	for item_name in data.keys():
-		var item := MaterialItem.new()
+		item = item.duplicate()
 		item.i_name = item_name
 		item.id = id_type % i
 		item.load_data(data.get(item_name))

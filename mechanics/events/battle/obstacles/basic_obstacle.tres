@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ObstacleObject" format=3 uid="uid://4mxxc5xw1ri1"]
 
-[ext_resource type="Texture2D" uid="uid://b4xspfvj1gcr3" path="res://assets/sprites/tiles/obstacle.png" id="1_qsnfo"]
+[ext_resource type="Texture2D" uid="uid://bjfk84yvn08ko" path="res://assets/sprites/tiles/obstacle.png" id="1_qsnfo"]
 [ext_resource type="Script" uid="uid://ddopx82rbetw2" path="res://mechanics/events/battle/obstacles/obstacle.gd" id="1_sw1ws"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mi476"]

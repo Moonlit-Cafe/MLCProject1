@@ -70,9 +70,6 @@ func _random_item(rand_type = null, item_count = null):
 	if rand_type == null:
 		rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
 	if item_count == null:
-		item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
-		
-	if item_count <= 0:
 		rand_type = ResourceManager.ItemType.MATERIAL
 		item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
 		
