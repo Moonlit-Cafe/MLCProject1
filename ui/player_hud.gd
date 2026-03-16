@@ -9,6 +9,7 @@ extends CanvasLayer
 
 @export var inv_node : PackedScene
 @export var wep_node : PackedScene
+@export var eqp_node : PackedScene
 
 @export var item_manager : ItemManager
 
@@ -51,7 +52,8 @@ func _generate_random_itemnodes() -> void:
 	print(rand_items)
 	
 	for i in range(3):
-		rand_items.append(_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
+		var t = _random_item(ResourceManager.ItemType.EQUIPPABLE, i+1)
+		rand_items.append(t)
 		
 	for item in rand_items:
 		var slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
@@ -61,6 +63,8 @@ func _generate_random_itemnodes() -> void:
 		var new_node
 		if item is WeaponItem:
 			new_node = wep_node.instantiate()
+		elif item is EquippableItem:
+			new_node = eqp_node.instantiate()
 		else:
 			new_node = inv_node.instantiate()
 		new_node.setup_item(item)
@@ -91,11 +95,6 @@ func _random_item(rand_type = null, item_count = null):
 	var item : Item = ResourceManager.item_compendium.get(type_str % idx)
 	print("Added Item: %s" % item.i_name)
 	return item
-		
-	# TODO TYLER add Bomba items to rand_items
-	# TODO TYLER add Bomba items to compendiums
-	# TODO TYLER add bomba item set effect to data
-		
 	
 
 func show_inv() -> void:
