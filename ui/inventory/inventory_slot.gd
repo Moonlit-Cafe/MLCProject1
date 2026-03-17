@@ -16,7 +16,8 @@ var held_item : ItemNode = null :
 			PlayerManager.regen_combat_stats()
 		
 		held_item = value
-		
+
+signal check_set()
 		
 const ITEM_DEFAULT_SIZE = 72
 #endregion
@@ -76,10 +77,16 @@ func _on_child_entered(node: Node) -> void:
 		held_item = node as ItemNode
 		# TODO: Update visual state to show slot is filled
 		# NOTE: Consider emitting a signal for inventory management
+		
+		if can_slot != Genum.EquipLocation.INVENTORY:
+			check_set.emit()
 
 func _on_child_exited(node: Node) -> void:
 	if node == held_item:
 		held_item = null
+		
+		if node is EquippableNode:
+			node.unequip()
 		# TODO: Update visual state to show slot is empty
 		# NOTE: Consider emitting a signal for inventory management
 

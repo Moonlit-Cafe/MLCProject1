@@ -2,6 +2,7 @@ extends CanvasLayer
 
 #region Declarations
 @export var inventory : HBoxContainer
+@onready var equip_slots = $TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer.get_children()
 
 @export var container : GridContainer
 @export var inv_size := Vector2i(5, 5)
@@ -18,6 +19,7 @@ extends CanvasLayer
 var hidden := true
 #endregion
 
+#region Events
 func _ready() -> void:
 	add_to_group(&"inventory")
 	
@@ -25,6 +27,8 @@ func _ready() -> void:
 		container.columns = inv_size.x
 		
 	item_manager = CombatManager.item_manager
+	
+	_connect_equip_slots()
 	
 	_generate_inventory()
 	_generate_random_itemnodes()
@@ -38,6 +42,42 @@ func _input(event: InputEvent) -> void:
 			show_inv()
 		else:
 			hide_inv()
+
+func _connect_equip_slots() -> void:
+	for slot in equip_slots:
+		slot.check_set.connect(_check_sets)
+	
+	_check_sets()
+		
+func _check_sets() -> void:
+	var equip_sets = {}
+	
+	# TODO Tyler implement this
+	# this should update the visuals on all equip slots
+	# if theyre not empty, change the item's count to x/s
+	# where x is the number of that set equipped
+	# and s is the number required to activate the set bonus
+	
+	for slot : InventorySlot in equip_slots:
+		if slot.held_item:
+			var cur_set = str(slot.held_item.item.item_set)
+			if cur_set in equip_sets.keys():
+				equip_sets[cur_set] = equip_sets[cur_set] + 1
+			else:
+				equip_sets[cur_set] = 1
+				
+		else:
+			continue
+			
+			
+	# then iterate through again, changing labels as necessary this time
+	for slot:InventorySlot in equip_slots:
+		if slot.held_item as EquippableNode:
+			var cur_set = slot.held_item.item.item_set
+			slot.held_item.count_label.text = "%s / %s" % [equip_sets[cur_set], cur_set]
+		else:
+			slot
+			# if theyre empty, give a label describing what slot it is
 
 func _generate_inventory() -> void:
 	for slot in range(inv_size.x * inv_size.y):
@@ -68,7 +108,9 @@ func _generate_random_itemnodes() -> void:
 			new_node = inv_node.instantiate()
 		new_node.setup_item(item)
 		slot.add_child(new_node)
-		
+#endregion
+
+#region Helpers
 func _random_item(rand_type = null, item_count = null):
 	var idx = item_count
 	
@@ -125,3 +167,4 @@ func get_usables() -> Array[Usable]:
 			usable_list.append(usable_data)
 	
 	return usable_list
+#endregion
