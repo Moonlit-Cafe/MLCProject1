@@ -37,6 +37,7 @@ func _ready() -> void:
 ## Initialize item display
 func setup_item(new_item: Item, initial_count: int = 1) -> void:
 	texture = $TextureRect
+	count_label = $Count
 	item = new_item
 	count = initial_count
 	update_display()

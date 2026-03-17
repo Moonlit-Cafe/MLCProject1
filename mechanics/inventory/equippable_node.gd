@@ -14,7 +14,7 @@ func update_display() -> void:
 		# if slot has an item
 		# if item is equippable
 		# if equip is same set as this
-		# store 
+		
 		# TODO TYLER implement player equip slots
 		
 		# TODO TYLER add bomba item set effect to data

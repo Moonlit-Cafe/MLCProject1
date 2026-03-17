@@ -95,22 +95,6 @@ can_slot = 10
 layout_mode = 2
 can_slot = 11
 
-[node name="Helm2" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=1401955178 instance=ExtResource("1_n0n2g")]
-layout_mode = 2
-can_slot = 1
-
-[node name="Helm3" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=401522922 instance=ExtResource("1_n0n2g")]
-layout_mode = 2
-can_slot = 1
-
-[node name="Helm4" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=1457481341 instance=ExtResource("1_n0n2g")]
-layout_mode = 2
-can_slot = 1
-
-[node name="Helm5" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=504252736 instance=ExtResource("1_n0n2g")]
-layout_mode = 2
-can_slot = 1
-
 [node name="InventoryContainer" type="PanelContainer" parent="TabContainer/Inventory" unique_id=127268033]
 layout_mode = 2
 size_flags_horizontal = 3
