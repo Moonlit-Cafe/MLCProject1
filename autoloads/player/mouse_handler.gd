@@ -60,7 +60,8 @@ func _move_to_hovered() -> void:
 	
 	if hovered_slot.can_slot != Genum.EquipLocation.INVENTORY:
 			if item_to_move.item.equip_loc != hovered_slot.can_slot:
-				return
+				_move_to_prior()
+				return 
 	container.remove_child(item_to_move)
 	hovered_slot.add_child(item_to_move)
 		

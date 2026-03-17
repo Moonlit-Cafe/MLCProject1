@@ -49,11 +49,10 @@ func _generate_random_itemnodes() -> void:
 	for i in range(2):
 		rand_items.append(_random_item())
 	
-	print(rand_items)
-	
 	for i in range(3):
-		var t = _random_item(ResourceManager.ItemType.EQUIPPABLE, i+1)
-		rand_items.append(t)
+		rand_items.append(_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
+	
+	print(rand_items)
 		
 	for item in rand_items:
 		var slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
@@ -71,13 +70,15 @@ func _generate_random_itemnodes() -> void:
 		slot.add_child(new_node)
 		
 func _random_item(rand_type = null, item_count = null):
+	var idx = item_count
+	
 	if rand_type == null:
 		rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
 	if item_count == null:
 		rand_type = ResourceManager.ItemType.MATERIAL
 		item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
+		idx = randi_range(0, item_count - 1)
 		
-	var idx = randi_range(0, item_count - 1)
 	print(idx)
 	var type_str : String = ""
 	match(rand_type):

@@ -52,7 +52,7 @@ func update_display() -> void:
 	if texture and item.texture != Vector2i.ZERO:
 		texture.texture = CraftManager.get_item_texture(item.texture)
 	
-	# Update count displayi
+	# Update count display
 	if count_label:
 		count_label.text = str(count) if count > 1 else ""
 		count_label.visible = count > 1
