@@ -53,10 +53,8 @@ func _check_sets() -> void:
 	var equip_sets = {}
 	
 	# TODO Tyler implement this
-	# this should update the visuals on all equip slots
-	# if theyre not empty, change the item's count to x/s
-	# where x is the number of that set equipped
-	# and s is the number required to activate the set bonus
+	# get the denominator
+	# update on unequip
 	
 	for slot : InventorySlot in equip_slots:
 		if slot.held_item:
@@ -66,18 +64,15 @@ func _check_sets() -> void:
 			else:
 				equip_sets[cur_set] = 1
 				
-		else:
-			continue
 			
 			
-	# then iterate through again, changing labels as necessary this time
 	for slot:InventorySlot in equip_slots:
 		if slot.held_item as EquippableNode:
 			var cur_set = slot.held_item.item.item_set
 			slot.held_item.count_label.text = "%s / %s" % [equip_sets[cur_set], cur_set]
 		else:
-			slot
-			# if theyre empty, give a label describing what slot it is
+			slot.label.text = Genum.EquipLocation.keys()[slot.can_slot].substr(0,5)
+			# TODO Tyler add labels to inventory slots
 
 func _generate_inventory() -> void:
 	for slot in range(inv_size.x * inv_size.y):
@@ -96,7 +91,7 @@ func _generate_random_itemnodes() -> void:
 		
 	for item in rand_items:
 		var slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
-		while slot.get_child_count() > 0:
+		while slot.get_child_count() > 1:
 			slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		
 		var new_node

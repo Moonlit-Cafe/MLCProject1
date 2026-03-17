@@ -33,5 +33,11 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_6t8ig")
 script = ExtResource("1_d1f1n")
 item_node = ExtResource("3_jwt35")
 
+[node name="GridContainer" type="GridContainer" parent="." unique_id=834666390]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GridContainer" unique_id=1164718731]
+layout_mode = 2
+
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
