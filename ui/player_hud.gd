@@ -52,27 +52,22 @@ func _connect_equip_slots() -> void:
 func _check_sets() -> void:
 	var equip_sets = {}
 	
-	# TODO Tyler implement this
-	# get the denominator
-	# update on unequip
-	
+	# TODO TYLER add bomba item set effect to data
 	for slot : InventorySlot in equip_slots:
 		if slot.held_item:
-			var cur_set = str(slot.held_item.item.item_set)
+			var cur_set = slot.held_item.item.set_id
 			if cur_set in equip_sets.keys():
 				equip_sets[cur_set] = equip_sets[cur_set] + 1
 			else:
 				equip_sets[cur_set] = 1
-				
-			
 			
 	for slot:InventorySlot in equip_slots:
 		if slot.held_item as EquippableNode:
-			var cur_set = slot.held_item.item.item_set
-			slot.held_item.count_label.text = "%s / %s" % [equip_sets[cur_set], cur_set]
+			var cur_set = slot.held_item.item.set_id
+			
+			slot.held_item.count_label.text = "%s / %s" % [equip_sets[cur_set],  ResourceManager.set_compendium[cur_set as int]["required"]]
 		else:
 			slot.label.text = Genum.EquipLocation.keys()[slot.can_slot].substr(0,5)
-			# TODO Tyler add labels to inventory slots
 
 func _generate_inventory() -> void:
 	for slot in range(inv_size.x * inv_size.y):
@@ -115,8 +110,8 @@ func _random_item(rand_type = null, item_count = null):
 		rand_type = ResourceManager.ItemType.MATERIAL
 		item_count = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
 		idx = randi_range(0, item_count - 1)
+		print(idx)
 		
-	print(idx)
 	var type_str : String = ""
 	match(rand_type):
 		ResourceManager.ItemType.MATERIAL:

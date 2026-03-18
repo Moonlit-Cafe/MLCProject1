@@ -3,6 +3,11 @@ class_name EquippableItem extends Item
 
 # TODO: Init function checks power core aspects and determines if item has affinity
 @export var aspect : Genum.AspectType
-@export var item_set : StringName
+@export var set_id : int
 @export var stats : Array[StatPacket]
 @export var rarity : Genum.Rarity
+
+func load_data(data: Dictionary) -> void:
+	super(data)
+	var dmh = DataManipulationHelper.new()
+	set_id = dmh.detect_special_data(data.get("set_id"))

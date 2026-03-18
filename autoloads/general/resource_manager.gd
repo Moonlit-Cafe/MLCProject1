@@ -29,6 +29,7 @@ enum DataType {
 @export_category("Generation Data")
 
 var item_compendium : Dictionary[StringName, Item]
+var set_compendium : Dictionary[int, EquipSet]
 var action_shape_compendium : Dictionary[StringName, ActionShape]
 var action_compendium : Dictionary[StringName, CombatAction]
 var resource_count : Dictionary[StringName, int] = {
@@ -52,11 +53,13 @@ func load_data() -> void:
 	_load_item_compendium()
 	_load_action_shapes()
 	_load_actions()
+	_load_set_compendium()
 
 func save_data() -> void:
 	_save_item_compendium()
 	_save_action_shapes()
 	_save_actions()
+#endregion
 
 #region Item Compendium
 ## Loads all the items available within the game
@@ -218,6 +221,25 @@ func _save_actions() -> void:
 		action_dict.set(action.ac_name, action.save_data())
 	
 	CSVAccess.save_csv_data(action_data, action_dict)
+#endregion
+
+#region Set Compendium
+func _load_set_compendium() -> void:
+	var equip_set = EquipSet.new()
+	var data = CSVAccess.load_csv_data(equipset_data)
+	
+	for cur_set_id in data.keys():
+		equip_set = equip_set.duplicate()
+		equip_set.load_data(data[cur_set_id], cur_set_id)
+		add_set(equip_set)
+
+func add_set(equip_set: EquipSet) -> void:
+	set_compendium.set(equip_set.set_id, equip_set)
+	#set_count.set(&"Material", resource_count.get(&"Material") + 1)
+
+#func remove_set(id: String) -> void:
+	#var set_name : Item = item_compendium.get(id)
+	#item_compendium.erase(id)
 #endregion
 
 #region

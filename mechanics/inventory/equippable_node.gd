@@ -8,11 +8,13 @@ func update_display() -> void:
 	if count_label:
 		count_label.text = Genum.EquipLocation.keys()[item.equip_loc].substr(0,4)
 		count_label.visible = true
-		
-		# TODO TYLER add bomba item set effect to data
 		return
 
+
+#func setup_item(new_item: Item, initial_count: int = 1) -> void:
+	#super(new_item, initial_count)
+	
 func unequip() -> void:
+	
 	pass
-		
 #endregion
