@@ -89,10 +89,7 @@ func _on_child_exited(node: Node) -> void:
 		
 		if node is EquippableNode:
 			check_set.emit()
-			
-			# TODO Tyler implement this
-			# this should also run the check on the individual node that's moving
-			
+			node.update_display()
 		# TODO: Update visual state to show slot is empty
 		# NOTE: Consider emitting a signal for inventory management
 
