@@ -109,28 +109,32 @@ func update_sets(incoming_bonuses:PackedByteArray) -> void:
 	
 func _update_bonus(index:int, value:int) -> void:
 	var bonus
-	var bonus_type 
-	value = 1 if value else -1
 	match index:
 		0:
 			# TODO tyler give the player a firebolt here
 			# should mostly be wired, just waiting for the last pieces to connect
 			# bonus = ActionManager.a_data[&"Firebolt"]
-			bonus_type = 0
+			bonus = {Genum.StatType.HEALTH: 30}
 			
 			
-	match bonus_type:
-		0:
-			if value > 0:
-				# PlayerManager.available_skills.
-				pass
-			else:
-				# var i = PlayerManager.available_skills.bsearch(bonus)
-				# PlayerManager.available_skills.remove_at(i)
-				pass
-		_:
-			push_warning("No bonus_type selected for set_id: " + str(set_bonuses[index]))
-			return
+	if bonus is Action:
+		if value:
+			# PlayerManager.available_skills.
+			pass
+		else:
+			# var i = PlayerManager.available_skills.bsearch(bonus)
+			# PlayerManager.available_skills.remove_at(i)
+			pass
+	elif bonus is Dictionary:
+		var key = bonus.keys()[0]
+		if value:
+			combat_stats.set(key, combat_stats.get(key) + bonus[key])
+		else:
+			combat_stats.set(key, combat_stats.get(key) - 	bonus[key])
+
+	else:
+		push_warning("No bonus_type selected for set_id: " + str(set_bonuses[index]))
+		return
 	
 	
 	# PlayerManager.UPDATE_THE_ACTION_MENU_PLS()
