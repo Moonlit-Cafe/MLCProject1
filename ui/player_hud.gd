@@ -50,24 +50,40 @@ func _connect_equip_slots() -> void:
 	_check_sets()
 		
 func _check_sets() -> void:
-	var equip_sets = {}
+	var equipped_sets = _count_sets()
+	var bonuses : PackedByteArray
+	bonuses.resize(ResourceManager.set_compendium.keys().max() + 1)
 	
-	# TODO TYLER add bomba item set effect to data
-	for slot : InventorySlot in equip_slots:
-		if slot.held_item:
-			var cur_set = slot.held_item.item.set_id
-			if cur_set in equip_sets.keys():
-				equip_sets[cur_set] = equip_sets[cur_set] + 1
-			else:
-				equip_sets[cur_set] = 1
-			
+
+	for cur_set in equipped_sets:
+		bonuses.set(cur_set,  
+			int(equipped_sets[cur_set] >= ResourceManager.set_compendium[cur_set]["required"])
+		)
+	
+	PlayerManager.update_sets(bonuses)
+	
 	for slot:InventorySlot in equip_slots:
 		if slot.held_item as EquippableNode:
 			var cur_set = slot.held_item.item.set_id
-			
-			slot.held_item.count_label.text = "%s / %s" % [equip_sets[cur_set],  ResourceManager.set_compendium[cur_set as int]["required"]]
+			slot.held_item.count_label.text = "%s / %s" % [equipped_sets[cur_set],  ResourceManager.set_compendium[cur_set as int]["required"]]
+			# PLANNED color the font text 
+			# should be based on if enough of the set is equipped
 		else:
 			slot.label.text = Genum.EquipLocation.keys()[slot.can_slot].substr(0,5)
+			
+func _count_sets() -> Dictionary:
+	var counts = {}
+	
+	for slot : InventorySlot in equip_slots:
+		if slot.held_item:
+			var cur_set = slot.held_item.item.set_id
+			if cur_set in counts.keys():
+				counts[cur_set] = counts[cur_set] + 1
+			else:
+				counts[cur_set] = 1
+				
+	return counts
+	
 
 func _generate_inventory() -> void:
 	for slot in range(inv_size.x * inv_size.y):
