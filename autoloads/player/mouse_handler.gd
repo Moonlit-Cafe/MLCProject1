@@ -57,8 +57,14 @@ func _inventory_handling(event: InputEventMouseButton) -> void:
 
 func _move_to_hovered() -> void:
 	var item_to_move : ItemNode = container.held_item
+	
+	if hovered_slot.can_slot != Genum.EquipLocation.INVENTORY:
+			if item_to_move.item.equip_loc != hovered_slot.can_slot:
+				_move_to_prior()
+				return 
 	container.remove_child(item_to_move)
 	hovered_slot.add_child(item_to_move)
+		
 	prior_slot = null
 	item_to_move.position = Vector2.ZERO
 

@@ -20,6 +20,7 @@ enum DataType {
 @export_file(".csv") var material_data : String = "" ## Full collection of [MaterialItem]s
 @export_file(".csv") var usable_data : String = ""
 @export_file(".csv") var equippable_data : String = ""
+@export_file(".csv") var equipset_data : String = ""
 @export_file(".csv") var weapon_data : String = ""
 @export_category("Skill Data")
 @export_file(".csv") var action_shape_data : String = "" ## Full collection of [ActionShapes]
@@ -28,6 +29,7 @@ enum DataType {
 @export_category("Generation Data")
 
 var item_compendium : Dictionary[StringName, Item]
+var set_compendium : Dictionary[int, EquipSet]
 var action_shape_compendium : Dictionary[StringName, ActionShape]
 var action_compendium : Dictionary[StringName, CombatAction]
 var resource_count : Dictionary[StringName, int] = {
@@ -51,38 +53,52 @@ func load_data() -> void:
 	_load_item_compendium()
 	_load_action_shapes()
 	_load_actions()
+	_load_set_compendium()
 
 func save_data() -> void:
 	_save_item_compendium()
 	_save_action_shapes()
 	_save_actions()
+#endregion
 
 #region Item Compendium
 ## Loads all the items available within the game
 func _load_item_compendium() -> void:
 	print("Loading: Items")
 	_load_i_type_compendium(ItemType.MATERIAL)
+	_load_i_type_compendium(ItemType.EQUIPPABLE)
 	print("Loaded: Items")
 
 ## Loads all the items specific to [member material_data]
 func _load_i_type_compendium(type: ItemType):
 	var comp_access : String = ""
 	var id_type : StringName = &""
+	var type_data :String
+	var item
+	
 	match(type):
 		ItemType.MATERIAL:
-			if not material_data:
-				push_warning("@ResourceManager: There is no connected material data file, skipping...")
-				return {}
+			type_data = material_data
 			id_type = &"MAT_%s"
-			comp_access = material_data
+			item = MaterialItem.new()
+		ItemType.EQUIPPABLE:
+			type_data = equippable_data
+			id_type = &"EQP_%s"
+			item = EquippableItem.new()
 		_:
 			push_warning("@ResourceManager: The given ItemType is incorrect, returning empty dictionary.")
 			return {}
+			
+	if not type_data:
+		push_warning("@ResourceManager: There is no connected %s data file, skipping...", type)
+		return {}
+		
+	comp_access = type_data
 	
 	var i : int = 0
 	var data = CSVAccess.load_csv_data(comp_access)
 	for item_name in data.keys():
-		var item := MaterialItem.new()
+		item = item.duplicate()
 		item.i_name = item_name
 		item.id = id_type % i
 		item.load_data(data.get(item_name))
@@ -207,6 +223,26 @@ func _save_actions() -> void:
 	CSVAccess.save_csv_data(action_data, action_dict)
 #endregion
 
+#region Set Compendium
+func _load_set_compendium() -> void:
+	var equip_set = EquipSet.new()
+	var data = CSVAccess.load_csv_data(equipset_data)
+	
+	for cur_set_id in data.keys():
+		equip_set = equip_set.duplicate()
+		equip_set.load_data(data[cur_set_id], cur_set_id)
+		add_set(equip_set)
+
+func add_set(equip_set: EquipSet) -> void:
+	set_compendium.set(equip_set.set_id, equip_set)
+	#set_count.set(&"Material", resource_count.get(&"Material") + 1)
+
+#func remove_set(id: String) -> void:
+	#var set_name : Item = item_compendium.get(id)
+	#item_compendium.erase(id)
+#endregion
+
+#region
 func get_data_count(data_type: DataType, item_type: int = -1) -> int:
 	match(data_type):
 		DataType.ITEM:

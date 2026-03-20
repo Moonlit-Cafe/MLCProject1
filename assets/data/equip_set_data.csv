@@ -1,0 +1,2 @@
+set_id,set_name,set_desc,set_effect,required
+0,Bomba,The Bomba Set. Does something.,action|Firebolty,3

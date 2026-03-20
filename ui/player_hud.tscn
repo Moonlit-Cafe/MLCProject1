@@ -1,25 +1,22 @@
-[gd_scene load_steps=10 format=3 uid="uid://npre0wq4yuc7"]
+[gd_scene format=3 uid="uid://npre0wq4yuc7"]
 
 [ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="1_1m6my"]
 [ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory/inventory_slot.tscn" id="1_n0n2g"]
 [ext_resource type="Script" uid="uid://decnctd8qfp08" path="res://ui/player_hud.gd" id="1_w11uw"]
-[ext_resource type="Script" uid="uid://vvy08pwysa1j" path="res://mechanics/inventory/items/res_def/item_resource.gd" id="2_sjha8"]
-[ext_resource type="Resource" uid="uid://bscxov3hd6xwq" path="res://mechanics/inventory/items/equippable/test_cap.tres" id="2_w11uw"]
-[ext_resource type="Resource" uid="uid://c4hn4h0euet1w" path="res://mechanics/inventory/items/equippable/test_wep.tres" id="4_q84jv"]
-[ext_resource type="Resource" uid="uid://4ffbslydopid" path="res://mechanics/inventory/items/usable/test_usable.tres" id="5_7fmvv"]
+[ext_resource type="PackedScene" uid="uid://82v5d6cakdan" path="res://mechanics/inventory/equippable_node.tscn" id="5_sjha8"]
 [ext_resource type="PackedScene" uid="uid://c2djdhoksebun" path="res://mechanics/inventory/weapon_node.tscn" id="7_f87sx"]
 [ext_resource type="PackedScene" uid="uid://ye7pl4xy273r" path="res://ui/inventory/weapon_window.tscn" id="7_q84jv"]
 
-[node name="PlayerHud" type="CanvasLayer" node_paths=PackedStringArray("inventory", "container")]
+[node name="PlayerHud" type="CanvasLayer" unique_id=2116962505 node_paths=PackedStringArray("inventory", "container")]
 script = ExtResource("1_w11uw")
-rand_items = Array[ExtResource("2_sjha8")]([ExtResource("2_w11uw"), ExtResource("4_q84jv"), ExtResource("5_7fmvv")])
 inventory = NodePath("TabContainer/Inventory")
 container = NodePath("TabContainer/Inventory/InventoryContainer/MarginContainer/Inventory")
 inv_slot = ExtResource("1_n0n2g")
 inv_node = ExtResource("1_1m6my")
 wep_node = ExtResource("7_f87sx")
+eqp_node = ExtResource("5_sjha8")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="TabContainer" type="TabContainer" parent="." unique_id=2038424106]
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 150.0
@@ -27,94 +24,94 @@ grow_vertical = 2
 tab_alignment = 1
 current_tab = 0
 
-[node name="Inventory" type="HBoxContainer" parent="TabContainer"]
+[node name="Inventory" type="HBoxContainer" parent="TabContainer" unique_id=1619559965]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="EquipmentContainer" type="PanelContainer" parent="TabContainer/Inventory"]
+[node name="EquipmentContainer" type="PanelContainer" parent="TabContainer/Inventory" unique_id=786615185]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Inventory/EquipmentContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Inventory/EquipmentContainer" unique_id=822810647]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="GridContainer" type="GridContainer" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer" unique_id=1535790175]
 layout_mode = 2
 columns = 2
 
-[node name="Helm" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Helm" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=22126295 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 1
 
-[node name="PowerCore" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="PowerCore" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=1016420539 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 2
 
-[node name="Shoulder" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Shoulder" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=842125695 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 3
 
-[node name="Wrist" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Wrist" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=1533694796 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 5
 
-[node name="Body" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Body" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=1086982435 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 4
 
-[node name="Gloves" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Gloves" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=2083446792 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 6
 
-[node name="Waist" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Waist" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=190890295 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 7
 
-[node name="Module" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Module" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=1714616407 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 10
 
-[node name="Legs" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Legs" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=867992973 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 8
 
-[node name="Module2" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Module2" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=1113344673 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 10
 
-[node name="Feet" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Feet" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=1333365290 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 9
 
-[node name="Module3" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Module3" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=323147733 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 10
 
-[node name="Weapon" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" instance=ExtResource("1_n0n2g")]
+[node name="Weapon" parent="TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer" unique_id=950700734 instance=ExtResource("1_n0n2g")]
 layout_mode = 2
 can_slot = 11
 
-[node name="InventoryContainer" type="PanelContainer" parent="TabContainer/Inventory"]
+[node name="InventoryContainer" type="PanelContainer" parent="TabContainer/Inventory" unique_id=127268033]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Inventory/InventoryContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Inventory/InventoryContainer" unique_id=701349916]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Inventory" type="GridContainer" parent="TabContainer/Inventory/InventoryContainer/MarginContainer"]
+[node name="Inventory" type="GridContainer" parent="TabContainer/Inventory/InventoryContainer/MarginContainer" unique_id=2060535366]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="WeaponWindow" parent="." node_paths=PackedStringArray("weapon_slot") instance=ExtResource("7_q84jv")]
+[node name="WeaponWindow" parent="." unique_id=1459639056 node_paths=PackedStringArray("weapon_slot") instance=ExtResource("7_q84jv")]
 visible = false
 weapon_slot = NodePath("../TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer/Weapon")

@@ -16,12 +16,19 @@ var held_item : ItemNode = null :
 			PlayerManager.regen_combat_stats()
 		
 		held_item = value
+@onready var label = $GridContainer/Label
+
+
+signal check_set()
+		
+const ITEM_DEFAULT_SIZE = 72
 #endregion
 
 #region Events
 func _ready() -> void:
 	add_to_group(&"inv_slots")
 	# NOTE: Consider adding visual feedback for slot state (empty/filled/hover)
+	self.custom_minimum_size = Vector2.ONE * ITEM_DEFAULT_SIZE
 	
 	child_entered_tree.connect(_on_child_entered)
 	child_exiting_tree.connect(_on_child_exited)
@@ -72,10 +79,17 @@ func _on_child_entered(node: Node) -> void:
 		held_item = node as ItemNode
 		# TODO: Update visual state to show slot is filled
 		# NOTE: Consider emitting a signal for inventory management
+		
+		if can_slot != Genum.EquipLocation.INVENTORY:
+			check_set.emit()
 
 func _on_child_exited(node: Node) -> void:
 	if node == held_item:
 		held_item = null
+		
+		if node is EquippableNode:
+			check_set.emit()
+			node.update_display()
 		# TODO: Update visual state to show slot is empty
 		# NOTE: Consider emitting a signal for inventory management
 

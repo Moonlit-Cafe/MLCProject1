@@ -36,6 +36,8 @@ func _ready() -> void:
 
 ## Initialize item display
 func setup_item(new_item: Item, initial_count: int = 1) -> void:
+	texture = $TextureRect
+	count_label = $Count
 	item = new_item
 	count = initial_count
 	update_display()
@@ -47,7 +49,7 @@ func update_display() -> void:
 		return
 	
 	# Set the icon from texture atlas
-	if item.texture != Vector2i.ZERO:
+	if texture and item.texture != Vector2i.ZERO:
 		texture.texture = CraftManager.get_item_texture(item.texture)
 	
 	# Update count display
