@@ -148,7 +148,6 @@ func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
 			var adj_tile : BattleTile = battle_board.board.get(tile_pos + pos)
 			if adj_tile:
 				adj_tile.highlighted = true
-				
 	
 
 func _handle_mouse_clicks(event: InputEventMouseButton) -> void:
