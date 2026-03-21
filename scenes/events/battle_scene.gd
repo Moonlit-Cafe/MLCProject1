@@ -48,6 +48,10 @@ func _ready() -> void:
 
 # TODO: Replace with ActionMenu Functionality
 func _fill_action_menu() -> void:
+	# REMOVE Tyler - implementing this just so Player has an action to test
+	var t = ResourceManager.action_compendium
+	PlayerManager.available_skills.append(t[&"ACT_0"])
+	
 	for action in PlayerManager.available_skills:
 		actions_menu.add_to_actions(action)
 	
@@ -148,6 +152,9 @@ func action_on_tiles() -> void:
 	CombatManager.use_action.emit()
 		
 func _attack_tile(cur_tile:BattleTile, action:CombatAction):
+	if not cur_tile:
+		return
+		
 	if not cur_tile.held_entity:
 		return 
 	

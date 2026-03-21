@@ -40,6 +40,7 @@ var set_bonuses : PackedByteArray
 #endregion
 
 #region Events
+
 ## Initializes the character data based on the initial stats
 # TODO: Should be affected by saves later on.
 func init_character_data() -> void:
@@ -54,6 +55,8 @@ func init_character_data() -> void:
 	new_data.haste = stats.get(Genum.StatType.HASTE)
 	new_data.init()
 	character_data = new_data
+	
+	
 
 ## Gets the player's available usable items from within the inventory
 func get_usables() -> Array[Usable]:
@@ -110,8 +113,8 @@ func update_sets(incoming_bonuses:PackedByteArray) -> void:
 func _update_bonus(index:int, value:int) -> void:
 	var bonus
 	match index:
-		0:
-			# TODO tyler give the player a firebolt here
+		Genum.EquipSet.BOMBA:
+			# TODO give the player a firebolt here
 			# should mostly be wired, just waiting for the last pieces to connect
 			# bonus = ActionManager.a_data[&"Firebolt"]
 			bonus = {Genum.StatType.HEALTH: 30}
@@ -119,7 +122,7 @@ func _update_bonus(index:int, value:int) -> void:
 			
 	if bonus is Action:
 		if value:
-			# PlayerManager.available_skills.
+			# PlayerManager.available_skills.append(value)
 			pass
 		else:
 			# var i = PlayerManager.available_skills.bsearch(bonus)
