@@ -87,6 +87,10 @@ enum MaterialType {
 	METAL,
 	WOOD
 }
+
+enum EquipSet {
+	BOMBA
+}
 #endregion
 
 #region Character
