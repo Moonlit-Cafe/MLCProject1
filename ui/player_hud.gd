@@ -65,9 +65,13 @@ func _check_sets() -> void:
 	for slot:InventorySlot in equip_slots:
 		if slot.held_item as EquippableNode:
 			var cur_set = slot.held_item.item.set_id
-			slot.held_item.count_label.text = "%s / %s" % [equipped_sets[cur_set],  ResourceManager.set_compendium[cur_set as int]["required"]]
-			# PLANNED color the font text 
-			# should be based on if enough of the set is equipped
+			var equipped = equipped_sets[cur_set]
+			var required = ResourceManager.set_compendium[cur_set as int]["required"]
+			var text_color = Color.DARK_GREEN if equipped >= required else Color.WHITE
+			
+			slot.held_item.count_label.text = "%s / %s" % [equipped,  required]
+			slot.held_item.count_label.label_settings.font_color = text_color
+
 		else:
 			slot.label.text = Genum.EquipLocation.keys()[slot.can_slot].substr(0,5)
 			
@@ -100,7 +104,7 @@ func _generate_random_itemnodes() -> void:
 	rand_items.append(_random_item(ResourceManager.ItemType.EQUIPPABLE))
 	print(rand_items)
 		
-	for item in rand_items:ii
+	for item in rand_items:
 		var slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		while slot.get_child_count() > 1:
 			slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
