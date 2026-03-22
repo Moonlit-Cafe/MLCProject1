@@ -88,10 +88,6 @@ func _get_equip_stats() -> Dictionary[Genum.StatType, Array]:
 			stats_to_modify.get(stat.stat).append(stat.modify_amount)
 	
 	return stats_to_modify
-	
-	# REMOVE Tyler - Handling of sets is now in Player HUD
-	# stats_to_modify = _check_item_sets()
-	# combat_stats = stats
 #endregion
 
 #region Helpers

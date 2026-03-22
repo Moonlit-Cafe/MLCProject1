@@ -49,23 +49,28 @@ func encode_special_data(value: Variant) -> String:
 		if string_arr == "":
 			string_arr = ";"
 		return string_arr
+		
 	elif value is Array[Vector2i]:
 		# TODO: Make this more compact later, for now simple is fine.
 		var string_arr : String = "VecArr["
 		var idx : int = 0
-		for i in value:
-			string_arr += "(%s, %s)" % [i.x, i.y]
+		for tile in value:
+			string_arr += "(%s, %s)" % [tile.x, tile.y]
 			if idx < value.size():
 				string_arr += ","
 			idx += 1
 		string_arr += "]"
 		return string_arr
+		
 	elif value is AbilityCostPacket:
 		return "AbilityCost[%s,%s]" % [value.cost_type, value.cost_amount]
+		
 	elif value is ActionShape:
 		return value.shape_id
+		
 	elif value is int or value is float:
 		return "%s" % value
+		
 	elif (value is String) or (value is StringName):
 		return value
 	

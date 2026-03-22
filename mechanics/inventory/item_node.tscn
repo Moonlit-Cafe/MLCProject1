@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cnbq0e2lika3m" path="res://mechanics/inventory/item_node.gd" id="1_1lmxb"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_1lmxb"]
+
 [node name="ItemNode" type="Control" unique_id=1406638175 node_paths=PackedStringArray("count_label", "texture")]
 z_index = 1
 z_as_relative = false
@@ -40,5 +42,6 @@ offset_top = -23.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "0"
+label_settings = SubResource("LabelSettings_1lmxb")
 horizontal_alignment = 2
 vertical_alignment = 1

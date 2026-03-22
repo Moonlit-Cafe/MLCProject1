@@ -67,7 +67,7 @@ func _generate_battle() -> void:
 		if battle_board.board.get(tile).state == BattleTile.BattleState.EMPTY:
 			available_spots.append(tile)
 	
-	var start_pos = (battle_board.board_zone.size / 2) + battle_board.board_zone.pos - Vector3i.ONE
+	var start_pos = (battle_board.board_zone.size / 2.0) as Vector3i + battle_board.board_zone.pos - Vector3i.ONE
 	start_pos = Vector2i(start_pos.x, start_pos.z)
 	available_spots.erase(start_pos)
 	battle_board.board.get(start_pos).attach_object(PlayerManager.character_data)
