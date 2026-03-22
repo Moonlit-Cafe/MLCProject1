@@ -40,10 +40,16 @@ func _inventory_handling(event: InputEventMouseButton) -> void:
 			else:
 				if not hovered_slot.is_empty():
 					if hovered_slot.held_item.item == container.held_item.item:
-						hovered_slot.held_item.add_to_stack(container.held_item.count)
+						var leftover = hovered_slot.held_item.add_to_stack(container.held_item.count)
 						var previous_item = container.held_item
-						container.held_item = null
-						previous_item.queue_free()
+						
+						if leftover:
+							_move_to_prior()
+							container.held_item.count = leftover
+						else:
+							container.held_item = null
+							previous_item.queue_free()
+						
 					else:
 						_switch_with_hovered()
 				else:

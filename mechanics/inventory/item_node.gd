@@ -63,7 +63,7 @@ func can_stack_with(other_item: Item) -> bool:
 		return false
 	return item.id == other_item.id
 
-# Add to stack if possible
+## Add to stack if possible. Return amount of items leftover.
 func add_to_stack(amount: int) -> int:
 	if amount + count <= item.max_stack_size:
 		count += amount
