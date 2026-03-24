@@ -101,6 +101,7 @@ func update_sets(incoming_bonuses:PackedByteArray) -> void:
 		set_bonuses.resize(incoming_bonuses.size())
 	
 	for i in set_bonuses:
+		# FIXME Tyler Crashes when set is complete then a piece is removed
 		if set_bonuses[i] != incoming_bonuses[i]:
 			_update_bonus(i, incoming_bonuses[i])
 	
@@ -110,11 +111,14 @@ func _update_bonus(index:int, value:int) -> void:
 	var bonus
 	match index:
 		Genum.EquipSet.BOMBA:
-			# TODO give the player a firebolt here
-			# should mostly be wired, just waiting for the last pieces to connect
-			# bonus = ActionManager.a_data[&"Firebolt"]
+			# TODO Tyler should update the health of the player when the set is equipped
+			# for some reason, it ONLY updates  when the battle scene starts
+			# probably a missing signal or something
 			bonus = {Genum.StatType.HEALTH: 30}
+
 			
+
+			# PLANNED how is health other stat increases going to be handled? just add max HP? scaling cur and max based on updates? 
 			
 	if bonus is Action:
 		if value:
@@ -129,7 +133,7 @@ func _update_bonus(index:int, value:int) -> void:
 		if value:
 			combat_stats.set(key, combat_stats.get(key) + bonus[key])
 		else:
-			combat_stats.set(key, combat_stats.get(key) - 	bonus[key])
+			combat_stats.set(key, combat_stats.get(key) - bonus[key])
 
 	else:
 		push_warning("No bonus_type selected for set_id: " + str(set_bonuses[index]))

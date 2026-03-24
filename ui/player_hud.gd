@@ -70,7 +70,9 @@ func _check_sets() -> void:
 			var text_color = Color.DARK_GREEN if equipped >= required else Color.WHITE
 			
 			slot.held_item.count_label.text = "%s / %s" % [equipped,  required]
-			slot.held_item.count_label.label_settings.font_color = text_color
+			# FIXME Tyler font color on update
+			# Modulate label instead of this
+			#slot.held_item.count_label.label_settings.font_color = text_color
 
 		else:
 			slot.label.text = Genum.EquipLocation.keys()[slot.can_slot].substr(0,5)

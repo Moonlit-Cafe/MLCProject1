@@ -114,6 +114,7 @@ func determine_selectables() -> void:
 	
 	await get_tree().process_frame
 	
+	# TODO blowing self up crashes game
 	var detected : Array[BattleTile] = await PlayerManager.entity_ref.get_detected()
 	for tile in detected:
 		if tile.held_entity:
@@ -188,10 +189,12 @@ func grab_other_tiles(tiles_to_grab: Array[Vector2i], center_pos) -> Array[Battl
 	if Vector2i.ZERO in tiles_to_grab:
 		tiles_to_grab.erase(Vector2i.ZERO)
 	
+	
 	for tile_coords in tiles_to_grab:
-		if not check_tile_exists(tile_coords):
+		var cur_coord = tile_coords + center_pos
+		if not check_tile_exists(cur_coord):
 			continue
-		ret_arr.append(board.get(tile_coords + center_pos))
+		ret_arr.append(board.get(cur_coord))
 	
 	return ret_arr
 
