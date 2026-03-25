@@ -110,9 +110,7 @@ func _update_bonus(index:int, value:int) -> void:
 	var bonus
 	match index:
 		Genum.EquipSet.BOMBA:
-			# TODO Tyler should update the health of the player when the set is equipped
-			# for some reason, it ONLY updates  when the battle scene starts
-			# probably a missing signal or something
+			
 			bonus = {Genum.StatType.HEALTH: 30}
 
 			
@@ -127,12 +125,13 @@ func _update_bonus(index:int, value:int) -> void:
 			# var i = PlayerManager.available_skills.bsearch(bonus)
 			# PlayerManager.available_skills.remove_at(i)
 			pass
+			
 	elif bonus is Dictionary:
 		var key = bonus.keys()[0]
 		if value:
-			combat_stats.set(key, combat_stats.get(key) + bonus[key])
+			stats.set(key, combat_stats.get(key) + bonus[key])
 		else:
-			combat_stats.set(key, combat_stats.get(key) - bonus[key])
+			stats.set(key, combat_stats.get(key) - bonus[key])
 
 	else:
 		push_warning("No bonus_type selected for set_id: " + str(set_bonuses[index]))
