@@ -12,7 +12,7 @@ func _generate_shop() -> void:
 		if slot is not InventorySlot:
 			break
 		
-		var item := CraftManager.get_random_item()
+		var item := ResourceManager
 		slot.generate_item(item.i_name)
 
 func _on_pressed() -> void:

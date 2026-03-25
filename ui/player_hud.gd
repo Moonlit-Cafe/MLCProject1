@@ -98,10 +98,10 @@ func _generate_random_itemnodes() -> void:
 	var rand_items : Array[Item] = []
 	
 	for i in range(3):
-		rand_items.append(_random_item(ResourceManager.ItemType.MATERIAL))
-		rand_items.append(_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
+		rand_items.append(CraftManager.get_random_ite(ResourceManager.ItemType.MATERIAL))
+		rand_items.append(CraftManager.get_random_ite(ResourceManager.ItemType.EQUIPPABLE, i))
 	
-	rand_items.append(_random_item(ResourceManager.ItemType.EQUIPPABLE))
+	rand_items.append(CraftManager.get_random_ite(ResourceManager.ItemType.EQUIPPABLE))
 	print(rand_items)
 		
 	for item in rand_items:
@@ -121,37 +121,6 @@ func _generate_random_itemnodes() -> void:
 #endregion
 
 #region Helpers
-func _random_item(rand_type = null, item_id:int = -1, stack_count:int = 1):
-	if rand_type == null:
-		rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
-		
-	if item_id == -1:
-		item_id = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
-		item_id = max(item_id-1, 0)
-		item_id = randi_range(0, item_id)
-	
-		
-	var type_str : String = ""
-	match(rand_type):
-		ResourceManager.ItemType.MATERIAL:
-			type_str = "MAT_%s"
-		ResourceManager.ItemType.USABLE:
-			type_str = "USE_%s"
-		ResourceManager.ItemType.EQUIPPABLE:
-			type_str = "EQP_%s"
-			stack_count = 1
-		ResourceManager.ItemType.WEAPON:
-			type_str = "WEP_%s"
-		_:
-			type_str = "NULL_"
-	
-	var item : Item = ResourceManager.item_compendium.get(type_str % item_id)
-	if not item:
-		return _random_item()
-	print("Added Item: %s" % item.i_name)
-	return item
-	
-
 func show_inv() -> void:
 	var tween := create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(tab_container, "position", Vector2(0, 0), 0.5)

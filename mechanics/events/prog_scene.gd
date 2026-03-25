@@ -28,7 +28,7 @@ func _ready() -> void:
 # improvements to be made.
 func generate_next_events() -> void:
 	button_container.get_parent().show()
-	current_scene_index += 1
+	current_scene_index += 9
 	@warning_ignore("integer_division")
 	CombatManager.level_number = current_scene_index / 10
 	var event_set : Array[EventHolder] = _generate_events()

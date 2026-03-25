@@ -212,14 +212,32 @@ func get_item_texture(pos: Vector2i) -> AtlasTexture:
 	return_texture.region = Rect2(pos * texture_grid_size.x, texture_grid_size)
 	return return_texture
 
-func get_random_item() -> Item:
-	var idx = randi_range(0, ResourceManager.get_data_count(ResourceManager.DataType.ITEM))
-	var item_type : String = ""
-	var item_type_int = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
-	match(item_type_int):
+func get_random_item(rand_type = null, item_id:int = -1, stack_count:int = 1):
+	if rand_type == null:
+		rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
+		
+	if item_id == -1:
+		item_id = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
+		item_id = max(item_id-1, 0)
+		item_id = randi_range(0, item_id)
+	
+		
+	var type_str : String = ""
+	match(rand_type):
 		ResourceManager.ItemType.MATERIAL:
-			item_type = "MAT_%s"
+			type_str = "MAT_%s"
+		ResourceManager.ItemType.USABLE:
+			type_str = "USE_%s"
+		ResourceManager.ItemType.EQUIPPABLE:
+			type_str = "EQP_%s"
+			stack_count = 1
+		ResourceManager.ItemType.WEAPON:
+			type_str = "WEP_%s"
 		_:
-			item_type = "Null"
-	var item : Item = ResourceManager.item_compendium.get(item_type % idx)
+			type_str = "NULL_"
+	
+	var item : Item = ResourceManager.item_compendium.get(type_str % item_id)
+	if not item:
+		return get_random_item()
+	print("Added Item: %s" % item.i_name)
 	return item
