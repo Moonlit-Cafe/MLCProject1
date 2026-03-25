@@ -11,6 +11,10 @@ class_name ItemNode extends Control
 @export_category("Item and Node Data")
 @export var item : Item = null
 
+# REMOVE: This drag behavior should be handled by a more robust system
+# Consider using Godot's built-in drag and drop or a dedicated drag manager
+var is_being_dragged: bool = false
+var drag_offset: Vector2 = Vector2.ZERO
 var count: int:
 	get:
 		return count
@@ -20,10 +24,6 @@ var count: int:
 		count = value
 		update_display()
 
-# REMOVE: This drag behavior should be handled by a more robust system
-# Consider using Godot's built-in drag and drop or a dedicated drag manager
-var is_being_dragged: bool = false
-var drag_offset: Vector2 = Vector2.ZERO
 #endregion
 
 #region Events
@@ -63,7 +63,7 @@ func can_stack_with(other_item: Item) -> bool:
 		return false
 	return item.id == other_item.id
 
-# Add to stack if possible
+## Add to stack if possible. Return amount of items leftover.
 func add_to_stack(amount: int) -> int:
 	if amount + count <= item.max_stack_size:
 		count += amount

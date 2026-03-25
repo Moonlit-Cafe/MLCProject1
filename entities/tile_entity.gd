@@ -68,7 +68,10 @@ func commit_action() -> void:
 	var action : Action = null
 	if not brain:
 		push_error("TileEntity: There's no Decision Set to commit an action.")
-		await GameGlobal.delay(0.5)
+		# PLANNED when actions with longer or more variable lengths are implemented
+		# swap out the below rows
+		# await GameGlobal.delay() if action.delay else GameGlobal.delay(action.delay)
+		await GameGlobal.delay()
 		parent_tile.turn_finished.emit()
 		return
 	
