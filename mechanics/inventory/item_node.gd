@@ -11,6 +11,10 @@ class_name ItemNode extends Control
 @export_category("Item and Node Data")
 @export var item : Item = null
 
+# REMOVE: This drag behavior should be handled by a more robust system
+# Consider using Godot's built-in drag and drop or a dedicated drag manager
+var is_being_dragged: bool = false
+var drag_offset: Vector2 = Vector2.ZERO
 var count: int:
 	get:
 		return count
@@ -20,10 +24,6 @@ var count: int:
 		count = value
 		update_display()
 
-# REMOVE: This drag behavior should be handled by a more robust system
-# Consider using Godot's built-in drag and drop or a dedicated drag manager
-var is_being_dragged: bool = false
-var drag_offset: Vector2 = Vector2.ZERO
 #endregion
 
 #region Events
