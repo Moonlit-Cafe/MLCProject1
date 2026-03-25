@@ -100,8 +100,7 @@ func update_sets(incoming_bonuses:PackedByteArray) -> void:
 		set_bonuses = PackedByteArray()
 		set_bonuses.resize(incoming_bonuses.size())
 	
-	for i in set_bonuses:
-		# FIXME Tyler Crashes when set is complete then a piece is removed
+	for i in range(set_bonuses.size()):
 		if set_bonuses[i] != incoming_bonuses[i]:
 			_update_bonus(i, incoming_bonuses[i])
 	
