@@ -35,7 +35,7 @@ var available_items : Array[Usable] = []
 var position : Vector2i = Vector2i.ZERO
 var occupied_tile : BattleTile
 var entity_ref : TilePlayer
-
+var money : int = 10
 var set_bonuses : PackedByteArray
 #endregion
 

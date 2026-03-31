@@ -157,7 +157,7 @@ func _value_range_compendium(min_value:int, max_value:int) -> Array[StringName]:
 		push_warning("Invalid range of values queried! [%s : %s]" % min_value, max_value)
 		return []
 	
-	var item_names = []
+	var item_names:Array[StringName] =  []
 	var cur_item
 	for item in ResourceManager.item_compendium:
 		cur_item = ResourceManager.item_compendium[item]
