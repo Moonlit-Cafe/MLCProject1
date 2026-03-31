@@ -86,7 +86,7 @@ func commit_action() -> void:
 			board.board.get(cur_pos + dir).attach_entity(self)
 		else:
 			board.board.get(cur_pos - dir).attach_entity(self)
-	await GameGlobal.delay(0.5)
+	await GameGlobal.delay()
 	parent_tile.turn_finished.emit()
 	
 func get_stat(stat: Genum.StatType) -> Vector2i:

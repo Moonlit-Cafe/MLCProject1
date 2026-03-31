@@ -40,7 +40,7 @@ var resource_count : Dictionary[StringName, int] = {
 	&"ActionShape": 0,
 	&"Action": 0,
 	&"Behavior": 0,
-	&"Enemy": 0,
+	&"Enemy": 0
 }
 #endregion
 

@@ -17,6 +17,62 @@ func _ready() -> void:
 #endregion
 
 #region Public Methods
+
+## Grabs the specific portion of the texture to then set to the ItemNode's texture
+# TODO: Implement this with the new ItemNode structure. Will have to wait till after
+# fully implementing ItemNodes with the Inventory Github Branch.
+func get_item_texture(pos: Vector2i) -> AtlasTexture:
+	var return_texture := AtlasTexture.new()
+	return_texture.atlas = texture_atlas
+	return_texture.region = Rect2(pos * texture_grid_size.x, texture_grid_size)
+	return return_texture
+
+func get_random_item(rand_type = null, item_id:int = -1) -> Item:
+	if rand_type == null:
+		rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
+		
+	if item_id == -1:
+		item_id = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
+		item_id = max(item_id-1, 0)
+		item_id = randi_range(0, item_id)
+	
+		
+	var type_str : String = ""
+	match(rand_type):
+		ResourceManager.ItemType.MATERIAL:
+			type_str = "MAT_%s"
+		ResourceManager.ItemType.USABLE:
+			type_str = "USE_%s"
+		ResourceManager.ItemType.EQUIPPABLE:
+			type_str = "EQP_%s"
+		ResourceManager.ItemType.WEAPON:
+			type_str = "WEP_%s"
+		_:
+			type_str = "NULL_%s"
+	
+	var item : Item = ResourceManager.item_compendium.get(type_str % item_id)
+	if not item:
+		return get_random_item()
+	print("Added Item: %s" % item.i_name)
+	return item
+
+func get_valued_items(min_value:int, max_value:int, count:int, _rand_type = null, _item_id:int=-1)->Array[Item]:
+	# Get a Sub compendium based on item values
+	# Pull a random item from it 
+	if count < 1:
+		return []
+	
+	var names = _value_range_compendium(min_value, max_value)
+	if not names:
+		push_warning("No item within range of [%s : %s]" %min_value, max_value)
+		return []
+	
+	var thing : Array[Item]
+	for i in range(count):
+		thing.append(ResourceManager.item_compendium.get(names[randi_range(0, names.length()-1)]))
+	return thing
+
+
 # TODO: Later on, I want to try and improve the performance on this, with the way it's currently designed
 # it iterates on ALL the recipes rather than smart searches.
 
@@ -96,6 +152,19 @@ func _craft_item(i_name: StringName, count: int, inventory: GridContainer) -> bo
 #endregion
 
 #region Helper Methods
+func _value_range_compendium(min_value:int, max_value:int) -> Array[StringName]:
+	if max_value < min_value:
+		push_warning("Invalid range of values queried! [%s : %s]" % min_value, max_value)
+		return []
+	
+	var item_names = []
+	var cur_item
+	for item in ResourceManager.item_compendium:
+		cur_item = ResourceManager.item_compendium[item]
+		if max_value <= cur_item.value and cur_item.value >= min_value:
+			item_names.append(item)
+	return item_names
+	
 ## Finds if an item is available in the ItemCompendium by it's StringName.
 func find_item(item_name: StringName) -> Item:
 	for item in ResourceManager.item_compendium.values():
@@ -202,42 +271,3 @@ func get_recipe_requirements(item_name: StringName) -> Dictionary:
 func get_compendium_size() -> int:
 	return ResourceManager.get_data_count(ResourceManager.DataType.ITEM)
 #endregion
-
-## Grabs the specific portion of the texture to then set to the ItemNode's texture
-# TODO: Implement this with the new ItemNode structure. Will have to wait till after
-# fully implementing ItemNodes with the Inventory Github Branch.
-func get_item_texture(pos: Vector2i) -> AtlasTexture:
-	var return_texture := AtlasTexture.new()
-	return_texture.atlas = texture_atlas
-	return_texture.region = Rect2(pos * texture_grid_size.x, texture_grid_size)
-	return return_texture
-
-func get_random_item(rand_type = null, item_id:int = -1, stack_count:int = 1):
-	if rand_type == null:
-		rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
-		
-	if item_id == -1:
-		item_id = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
-		item_id = max(item_id-1, 0)
-		item_id = randi_range(0, item_id)
-	
-		
-	var type_str : String = ""
-	match(rand_type):
-		ResourceManager.ItemType.MATERIAL:
-			type_str = "MAT_%s"
-		ResourceManager.ItemType.USABLE:
-			type_str = "USE_%s"
-		ResourceManager.ItemType.EQUIPPABLE:
-			type_str = "EQP_%s"
-			stack_count = 1
-		ResourceManager.ItemType.WEAPON:
-			type_str = "WEP_%s"
-		_:
-			type_str = "NULL_"
-	
-	var item : Item = ResourceManager.item_compendium.get(type_str % item_id)
-	if not item:
-		return get_random_item()
-	print("Added Item: %s" % item.i_name)
-	return item

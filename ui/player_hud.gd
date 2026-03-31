@@ -32,7 +32,7 @@ func _ready() -> void:
 	
 	_generate_inventory()
 	_generate_random_itemnodes()
-	await GameGlobal.delay(0.5)
+	await GameGlobal.delay()
 	hide_inv()
 
 func _input(event: InputEvent) -> void:
@@ -98,10 +98,10 @@ func _generate_random_itemnodes() -> void:
 	var rand_items : Array[Item] = []
 	
 	for i in range(3):
-		rand_items.append(CraftManager.get_random_ite(ResourceManager.ItemType.MATERIAL))
-		rand_items.append(CraftManager.get_random_ite(ResourceManager.ItemType.EQUIPPABLE, i))
+		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.MATERIAL))
+		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
 	
-	rand_items.append(CraftManager.get_random_ite(ResourceManager.ItemType.EQUIPPABLE))
+	rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.EQUIPPABLE))
 	print(rand_items)
 		
 	for item in rand_items:
