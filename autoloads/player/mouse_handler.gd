@@ -20,7 +20,13 @@ var hovered_tile : BattleTile
 #region Events
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		_inventory_handling(event)
+		if hovered_slot is ShopSlot:
+			hovered_slot.attempt_purchase()
+		else:
+			_inventory_handling(event)
+
+func _shop_handling() -> void:
+	return
 
 ## Handles all the inventory handling code for input.
 func _inventory_handling(event: InputEventMouseButton) -> void:

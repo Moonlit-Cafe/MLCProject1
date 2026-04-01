@@ -1,15 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcub7v16acou0"]
+[gd_scene format=3 uid="uid://dcub7v16acou0"]
 
 [ext_resource type="Script" uid="uid://b2bhto4v4aq7h" path="res://scenes/events/shop_scene.gd" id="1_d4n0x"]
-[ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory/inventory_slot.tscn" id="2_1elkd"]
 
-[node name="ShopScene" type="Node" node_paths=PackedStringArray("shop_slots")]
+[node name="ShopScene" type="Node" unique_id=366804730 node_paths=PackedStringArray("shop_slots")]
 script = ExtResource("1_d4n0x")
-shop_slots = NodePath("CanvasLayer/VBoxContainer/PanelContainer/HBoxContainer")
+shop_slots = NodePath("CanvasLayer/VBoxContainer/PanelContainer/Eqp")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2020866311]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=862702818]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -22,30 +21,21 @@ offset_bottom = 49.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/VBoxContainer" unique_id=1552431542]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/PanelContainer"]
+[node name="Mat" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/PanelContainer" unique_id=1584445496]
 layout_mode = 2
 
-[node name="InventorySlot" parent="CanvasLayer/VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource("2_1elkd")]
+[node name="Eqp" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/PanelContainer" unique_id=804834113]
 layout_mode = 2
 
-[node name="InventorySlot2" parent="CanvasLayer/VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource("2_1elkd")]
+[node name="Use" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/PanelContainer" unique_id=2104936895]
 layout_mode = 2
 
-[node name="InventorySlot3" parent="CanvasLayer/VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource("2_1elkd")]
-layout_mode = 2
-
-[node name="InventorySlot4" parent="CanvasLayer/VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource("2_1elkd")]
-layout_mode = 2
-
-[node name="InventorySlot5" parent="CanvasLayer/VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource("2_1elkd")]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer"]
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1147843317]
 layout_mode = 2
 text = "Next Scene"
 

@@ -69,7 +69,7 @@ func get_valued_items(min_value:int, max_value:int, count:int, _rand_type = null
 	
 	var thing : Array[Item]
 	for i in range(count):
-		thing.append(ResourceManager.item_compendium.get(names[randi_range(0, names.length()-1)]))
+		thing.append(ResourceManager.item_compendium.get(names[randi_range(0, names.size()-1)]))
 	return thing
 
 

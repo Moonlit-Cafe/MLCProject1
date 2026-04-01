@@ -1,11 +1,11 @@
-[gd_scene format=3 uid="uid://b0y3kn16q733f"]
+[gd_scene format=3 uid="uid://dcaopukhmvyuf"]
 
-[ext_resource type="Script" uid="uid://bkcc31xye2eat" path="res://ui/inventory/inventory_slot.gd" id="1_d1f1n"]
-[ext_resource type="Texture2D" uid="uid://dx3w5d87et6du" path="res://assets/sprites/ui/Inventory_Slot_1.png" id="2_6t8ig"]
-[ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="3_jwt35"]
+[ext_resource type="Texture2D" uid="uid://dx3w5d87et6du" path="res://assets/sprites/ui/Inventory_Slot_1.png" id="1_umds7"]
+[ext_resource type="Script" uid="uid://bkcc31xye2eat" path="res://ui/inventory/inventory_slot.gd" id="2_x6i3h"]
+[ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="3_6xmqe"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6t8ig"]
-texture = ExtResource("2_6t8ig")
+texture = ExtResource("1_umds7")
 texture_margin_left = 4.0
 texture_margin_top = 4.0
 texture_margin_right = 4.0
@@ -30,8 +30,8 @@ offset_bottom = 0.24798584
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_6t8ig")
-script = ExtResource("1_d1f1n")
-item_node = ExtResource("3_jwt35")
+script = ExtResource("2_x6i3h")
+item_node = ExtResource("3_6xmqe")
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=834666390]
 layout_mode = 2
