@@ -2,7 +2,6 @@
 class_name InventorySlot extends PanelContainer
 
 #region Declarations
-@export var item_node : PackedScene
 @export var can_slot : Genum.EquipLocation = Genum.EquipLocation.INVENTORY
 var held_item : ItemNode = null :
 	set(value):
@@ -34,8 +33,7 @@ func _ready() -> void:
 
 ## Generates a new item based on the item id and the amount to generate.
 func generate_item(i_name: StringName, count : int = 1) -> void:
-	var node : ItemNode = item_node.instantiate()
-	node.item = CraftManager.find_item(i_name.to_snake_case())
+	var node : ItemNode = CraftManager.generate_node(i_name.to_snake_case())
 	node.count = count
 	add_child(node)
 	held_item = node

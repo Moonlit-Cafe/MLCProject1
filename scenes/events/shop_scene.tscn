@@ -1,10 +1,14 @@
 [gd_scene format=3 uid="uid://dcub7v16acou0"]
 
 [ext_resource type="Script" uid="uid://b2bhto4v4aq7h" path="res://scenes/events/shop_scene.gd" id="1_d4n0x"]
+[ext_resource type="PackedScene" uid="uid://dcaopukhmvyuf" path="res://ui/inventory/shop_slot.tscn" id="2_1elkd"]
 
-[node name="ShopScene" type="Node" unique_id=366804730 node_paths=PackedStringArray("shop_slots")]
+[node name="ShopScene" type="Node" unique_id=366804730 node_paths=PackedStringArray("mat_slots", "use_slots", "eqp_slots")]
 script = ExtResource("1_d4n0x")
-shop_slots = NodePath("CanvasLayer/VBoxContainer/PanelContainer/Eqp")
+mat_slots = NodePath("CanvasLayer/VBoxContainer/PanelContainer/Mat")
+use_slots = NodePath("CanvasLayer/VBoxContainer/PanelContainer/Use")
+eqp_slots = NodePath("CanvasLayer/VBoxContainer/PanelContainer/Eqp")
+slot_scene = ExtResource("2_1elkd")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2020866311]
 
@@ -21,19 +25,22 @@ offset_bottom = 49.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/VBoxContainer" unique_id=1552431542]
+[node name="PanelContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=112913420]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Mat" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/PanelContainer" unique_id=1584445496]
 layout_mode = 2
+alignment = 1
 
 [node name="Eqp" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/PanelContainer" unique_id=804834113]
 layout_mode = 2
+alignment = 1
 
 [node name="Use" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/PanelContainer" unique_id=2104936895]
 layout_mode = 2
+alignment = 1
 
 [node name="Button" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1147843317]
 layout_mode = 2

@@ -10,6 +10,11 @@ signal craft_request ## Signal called when ever a craft is requested via [method
 
 var available_to_craft : Array[Item] ## All available items to craft since last [method request_craft_list] call
 
+@export var item_node :PackedScene
+@export var equip_node :PackedScene
+@export var weapon_node :PackedScene
+
+
 #region Built-Ins
 func _ready() -> void:
 	# Initialize both compendiums so that their data is available.
@@ -165,6 +170,24 @@ func _value_range_compendium(min_value:int, max_value:int) -> Array[StringName]:
 			item_names.append(item)
 	return item_names
 	
+func generate_node(item_name) -> ItemNode:
+	# TODO Tyler fix inventory equip generation
+	# TODO Tyler this only generates equips in shop
+	var node
+	var out_item = find_item(item_name)
+	match out_item.equip_loc:
+		Genum.EquipLocation.INVENTORY:
+			node = item_node
+		Genum.EquipLocation.WEAPON:
+			node = weapon_node
+		_:
+			node = equip_node
+		
+	node = node.instantiate()
+	
+	node.item = out_item
+	return node
+
 ## Finds if an item is available in the ItemCompendium by it's StringName.
 func find_item(item_name: StringName) -> Item:
 	for item in ResourceManager.item_compendium.values():

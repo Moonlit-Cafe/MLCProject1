@@ -116,7 +116,7 @@ func _generate_random_itemnodes() -> void:
 			new_node = eqp_node.instantiate()
 		else:
 			new_node = inv_node.instantiate()
-		new_node.setup_item(item)
+		new_node.item = item
 		slot.add_child(new_node)
 #endregion
 

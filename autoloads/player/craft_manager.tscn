@@ -3,9 +3,15 @@
 [ext_resource type="Script" uid="uid://bwtaxv5fchqjc" path="res://autoloads/player/craft_manager.gd" id="1_l6h75"]
 [ext_resource type="Texture2D" uid="uid://cbcxh5fov5q8d" path="res://assets/sprites/items_sheet.png" id="2_2aow2"]
 [ext_resource type="Resource" uid="uid://bbij6odqtum6q" path="res://mechanics/crafting/recipe_compendium.tres" id="3_2aow2"]
+[ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="4_c5lqv"]
+[ext_resource type="PackedScene" uid="uid://82v5d6cakdan" path="res://mechanics/inventory/equippable_node.tscn" id="5_6am8j"]
+[ext_resource type="PackedScene" uid="uid://c2djdhoksebun" path="res://mechanics/inventory/weapon_node.tscn" id="5_d3h4y"]
 
 [node name="CraftManager" type="Node" unique_id=1440912480]
 script = ExtResource("1_l6h75")
 texture_atlas = ExtResource("2_2aow2")
 texture_grid_size = Vector2i(16, 16)
 recipe_compendium = ExtResource("3_2aow2")
+item_node = ExtResource("4_c5lqv")
+equip_node = ExtResource("5_6am8j")
+weapon_node = ExtResource("5_d3h4y")
