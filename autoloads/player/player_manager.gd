@@ -37,6 +37,8 @@ var occupied_tile : BattleTile
 var entity_ref : TilePlayer
 var money : int = 10
 var set_bonuses : PackedByteArray
+@onready var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
+
 #endregion
 
 #region Events
@@ -60,7 +62,6 @@ func init_character_data() -> void:
 
 ## Gets the player's available usable items from within the inventory
 func get_usables() -> Array[Usable]:
-	var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
 	if not inventory:
 		return []
 	var usables : Array[Usable] = inventory.get_usables()
@@ -75,7 +76,23 @@ func _update_combat_stats(incoming_stats):
 		for modifier in incoming_stats.get(stat):
 			combat_stats.set(stat, combat_stats.get(stat) + modifier)
 	
+func accept_item(item:Item, count:int = 1) -> void:
+	var empty = []
 	
+	for slot:InventorySlot in inventory:
+		if count <= 0:
+			return
+		
+		if slot.held_item.item == item:
+			count = slot.held_item.add_to_stack(count)
+		elif slot.held_item == null:
+			empty.append(slot)
+		
+	for empty_slot:InventorySlot in empty:
+		count = empty_slot.held_item.add_to_stack(count)
+		if count <= 0:
+			return
+	pass
 	
 func _get_equip_stats() -> Dictionary[Genum.StatType, Array]:
 	var stats_to_modify : Dictionary[Genum.StatType, Array]

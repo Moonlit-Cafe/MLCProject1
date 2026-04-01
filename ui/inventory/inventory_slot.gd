@@ -18,9 +18,8 @@ var held_item : ItemNode = null :
 		held_item = value
 @onready var label = $GridContainer/Label
 
-
 signal check_set()
-		
+
 const ITEM_DEFAULT_SIZE = 72
 #endregion
 

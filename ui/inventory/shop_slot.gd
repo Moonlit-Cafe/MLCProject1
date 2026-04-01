@@ -6,15 +6,17 @@ class_name ShopSlot extends InventorySlot
 
 #region Events
 func attempt_purchase() -> void:
+	if held_item == null:
+		return
+		
 	# TODO Tyler Checks, after basic version is ready
-		# is there something in the slot
-		# If non mat, is there an open slot?
+		# If non mat, is there an open slot of this type?
 		# Space in inventory?
 		# is there enough money?
-	# TODO Tyler implement this
-	# fill a inv slot with the given item
-		# take money from Player
-	# empty slot
+	PlayerManager.accept_item(held_item.item)
+	PlayerManager.money -= held_item.item.value
+	held_item = null
+	
 	pass
 #endregion
 

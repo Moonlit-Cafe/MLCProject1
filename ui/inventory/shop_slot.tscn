@@ -14,7 +14,7 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 region_rect = Rect2(5, 5, 22, 22)
 
-[node name="InventorySlot" type="PanelContainer" unique_id=1401955178]
+[node name="ShopSlot" type="PanelContainer" unique_id=1401955178]
 z_index = -1
 z_as_relative = false
 custom_minimum_size = Vector2(64, 64)
