@@ -25,9 +25,6 @@ func _input(event: InputEvent) -> void:
 		else:
 			_inventory_handling(event)
 
-func _shop_handling() -> void:
-	return
-
 ## Handles all the inventory handling code for input.
 func _inventory_handling(event: InputEventMouseButton) -> void:
 	if event.button_index == MouseButton.MOUSE_BUTTON_LEFT:

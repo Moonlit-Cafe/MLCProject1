@@ -19,6 +19,8 @@ var hidden := true
 func _ready() -> void:
 	add_to_group(&"inventory")
 	
+	PlayerManager.inventory = self
+	
 	if container:
 		container.columns = inv_size.x
 		
@@ -86,6 +88,8 @@ func _count_sets() -> Dictionary:
 	
 
 func _generate_inventory() -> void:
+# FIXME Tyler inv items are spawning with a count of 0
+
 	for slot in range(inv_size.x * inv_size.y):
 		var new_slot : InventorySlot = inv_slot.instantiate()
 		container.add_child(new_slot)
@@ -111,6 +115,16 @@ func _generate_random_itemnodes() -> void:
 #endregion
 
 #region Helpers
+func get_slots() -> Array[InventorySlot]:
+	var slots:Array[InventorySlot] = [] 
+	for eqp_child in $TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer.get_children():
+		slots.append(eqp_child)
+	
+	for inv_child in $TabContainer/Inventory/InventoryContainer/MarginContainer/Inventory.get_children():
+		slots.append(inv_child)
+		
+	return slots
+
 func show_inv() -> void:
 	var tween := create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(tab_container, "position", Vector2(0, 0), 0.5)

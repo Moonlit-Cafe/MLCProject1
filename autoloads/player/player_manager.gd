@@ -37,12 +37,11 @@ var occupied_tile : BattleTile
 var entity_ref : TilePlayer
 var money : int = 10
 var set_bonuses : PackedByteArray
-@onready var inventory : CanvasLayer = get_tree().get_first_node_in_group(&"inventory")
+var inventory : CanvasLayer
 
 #endregion
 
 #region Events
-
 ## Initializes the character data based on the initial stats
 # TODO: Should be affected by saves later on.
 func init_character_data() -> void:
@@ -79,17 +78,19 @@ func _update_combat_stats(incoming_stats):
 func accept_item(item:Item, count:int = 1) -> void:
 	var empty = []
 	
-	for slot:InventorySlot in inventory:
+	for slot:InventorySlot in inventory.get_slots():
+		if slot.held_item == null:
+			if slot.can_slot == item.equip_loc:
+				empty.append(slot)
+		elif slot.held_item.item == item:
+			count = slot.held_item.add_to_stack(count)
+			
 		if count <= 0:
 			return
-		
-		if slot.held_item.item == item:
-			count = slot.held_item.add_to_stack(count)
-		elif slot.held_item == null:
-			empty.append(slot)
-		
+	
 	for empty_slot:InventorySlot in empty:
-		count = empty_slot.held_item.add_to_stack(count)
+		empty_slot.generate_item(item.id)
+		count = empty_slot.held_item.add_to_stack(count-1)
 		if count <= 0:
 			return
 	pass

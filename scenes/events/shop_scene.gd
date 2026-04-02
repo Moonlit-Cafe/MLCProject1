@@ -10,15 +10,6 @@ extends BaseEventScene
 # TODO Tyler Add money to player
 	# make enemies drop money on die
 	# make enemies drop items on die (sometimes)
-# TODO Tyler Make shop interact with buttons right
-	# Add item to p inventory # This will need to be a sub function
-	# take item from s stock
-	# take p money
-	# TODO Tyler Add checks for money later
-	
-# TODO Tyler need to make the shop slots their own inherited class
-	# Disable ability to drag items in/out
-	# add click to buy func
 	
 func _ready() -> void:
 	var slot_boxes = [mat_slots,
