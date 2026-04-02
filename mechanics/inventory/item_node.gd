@@ -9,7 +9,14 @@ class_name ItemNode extends Control
 @export var count_label : Label
 @export var texture : TextureRect
 @export_category("Item and Node Data")
-@export var item : Item = null
+@export var item : Item = null:
+	get():
+		return item
+	set(value):
+		texture = $TextureRect
+		count_label = $Count
+		item = value
+		update_display()
 
 # REMOVE: This drag behavior should be handled by a more robust system
 # Consider using Godot's built-in drag and drop or a dedicated drag manager
@@ -34,13 +41,6 @@ func _ready() -> void:
 	# if item and CraftManager:
 	#     icon = CraftManager.get_item_texture(item.texture)
 
-## Initialize item display
-func setup_item(new_item: Item, initial_count: int = 1) -> void:
-	texture = $TextureRect
-	count_label = $Count
-	item = new_item
-	count = initial_count
-	update_display()
 
 # Update the visual display of the item
 func update_display() -> void:

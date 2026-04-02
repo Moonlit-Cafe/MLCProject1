@@ -17,7 +17,6 @@ extends BaseEventScene
 	# TODO Tyler Add checks for money later
 	
 # TODO Tyler need to make the shop slots their own inherited class
-	# these should be loaded in programatically
 	# Disable ability to drag items in/out
 	# add click to buy func
 	
@@ -42,8 +41,8 @@ func _fill_slots(slot_boxes) -> void:
 	for box in slot_boxes:
 		for slot in box.get_children():
 			var item := CraftManager.get_valued_items(0, 10, 1)[0]
-			slot.generate_item(item.i_name)
-			slot.held_item.setup_item(item)
+			slot.generate_item(item.id)
+			slot.held_item.item = item
 
 func _on_pressed() -> void:
 	SceneManager.load_next_scene()

@@ -32,8 +32,8 @@ func _ready() -> void:
 	child_exiting_tree.connect(_on_child_exited)
 
 ## Generates a new item based on the item id and the amount to generate.
-func generate_item(i_name: StringName, count : int = 1) -> void:
-	var node : ItemNode = CraftManager.generate_node(i_name.to_snake_case())
+func generate_item(item_id: StringName, count : int = 1) -> void:
+	var node : ItemNode = CraftManager.generate_node(null, item_id)
 	node.count = count
 	add_child(node)
 	held_item = node

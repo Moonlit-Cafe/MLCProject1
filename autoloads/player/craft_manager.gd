@@ -170,12 +170,14 @@ func _value_range_compendium(min_value:int, max_value:int) -> Array[StringName]:
 			item_names.append(item)
 	return item_names
 	
-func generate_node(item_name) -> ItemNode:
-	# TODO Tyler fix inventory equip generation
-	# TODO Tyler this only generates equips in shop
+func generate_node(in_item:Item = null, item_id:StringName = &"MAT_0") -> ItemNode:
+	if not in_item:
+		in_item = find_item_by_id(item_id)
+	else:
+		item_id = in_item.id
+		
 	var node
-	var out_item = find_item(item_name)
-	match out_item.equip_loc:
+	match in_item.equip_loc:
 		Genum.EquipLocation.INVENTORY:
 			node = item_node
 		Genum.EquipLocation.WEAPON:
@@ -184,8 +186,7 @@ func generate_node(item_name) -> ItemNode:
 			node = equip_node
 		
 	node = node.instantiate()
-	
-	node.item = out_item
+	node.item = in_item
 	return node
 
 ## Finds if an item is available in the ItemCompendium by it's StringName.

@@ -1,10 +1,7 @@
 [gd_scene format=3 uid="uid://npre0wq4yuc7"]
 
-[ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="1_1m6my"]
 [ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory/inventory_slot.tscn" id="1_n0n2g"]
 [ext_resource type="Script" uid="uid://decnctd8qfp08" path="res://ui/player_hud.gd" id="1_w11uw"]
-[ext_resource type="PackedScene" uid="uid://82v5d6cakdan" path="res://mechanics/inventory/equippable_node.tscn" id="5_sjha8"]
-[ext_resource type="PackedScene" uid="uid://c2djdhoksebun" path="res://mechanics/inventory/weapon_node.tscn" id="7_f87sx"]
 [ext_resource type="PackedScene" uid="uid://ye7pl4xy273r" path="res://ui/inventory/weapon_window.tscn" id="7_q84jv"]
 
 [node name="PlayerHud" type="CanvasLayer" unique_id=2116962505 node_paths=PackedStringArray("inventory", "container")]
@@ -12,9 +9,6 @@ script = ExtResource("1_w11uw")
 inventory = NodePath("TabContainer/Inventory")
 container = NodePath("TabContainer/Inventory/InventoryContainer/MarginContainer/Inventory")
 inv_slot = ExtResource("1_n0n2g")
-inv_node = ExtResource("1_1m6my")
-wep_node = ExtResource("7_f87sx")
-eqp_node = ExtResource("5_sjha8")
 
 [node name="TabContainer" type="TabContainer" parent="." unique_id=2038424106]
 anchors_preset = 9
