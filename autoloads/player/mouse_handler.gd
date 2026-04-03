@@ -48,7 +48,7 @@ func _inventory_handling(event: InputEventMouseButton) -> void:
 						
 						if leftover:
 							var t = hovered_slot.can_slot != Genum.EquipLocation.INVENTORY
-								
+							container.held_item.count = leftover
 							_move_to_prior()
 							if t:
 								hovered_slot.check_set.emit()
