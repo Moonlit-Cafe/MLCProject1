@@ -7,10 +7,10 @@ extends BaseEventScene
 @export var slot_scene : PackedScene
 
 # FIXME: There's regual inventory movement mechanics within the shop, we'll section it off later.
-# TODO Tyler Add money to player
-	# make enemies drop money on die
-	# make enemies drop items on die (sometimes)
 	
+# TODO Tyler Add money to game
+	# make enemies drop money on die
+	# make enemies drop items on die (sometimes later but always for now)
 func _ready() -> void:
 	var slot_boxes = [mat_slots,
 					use_slots,

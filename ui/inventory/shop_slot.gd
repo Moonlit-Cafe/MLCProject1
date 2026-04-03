@@ -5,13 +5,15 @@ class_name ShopSlot extends InventorySlot
 #endregion
 
 #region Events
-# TODO Tyler Make shop interact with buttons right
-	# take item from s stock
-	# take p money
-	# TODO Tyler Add checks for money later
+	
 func attempt_purchase() -> void:
 	if held_item == null:
 		return
+	if PlayerManager.money < held_item.item.value:
+		push_warning("Player has attempted to buy %s worth %s. They only have %s." 
+				% held_item.item, held_item.item.value, PlayerManager.money)
+		return
+	
 		
 	PlayerManager.accept_item(held_item.item)
 	PlayerManager.money -= held_item.item.value

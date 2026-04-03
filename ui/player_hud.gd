@@ -88,8 +88,6 @@ func _count_sets() -> Dictionary:
 	
 
 func _generate_inventory() -> void:
-# FIXME Tyler inv items are spawning with a count of 0
-
 	for slot in range(inv_size.x * inv_size.y):
 		var new_slot : InventorySlot = inv_slot.instantiate()
 		container.add_child(new_slot)
@@ -97,6 +95,7 @@ func _generate_inventory() -> void:
 func _generate_random_itemnodes() -> void:
 	var rand_items : Array[Item] = []
 	
+# FIXME Tyler inv items are spawning with a count of 0
 	for i in range(3):
 		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.MATERIAL))
 		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
