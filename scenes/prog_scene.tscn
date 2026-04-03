@@ -22,6 +22,7 @@ scene_name = &"BattleScene"
 event_id = &"battle"
 scene = ExtResource("4_2j0dp")
 weight = 60
+spawn_frequency = 5
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="Resource" id="Resource_xrf0x"]
@@ -37,7 +38,6 @@ scene_name = &"BossBattleScene"
 event_id = &"boss_battle"
 scene = ExtResource("4_2j0dp")
 weight = 1
-spawn_frequency = 10
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="Resource" id="Resource_l5ql0"]
@@ -46,7 +46,6 @@ scene_name = &"CraftScene"
 event_id = &"craft"
 scene = ExtResource("5_lkxui")
 weight = 1
-spawn_frequency = 3
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="Resource" id="Resource_ojfb3"]
