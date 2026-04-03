@@ -95,7 +95,6 @@ func _generate_inventory() -> void:
 func _generate_random_itemnodes() -> void:
 	var rand_items : Array[Item] = []
 	
-# FIXME Tyler inv items are spawning with a count of 0
 	for i in range(3):
 		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.MATERIAL))
 		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
@@ -110,6 +109,7 @@ func _generate_random_itemnodes() -> void:
 		
 		var new_node = CraftManager.generate_node(item)
 		new_node.item = item
+		new_node.count = randi_range(1, item.max_stack_size)
 		slot.add_child(new_node)
 #endregion
 
