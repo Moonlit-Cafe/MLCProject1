@@ -27,12 +27,22 @@ func _generate_stars() -> void:
 	
 	for i in range(section_array.size(), 0):
 		var cur = section_array[i]
-		var prev = section_array[i+1]
 		
 		for j in range(1, randi_range(1,5)):
 			cur.add_child(_generate_star())
+			# TODO implement this
 			return
+		
+		if section_array.size() <= i+1:
+			# TYLERCOM also needs to attempt to connect to previous column (if possible)
+			var prev = section_array[i+1]
+			
+		
+	
 	
 func _generate_star() -> Node:
+	# TODO implement this
+	# Make a star or something idk
+	# prob needs it own class
 	return null
 #endregion
