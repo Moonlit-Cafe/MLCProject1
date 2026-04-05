@@ -1,6 +1,9 @@
 extends BaseEventScene
 
 #region Declarations
+@export var travel_button : PackedScene
+@export var scenes : Array
+
 @onready var sections = $SectionContainer 
 #endregion
 
@@ -28,7 +31,6 @@ func _generate_stars() -> void:
 		
 		for j in range(1, randi_range(1,5)):
 			cur_section.add_child(_generate_star())
-			# TODO make star generation a thing
 			return
 		
 		
@@ -46,16 +48,10 @@ func _generate_stars() -> void:
 			for k in range(0, c_star_maxi):
 				for l in range(split_indexes[i], split_indexes[i+1]):
 					cur_section.get_children()[k].link_path(fwd_section.get_children()[l])
-			
-		
-	
-	
-func _generate_star() -> Node:
-	# TODO implement this
-	# Make a star or something idk
-	# prob needs it own class
-	# should define what event should happen (steal from prog_scene)
-	# star should be a button but have a sprite as a child
-	# modulate the star based on event
-	return null
+
+
+func _generate_star() -> Button:
+	var cur_button = travel_button.instantiate()
+	travel_button.init(scenes)
+	return cur_button
 #endregion
