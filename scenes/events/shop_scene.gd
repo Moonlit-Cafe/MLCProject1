@@ -37,3 +37,4 @@ func _fill_slots(slot_boxes) -> void:
 
 func _on_pressed() -> void:
 	SceneManager.load_next_scene()
+	self.queue_free()
