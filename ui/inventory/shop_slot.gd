@@ -9,9 +9,12 @@ class_name ShopSlot extends InventorySlot
 func attempt_purchase() -> void:
 	if held_item == null:
 		return
+		
 	if PlayerManager.money < held_item.item.value:
-		push_warning("Player has attempted to buy %s worth %s. They only have %s." 
-				% held_item.item, held_item.item.value, PlayerManager.money)
+		# TODO Add a visual indicator to Player being unable to buy thigns
+		# TYLERCOM Remove the warning after that, rn its just a placeholder until we have visuals
+		push_warning("Player has attempted to buy %s worth %s. They only have %s." % 
+		[held_item.item, held_item.item.value, PlayerManager.money])
 		return
 	
 		
