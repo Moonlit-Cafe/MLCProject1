@@ -57,7 +57,7 @@ func get_random_item(rand_type = null, item_id:int = -1) -> Item:
 	
 	var item : Item = ResourceManager.item_compendium.get(type_str % item_id)
 	if not item:
-		return get_random_item()
+		return
 	print("Added Item: %s" % item.i_name)
 	return item
 
