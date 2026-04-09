@@ -4,14 +4,15 @@ extends Button
 # modulate the star sprite based on event
 
 #region Declarations
-@onready var sprite = $Sprite2D
+@onready var sprite
 
-var scene : PackedScene
+var scene 
 #endregion
 
 #region Events
 func init(scenes):
 	scene = scenes[randi_range(0,scenes.size()-1)]
+	sprite = $Sprite2D
 	_color_self()
 	
 	
@@ -35,5 +36,5 @@ func _color_self() -> void:
 			push_warning("Event of event_id %s not found!" % scene.event_id)
 			return
 			
-	sprite.modulate(color)
+	sprite.modulate = color
 #endregion
