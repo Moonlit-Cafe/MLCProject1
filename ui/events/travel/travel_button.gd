@@ -1,4 +1,4 @@
-extends Button
+class_name TravelButton extends Button
 # TODO implement this
 # should define what event should happen (steal from prog_scene)
 # modulate the star sprite based on event
@@ -6,6 +6,7 @@ extends Button
 #region Declarations
 @onready var texture
 
+var others :Array[TravelButton]
 var scene 
 #endregion
 
@@ -37,4 +38,8 @@ func _color_self() -> void:
 			return
 			
 	texture.modulate = color
+	
+func link_path(other):
+	others.append(other)
+	# TODO Tyler add the part where there is visual linkage
 #endregion

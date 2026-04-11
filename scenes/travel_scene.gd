@@ -28,27 +28,28 @@ func _generate_stars() -> void:
 	
 	# TODO actually give a sprite to buttons
 	# TODO visually show connections between stars
-	for i in range(section_array.size()-1, 0, -1):
-		var cur_section = section_array[i]
+	for column_index in range(section_array.size()-1, 0, -1):
+		var cur_section = section_array[column_index]
 		
-		for j in range(0, randi_range(1,5)):
+		for i in range(0, randi_range(1,5)):
 			cur_section.add_child(_generate_star())
 		
 		
-		if section_array.size() <= i:
-			var fwd_section = section_array[i+1]
-			var f_star_maxi = fwd_section.get_children().size() - 1
-			var c_star_maxi = cur_section.get_children().size()
-			var split_indexes = [0, f_star_maxi]
+		if section_array.size() > column_index-1:
+			var fwd_section = section_array[column_index]
+			var far_star_max_index = fwd_section.get_children().size() - 1
+			var cur_star_max_index = cur_section.get_children().size()
+			var split_indexes = [0, far_star_max_index]
 			
-			for split in range(0, c_star_maxi):
-				split_indexes.append(randi_range(0, f_star_maxi))
+			for split in range(0, cur_star_max_index):
+				split_indexes.append(randi_range(0, far_star_max_index))
 			
 			split_indexes.sort()
 			
-			for k in range(0, c_star_maxi):
-				for l in range(split_indexes[i], split_indexes[i+1]):
-					cur_section.get_children()[k].link_path(fwd_section.get_children()[l])
+			for star_i in range(0, cur_star_max_index):
+				for l in range(split_indexes[star_i-1], split_indexes[star_i]):
+					# TODO Tyler dont guarantee that the left or right end is going to be connected (conditional)
+					cur_section.get_children()[star_i].link_path(fwd_section.get_children()[l])
 
 
 func _generate_star() -> Button:
