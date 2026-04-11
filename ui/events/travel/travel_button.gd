@@ -3,6 +3,8 @@ class_name TravelButton extends Button
 # should define what event should happen (steal from prog_scene)
 # modulate the star sprite based on event
 
+# TODO Tyler needs to actually load the given scene (basically make this an alt to prog scene
+
 #region Declarations
 @onready var texture
 
@@ -41,5 +43,10 @@ func _color_self() -> void:
 	
 func link_path(other):
 	others.append(other)
-	# TODO Tyler add the part where there is visual linkage
+	var connection = Line2D.new()
+	other.add_child(connection)
+	connection.add_point(Vector2.ZERO)
+	var diff = other.position - self.position
+	connection.add_point(diff)
+	
 #endregion

@@ -22,18 +22,18 @@ func _generate_sections() -> void:
 	for i in range(0, section_count):
 		new_section = VBoxContainer.new()
 		sections.add_child(new_section)
+		new_section.alignment = VBoxContainer.ALIGNMENT_CENTER
 
+	
 func _generate_stars() -> void:
 	var section_array = sections.get_children()
 	
 	# TODO actually give a sprite to buttons
-	# TODO visually show connections between stars
-	for column_index in range(section_array.size()-1, 0, -1):
+	for column_index in range(section_array.size()-1, -1, -1):
 		var cur_section = section_array[column_index]
 		
 		for i in range(0, randi_range(1,5)):
 			cur_section.add_child(_generate_star())
-		
 		
 		if section_array.size() > column_index-1:
 			var fwd_section = section_array[column_index]
@@ -57,3 +57,6 @@ func _generate_star() -> Button:
 	cur_button.init(scenes)
 	return cur_button
 #endregion
+
+
+# TODO Tyler make it so you can only click on nodes that are in the next column
