@@ -4,6 +4,7 @@ extends BaseEventScene
 @export var travel_button : PackedScene
 @export var scenes : Array[Resource]
 
+var last_node : TravelButton
 @onready var sections = $SectionContainer 
 #endregion
 
@@ -11,6 +12,7 @@ extends BaseEventScene
 func _ready() -> void:
 	_generate_sections()
 	_generate_stars()
+	check_buttons()
 #endregion
 
 
@@ -31,11 +33,20 @@ func _generate_stars() -> void:
 	# TODO actually give a sprite to buttons
 	for column_index in range(section_array.size()-1, -1, -1):
 		var cur_section = section_array[column_index]
+		var cap
+		const min_cap = 2
+		const max_cap = 5
 		
-		for i in range(0, randi_range(1,5)):
+		if column_index > 0:
+			cap = randi_range(min_cap, max_cap)
+		else:
+			cap = min_cap
+		
+		for i in range(min_cap - 1, cap):
 			cur_section.add_child(_generate_star())
 		
 		if section_array.size() > column_index-1:
+			# FIXME the leftmost node fails to find any other nodes when being instantiated
 			var fwd_section = section_array[column_index]
 			var far_star_max_index = fwd_section.get_children().size() - 1
 			var cur_star_max_index = cur_section.get_children().size()
@@ -51,6 +62,8 @@ func _generate_stars() -> void:
 					# TODO Tyler dont guarantee that the left or right end is going to be connected (conditional)
 					cur_section.get_children()[star_i].link_path(fwd_section.get_children()[l])
 
+	last_node = section_array[0].get_child(0)
+
 
 func _generate_star() -> Button:
 	var cur_button = travel_button.instantiate()
@@ -58,5 +71,10 @@ func _generate_star() -> Button:
 	return cur_button
 #endregion
 
-
-# TODO Tyler make it so you can only click on nodes that are in the next column
+func check_buttons() -> void:
+	for section in sections.get_children():
+		for button in section.get_children():
+			button.disabled = true
+			
+		for next in last_node.others:
+			next.disabled = false
