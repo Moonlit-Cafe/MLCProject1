@@ -26,11 +26,10 @@ func _generate_sections() -> void:
 func _generate_stars() -> void:
 	var section_array = sections.get_children()
 	
-	# FIXME As is, map generation still broken.
+	# FIXME TYLER As is, map generation still broken.
 	# Specifically, some columns dont get iterated on
 	# TODO actually give a sprite to buttons
 	# TODO visually show connections between stars
-	# TYLERCOM written 4/8
 	for i in range(section_array.size()-1, 0, -1):
 		var cur_section = section_array[i]
 		

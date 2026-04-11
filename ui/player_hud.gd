@@ -50,7 +50,10 @@ func _connect_equip_slots() -> void:
 func _check_sets() -> void:
 	var equipped_sets = _count_sets()
 	var bonuses : PackedByteArray
-	bonuses.resize(ResourceManager.set_compendium.keys().max() + 1)
+	if ResourceManager.set_compendium.keys().max():
+		bonuses.resize(ResourceManager.set_compendium.keys().max() + 1)
+	else:
+		bonuses.resize(0)
 	
 
 	for cur_set in equipped_sets:
