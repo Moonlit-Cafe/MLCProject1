@@ -30,17 +30,18 @@ func _generate_sections() -> void:
 func _generate_stars() -> void:
 	var section_array = sections.get_children()
 	
-	# TODO actually give a sprite to buttons
 	for column_index in range(section_array.size()-1, -1, -1):
 		var cur_section = section_array[column_index]
 		var cap
 		const min_cap = 2
 		const max_cap = 5
 		
-		if column_index > 0:
-			cap = randi_range(min_cap, max_cap)
-		else:
+		if column_index == 0:
 			cap = min_cap
+		elif  column_index == section_array.size()-1:
+			cap = min_cap
+		else:
+			cap = randi_range(min_cap, max_cap)
 		
 		for i in range(min_cap - 1, cap):
 			cur_section.add_child(_generate_star())
@@ -58,7 +59,8 @@ func _generate_stars() -> void:
 			
 			for star_i in range(0, cur_star_count):
 				for l in range(split_indexes[star_i], split_indexes[star_i+1]):
-					# TODO Tyler dont guarantee that the left or right end is going to be connected (conditional)
+					# PLANNED Tyler dont guarantee that the left or right end is going to be connected (conditional)
+					# conditions that all nodes have to have someone be their others
 					cur_section.get_children()[star_i].link_path(fwd_section.get_children()[l])
 
 	last_node = section_array[0].get_child(0)

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bbq4b8ddhpg67"]
 
 [ext_resource type="Script" uid="uid://b6v2uxdaennxr" path="res://ui/events/travel/travel_button.gd" id="1_v1yd3"]
+[ext_resource type="Texture2D" uid="uid://2cpat0ehnsxk" path="res://icon.svg" id="2_gdnoi"]
 
 [node name="MapButton" type="Button" unique_id=1370049134]
 anchors_preset = 15
@@ -14,3 +15,6 @@ script = ExtResource("1_v1yd3")
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+texture = ExtResource("2_gdnoi")
+expand_mode = 1
+stretch_mode = 3

@@ -3,6 +3,9 @@ class_name TravelButton extends Button
 # should define what event should happen (steal from prog_scene)
 # modulate the star sprite based on event
 
+# TODO actually give a sprite to buttons
+
+
 # TODO Tyler needs to actually load the given scene (basically make this an alt to prog scene
 
 #region Declarations
