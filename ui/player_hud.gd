@@ -32,6 +32,7 @@ func _ready() -> void:
 	_generate_random_itemnodes()
 	await GameGlobal.delay()
 	hide_inv()
+	
 
 func _input(event: InputEvent) -> void:
 	# TODO: Check if allowed to open inventory

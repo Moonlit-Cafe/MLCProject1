@@ -6,6 +6,7 @@ class_name ProgScene extends Node
 @export var event_references : Array[EventHolder] ## A reference list for all in-game events
 @export var button_container : VBoxContainer ## The container holding the buttons for next progression scene 
 @export var scene_holder : Node ## The Node that acts as a parent to the event scenes.
+@export var test_version : bool
 
 var current_scene_index: int = 0 ## The current scene index from start (0)
 var current_scene : BaseEventScene = null ## Reference of the current accessible scene
@@ -32,12 +33,19 @@ func generate_next_events() -> void:
 	@warning_ignore("integer_division")
 	CombatManager.level_number = current_scene_index / 10
 	var event_set : Array[EventHolder] = _generate_events()
+	if test_version:
+		event_set = event_references
+		
 	for event_button in button_container.get_children():
 		button_container.remove_child(event_button)
 	
 	if event_set.size() > 1:
-		for i in range(generation_height):
-			_generate_event_button(event_set)
+		if test_version:
+			for i in range(event_references.size()):
+				_generate_event_button(event_set.slice(i,i+1))
+		else:
+			for i in range(generation_height):
+				_generate_event_button(event_set)
 	else:
 		_generate_event_button(event_set)
 	
@@ -75,6 +83,9 @@ func _generate_event_button(event_set: Array[EventHolder]) -> void:
 	var event_button := EventButton.new()
 	var chosen_event = _choose_event(event_set)
 	event_button.event = chosen_event
+	if not chosen_event:
+		push_error("Event %s not working!" % chosen_event)
+		return
 	event_button.text = chosen_event.scene_name
 	button_container.add_child(event_button)
 	event_button.next_event.connect(_on_event_button_pressed)
