@@ -45,20 +45,19 @@ func _generate_stars() -> void:
 		for i in range(min_cap - 1, cap):
 			cur_section.add_child(_generate_star())
 		
-		if section_array.size() > column_index-1:
-			# FIXME the leftmost node fails to find any other nodes when being instantiated
-			var fwd_section = section_array[column_index]
+		if section_array.size() > column_index + 1:
+			var fwd_section = section_array[column_index + 1]
 			var far_star_max_index = fwd_section.get_children().size() - 1
-			var cur_star_max_index = cur_section.get_children().size()
+			var cur_star_count = cur_section.get_children().size()
 			var split_indexes = [0, far_star_max_index]
 			
-			for split in range(0, cur_star_max_index):
+			for split in range(1, cur_star_count):
 				split_indexes.append(randi_range(0, far_star_max_index))
 			
 			split_indexes.sort()
 			
-			for star_i in range(0, cur_star_max_index):
-				for l in range(split_indexes[star_i-1], split_indexes[star_i]):
+			for star_i in range(0, cur_star_count):
+				for l in range(split_indexes[star_i], split_indexes[star_i+1]):
 					# TODO Tyler dont guarantee that the left or right end is going to be connected (conditional)
 					cur_section.get_children()[star_i].link_path(fwd_section.get_children()[l])
 
