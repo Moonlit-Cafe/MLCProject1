@@ -3,12 +3,12 @@
 @tool
 extends EditorImportPlugin
 
-enum Presets { CSV, CSV_HEADER, TSV, TSV_HEADER }
-enum Delimiters { COMMA, TAB, SEMICOLON }
+enum Presets { CSV, CSV_HEADER}
+enum Delimiters { COMMA }
 
 
 func _get_importer_name():
-	return "com.timothyqiu.godot-csv-importer"
+	return "moonlit.lunel.csv_import"
 
 
 func _get_visible_name():
@@ -16,7 +16,6 @@ func _get_visible_name():
 
 
 func _get_priority():
-	# The built-in Translation importer needs a restart to switch to other importer
 	return 2.0
 
 func _get_import_order():
@@ -31,7 +30,7 @@ func _get_save_extension():
 
 
 func _get_resource_type():
-	return "Resource"
+	return "CSVData"
 
 
 func _get_preset_count():
@@ -44,10 +43,6 @@ func _get_preset_name(preset):
 			return "CSV"
 		Presets.CSV_HEADER:
 			return "CSV with headers"
-		Presets.TSV:
-			return "TSV"
-		Presets.TSV_HEADER:
-			return "TSV with headers"
 		_:
 			return "Unknown"
 
@@ -58,10 +53,6 @@ func _get_import_options(_path, preset):
 	match preset:
 		Presets.CSV_HEADER:
 			headers = true
-		Presets.TSV:
-			delimiter = Delimiters.TAB
-		Presets.TSV_HEADER:
-			delimiter = Delimiters.TAB
 			headers = true
 
 	return [
@@ -85,10 +76,6 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	match options.delimiter:
 		Delimiters.COMMA:
 			delim = ","
-		Delimiters.TAB:
-			delim = "\t"
-		Delimiters.SEMICOLON:
-			delim = ";"
 
 	var file = FileAccess.open(source_file, FileAccess.READ)
 	if not file:
@@ -145,6 +132,8 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 			data.records.append(dict)
 	else:
 		data.records = lines
+	
+	data.source_csv_path = source_file
 
 	var filename = save_path + "." + _get_save_extension()
 	var err = ResourceSaver.save(data, filename)

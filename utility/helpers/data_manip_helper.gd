@@ -1,6 +1,9 @@
 class_name DataManipulationHelper
 
-func detect_special_data(value: String) -> Variant:
+func detect_special_data(value: Variant) -> Variant:
+	if value is not String:
+		return value
+	
 	var rgx := RegEx.new()
 	# Detect Vectors
 	if value.contains("Vec["):
