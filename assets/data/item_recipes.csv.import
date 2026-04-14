@@ -1,3 +1,19 @@
 [remap]
 
-importer="keep"
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+uid="uid://cbiolawntajs4"
+path="res://.godot/imported/item_recipes.csv-2b57b2b87936a584c60b3f84d2e1d7c4.res"
+
+[deps]
+
+source_file="res://assets/data/item_recipes.csv"
+dest_files=["res://.godot/imported/item_recipes.csv-2b57b2b87936a584c60b3f84d2e1d7c4.res"]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=true
+force_float=false
+detect_booleans=false

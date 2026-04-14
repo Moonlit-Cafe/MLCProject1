@@ -1,3 +1,19 @@
 [remap]
 
-importer="keep"
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+uid="uid://dqooabkl17axy"
+path="res://.godot/imported/action_shape_data.csv-3885a9ceda6a49ff63f47f8309c712e4.res"
+
+[deps]
+
+source_file="res://assets/data/action_shape_data.csv"
+dest_files=["res://.godot/imported/action_shape_data.csv-3885a9ceda6a49ff63f47f8309c712e4.res"]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=true
+force_float=false
+detect_booleans=false

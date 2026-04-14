@@ -22,7 +22,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="CraftingCrawler"
 config/version="2025.6.2-template.b132d5"
 run/main_scene="uid://bf0e0l206u8xd"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [audio]
@@ -55,7 +55,7 @@ project/assembly_name="GameJamTemplate"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/CSVAccess/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/signal_lens/plugin.cfg")
+enabled=PackedStringArray("res://addons/CSVAccess/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/ml_data_importer/csv_import/plugin.cfg", "res://addons/ml_data_importer/plugin.cfg", "res://addons/signal_lens/plugin.cfg")
 
 [file_customization]
 
