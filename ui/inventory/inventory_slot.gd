@@ -15,7 +15,7 @@ var held_item : ItemNode = null :
 			PlayerManager.regen_combat_stats()
 		
 		held_item = value
-@onready var label = $GridContainer/Label
+@export var label : Label
 
 signal check_set()
 

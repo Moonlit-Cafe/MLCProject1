@@ -30,7 +30,7 @@ var can_swivel : bool = true:
 		can_swivel = value
 var available_positions : Dictionary[int, Vector3] = {}
 var current_position : int = 0
-var battle_board : BattleMap3D
+var battle_map : BattleMap
 var focus_target : TileEntity
 #endregion
 
@@ -39,7 +39,7 @@ func _ready() -> void:
 	CombatManager.rehover.connect(_tile_hover)
 	
 	timer.timeout.connect(_on_timer_timeout)
-	battle_board = get_parent()
+	battle_map = get_parent()
 	
 	if get_tree().get_node_count_in_group(&"player") > 0:
 		focus_target = get_tree().get_first_node_in_group(&"player")
@@ -136,7 +136,7 @@ func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
 	
 	
 	
-	for p_tile in battle_board.board.values():
+	for p_tile in battle_map.board.values():
 		if p_tile.highlighted:
 			p_tile.highlighted = false
 	
@@ -145,7 +145,7 @@ func _tile_hover(tile: BattleTile = MouseHandler.hovered_tile) -> void:
 	if CombatManager.selected_action != null:
 		var tile_pos := Vector2i(tile.tile_position.x, tile.tile_position.z)
 		for pos in CombatManager.selected_action.shape.shape_pos_arr:
-			var adj_tile : BattleTile = battle_board.board.get(tile_pos + pos)
+			var adj_tile : BattleTile = battle_map.board.get(tile_pos + pos)
 			if adj_tile:
 				adj_tile.highlighted = true
 	
@@ -202,7 +202,7 @@ func _tile_selection() -> void:
 			print("Tile not selectable!")
 			return
 		
-		battle_board.determine_selectables()
+		battle_map.determine_selectables()
 		tile.attach_entity(PlayerManager.occupied_tile.held_entity)
 		PlayerManager.occupied_tile = tile
 		

@@ -3,20 +3,14 @@
 extends BaseEventScene
 
 #region Declarations
+@export_category("Node References")
 @export var battle_viewport : SubViewportContainer
-@export var label : Label
 @export var hp_label : Label
-
-@onready var hp_container : VBoxContainer = $CanvasLayer/HPContainer/VBoxContainer
-@onready var actions_menu : PanelContainer = $CanvasLayer/ActionMenu
-@onready var battle_log : VBoxContainer = $CanvasLayer/InfoPanel/VBoxContainer/BattleLog
-@onready var turn_tracker : Control = $CanvasLayer/TurnTracker
-@onready var battle_board : BattleMap3D = $BattleMap3D
-@onready var enemy_info : VBoxContainer = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo
-@onready var enemy_label : Label = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/EnemyName
-@onready var enemy_hp_bar : ProgressBar = $CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo/HealthBar
-@onready var battle_map : BattleMap3D = $BattleMap3D
-@onready var hover_panel : VBoxContainer = $CanvasLayer/HoverPanel
+@export var actions_menu : PanelContainer
+@export var battle_log : VBoxContainer
+@export var turn_tracker : Control
+@export var battle_map : BattleMap
+@export var hover_panel : VBoxContainer
 
 # TODO: Need to procedurally determine what enemies are able to fight based off of the current
 # difficulty rating.
@@ -37,14 +31,13 @@ func _ready() -> void:
 	_fill_action_menu()
 	_generate_battle()
 	
-	battle_board.turn_tracker = turn_tracker
+	battle_map.turn_tracker = turn_tracker
 	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
 	hp_label.text = "HP: %s" % PlayerManager.hp
 	
 	_signal_initialization()
-	battle_board.init()
+	battle_map.init()
 	#CombatManager.selected_action = PlayerManager.available_skills[0]  ## HACK Just testing auto selecting first action as the "first action in the players available skills"
-	hp_container.update_ticks(Vector3i(1, 0, 0))
 
 # TODO: Replace with ActionMenu Functionality
 func _fill_action_menu() -> void:
@@ -63,31 +56,31 @@ func _generate_battle() -> void:
 	enemy_count = 3
 	
 	var available_spots : Array[Vector2i]
-	for tile in battle_board.board.keys():
-		if battle_board.board.get(tile).state == BattleTile.BattleState.EMPTY:
+	for tile in battle_map.board.keys():
+		if battle_map.board.get(tile).state == BattleTile.BattleState.EMPTY:
 			available_spots.append(tile)
 	
-	var start_pos = (battle_board.board_zone.size / 2.0) as Vector3i + battle_board.board_zone.pos - Vector3i.ONE
+	var start_pos = (battle_map.board_zone.size / 2.0) as Vector3i + battle_map.board_zone.pos - Vector3i.ONE
 	start_pos = Vector2i(start_pos.x, start_pos.z)
 	available_spots.erase(start_pos)
-	battle_board.board.get(start_pos).attach_object(PlayerManager.character_data)
-	PlayerManager.entity_ref = battle_board.board.get(start_pos).held_entity
+	battle_map.board.get(start_pos).attach_object(PlayerManager.character_data)
+	PlayerManager.entity_ref = battle_map.board.get(start_pos).held_entity
 	
 	for i in range(enemy_count):
 		start_pos = available_spots.pick_random()
 		available_spots.erase(start_pos)
 		print("Attached enemy on tile %s" % start_pos)
-		battle_board.board.get(start_pos).attach_object(CombatManager.enemy_compendium.get(0))
+		battle_map.board.get(start_pos).attach_object(CombatManager.enemy_compendium.get(0))
 	
 	var obstacle_count : int = 2
 	for i in range(obstacle_count):
 		start_pos = available_spots.pick_random()
 		available_spots.erase(start_pos)
-		battle_board.board.get(start_pos).attach_object(CombatManager.obstacle_compendium.get(0))
+		battle_map.board.get(start_pos).attach_object(CombatManager.obstacle_compendium.get(0))
 
 ## Sets up all the signals within the _ready function
 func _signal_initialization() -> void:
-	battle_board.end_map.connect(_on_map_ended)
+	battle_map.end_map.connect(_on_map_ended)
 	
 	GameGlobalEvents.game_end.connect(_on_game_ended)
 	
@@ -102,30 +95,6 @@ func _signal_initialization() -> void:
 	turn_tracker.new_turn.connect(battle_map._on_new_turn)
 #endregion
 
-#region Processes
-func _process(_delta: float) -> void:
-	_update_hp_label()
-
-# FIXME: Bug with the health-bars, related to still having Selected Tile in mouse handler probably.
-func _update_hp_label() -> void:
-	if not MouseHandler.selected_tile:
-		if enemy_info.visible:
-			enemy_info.hide()
-		return
-	
-	if MouseHandler.selected_tile.state == BattleTile.BattleState.EMPTY:
-		return
-	
-	if not enemy_info.visible:
-		enemy_info.show()
-		
-		if MouseHandler.selected_tile.held_entity:
-			enemy_label.text = MouseHandler.selected_tile.name
-			enemy_hp_bar.max_value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y
-			enemy_hp_bar.step = float(MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).y) / 10000
-			enemy_hp_bar.value = MouseHandler.selected_tile.held_entity.get_stat(Genum.StatType.HEALTH).x
-#endregion
-
 #region Helpers
 func action_on_tiles() -> void:
 	# TODO: Attach to Battle_board instead of actuating here.
@@ -138,7 +107,7 @@ func action_on_tiles() -> void:
 		
 	var tile_pos := tile.tile_position
 	var center_pos := Vector2i(tile_pos.x, tile_pos.z)
-	var tiles := battle_board.grab_other_tiles(action.shape.shape_pos_arr.duplicate(), center_pos)
+	var tiles := battle_map.grab_other_tiles(action.shape.shape_pos_arr.duplicate(), center_pos)
 	tiles.append(tile)
 	
 	for cur_tile in tiles:
@@ -146,7 +115,7 @@ func action_on_tiles() -> void:
 
 
 	MouseHandler.selected_tile = null
-	battle_board.determine_selectables()
+	battle_map.determine_selectables()
 	CombatManager.player_turn = false
 	GameGlobalEvents.player_turn.emit()
 	CombatManager.use_action.emit()

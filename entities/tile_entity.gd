@@ -79,7 +79,7 @@ func commit_action() -> void:
 	if action is CombatAction:
 		attack(decision_packet)
 	elif action is MoveAction:
-		var board := parent_tile.battle_map
+		var board : BattleMap = parent_tile.battle_map
 		var cur_pos := Vector2i(parent_tile.tile_position.x, parent_tile.tile_position.z)
 		var dir = board.dir_to_player(cur_pos)
 		if action.towards_player:

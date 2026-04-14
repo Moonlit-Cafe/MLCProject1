@@ -37,7 +37,7 @@ enum Highlight {
 @onready var select_sprite : AnimatedSprite3D = $AnimatedSprite3D
 #@onready var mesh : MeshInstance3D = $MeshInstance3D
 
-var battle_map : BattleMap3D ## Parent+ reference to the current battle_map
+var battle_map : BattleMap ## Parent+ reference to the current battle_map
 var held_entity : TileEntity ## The currently held entity reference
 var tile_position : Vector3i = Vector3i.ZERO ## The position within [member battle_map]
 ## If the tile is currently selectable or not
@@ -71,7 +71,7 @@ var state : BattleState ## The current state of the tile
 func _ready() -> void:
 	add_to_group(&"tiles")
 	CombatManager.tile_signal_pool.add_to_group("tiles", self)
-	battle_map = find_parent("BattleMap3D")
+	battle_map = find_parent("BattleMap")
 
 ## Attaches the character resource, [param ent], by generating the respective entity, attaching it
 ## and then making it a child of [member entity_holder]

@@ -170,12 +170,16 @@ func _value_range_compendium(min_value:int, max_value:int) -> Array[StringName]:
 			item_names.append(item)
 	return item_names
 	
-func generate_node(in_item:Item = null, item_id:StringName = &"MAT_0") -> ItemNode:
+func generate_node(in_item: Item = null, item_id: StringName = &"MAT_0") -> ItemNode:
 	if not in_item:
 		in_item = find_item_by_id(item_id)
 	else:
 		item_id = in_item.id
-		
+	
+	if not in_item:
+		push_warning("Couldn't find any item . . . skipping.")
+		return
+	
 	var node
 	match in_item.equip_loc:
 		Genum.EquipLocation.INVENTORY:
