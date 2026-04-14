@@ -33,6 +33,7 @@ func reorder_turns() -> void:
 #endregion
 
 #region Helpers
+
 func generate_turns() -> void:
 	if not turn_labels:
 		return

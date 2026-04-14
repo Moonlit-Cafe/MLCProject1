@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dgrxgtqiqfj70"]
+[gd_scene load_steps=14 format=3 uid="uid://dgrxgtqiqfj70"]
 
 [ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/prog_scene.gd" id="1_dix4w"]
 [ext_resource type="Script" uid="uid://bvhk0ewqwsact" path="res://utility/data_holders/holder/event_holder.gd" id="2_htg7h"]
