@@ -6,8 +6,9 @@
 [ext_resource type="Script" uid="uid://cg1cfc0r58mfd" path="res://mechanics/events/battle/state_machine/tile_conditions.gd" id="4_j2b7k"]
 [ext_resource type="Script" uid="uid://cvlq85ra5ps4c" path="res://mechanics/events/battle/state_machine/end_conditions.gd" id="5_ixev3"]
 
-[node name="CombatMachine" type="Node" unique_id=1790775624]
+[node name="CombatMachine" type="Node" unique_id=1790775624 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("1_f6adb")
+initial_state = NodePath("Init")
 
 [node name="Init" type="Node" parent="." unique_id=447702759]
 script = ExtResource("2_g4odm")

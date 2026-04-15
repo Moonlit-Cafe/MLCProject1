@@ -4,7 +4,6 @@ class_name BattleScene extends BaseEventScene
 
 #region Declarations
 @export_category("Node References")
-@export var battle_viewport : SubViewportContainer
 @export var hp_label : Label
 @export var actions_menu : PanelContainer
 @export var battle_log : VBoxContainer
