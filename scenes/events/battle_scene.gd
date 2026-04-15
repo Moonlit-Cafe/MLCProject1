@@ -1,6 +1,6 @@
 ## Handles generating the battle, enemies involved and choosing any additional modifiers for generating
 ## the battle.
-extends BaseEventScene
+class_name BattleScene extends BaseEventScene
 
 #region Declarations
 @export_category("Node References")
