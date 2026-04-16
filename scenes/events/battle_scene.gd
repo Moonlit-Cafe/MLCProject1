@@ -4,7 +4,6 @@ class_name BattleScene extends BaseEventScene
 
 #region Declarations
 @export_category("Node References")
-@export var hp_label : Label
 @export var actions_menu : PanelContainer
 @export var battle_log : VBoxContainer
 @export var turn_tracker : Control
@@ -20,35 +19,19 @@ var elite_modifier : float = 1.0
 var special_ability : bool = false
 var boss_type : int = 1
 #endregion
-# TODO: Move battle generation to this script later
-# The actual battle generation will happen here and then get passed to board
-# for right now it's all on the board
 
 #region Events
 func _ready() -> void:
-	#_determine_battle_view_size() # Grabs the size of the 
-	_fill_action_menu()
+	CombatManager.start_battle(self)
+	#_determine_battle_view_size() # Grabs the size of the
 	_generate_battle()
 	
 	battle_map.turn_tracker = turn_tracker
 	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
-	hp_label.text = "HP: %s" % PlayerManager.hp
 	
 	_signal_initialization()
 	battle_map.init()
 	#CombatManager.selected_action = PlayerManager.available_skills[0]  ## HACK Just testing auto selecting first action as the "first action in the players available skills"
-
-# TODO: Replace with ActionMenu Functionality
-func _fill_action_menu() -> void:
-	# REMOVE Tyler - implementing this just so Player has an action to test
-	var t = ResourceManager.action_compendium
-	PlayerManager.available_skills.append(t[&"ACT_0"])
-	
-	for action in PlayerManager.available_skills:
-		actions_menu.add_to_actions(action)
-	
-	for usable in PlayerManager.get_usables():
-		actions_menu.add_to_items(usable)
 
 # TODO: Fix generation later
 func _generate_battle() -> void:
@@ -83,7 +66,6 @@ func _signal_initialization() -> void:
 	
 	GameGlobalEvents.game_end.connect(_on_game_ended)
 	
-	CombatManager.hp_changed.connect(_on_hp_changed)
 	CombatManager.battle_end.connect(_on_battle_ended)
 	CombatManager.attack_tile.connect(action_on_tiles)
 	
@@ -139,13 +121,6 @@ func _on_pressed() -> void:
 
 func _on_map_ended() -> void:
 	_on_pressed()
-
-
-	
-
-## Changes the hp label based on current value.
-func _on_hp_changed() -> void:
-	hp_label.text = "HP: %s" % PlayerManager.hp
 
 func _on_battle_ended() -> void:
 	_on_map_ended()

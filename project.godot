@@ -20,7 +20,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="CraftingCrawler"
-config/version="2025.6.2-template.b132d5"
+config/version="0.1.0-Dev160426"
 run/main_scene="uid://bf0e0l206u8xd"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
@@ -51,7 +51,7 @@ window/stretch/mode="viewport"
 
 [dotnet]
 
-project/assembly_name="GameJamTemplate"
+project/assembly_name="CraftingCrawler"
 
 [editor_plugins]
 

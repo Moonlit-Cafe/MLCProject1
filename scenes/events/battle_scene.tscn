@@ -23,9 +23,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="BattleScene" type="Node" unique_id=54698120 node_paths=PackedStringArray("hp_label", "actions_menu", "battle_log", "turn_tracker", "battle_map", "hover_panel")]
+[node name="BattleScene" type="Node" unique_id=54698120 node_paths=PackedStringArray("actions_menu", "battle_log", "turn_tracker", "battle_map", "hover_panel")]
 script = ExtResource("1_w5vvb")
-hp_label = NodePath("CanvasLayer/hp_label")
 actions_menu = NodePath("CanvasLayer/ActionMenu")
 battle_log = NodePath("CanvasLayer/InfoPanel/VBoxContainer/BattleLog")
 turn_tracker = NodePath("CanvasLayer/TurnTracker")
@@ -77,11 +76,6 @@ anchor_bottom = 1.0
 offset_top = -86.0
 offset_right = 85.0
 grow_vertical = 0
-
-[node name="hp_label" type="Label" parent="CanvasLayer" unique_id=700361254]
-visible = false
-offset_right = 40.0
-offset_bottom = 23.0
 
 [node name="Button" type="Button" parent="CanvasLayer" unique_id=358482317]
 anchors_preset = 7

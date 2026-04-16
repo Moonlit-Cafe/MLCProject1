@@ -56,6 +56,16 @@ func _create_new_button(menu: VBoxContainer, data: Variant, text: String) -> voi
 	menu.move_child(button, 0)
 	button.send_data.connect(_on_data_sent)
 	button.text = text
+
+func _fill_action_menu() -> void:
+	var act_comp = ResourceManager.action_compendium
+	PlayerManager.available_skills.append(act_comp.get(&"ACT_0")) # TODO: Remove later
+	
+	for action in PlayerManager.available_skills:
+		add_to_actions(action)
+	
+	for usable in PlayerManager.get_usables():
+		add_to_items(usable)
 #endregion
 
 #region Signal Callbacks
