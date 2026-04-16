@@ -5,7 +5,14 @@ using System;
 [GlobalClass]
 public partial class EventPoint : Resource
 {
+	public enum EventType
+	{
+		BATTLE,
+		SHOP,
+		UNIQUE
+	}
 	public Array<EventPoint> eventList;
+	public EventType eventType = EventType.BATTLE;
 	public Array<EventConnection> connections;
 	public Vector2I position = Vector2I.Zero;
 
@@ -23,14 +30,14 @@ public partial class EventPoint : Resource
 
 	private void _bubbleSort(Array<EventPoint> events)
 	{
-		int n = events.Count;
+		int n = events.Count - 1;
 		int i, j;
 		EventPoint temp;
 		bool swapped;
 		for (i = 0; i < n; i++)
 		{
 			swapped = false;
-			for (j = 0; j < n - i; j++)
+			for (j = 0; j < (n - i); j++)
 			{
 				if (events[j].position.DistanceTo(position) > events[j + 1].position.DistanceTo(position))
 				{
