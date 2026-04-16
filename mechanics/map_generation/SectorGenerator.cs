@@ -4,15 +4,21 @@ using Godot.Collections;
 [GlobalClass]
 public partial class SectorGenerator : Node
 {
-	public Array<EventPoint> eventList {get; set;} = new Array<EventPoint>();
-	public Vector2I mapSize {get; set;} = new Vector2I(16, 16);
-	public Rect2I endArea {get; set;} = new Rect2I(12, 12, 4, 4);
-	public Rect2I startArea {get; set;} = new Rect2I(0, 0, 4, 4);
+	#region Declarations
+	[Export] public Vector2I mapSize {get; set;} = new Vector2I(16, 16);
+	[Export] public Rect2I endArea {get; set;} = new Rect2I(12, 12, 4, 4);
+	[Export] public Rect2I startArea {get; set;} = new Rect2I(0, 0, 4, 4);
+	[Export] public int eventsToGenerate = 20;
+	[Export] public int closestToPath = 5;
 
+	public Array<EventPoint> eventList {get; set;} = new Array<EventPoint>();
+	#endregion
+
+	#region Events
     public override void _Ready()
     {
         base._Ready();
-		generateEvents(20);
+		generateEvents(eventsToGenerate);
     }
 
 	public void generateEvents(int eventsToGenerate)
@@ -36,10 +42,8 @@ public partial class SectorGenerator : Node
 		foreach (EventPoint e in eventList)
 		{
 			e.eventList = eventList.Duplicate();
-			e.sortClosest(5); // Currently allowing only the 3 closest events to be considered for sorting end result.
+			e.sortClosest(closestToPath); // Currently allowing only the 3 closest events to be considered for sorting end result.
 		}
-
-		GD.Print(eventList);
 	}
 
 	private Vector2I generateEventPosition()
@@ -49,4 +53,5 @@ public partial class SectorGenerator : Node
 		int y = (int) global.Call("get_random_i", 0, 16);
 		return new Vector2I(x, y);
 	}
+	#endregion
 }
