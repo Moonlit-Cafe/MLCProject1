@@ -23,42 +23,12 @@ var boss_type : int = 1
 #region Events
 func _ready() -> void:
 	CombatManager.start_battle(self)
-	#_determine_battle_view_size() # Grabs the size of the
-	_generate_battle()
 	
 	battle_map.turn_tracker = turn_tracker
 	PlayerManager.hp = PlayerManager.combat_stats.get(Genum.StatType.HEALTH)
 	
 	_signal_initialization()
 	battle_map.init()
-	#CombatManager.selected_action = PlayerManager.available_skills[0]  ## HACK Just testing auto selecting first action as the "first action in the players available skills"
-
-# TODO: Fix generation later
-func _generate_battle() -> void:
-	enemy_count = 3
-	
-	var available_spots : Array[Vector2i]
-	for tile in battle_map.board.keys():
-		if battle_map.board.get(tile).state == BattleTile.BattleState.EMPTY:
-			available_spots.append(tile)
-	
-	var start_pos = (battle_map.board_zone.size / 2.0) as Vector3i + battle_map.board_zone.pos - Vector3i.ONE
-	start_pos = Vector2i(start_pos.x, start_pos.z)
-	available_spots.erase(start_pos)
-	battle_map.board.get(start_pos).attach_object(PlayerManager.character_data)
-	PlayerManager.entity_ref = battle_map.board.get(start_pos).held_entity
-	
-	for i in range(enemy_count):
-		start_pos = available_spots.pick_random()
-		available_spots.erase(start_pos)
-		print("Attached enemy on tile %s" % start_pos)
-		battle_map.board.get(start_pos).attach_object(CombatManager.enemy_compendium.get(0))
-	
-	var obstacle_count : int = 2
-	for i in range(obstacle_count):
-		start_pos = available_spots.pick_random()
-		available_spots.erase(start_pos)
-		battle_map.board.get(start_pos).attach_object(CombatManager.obstacle_compendium.get(0))
 
 ## Sets up all the signals within the _ready function
 func _signal_initialization() -> void:
