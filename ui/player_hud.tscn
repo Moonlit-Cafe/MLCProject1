@@ -170,6 +170,7 @@ visible = false
 weapon_slot = NodePath("../TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer/Weapon")
 
 [node name="TESTMenu" type="Node2D" parent="." unique_id=147816802 node_paths=PackedStringArray("button_container", "scene_holder")]
+visible = false
 script = ExtResource("4_w11uw")
 event_references = Array[ExtResource("5_7fmvv")]([SubResource("Resource_htg7h"), SubResource("Resource_463di"), SubResource("Resource_xrf0x"), SubResource("Resource_h63nn"), SubResource("Resource_l5ql0"), SubResource("Resource_ojfb3")])
 button_container = NodePath("CanvasLayer/EventButtonContainer/VBoxContainer")
