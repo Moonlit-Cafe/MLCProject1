@@ -63,3 +63,4 @@ travel_button = ExtResource("2_3qrgf")
 scenes = Array[Resource]([SubResource("Resource_htg7h"), SubResource("Resource_463di"), SubResource("Resource_xrf0x"), SubResource("Resource_h63nn"), SubResource("Resource_l5ql0"), SubResource("Resource_ojfb3")])
 
 [node name="SectionContainer" type="HBoxContainer" parent="." unique_id=1612084532]
+scale = Vector2(8, 8)

@@ -14,7 +14,14 @@ grow_vertical = 2
 script = ExtResource("1_v1yd3")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=968769687]
-layout_mode = 0
+z_index = -1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_gdnoi")
-expand_mode = 1
+expand_mode = 3
 stretch_mode = 3

@@ -49,7 +49,7 @@ func link_path(other):
 	var connection = Line2D.new()
 	other.add_child(connection)
 	connection.add_point(Vector2.ZERO)
-	var diff = other.position - self.position
+	var diff = other.global_position - self.global_position
 	connection.add_point(diff)
 	
 #endregion

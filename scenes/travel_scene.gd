@@ -58,7 +58,11 @@ func _generate_stars() -> void:
 			split_indexes.sort()
 			
 			for star_i in range(0, cur_star_count):
-				for l in range(split_indexes[star_i], split_indexes[star_i+1]):
+				var t = range(split_indexes[star_i], split_indexes[star_i+1])
+				if split_indexes[star_i] == split_indexes[star_i+1]:
+					t = [split_indexes[star_i]]
+				
+				for l in t:
 					# PLANNED Tyler dont guarantee that the left or right end is going to be connected (conditional)
 					# conditions that all nodes have to have someone be their others
 					cur_section.get_children()[star_i].link_path(fwd_section.get_children()[l])
