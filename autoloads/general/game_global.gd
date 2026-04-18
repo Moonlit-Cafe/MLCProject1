@@ -20,4 +20,7 @@ func delay(time: float = _DEFAULT_DELAY) -> void:
 
 func get_random_i(from: int, to: int) -> int:
 	return rng.randi_range(from, to)
+
+func generate_sector() -> Array[EventPoint]:
+	return SectorGenerator.call("createSector")
 #endregion

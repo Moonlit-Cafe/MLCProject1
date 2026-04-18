@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://djrchobtfcaw1"]
+
+[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://mechanics/map_generation/SectorGenerator.cs" id="1_e6lsf"]
+
+[node name="SectorGenerator" type="Node" unique_id=1141385102]
+script = ExtResource("1_e6lsf")

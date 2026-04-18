@@ -3,7 +3,6 @@ using System.Linq;
 using Godot;
 using Godot.Collections;
 
-[GlobalClass]
 public partial class SectorGenerator : Node
 {
 	#region Declarations
@@ -19,9 +18,11 @@ public partial class SectorGenerator : Node
 	#endregion
 
 	#region Events
-    public override void _Ready()
-    {
-        base._Ready();
+
+	public Array<EventPoint> createSector()
+	{
+		eventList = new Array<EventPoint>();
+
 		if (autoGenerateArea)
 		{
 			generateStartEndAreas();
@@ -29,7 +30,9 @@ public partial class SectorGenerator : Node
 		setEventProbabilty();
 		generateEvents(eventsToGenerate);
 		generateConnections();
-    }
+
+		return eventList;
+	}
 
 	public void setEventProbabilty()
 	{

@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://ddogfrimdqe0x"]
-
-[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://mechanics/map_generation/SectorGenerator.cs" id="1_jvwam"]
-
-[node name="Node" type="Node" unique_id=1763551644]
-script = ExtResource("1_jvwam")
