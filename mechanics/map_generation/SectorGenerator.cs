@@ -1,3 +1,5 @@
+using System.Drawing;
+using System.Linq;
 using Godot;
 using Godot.Collections;
 
@@ -12,7 +14,7 @@ public partial class SectorGenerator : Node
 	[Export] public Rect2I startArea {get; set;} = new Rect2I(0, 0, 4, 4);
 	[Export] public int eventsToGenerate = 20;
 	[Export] public int closestToPath = 5;
-
+	[Export] public Dictionary<EventPoint.EventType, float> eventProb = new Dictionary<EventPoint.EventType, float>();
 	[Export] public Array<EventPoint> eventList {get; set;} = new Array<EventPoint>();
 	#endregion
 
@@ -24,12 +26,20 @@ public partial class SectorGenerator : Node
 		{
 			generateStartEndAreas();
 		}
+		setEventProbabilty();
 		generateEvents(eventsToGenerate);
 		generateConnections();
     }
 
+	public void setEventProbabilty()
+	{
+		eventProb.Add(EventPoint.EventType.SHOP, 1f);
+		eventProb.Add(EventPoint.EventType.BATTLE, 1f);
+	}
+
 	public void generateEvents(int eventsToGenerate)
 	{
+		RandomNumberGenerator rng = new RandomNumberGenerator();
 		EventPoint startEvent = new EventPoint
 		{
 			position = generateEventPosition(startArea)
@@ -50,9 +60,23 @@ public partial class SectorGenerator : Node
 			{
 				newPosition = generateEventPosition(new Rect2I(0, 0, mapSize));
 			}
+
+			float runningPercent = 0f;
+			float eventChance = rng.Randf();
+			EventPoint.EventType eventType = EventPoint.EventType.BATTLE;
+			foreach (EventPoint.EventType type in eventProb.Keys)
+			{
+				runningPercent += eventProb[type] / eventProb.Values.Sum();
+				if (eventChance < runningPercent)
+				{
+					eventType = type;
+					break;
+				}
+			}
+
             EventPoint eventPoint = new EventPoint
             {
-                eventType = EventPoint.EventType.BATTLE,
+                eventType = eventType,
 				position = newPosition
             };
             eventList.Add(eventPoint);
