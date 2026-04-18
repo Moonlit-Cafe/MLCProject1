@@ -1,20 +1,82 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Runtime.InteropServices;
 
 [GlobalClass]
 public partial class EventPoint : Resource
 {
 	public enum EventType
 	{
+		START,
+		BOSS_BATTLE,
 		BATTLE,
 		SHOP,
 		UNIQUE
 	}
 	public Array<EventPoint> eventList;
-	public EventType eventType = EventType.BATTLE;
-	public Array<EventConnection> connections;
+	[Export] public EventType eventType = EventType.BATTLE;
+	[Export] public Array<EventConnection> connections = new Array<EventConnection>();
 	public Vector2I position = Vector2I.Zero;
+	[Export] public float connectionRate = 3.0f;
+	[Export] public float toEndRatio = 0.5f;
+
+	public void createConnections(EventPoint endPosition)
+	{
+		Array<EventPoint> allowedEvents = eventList.Duplicate();
+		RandomNumberGenerator rng = new RandomNumberGenerator();
+		int connected = 0;
+		while (rng.Randf() < connectRate(connected) && allowedEvents.Count > 1)
+		{
+			EventPoint connectTo;
+			if (rng.Randf() < toEndRatio)
+			{
+				connectTo = determineEventToConnect(allowedEvents, endPosition);
+			}
+			else
+			{
+				connectTo = determineEventToConnect(allowedEvents);
+			}
+			
+			allowedEvents.Remove(connectTo);
+			EventConnection newConnection = new EventConnection
+			{
+				connectedPoint = connectTo
+			};
+			connections.Add(newConnection);
+		}
+	}
+
+	public EventPoint determineEventToConnect(Array<EventPoint> allowedEvents, EventPoint directTo = null)
+	{
+		EventPoint connectTo = null;
+		if (directTo == null)
+		{
+			connectTo = allowedEvents.PickRandom();
+		}
+		else
+		{
+			foreach (EventPoint e in allowedEvents)
+			{
+				if (connectTo == null)
+				{
+					connectTo = e;
+					continue;
+				}
+
+				Vector2 directToVector = (directTo.position - position);
+				Vector2 connectToVector = (connectTo.position - position);
+				Vector2 eToVector = (e.position - position);
+
+				if (directToVector.AngleTo(eToVector) < directToVector.AngleTo(connectToVector))
+				{
+					connectTo = e;
+				}
+			}
+		}
+
+		return connectTo;
+	}
 
 	public void sortClosest(int allowedClosest)
 	{
@@ -53,5 +115,10 @@ public partial class EventPoint : Resource
 				break;
 			}
 		}
+	}
+
+	private float connectRate(int connected)
+	{
+		return (float) (1f / Math.Pow(connectionRate, Math.Max(0, connected - 1)));
 	}
 }
