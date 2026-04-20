@@ -1,12 +1,9 @@
 class_name TravelButton extends Button
 # TODO implement this
 # should define what event should happen (steal from prog_scene)
-# modulate the star sprite based on event
-
-# TODO actually give a sprite to buttons
-
-
+# PLANNED change sprites as well, based on node type
 # TODO Tyler needs to actually load the given scene (basically make this an alt to prog scene
+# TODO implement draw_line()
 
 #region Declarations
 @onready var texture
@@ -20,6 +17,11 @@ func init(scenes):
 	scene = scenes[randi_range(0,scenes.size()-1)]
 	texture = $TextureRect
 	_color_self()
+	
+func _process(delta: float) -> void:
+	for other in others:
+		if other.global_position != global_position:
+			draw_connection(other)
 	
 	
 func _color_self() -> void:
@@ -46,10 +48,17 @@ func _color_self() -> void:
 	
 func link_path(other):
 	others.append(other)
-	var connection = Line2D.new()
-	other.add_child(connection)
-	connection.add_point(Vector2.ZERO)
-	var diff = other.global_position - self.global_position
-	connection.add_point(diff)
 	
+	
+func draw_connection(other):
+	var connection = Line2D.new()
+	add_child(connection)
+	
+	var start = Vector2(7.5, 0)
+	connection.add_point(start)
+	
+	var o = other.position
+	var s = self.position
+	var diff = o - s + Vector2(12, 0)
+	connection.add_point(diff)
 #endregion

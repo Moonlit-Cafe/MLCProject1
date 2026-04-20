@@ -66,6 +66,7 @@ func _generate_stars() -> void:
 					# PLANNED Tyler dont guarantee that the left or right end is going to be connected (conditional)
 					# conditions that all nodes have to have someone be their others
 					cur_section.get_children()[star_i].link_path(fwd_section.get_children()[l])
+				
 
 	last_node = section_array[0].get_child(0)
 
