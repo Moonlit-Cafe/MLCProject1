@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://mechanics/events/battle/enemies/enemy_resource.gd" id="1_yws0g"]
 [ext_resource type="Script" uid="uid://c6agyx2bg8ebv" path="res://utility/data_holders/decisions/decider.gd" id="2_csnyl"]
 [ext_resource type="Script" uid="uid://c7jgrhv2ltdm4" path="res://utility/data_holders/decisions/decider_set.gd" id="2_gkji7"]
-[ext_resource type="Texture2D" uid="uid://u2gnkrhj8y20" path="res://assets/sprites/characters/Place_M_desat.png" id="4_gkji7"]
 
 [sub_resource type="Curve" id="Curve_rajqn"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -32,7 +31,7 @@ metadata/_custom_type_script = "uid://c7jgrhv2ltdm4"
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_gkji7")
+"texture": null
 }],
 "loop": true,
 "name": &"default",

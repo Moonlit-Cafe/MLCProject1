@@ -4,8 +4,8 @@
 
 [node name="ResourceManager" type="Node" unique_id=1621154007]
 script = ExtResource("1_3xcrg")
-material_data = "uid://cdetgj7isg1wx"
-equippable_data = "uid://cs3d3jmvscue5"
+material_data = "uid://cu45wlpwsg2lr"
+equippable_data = "uid://2a7f1cqm81ps"
 equipset_data = "uid://djk50oj25n256"
 action_shape_data = "res://assets/data/action_shape_data.csv"
 action_data = "res://assets/data/action_data.csv"
