@@ -17,11 +17,7 @@ func init(scenes):
 	scene = scenes[randi_range(0,scenes.size()-1)]
 	texture = $TextureRect
 	_color_self()
-	
-func _process(delta: float) -> void:
-	for other in others:
-		if other.global_position != global_position:
-			draw_connection(other)
+
 	
 	
 func _color_self() -> void:
