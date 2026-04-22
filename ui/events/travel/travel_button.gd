@@ -1,9 +1,7 @@
 class_name TravelButton extends Button
-# TODO implement this
-# should define what event should happen (steal from prog_scene)
 # PLANNED change sprites as well, based on node type
 # TODO Tyler needs to actually load the given scene (basically make this an alt to prog scene
-# TODO implement draw_line()
+# TODO implement a method that makes it so the lines are drawn
 
 #region Declarations
 @onready var texture
@@ -17,8 +15,9 @@ func init(scenes):
 	scene = scenes[randi_range(0,scenes.size()-1)]
 	texture = $TextureRect
 	_color_self()
-
+	draw.connect(draw_connections)
 	
+
 	
 func _color_self() -> void:
 	var color
@@ -46,15 +45,20 @@ func link_path(other):
 	others.append(other)
 	
 	
-func draw_connection(other):
-	var connection = Line2D.new()
-	add_child(connection)
-	
-	var start = Vector2(7.5, 0)
-	connection.add_point(start)
-	
-	var o = other.position
-	var s = self.position
-	var diff = o - s + Vector2(12, 0)
-	connection.add_point(diff)
+func draw_connections():
+	for other in others:
+		var connection = Line2D.new()
+		
+		var start = Vector2(3, 5)
+		connection.add_point(start)
+		
+		var o = other.position
+		var s = self.position
+		var diff = o - s + start + Vector2.RIGHT*10
+		connection.add_point(diff)
+		
+		connection.width = 2
+		connection.z_index = -10
+		add_child(connection)
+		
 #endregion

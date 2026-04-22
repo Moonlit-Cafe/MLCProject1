@@ -84,3 +84,4 @@ func check_buttons() -> void:
 			
 		for next in last_node.others:
 			next.disabled = false
+			
