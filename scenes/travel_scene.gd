@@ -4,10 +4,19 @@ extends BaseEventScene
 @export var travel_button : PackedScene
 @export var scenes : Array[Resource]
 
-var last_node : TravelButton
+
+var last_node : TravelButton :
+	set(in_node):
+		last_node = in_node
+		in_node.disabled = true
+		for child in in_node.others:
+			child.disabled = false
+		
+		
 @onready var sections = $SectionContainer 
 #endregion
 
+# TODO Tyler after the player returns from the scene, update the current node to be the last one
 #region Events
 func _ready() -> void:
 	_generate_sections()
@@ -26,10 +35,10 @@ func _generate_sections() -> void:
 		sections.add_child(new_section)
 		new_section.alignment = VBoxContainer.ALIGNMENT_CENTER
 
-	
+
 func _generate_stars() -> void:
 	var section_array = sections.get_children()
-	
+
 	for column_index in range(section_array.size()-1, -1, -1):
 		var cur_section = section_array[column_index]
 		var cap
@@ -66,16 +75,18 @@ func _generate_stars() -> void:
 					# PLANNED Tyler dont guarantee that the left or right end is going to be connected (conditional)
 					# conditions that all nodes have to have someone be their others
 					cur_section.get_children()[star_i].link_path(fwd_section.get_children()[l])
-				
 
 	last_node = section_array[0].get_child(0)
+	print(section_array[0].get_child(0))
 
 
 func _generate_star() -> Button:
 	var cur_button = travel_button.instantiate()
 	cur_button.init(scenes)
+	cur_button.travel_scene = self
 	return cur_button
 #endregion
+
 
 func check_buttons() -> void:
 	for section in sections.get_children():
@@ -84,4 +95,3 @@ func check_buttons() -> void:
 			
 		for next in last_node.others:
 			next.disabled = false
-			

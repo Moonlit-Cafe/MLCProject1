@@ -5,9 +5,9 @@ class_name TravelButton extends Button
 
 #region Declarations
 @onready var texture
-
-var others :Array[TravelButton]
+var others : Array[TravelButton]
 var scene 
+var travel_scene
 #endregion
 
 #region Events
@@ -61,4 +61,7 @@ func draw_connections():
 		connection.z_index = -10
 		add_child(connection)
 		
+func _pressed():
+	travel_scene.last_node = self
+	#TODO travel_scene.load_this_stuff(self.scene)
 #endregion
