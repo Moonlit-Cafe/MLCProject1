@@ -1,7 +1,7 @@
 class_name TravelButton extends Button
-# PLANNED change sprites as well, based on node type
-# TODO Tyler needs to actually load the given scene (basically make this an alt to prog scene
-# TODO implement a method that makes it so the lines are drawn
+
+#PLANNED change sprites as well, based on node type
+#PLANNED 
 
 #region Declarations
 @onready var texture
@@ -41,6 +41,7 @@ func _color_self() -> void:
 			
 	texture.modulate = color
 	
+	
 func link_path(other):
 	others.append(other)
 	
@@ -64,4 +65,6 @@ func draw_connections():
 func _pressed():
 	travel_scene.last_node = self
 	#TODO travel_scene.load_this_stuff(self.scene)
+	
+	#TODO Tyler needs to actually load the given scene (basically make this an alt to prog scene
 #endregion

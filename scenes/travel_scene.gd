@@ -1,5 +1,7 @@
 extends BaseEventScene
 
+# FIXME path generation wonky. Sometimes there are non-accessible paths
+
 #region Declarations
 @export var travel_button : PackedScene
 @export var scenes : Array[Resource]
@@ -16,7 +18,7 @@ var last_node : TravelButton :
 @onready var sections = $SectionContainer 
 #endregion
 
-# TODO Tyler after the player returns from the scene, update the current node to be the last one
+
 #region Events
 func _ready() -> void:
 	_generate_sections()
