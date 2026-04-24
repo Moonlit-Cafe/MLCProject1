@@ -9,10 +9,15 @@ extends BaseEventScene
 
 var last_node : TravelButton :
 	set(in_node):
-		last_node = in_node
+		if last_node:
+			last_node.disable_children(true)
+			last_node.disabled = true
+			
+		in_node.disable_children(false)
 		in_node.disabled = true
-		for child in in_node.others:
-			child.disabled = false
+		
+		last_node = in_node
+		adjust_scene()
 		
 		
 @onready var sections = $SectionContainer 
@@ -24,6 +29,11 @@ func _ready() -> void:
 	_generate_sections()
 	_generate_stars()
 	check_buttons()
+	
+func adjust_scene():
+	const SCENE_SCROLL_AMT = 16
+	
+	$SectionContainer.position.x -= SCENE_SCROLL_AMT
 #endregion
 
 
@@ -79,7 +89,6 @@ func _generate_stars() -> void:
 					cur_section.get_children()[star_i].link_path(fwd_section.get_children()[l])
 
 	last_node = section_array[0].get_child(0)
-	print(section_array[0].get_child(0))
 
 
 func _generate_star() -> Button:

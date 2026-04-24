@@ -65,4 +65,10 @@ scenes = Array[Resource]([SubResource("Resource_htg7h"), SubResource("Resource_4
 [node name="SceneHolder" type="Node" parent="." unique_id=1645258987]
 
 [node name="SectionContainer" type="HBoxContainer" parent="." unique_id=1612084532]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -424.06
+offset_right = -424.06
+grow_horizontal = 2
 scale = Vector2(8, 8)

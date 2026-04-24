@@ -45,6 +45,9 @@ func _color_self() -> void:
 func link_path(other):
 	others.append(other)
 	
+func disable_children(in_value):
+	for o in others:
+		o.disabled = in_value
 	
 func draw_connections():
 	for other in others:
