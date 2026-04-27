@@ -6,18 +6,21 @@ extends BaseEventScene
 @export var travel_button : PackedScene
 @export var scenes : Array[Resource]
 
+var current_scene
+@export var scene_holder : Node
+@export var section_container : Node
 
 var last_node : TravelButton :
 	set(in_node):
-		if last_node:
-			last_node.disable_children(true)
-			last_node.disabled = true
-			
 		in_node.disable_children(false)
 		in_node.disabled = true
 		
+		if last_node:
+			last_node.disable_children(true)
+			last_node.disabled = true
+			adjust_scene()
+		
 		last_node = in_node
-		adjust_scene()
 		
 		
 @onready var sections = $SectionContainer 
@@ -32,8 +35,19 @@ func _ready() -> void:
 	
 func adjust_scene():
 	const SCENE_SCROLL_AMT = 16
-	
 	$SectionContainer.position.x -= SCENE_SCROLL_AMT
+	
+	var new_scene : BaseEventScene = last_node.scene.instantiate()
+	if current_scene:
+		scene_holder.remove_child(current_scene)
+		scene_holder.add_child(new_scene)
+		current_scene.queue_free()
+		current_scene = new_scene
+	else:
+		scene_holder.add_child(new_scene)
+		current_scene = new_scene
+	
+	section_container.get_parent().hide()
 #endregion
 
 
