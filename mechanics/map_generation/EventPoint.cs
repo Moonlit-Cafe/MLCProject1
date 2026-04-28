@@ -1,7 +1,6 @@
 using Godot;
 using Godot.Collections;
 using System;
-using System.Runtime.InteropServices;
 
 [GlobalClass]
 public partial class EventPoint : Resource
@@ -14,28 +13,39 @@ public partial class EventPoint : Resource
 		SHOP,
 		UNIQUE
 	}
+	[Export]
+	public Dictionary EventTypeMap { get; private set; } = new Dictionary
+	{
+		{"START", (int)EventType.START},
+		{"BOSS_BATTLE", (int)EventType.BOSS_BATTLE},
+		{"BATTLE", (int)EventType.BATTLE},
+		{"SHOP", (int)EventType.SHOP},
+		{"UNIQUE", (int)EventType.UNIQUE}
+	};
+
 	public Array<EventPoint> eventList;
 	[Export] public EventType eventType = EventType.BATTLE;
 	[Export] public Array<EventConnection> connections = new Array<EventConnection>();
 	public Vector2I position = Vector2I.Zero;
 	[Export] public float connectionRate = 3.0f;
 	[Export] public float toEndRatio = 0.5f;
+	[Export] public EventHolder eventRef;
 
-	public void createConnections(EventPoint endPosition)
+	public void CreateConnections(EventPoint endPosition)
 	{
 		Array<EventPoint> allowedEvents = eventList.Duplicate();
 		RandomNumberGenerator rng = new RandomNumberGenerator();
 		int connected = 0;
-		while (rng.Randf() < connectRate(connected) && allowedEvents.Count > 1)
+		while (rng.Randf() < ConnectRate(connected) && allowedEvents.Count > 1)
 		{
 			EventPoint connectTo;
 			if (rng.Randf() < toEndRatio)
 			{
-				connectTo = determineEventToConnect(allowedEvents, endPosition);
+				connectTo = DetermineEventToConnect(allowedEvents, endPosition);
 			}
 			else
 			{
-				connectTo = determineEventToConnect(allowedEvents);
+				connectTo = DetermineEventToConnect(allowedEvents);
 			}
 			
 			allowedEvents.Remove(connectTo);
@@ -47,7 +57,7 @@ public partial class EventPoint : Resource
 		}
 	}
 
-	public EventPoint determineEventToConnect(Array<EventPoint> allowedEvents, EventPoint directTo = null)
+	public EventPoint DetermineEventToConnect(Array<EventPoint> allowedEvents, EventPoint directTo = null)
 	{
 		EventPoint connectTo = null;
 		if (directTo == null)
@@ -78,9 +88,9 @@ public partial class EventPoint : Resource
 		return connectTo;
 	}
 
-	public void sortClosest(int allowedClosest)
+	public void SortClosest(int allowedClosest)
 	{
-		_bubbleSort(eventList);
+		BubbleSort(eventList);
 		if (allowedClosest < eventList.Count)
 		{
 			while (allowedClosest < eventList.Count)
@@ -90,7 +100,7 @@ public partial class EventPoint : Resource
 		}
 	}
 
-	private void _bubbleSort(Array<EventPoint> events)
+	private void BubbleSort(Array<EventPoint> events)
 	{
 		int n = events.Count - 1;
 		int i, j;
@@ -117,7 +127,7 @@ public partial class EventPoint : Resource
 		}
 	}
 
-	private float connectRate(int connected)
+	private float ConnectRate(int connected)
 	{
 		return (float) (1f / Math.Pow(connectionRate, Math.Max(0, connected - 1)));
 	}

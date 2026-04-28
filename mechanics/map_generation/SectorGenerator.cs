@@ -6,6 +6,7 @@ using Godot.Collections;
 public partial class SectorGenerator : Node
 {
 	#region Declarations
+	[Export] public Array<EventHolder> eventReference { get; set; } = new Array<EventHolder>();
 	[Export] public Vector2I mapSize {get; set;} = new Vector2I(16, 16);
 	[Export] public Vector2I areaSize {get; set;} = new Vector2I(4, 4);
 	[Export] public bool autoGenerateArea {get; set;} = true;
@@ -13,55 +14,64 @@ public partial class SectorGenerator : Node
 	[Export] public Rect2I startArea {get; set;} = new Rect2I(0, 0, 4, 4);
 	[Export] public int eventsToGenerate = 20;
 	[Export] public int closestToPath = 5;
-	[Export] public Dictionary<EventPoint.EventType, float> eventProb = new Dictionary<EventPoint.EventType, float>();
+	[Export] public Dictionary<EventPoint.EventType, float> eventProb = new();
 	[Export] public Array<EventPoint> eventList {get; set;} = new Array<EventPoint>();
 	#endregion
 
 	#region Events
 
-	public Array<EventPoint> createSector()
+	public override void _Ready()
+	{
+		base._Ready();
+		CreateSector();
+	}
+
+	public Array<EventPoint> CreateSector()
 	{
 		eventList = new Array<EventPoint>();
 
 		if (autoGenerateArea)
 		{
-			generateStartEndAreas();
+			GenerateStartEndAreas();
 		}
-		setEventProbabilty();
-		generateEvents(eventsToGenerate);
-		generateConnections();
+		SetEventProbabilty();
+		GenerateEvents(eventsToGenerate);
+		GenerateConnections();
 
 		return eventList;
 	}
 
-	public void setEventProbabilty()
+	public void SetEventProbabilty()
 	{
-		eventProb.Add(EventPoint.EventType.SHOP, 1f);
-		eventProb.Add(EventPoint.EventType.BATTLE, 1f);
+		if (eventProb.Count == 0)
+		{
+			eventProb.Add(EventPoint.EventType.SHOP, 1f);
+			eventProb.Add(EventPoint.EventType.BATTLE, 1f);
+		}
 	}
 
-	public void generateEvents(int eventsToGenerate)
+	public void GenerateEvents(int eventsToGenerate)
 	{
-		RandomNumberGenerator rng = new RandomNumberGenerator();
-		EventPoint startEvent = new EventPoint
+		RandomNumberGenerator rng = new();
+		EventPoint startEvent = new()
 		{
-			position = generateEventPosition(startArea)
+			position = GenerateEventPosition(startArea)
 		};
-		EventPoint endEvent = new EventPoint
+		EventPoint endEvent = new()
 		{
-			position = generateEventPosition(endArea)
+			position = GenerateEventPosition(endArea)
 		};
 
 		eventList.Add(startEvent);
 		eventList.Add(endEvent);
 
-		Array<Vector2I> takenPositions = new Array<Vector2I>();
+		Array<Vector2I> takenPositions = new();
 		for (int i = 0; i < eventsToGenerate; i++)
 		{
-			Vector2I newPosition = generateEventPosition(new Rect2I(0, 0, mapSize));
+			Vector2I newPosition = GenerateEventPosition(new Rect2I(0, 0, mapSize));
 			while (takenPositions.Contains(newPosition))
 			{
-				newPosition = generateEventPosition(new Rect2I(0, 0, mapSize));
+				newPosition = GenerateEventPosition(new Rect2I(0, 0, mapSize));
 			}
 
 			float runningPercent = 0f;
@@ -77,34 +87,66 @@ public partial class SectorGenerator : Node
 				}
 			}
 
-            EventPoint eventPoint = new EventPoint
-            {
-                eventType = eventType,
-				position = newPosition
-            };
-            eventList.Add(eventPoint);
+			EventHolder sceneEvent = null;
+			if (eventReference.Count > 0)
+			{
+				Array<EventHolder> availableEvents = new();
+				foreach (EventHolder eventHold in eventReference)
+				{
+					if (eventHold.eventType == eventType)
+					{
+						availableEvents.Add(eventHold);
+					}
+				}
+
+				float sceneTotalWeight = 0f;
+				foreach (EventHolder eventHold in availableEvents)
+				{
+					sceneTotalWeight += eventHold.weight;
+				}
+
+				float scenePercent = 0f;
+				float sceneChance = rng.Randf();
+				foreach (EventHolder eventHold in availableEvents)
+				{
+					scenePercent += eventHold.weight / sceneTotalWeight;
+					if (sceneChance < scenePercent)
+					{
+						sceneEvent = eventHold;
+						break;
+					}
+				}
+			}
+
+			EventPoint eventPoint = new()
+			{
+				eventType = eventType,
+				position = newPosition,
+				eventRef = sceneEvent
+			};
+			eventList.Add(eventPoint);
 		}
 
 		foreach (EventPoint e in eventList)
 		{
 			e.eventList = eventList.Duplicate();
-			e.sortClosest(closestToPath); // Currently allowing only the 3 closest events to be considered for sorting end result.
+			e.SortClosest(closestToPath); // Currently allowing only the 3 closest events to be considered for sorting end result.
 		}
 	}
 
-	private void generateStartEndAreas()
+	private void GenerateStartEndAreas()
 	{
 		startArea = new Rect2I(Vector2I.Zero, areaSize);
 		endArea = new Rect2I(mapSize - areaSize, areaSize);
 	}
 
-	private Vector2I generateEventPosition(Rect2I bounds)
+	private Vector2I GenerateEventPosition(Rect2I bounds)
 	{
 		var global = GetNode("/root/GameGlobal");
 		int x = (int) global.Call("get_random_i", bounds.Position.X, bounds.Position.X + bounds.Size.X);
 		int y = (int) global.Call("get_random_i", bounds.Position.Y, bounds.Position.Y + bounds.Size.Y);
-		Vector2I eventPosition = new Vector2I(x, y);
-		while (isWithinRect(startArea, eventPosition) || isWithinRect(endArea, eventPosition))
+		Vector2I eventPosition = new(x, y);
+		while (IsWithinRect(startArea, eventPosition) || IsWithinRect(endArea, eventPosition))
 		{
 			x = (int) global.Call("get_random_i", bounds.Position.X, bounds.Position.X + bounds.Size.X);
 			y = (int) global.Call("get_random_i", bounds.Position.Y, bounds.Position.Y + bounds.Size.Y);
@@ -113,7 +155,7 @@ public partial class SectorGenerator : Node
 		return eventPosition;
 	}
 
-	private bool isWithinRect(Rect2I rect, Vector2I pos)
+	private static bool IsWithinRect(Rect2I rect, Vector2I pos)
 	{
 		bool within = false;
 		if (pos.X > rect.Position.X && pos.X < (rect.Position.X + rect.Size.X))
@@ -126,11 +168,11 @@ public partial class SectorGenerator : Node
 		return within;
 	}
 
-	public void generateConnections()
+	public void GenerateConnections()
 	{
 		foreach (EventPoint e in eventList)
 		{
-			e.createConnections(eventList[1]);
+			e.CreateConnections(eventList[1]);
 		}
 	}
 	#endregion
