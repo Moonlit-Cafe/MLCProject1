@@ -62,13 +62,16 @@ func _generate_sections() -> void:
 
 
 func _generate_stars() -> void:
+	# FIXME Tyler clean this, function is bloated
 	var section_array = sections.get_children()
+	const LEFT_LINK_CHANCE = .5
+	const RIGHT_LINK_CHANCE = .6666
+	const min_cap = 2
+	const max_cap = 5
 
 	for column_index in range(section_array.size()-1, -1, -1):
 		var cur_section = section_array[column_index]
 		var cap
-		const min_cap = 2
-		const max_cap = 5
 		
 		if column_index == 0:
 			cap = min_cap
@@ -92,14 +95,26 @@ func _generate_stars() -> void:
 			split_indexes.sort()
 			
 			for star_i in range(0, cur_star_count):
-				var t = range(split_indexes[star_i], split_indexes[star_i+1])
-				t.append(split_indexes[star_i+1])
+				var fwd_split = split_indexes[star_i+1]
+				var fwd_indices = range(split_indexes[star_i], fwd_split)
+				var cur : TravelButton = cur_section.get_child(star_i)
 				
-				for l in t:
-					# PLANNED Tyler dont guarantee that the left or right end is going to be connected (conditional)
-					# conditions that all nodes have to have someone be their others
-					var cur : TravelButton = cur_section.get_children()[star_i]
-					var fwd = fwd_section.get_children()[l]
+				fwd_indices.append(fwd_split)
+				fwd_indices.sort()
+				
+				for fwd_index in fwd_indices:
+					var fwd = fwd_section.get_child(fwd_index)
+					if fwd_indices.size() > 1:
+						if star_i > 0 and fwd_index != fwd_indices[0]:
+							if fwd in cur_section.get_child(star_i-1).others:
+								if randf_range(0, 1) < LEFT_LINK_CHANCE:
+									continue
+						if star_i+1 < cur_star_count: 
+							if fwd_index == fwd_indices[-1]:
+								if cur.others != []:
+									if randf_range(0,1) < RIGHT_LINK_CHANCE:
+										continue
+					
 					cur.link_path(fwd)
 
 	last_node = section_array[0].get_child(0)
