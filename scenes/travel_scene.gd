@@ -1,6 +1,5 @@
 extends BaseEventScene
 
-# FIXME path generation wonky. Sometimes there are non-accessible paths
 
 #region Declarations
 @export var travel_button : PackedScene
@@ -94,13 +93,14 @@ func _generate_stars() -> void:
 			
 			for star_i in range(0, cur_star_count):
 				var t = range(split_indexes[star_i], split_indexes[star_i+1])
-				if split_indexes[star_i] == split_indexes[star_i+1]:
-					t = [split_indexes[star_i]]
+				t.append(split_indexes[star_i+1])
 				
 				for l in t:
 					# PLANNED Tyler dont guarantee that the left or right end is going to be connected (conditional)
 					# conditions that all nodes have to have someone be their others
-					cur_section.get_children()[star_i].link_path(fwd_section.get_children()[l])
+					var cur : TravelButton = cur_section.get_children()[star_i]
+					var fwd = fwd_section.get_children()[l]
+					cur.link_path(fwd)
 
 	last_node = section_array[0].get_child(0)
 

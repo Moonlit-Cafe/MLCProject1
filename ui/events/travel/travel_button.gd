@@ -43,6 +43,10 @@ func _color_self() -> void:
 	
 	
 func link_path(other):
+	if other in others:
+		push_warning("Repeated attempt to add node %s to node %s's others!" % [other, self])
+		return
+		
 	others.append(other)
 	
 func disable_children(in_value):
