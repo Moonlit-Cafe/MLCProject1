@@ -3,6 +3,7 @@ using System.Linq;
 using Godot;
 using Godot.Collections;
 
+[GlobalClass]
 public partial class SectorGenerator : Node
 {
 	#region Declarations
@@ -19,13 +20,6 @@ public partial class SectorGenerator : Node
 	#endregion
 
 	#region Events
-
-	public override void _Ready()
-	{
-		base._Ready();
-		CreateSector();
-	}
-
 	public Array<EventPoint> CreateSector()
 	{
 		eventList = new Array<EventPoint>();
@@ -55,10 +49,12 @@ public partial class SectorGenerator : Node
 		RandomNumberGenerator rng = new();
 		EventPoint startEvent = new()
 		{
+			eventID = "Start Event",
 			position = GenerateEventPosition(startArea)
 		};
 		EventPoint endEvent = new()
 		{
+			eventID = "End Event",
 			position = GenerateEventPosition(endArea)
 		};
 
@@ -110,7 +106,7 @@ public partial class SectorGenerator : Node
 				foreach (EventHolder eventHold in availableEvents)
 				{
 					scenePercent += eventHold.weight / sceneTotalWeight;
-					if (sceneChance < scenePercent)
+					if (sceneChance <= scenePercent)
 					{
 						sceneEvent = eventHold;
 						break;
@@ -120,6 +116,7 @@ public partial class SectorGenerator : Node
 
 			EventPoint eventPoint = new()
 			{
+				eventID = $"Event {i}",
 				eventType = eventType,
 				position = newPosition,
 				eventRef = sceneEvent
@@ -131,6 +128,7 @@ public partial class SectorGenerator : Node
 		{
 			e.eventList = eventList.Duplicate();
 			e.SortClosest(closestToPath); // Currently allowing only the 3 closest events to be considered for sorting end result.
+			e.CreateConnections(eventList[1]);
 		}
 	}
 

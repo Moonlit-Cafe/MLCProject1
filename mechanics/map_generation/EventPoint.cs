@@ -13,6 +13,8 @@ public partial class EventPoint : Resource
 		SHOP,
 		UNIQUE
 	}
+	[Export] public StringName eventID = "New ID";
+
 	[Export]
 	public Dictionary EventTypeMap { get; private set; } = new Dictionary
 	{
@@ -34,7 +36,7 @@ public partial class EventPoint : Resource
 	public void CreateConnections(EventPoint endPosition)
 	{
 		Array<EventPoint> allowedEvents = eventList.Duplicate();
-		RandomNumberGenerator rng = new RandomNumberGenerator();
+		RandomNumberGenerator rng = new();
 		int connected = 0;
 		while (rng.Randf() < ConnectRate(connected) && allowedEvents.Count > 1)
 		{
@@ -74,9 +76,9 @@ public partial class EventPoint : Resource
 					continue;
 				}
 
-				Vector2 directToVector = (directTo.position - position);
-				Vector2 connectToVector = (connectTo.position - position);
-				Vector2 eToVector = (e.position - position);
+				Vector2 directToVector = directTo.position - position;
+				Vector2 connectToVector = connectTo.position - position;
+				Vector2 eToVector = e.position - position;
 
 				if (directToVector.AngleTo(eToVector) < directToVector.AngleTo(connectToVector))
 				{
@@ -90,6 +92,11 @@ public partial class EventPoint : Resource
 
 	public void SortClosest(int allowedClosest)
 	{
+		if (eventList.Contains(this))
+		{
+			eventList.Remove(this);
+		}
+
 		BubbleSort(eventList);
 		if (allowedClosest < eventList.Count)
 		{

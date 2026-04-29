@@ -22,5 +22,6 @@ func get_random_i(from: int, to: int) -> int:
 	return rng.randi_range(from, to)
 
 func generate_sector() -> Array[EventPoint]:
-	return SectorGenerator.call("createSector")
+	var sc := SectorGenerator.new()
+	return sc.call("createSector")
 #endregion
