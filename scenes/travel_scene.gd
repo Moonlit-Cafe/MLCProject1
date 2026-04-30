@@ -8,7 +8,6 @@ extends BaseEventScene
 var current_scene
 @export var scene_holder : Node
 @export var section_container : Node
-
 var last_node : TravelButton :
 	set(in_node):
 		in_node.disable_children(false)
@@ -20,8 +19,7 @@ var last_node : TravelButton :
 			adjust_scene()
 		
 		last_node = in_node
-		
-		
+
 @onready var sections = $SectionContainer 
 #endregion
 
@@ -36,17 +34,7 @@ func adjust_scene():
 	const SCENE_SCROLL_AMT = 16
 	$SectionContainer.position.x -= SCENE_SCROLL_AMT
 	
-	var new_scene : BaseEventScene = last_node.scene.instantiate()
-	if current_scene:
-		scene_holder.remove_child(current_scene)
-		scene_holder.add_child(new_scene)
-		current_scene.queue_free()
-		current_scene = new_scene
-	else:
-		scene_holder.add_child(new_scene)
-		current_scene = new_scene
-	
-	section_container.get_parent().hide()
+
 #endregion
 
 
@@ -114,7 +102,7 @@ func _generate_stars() -> void:
 								if cur.others != []:
 									if randf_range(0,1) < RIGHT_LINK_CHANCE:
 										continue
-					
+
 					cur.link_path(fwd)
 
 	last_node = section_array[0].get_child(0)
@@ -124,6 +112,7 @@ func _generate_star() -> Button:
 	var cur_button = travel_button.instantiate()
 	cur_button.init(scenes)
 	cur_button.travel_scene = self
+	cur_button.next_scene.connect(_on_button_press)
 	return cur_button
 #endregion
 
@@ -135,3 +124,19 @@ func check_buttons() -> void:
 			
 		for next in last_node.others:
 			next.disabled = false
+
+#region Signal Callbacks
+func _on_button_press(incoming:TravelButton):
+	# TODO Tyler needs to actually load the given scene (basically make this an alt to prog scene)
+	var new_scene : BaseEventScene = incoming.node_data.scene.instantiate()
+	if current_scene:
+		scene_holder.remove_child(current_scene)
+		scene_holder.add_child(new_scene)
+		current_scene.queue_free()
+		current_scene = new_scene
+	else:
+		scene_holder.add_child(new_scene)
+		current_scene = new_scene
+	
+	section_container.hide()
+#endregion

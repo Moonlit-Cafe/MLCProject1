@@ -57,10 +57,12 @@ scene = ExtResource("6_ik3ij")
 weight = 20
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
-[node name="TravelScene" type="Node" unique_id=579246237]
+[node name="TravelScene" type="Node" unique_id=579246237 node_paths=PackedStringArray("scene_holder", "section_container")]
 script = ExtResource("1_vqyoh")
 travel_button = ExtResource("2_3qrgf")
 scenes = Array[Resource]([SubResource("Resource_htg7h"), SubResource("Resource_463di"), SubResource("Resource_xrf0x"), SubResource("Resource_h63nn"), SubResource("Resource_l5ql0"), SubResource("Resource_ojfb3")])
+scene_holder = NodePath("SceneHolder")
+section_container = NodePath("SectionContainer")
 
 [node name="SceneHolder" type="Node" parent="." unique_id=1645258987]
 

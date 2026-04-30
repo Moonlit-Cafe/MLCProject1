@@ -1,27 +1,29 @@
 class_name TravelButton extends Button
 
 #PLANNED change sprites as well, based on node type
-#PLANNED 
 
 #region Declarations
 @onready var texture
+
 var others : Array[TravelButton]
-var scene 
+var node_data
 var travel_scene
+
+signal next_scene(this_button: TravelButton)
 #endregion
 
 #region Events
 func init(scenes):
-	scene = scenes[randi_range(0,scenes.size()-1)]
+	node_data = scenes[randi_range(0,scenes.size()-1)]
 	texture = $TextureRect
 	_color_self()
 	draw.connect(draw_connections)
+	pressed.connect(_on_pressed)
 	
-
 	
 func _color_self() -> void:
 	var color
-	match scene.event_id:
+	match node_data.event_id:
 		&"shop":
 			color = Color.YELLOW
 		&"battle":
@@ -36,7 +38,7 @@ func _color_self() -> void:
 			color = Color.PURPLE
 			
 		_:
-			push_warning("Event of event_id %s not found!" % scene.event_id)
+			push_warning("Event of event_id %s not found!" % node_data.event_id)
 			return
 			
 	texture.modulate = color
@@ -69,9 +71,7 @@ func draw_connections():
 		connection.z_index = -10
 		add_child(connection)
 		
-func _pressed():
+func _on_pressed() -> void:
 	travel_scene.last_node = self
-	#TODO travel_scene.load_this_stuff(self.scene)
-	
-	#TODO Tyler needs to actually load the given scene (basically make this an alt to prog scene
+	next_scene.emit(self)
 #endregion

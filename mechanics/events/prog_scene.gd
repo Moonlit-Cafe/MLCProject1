@@ -116,7 +116,6 @@ func get_deterministic_value(min_val: int, max_val: int, d_offset: int = 0) -> i
 	temp_rng.seed = GameGlobal.rng.seed
 	temp_rng.state = GameGlobal.rng.state + current_scene_index + d_offset
 	return temp_rng.randi_range(min_val, max_val)
-
 #endregion
 
 #region Signal Callbacks
