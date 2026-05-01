@@ -26,6 +26,7 @@ var last_node : TravelButton :
 
 #region Events
 func _ready() -> void:
+	SceneManager.travel_scene = self
 	_generate_sections()
 	_generate_stars()
 	check_buttons()
@@ -140,3 +141,8 @@ func _on_button_press(incoming:TravelButton):
 	
 	section_container.hide()
 #endregion
+
+
+func return_to_map():
+	section_container.show()
+	scene_holder.get_child(0).queue_free()

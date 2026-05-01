@@ -32,6 +32,8 @@ func _define_sprite(entity):
 	sprite.position = Vector2.ZERO
 	
 	# HACK ugly, look for more elegant implementation
+	# FIXME crashes here from battle scene
+	# Something to do with hovering over a null panel, probably?
 	$Subject/MarginContainer.add_theme_constant_override("margin_right", sprite.sprite_frames.get_frame_texture(sprite.animation, 0).get_width()*2)
 	$Subject/MarginContainer.add_theme_constant_override("margin_bottom", sprite.sprite_frames.get_frame_texture(sprite.animation, 0).get_height()*2)
 
