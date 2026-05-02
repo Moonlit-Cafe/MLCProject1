@@ -20,93 +20,118 @@ var last_node : TravelButton :
 		
 		last_node = in_node
 
-@onready var sections = $SectionContainer 
+@onready var container = $SectionContainer
+@onready var sections
 #endregion
 
 
 #region Events
 func _ready() -> void:
 	SceneManager.travel_scene = self
-	_generate_sections()
-	_generate_stars()
-	check_buttons()
+	_build_travel()
 	
-func adjust_scene():
-	const SCENE_SCROLL_AMT = 16
-	$SectionContainer.position.x -= SCENE_SCROLL_AMT
 	
 
 #endregion
 
 
 #region Helpers
+func _build_travel():
+	_generate_sections()
+	_generate_stars()
+	check_buttons()
+
+func adjust_scene():
+	const SCENE_SCROLL_AMT = 16
+	$SectionContainer.position.x -= SCENE_SCROLL_AMT
+	
 func _generate_sections() -> void:
 	var section_count = randi_range(5,11)
 	var new_section
 	
 	for i in range(0, section_count):
 		new_section = VBoxContainer.new()
-		sections.add_child(new_section)
+		container.add_child(new_section)
 		new_section.alignment = VBoxContainer.ALIGNMENT_CENTER
 
 
 func _generate_stars() -> void:
-	# FIXME Tyler clean this, function is bloated
-	var section_array = sections.get_children()
-	const LEFT_LINK_CHANCE = .5
-	const RIGHT_LINK_CHANCE = .6666
+	sections = container.get_children()
 	const min_cap = 2
 	const max_cap = 5
-
-	for column_index in range(section_array.size()-1, -1, -1):
-		var cur_section = section_array[column_index]
-		var cap
-		
-		if column_index == 0:
-			cap = min_cap
-		elif  column_index == section_array.size()-1:
-			cap = min_cap
+	
+	for column_index in range(sections.size()-1, -1, -1):
+		var cur_cap
+		if column_index in [0, sections.size()-1] :
+			cur_cap = min_cap
 		else:
-			cap = randi_range(min_cap, max_cap)
+			cur_cap = randi_range(min_cap, max_cap)
 		
-		for i in range(min_cap - 1, cap):
+		var cur_section = sections[column_index]
+		for i in range(min_cap - 1, cur_cap):
 			cur_section.add_child(_generate_star())
 		
-		if section_array.size() > column_index + 1:
-			var fwd_section = section_array[column_index + 1]
-			var far_star_max_index = fwd_section.get_children().size() - 1
-			var cur_star_count = cur_section.get_children().size()
-			var split_indexes = [0, far_star_max_index]
-			
-			for split in range(1, cur_star_count):
-				split_indexes.append(randi_range(0, far_star_max_index))
-			
-			split_indexes.sort()
-			
-			for star_i in range(0, cur_star_count):
-				var fwd_split = split_indexes[star_i+1]
-				var fwd_indices = range(split_indexes[star_i], fwd_split)
-				var cur : TravelButton = cur_section.get_child(star_i)
-				
-				fwd_indices.append(fwd_split)
-				fwd_indices.sort()
-				
-				for fwd_index in fwd_indices:
-					var fwd = fwd_section.get_child(fwd_index)
-					if fwd_indices.size() > 1:
-						if star_i > 0 and fwd_index != fwd_indices[0]:
-							if fwd in cur_section.get_child(star_i-1).others:
-								if randf_range(0, 1) < LEFT_LINK_CHANCE:
-									continue
-						if star_i+1 < cur_star_count: 
-							if fwd_index == fwd_indices[-1]:
-								if cur.others != []:
-									if randf_range(0,1) < RIGHT_LINK_CHANCE:
-										continue
+		if sections.size()-1 > column_index:
+			var split_indexes = _split_fwd_indexes(column_index)
+			_link_forward_column(column_index, split_indexes)
+		
+	last_node = sections[0].get_child(0)
+		
+func _split_fwd_indexes(column_index) -> Array:
+	var cur_section = sections[column_index]
+	var fwd_section = sections[column_index + 1]
+	var far_star_max_index = fwd_section.get_children().size() - 1
+	var cur_star_count = cur_section.get_children().size()
+	var split_indexes = [0, far_star_max_index]
+	
+	for split in range(1, cur_star_count):
+		split_indexes.append(randi_range(0, far_star_max_index))
+	split_indexes.sort()
+		
+	return split_indexes
+		
+		
+func _link_forward_column(column_index, split_indexes):
+	var cur_section = sections[column_index]
+	var cur_star_count = cur_section.get_children().size()
+	var fwd_section = sections[column_index+1]
+	
+	for star_i in range(0, cur_star_count):
+		var fwd_split = split_indexes[star_i+1]
+		var fwd_indices = range(split_indexes[star_i], fwd_split)
+		var cur : TravelButton = cur_section.get_child(star_i)
+		
+		fwd_indices.append(fwd_split)
+		fwd_indices.sort()
+		
+		for fwd_index in fwd_indices:
+			const LEFT_LINK_CHANCE = .5
+			const RIGHT_LINK_CHANCE = .6666
+			var fwd = fwd_section.get_child(fwd_index)
+			if fwd_indices.size() > 1:
+				if star_i > 0 and fwd_index != fwd_indices[0]:
+					if fwd in cur_section.get_child(star_i-1).others:
+						if randf_range(0, 1) < LEFT_LINK_CHANCE:
+							continue
+				if star_i+1 < cur_star_count: 
+					if fwd_index == fwd_indices[-1]:
+						if cur.others != []:
+							if randf_range(0,1) < RIGHT_LINK_CHANCE:
+								continue
 
-					cur.link_path(fwd)
+			cur.link_path(fwd)
+	
+func return_to_map():
+	container.show()
+	scene_holder.get_child(0).queue_free()
 
-	last_node = section_array[0].get_child(0)
+func check_buttons() -> void:
+	for section in sections:
+		for button in section.get_children():
+			button.disabled = true
+			
+		for next in last_node.others:
+			next.disabled = false
 
 
 func _generate_star() -> Button:
@@ -118,17 +143,8 @@ func _generate_star() -> Button:
 #endregion
 
 
-func check_buttons() -> void:
-	for section in sections.get_children():
-		for button in section.get_children():
-			button.disabled = true
-			
-		for next in last_node.others:
-			next.disabled = false
-
 #region Signal Callbacks
 func _on_button_press(incoming:TravelButton):
-	# TODO Tyler needs to actually load the given scene (basically make this an alt to prog scene)
 	var new_scene : BaseEventScene = incoming.node_data.scene.instantiate()
 	if current_scene:
 		scene_holder.remove_child(current_scene)
@@ -139,10 +155,5 @@ func _on_button_press(incoming:TravelButton):
 		scene_holder.add_child(new_scene)
 		current_scene = new_scene
 	
-	section_container.hide()
+	container.hide()
 #endregion
-
-
-func return_to_map():
-	section_container.show()
-	scene_holder.get_child(0).queue_free()
