@@ -20,8 +20,8 @@ var focused_event : EventPoint
 func _ready() -> void:
 	SceneManager.prog_scene = self
 	
-	sector_generator.GenerateEvents(20)
-	focused_event = sector_generator.eventList.get(0)
+	sector_generator.GenerateEvents()
+	focused_event = sector_generator.eventList.get(0).get(0)
 	generate_next_events()
 
 ## Generates the next set of events
@@ -29,23 +29,20 @@ func _ready() -> void:
 # improvements to be made.
 func generate_next_events() -> void:
 	button_container.get_parent().show()
-	#current_scene_index += 9
-	#@warning_ignore("integer_division")
-	#CombatManager.level_number = current_scene_index / 10
 	for event_button in button_container.get_children():
 		button_container.remove_child(event_button)
 	
 	print(focused_event)
-	if focused_event.connections.size() > 0:
-		for connection in focused_event.connections:
-			_generate_event_button(connection.connectedPoint)
+	if focused_event.connectionsTo.size() > 0:
+		for connection in focused_event.connectionsTo:
+			_generate_event_button(connection)
 	
 	#button_container.set_position(Vector2.ZERO)
 
 func _generate_event_button(event: EventPoint) -> void:
 	var event_button := EventButton.new()
 	event_button.event = event
-	event_button.text = event.eventRef.scene_name
+	event_button.text = event.eventID
 	button_container.add_child(event_button)
 	event_button.next_event.connect(_on_event_button_pressed)
 
@@ -72,7 +69,7 @@ func get_deterministic_value(min_val: int, max_val: int, d_offset: int = 0) -> i
 
 #region Signal Callbacks
 func _on_event_button_pressed(event: EventPoint) -> void:
-	var new_scene : BaseEventScene = event.eventRef.scene.instantiate()
+	var new_scene : BaseEventScene = event.scene.instantiate()
 	if current_scene:
 		scene_holder.remove_child(current_scene)
 		scene_holder.add_child(new_scene)
