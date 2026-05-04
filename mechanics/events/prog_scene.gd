@@ -22,6 +22,8 @@ func _ready() -> void:
 	SceneManager.prog_scene = self
 	_setup_progression()
 	
+	sector_generator.GenerateEvents()
+	focused_event = sector_generator.eventList.get(0).get(0)
 	generate_next_events()
 
 ## Generates the next set of events
@@ -29,25 +31,13 @@ func _ready() -> void:
 # improvements to be made.
 func generate_next_events() -> void:
 	button_container.get_parent().show()
-	current_scene_index += 9
-	@warning_ignore("integer_division")
-	CombatManager.level_number = current_scene_index / 10
-	var event_set : Array[EventHolder] = _generate_events()
-	if test_version:
-		event_set = event_references
-		
 	for event_button in button_container.get_children():
 		button_container.remove_child(event_button)
 	
-	if event_set.size() > 1:
-		if test_version:
-			for i in range(event_references.size()):
-				_generate_event_button(event_set.slice(i,i+1))
-		else:
-			for i in range(generation_height):
-				_generate_event_button(event_set)
-	else:
-		_generate_event_button(event_set)
+	print(focused_event)
+	if focused_event.connectionsTo.size() > 0:
+		for connection in focused_event.connectionsTo:
+			_generate_event_button(connection)
 	
 	button_container.set_position(Vector2.ZERO)
 
@@ -81,12 +71,8 @@ func _generate_events() -> Array[EventHolder]:
 
 func _generate_event_button(event_set: Array[EventHolder]) -> void:
 	var event_button := EventButton.new()
-	var chosen_event = _choose_event(event_set)
-	event_button.event = chosen_event
-	if not chosen_event:
-		push_error("Event %s not working!" % chosen_event)
-		return
-	event_button.text = chosen_event.scene_name
+	event_button.event = event
+	event_button.text = event.eventID
 	button_container.add_child(event_button)
 	event_button.next_event.connect(_on_event_button_pressed)
 
@@ -120,7 +106,7 @@ func get_deterministic_value(min_val: int, max_val: int, d_offset: int = 0) -> i
 #endregion
 
 #region Signal Callbacks
-func _on_event_button_pressed(event: EventHolder) -> void:
+func _on_event_button_pressed(event: EventPoint) -> void:
 	var new_scene : BaseEventScene = event.scene.instantiate()
 	if current_scene:
 		scene_holder.remove_child(current_scene)
