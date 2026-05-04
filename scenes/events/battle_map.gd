@@ -34,7 +34,7 @@ func _ready() -> void:
 	
 	board_zone.scan_complete.connect(func(): is_ready = true)
 	
-	end_map.connect(func(): map_ended = true)
+	CombatManager.battle_end.emit()
 	scene = find_parent("BattleScene")
 	
 	if not board_zone:
@@ -68,7 +68,6 @@ func init() -> void:
 	if not ready:
 		await board_zone.scan_complete
 	
-	determine_selectables()
 	define_enemy_arrays()
 	generate_turn_order()
 	battle_loop()
@@ -94,7 +93,6 @@ func generate_turn_order() -> void:
 	turn_order = _zip_orders(player_order, enemy_orders)
 	turn_tracker.turn_list = turn_order
 	turn_tracker.generate_turns()
-
 
 func determine_selectables() -> void:
 	if not select_holder:

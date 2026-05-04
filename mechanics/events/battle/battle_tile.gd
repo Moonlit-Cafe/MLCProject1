@@ -166,6 +166,20 @@ func _set_highlight(idx: int) -> void:
 			select_sprite.modulate = selection_colors.get(Highlight.ADJACENT)
 #endregion
 
+#TODO: Organize
+func attack_tile(cur_tile: BattleTile, action: CombatAction):
+	if not cur_tile:
+		return
+		
+	if not cur_tile.held_entity:
+		return 
+	
+	if CombatManager.selected_action is Usable:
+		CombatManager.selected_action.linked_slot.count -= 1
+			
+	CombatManager.log_item(str(CombatManager.selected_action.value) + " damage dealt to " + str(cur_tile.held_entity.character.o_name))
+	cur_tile.defend(action, PlayerManager.entity_ref)
+
 #region Signal Callbacks
 func _on_gui_input(_camera: Node, event: InputEvent, _event_pos: Vector3, _normal: Vector3, _idx: int) -> void:
 	if not event is InputEventMouseButton or not selectable:

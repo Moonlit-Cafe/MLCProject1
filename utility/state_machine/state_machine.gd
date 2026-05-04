@@ -15,7 +15,12 @@ func _ready() -> void:
 	for state_node: State in find_children("*", "State"):
 		state_node.finished.connect(_transition_to_next_state)
 	
-	await owner.ready
+	if owner:
+		await owner.ready
+	elif get_parent():
+		var parent = get_parent()
+		if not parent.is_node_ready():
+			await get_parent().ready
 	state.enter("")
 
 func _process(delta: float) -> void:
