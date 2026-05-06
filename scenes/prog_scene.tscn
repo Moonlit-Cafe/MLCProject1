@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="4_2j0dp"]
 [ext_resource type="PackedScene" uid="uid://bulyn32kagiph" path="res://scenes/events/craft_scene.tscn" id="5_lkxui"]
 [ext_resource type="PackedScene" uid="uid://d1xs6v76nmk44" path="res://scenes/events/unique_event_scene.tscn" id="6_lu0v2"]
+[ext_resource type="PackedScene" path="res://autoloads/general/sector_generator.tscn" id="7_lkxui"]
 
 [sub_resource type="Resource" id="Resource_htg7h"]
 script = ExtResource("2_htg7h")
@@ -30,6 +31,7 @@ script = ExtResource("2_htg7h")
 scene_name = &"EliteBattleScene"
 event_id = &"elite_battle"
 scene = ExtResource("4_2j0dp")
+weight = 1
 spawn_frequency = 1
 metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
@@ -62,11 +64,14 @@ metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_2j0dp"]
 
-[node name="ProgScene" type="Node" unique_id=579246237 node_paths=PackedStringArray("button_container", "scene_holder")]
+[node name="ProgScene" type="Node" unique_id=579246237 node_paths=PackedStringArray("button_container", "scene_holder", "sector_generator")]
 script = ExtResource("1_dix4w")
 event_references = Array[ExtResource("2_htg7h")]([SubResource("Resource_htg7h"), SubResource("Resource_463di"), SubResource("Resource_xrf0x"), SubResource("Resource_h63nn"), SubResource("Resource_l5ql0"), SubResource("Resource_ojfb3")])
 button_container = NodePath("CanvasLayer/EventButtonContainer/VBoxContainer")
 scene_holder = NodePath("SceneHolder")
+sector_generator = NodePath("SectorGenerator")
+
+[node name="SectorGenerator" parent="." unique_id=1141385102 instance=ExtResource("7_lkxui")]
 
 [node name="SceneHolder" type="Node" parent="." unique_id=1535799412]
 

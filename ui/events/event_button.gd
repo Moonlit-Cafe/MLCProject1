@@ -1,8 +1,8 @@
 class_name EventButton extends Button
 
-signal next_event(event_holder: EventHolder)
+signal next_event(event_holder: EventPoint)
 
-var event : EventHolder
+var event : EventPoint
 
 func _ready() -> void:
 	pressed.connect(_on_pressed)

@@ -19,10 +19,10 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="GameJamTemplate"
+config/name="CraftingCrawler"
 config/version="2025.6.2-template.b132d5"
 run/main_scene="uid://bf0e0l206u8xd"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [audio]
@@ -48,6 +48,10 @@ ResourceManager="*uid://dy2swoshyhmu5"
 
 window/size/resizable=false
 window/stretch/mode="viewport"
+
+[dotnet]
+
+project/assembly_name="CraftingCrawler"
 
 [editor_plugins]
 

@@ -15,6 +15,9 @@ var frequency_events : Array[EventHolder] ## Events that rely on showing up in a
 var random_events : Array[EventHolder] ## Truly random events that are not dependent on [member current_scene_index]
 var is_frequency := false ## Is the current event a frequency event
 var generation_height : int = 3
+
+@export var sector_generator : SectorGenerator
+@export var focused_event : EventPoint
 #endregion
 
 #region Events
@@ -22,6 +25,10 @@ func _ready() -> void:
 	SceneManager.prog_scene = self
 	_setup_progression()
 	
+	
+	if test_version:
+		return
+
 	sector_generator.GenerateEvents()
 	focused_event = sector_generator.eventList.get(0).get(0)
 	generate_next_events()
@@ -69,7 +76,7 @@ func _generate_events() -> Array[EventHolder]:
 	
 	return valid_events
 
-func _generate_event_button(event_set: Array[EventHolder]) -> void:
+func _generate_event_button(event: EventPoint) -> void:
 	var event_button := EventButton.new()
 	event_button.event = event
 	event_button.text = event.eventID
