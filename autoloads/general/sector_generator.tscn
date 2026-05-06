@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://djrchobtfcaw1"]
+
+[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://mechanics/map_generation/SectorGenerator.cs" id="1_e6lsf"]
+[ext_resource type="Script" uid="uid://bfka5rvyuyasi" path="res://mechanics/map_generation/EventRule.cs" id="2_udnfr"]
+[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="3_j5jjd"]
+
+[sub_resource type="Resource" id="Resource_j5jjd"]
+script = ExtResource("2_udnfr")
+rule = 4
+metadata/_custom_type_script = "uid://bfka5rvyuyasi"
+
+[node name="SectorGenerator" type="Node" unique_id=1141385102]
+script = ExtResource("1_e6lsf")
+rules = Array[ExtResource("2_udnfr")]([SubResource("Resource_j5jjd")])
+eventSceneRef = Dictionary[int, Array]({
+2: [ExtResource("3_j5jjd")]
+})
