@@ -38,10 +38,10 @@ var all_usables : Array[Usable]
 #
 ## Gets a particular usable based on [param given_id]
 func get_usable(given_id:String) -> Usable:
-	if given_id in ResourceManager.item_compendium.keys():
-		return ResourceManager.item_compendium.get(given_id)
+	if given_id in GameGlobal.resources.item_compendium.keys():
+		return GameGlobal.resources.item_compendium.get(given_id)
 	
-	push_warning("@ItemManager: usable with id " + given_id + " not found.")
+	GameGlobal.logging.post_warning(self, "usable with id %s not found." % given_id)
 	return null
 ##endregion
 #

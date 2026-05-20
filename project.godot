@@ -32,8 +32,7 @@ buses/default_bus_layout="uid://dvht62llvfwqd"
 [autoload]
 
 SaveManager="*res://autoloads/saving/save_manager.gd"
-GameGlobal="*res://autoloads/general/game_global.gd"
-GameGlobalEvents="*res://autoloads/general/game_global_events.gd"
+GameGlobal="*uid://cl4teprvlh1l4"
 AudioManager="*uid://bamjugiicnyji"
 CraftManager="*res://autoloads/player/craft_manager.tscn"
 PlayerManager="*res://autoloads/player/player_manager.tscn"
@@ -43,7 +42,6 @@ MouseHandler="*res://autoloads/player/mouse_handler.tscn"
 SectorGenerator="*uid://djrchobtfcaw1"
 Debug="*res://autoloads/debug/debug.tscn"
 SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
-ResourceManager="*uid://dy2swoshyhmu5"
 
 [display]
 

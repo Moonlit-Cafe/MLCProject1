@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cl4teprvlh1l4"]
+
+[ext_resource type="Script" uid="uid://dx1leh15q0yeu" path="res://autoloads/general/game_global.gd" id="1_xvqkf"]
+[ext_resource type="Script" uid="uid://bhlj7bhjklybl" path="res://autoloads/general/game_global_events.gd" id="2_i0j8s"]
+[ext_resource type="Script" uid="uid://05aasoq0nrxc" path="res://autoloads/general/resource_manager.gd" id="3_i0j8s"]
+[ext_resource type="Script" uid="uid://cw7wpy4dspogd" path="res://autoloads/general/log_system.gd" id="4_i0e3a"]
+
+[node name="GameGlobal" type="Node" unique_id=1798200772]
+script = ExtResource("1_xvqkf")
+
+[node name="GameGlobalEvents" type="Node" parent="." unique_id=1397683695]
+script = ExtResource("2_i0j8s")
+
+[node name="LogSystem" type="Node" parent="." unique_id=1053341146]
+script = ExtResource("4_i0e3a")
+
+[node name="ResourceManager" type="Node" parent="." unique_id=816595187]
+script = ExtResource("3_i0j8s")
+material_data_path = "res://assets/data/material_data.json"
+equippable_data_path = "res://assets/data/equip_item_data.json"
+action_shape_data_path = "res://assets/data/action_shape_data.json"
+action_data_path = "res://assets/data/action_data.json"

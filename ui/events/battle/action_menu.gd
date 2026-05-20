@@ -58,7 +58,7 @@ func _create_new_button(menu: VBoxContainer, data: Variant, text: String) -> voi
 	button.text = text
 
 func _fill_action_menu() -> void:
-	var act_comp = ResourceManager.action_compendium
+	var act_comp = GameGlobal.resources.action_compendium
 	PlayerManager.available_skills.append(act_comp.get(&"ACT_0")) # TODO: Remove later
 	
 	for action in PlayerManager.available_skills:

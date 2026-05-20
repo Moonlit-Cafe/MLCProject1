@@ -1,8 +1,8 @@
 [remap]
 
-importer="com.timothyqiu.godot-csv-importer"
-type="Resource"
-uid="uid://cbiolawntajs4"
+importer="moonlit.lunel.csv_import"
+type="CSVData"
+uid="uid://dl877cxys2h0l"
 path="res://.godot/imported/item_recipes.csv-2b57b2b87936a584c60b3f84d2e1d7c4.res"
 
 [deps]

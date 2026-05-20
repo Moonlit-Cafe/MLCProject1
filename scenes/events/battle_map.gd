@@ -251,7 +251,7 @@ func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
 	for actor in turn_tracker.turn_list:
 		if actor is TilePlayer:
 			CombatManager.player_turn = true
-			await GameGlobalEvents.player_turn
+			await GameGlobal.events.player_turn
 			turn_tracker.recycle_turn()
 			continue
 		

@@ -10,10 +10,12 @@ class_name ActionShape extends Resource
 
 #region Setups
 func load_data(data: Dictionary) -> void:
-	var dmh = DataManipulationHelper.new()
-	shape_pos_arr = dmh.detect_special_data(data.get("shape_array"))
+	shape_name = data.get("name")
+	shape_pos_arr = data.get("shape_array")
 
 func save_data() -> Dictionary:
-	var dmh = DataManipulationHelper.new()
-	return {"shape_array": dmh.encode_special_data(shape_pos_arr)}
+	return {
+		"name": shape_name,
+		"shape_array": shape_pos_arr
+	}
 #endregion

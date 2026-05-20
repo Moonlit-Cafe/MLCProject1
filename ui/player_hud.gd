@@ -48,14 +48,16 @@ func _connect_equip_slots() -> void:
 	_check_sets()
 		
 func _check_sets() -> void:
+	if GameGlobal.resources.set_compendium.size() == 0:
+		return
 	var equipped_sets = _count_sets()
 	var bonuses : PackedByteArray
-	bonuses.resize(ResourceManager.set_compendium.keys().max() + 1)
+	bonuses.resize(GameGlobal.resources.set_compendium.keys().max() + 1)
 	
 
 	for cur_set in equipped_sets:
 		bonuses.set(cur_set,  
-			int(equipped_sets[cur_set] >= ResourceManager.set_compendium[cur_set]["required"])
+			int(equipped_sets[cur_set] >= GameGlobal.resources.set_compendium[cur_set]["required"])
 		)
 	
 	PlayerManager.update_sets(bonuses)
@@ -64,7 +66,7 @@ func _check_sets() -> void:
 		if slot.held_item as EquippableNode:
 			var cur_set = slot.held_item.item.set_id
 			var equipped = equipped_sets[cur_set]
-			var required = ResourceManager.set_compendium[cur_set as int]["required"]
+			var required = GameGlobal.resources.set_compendium[cur_set as int]["required"]
 			var text_color = Color.DARK_GREEN if equipped >= required else Color.WHITE
 			
 			slot.held_item.count_label.text = "%s / %s" % [equipped,  required]

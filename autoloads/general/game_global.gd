@@ -3,11 +3,19 @@
 ## The actual Global containing all of the game's core information.
 extends Node
 
-var rng : RandomNumberGenerator ## The main RNG for the game
+#region Declarations
 const _DEFAULT_DELAY = .5
+
+@onready var events : GlobalEvents = $GameGlobalEvents
+@onready var logging : LogSystem = $LogSystem
+@onready var resources : ResourceManager = $ResourceManager
+
+var rng : RandomNumberGenerator ## The main RNG for the game
+#endregion
 
 #region Events
 func _ready() -> void:
+	resources.init()
 	# Loading up sounds and then deleting the sound_loader as it's no longer necessary
 	rng = RandomNumberGenerator.new()
 	rng.seed = rng.randi_range(0, 99999)
@@ -16,7 +24,8 @@ func _ready() -> void:
 	_signal_initialization()
 
 func _signal_initialization() -> void:
-	GameGlobalEvents.game_end.connect(_on_game_ended)
+	events.game_end.connect(_on_game_ended)
+	pass
 #endregion
 
 #region Helpers

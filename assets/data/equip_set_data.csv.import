@@ -1,8 +1,8 @@
 [remap]
 
-importer="com.timothyqiu.godot-csv-importer"
-type="Resource"
-uid="uid://d1ecp0ks0o5d0"
+importer="moonlit.lunel.csv_import"
+type="CSVData"
+uid="uid://baixsyn7shu3q"
 path="res://.godot/imported/equip_set_data.csv-c36e0be1ccafc5384e34cadc97506688.res"
 
 [deps]

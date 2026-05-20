@@ -119,7 +119,7 @@ func clear_object() -> void:
 	
 	held_entity.queue_free()
 	held_entity = null
-	GameGlobalEvents.battle_removed.emit(self)
+	GameGlobal.events.battle_removed.emit(self)
 	name = "(%s, %s)" % [tile_position.x, tile_position.z]
 	state = BattleState.EMPTY
 

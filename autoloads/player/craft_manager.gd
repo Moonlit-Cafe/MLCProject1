@@ -37,7 +37,7 @@ func get_random_item(rand_type = null, item_id:int = -1) -> Item:
 		rand_type = randi_range(0, ResourceManager.ItemType.size()) as ResourceManager.ItemType
 		
 	if item_id == -1:
-		item_id = ResourceManager.get_data_count(ResourceManager.DataType.ITEM, rand_type)
+		item_id = GameGlobal.resources.get_data_count(ResourceManager.DataType.ITEM, rand_type)
 		item_id = max(item_id-1, 0)
 		item_id = randi_range(0, item_id)
 	
@@ -55,7 +55,7 @@ func get_random_item(rand_type = null, item_id:int = -1) -> Item:
 		_:
 			type_str = "NULL_%s"
 	
-	var item : Item = ResourceManager.item_compendium.get(type_str % item_id)
+	var item : Item = GameGlobal.resources.item_compendium.get(type_str % item_id)
 	if not item:
 		return
 	print("Added Item: %s" % item.i_name)
@@ -69,12 +69,12 @@ func get_valued_items(min_value:int, max_value:int, count:int, _rand_type = null
 	
 	var names = _value_range_compendium(min_value, max_value)
 	if not names:
-		push_warning("No item within range of [%s : %s]" %min_value, max_value)
+		GameGlobal.logging.post_warning(self, "No item within range of [%s : %s]" % [min_value, max_value])
 		return []
 	
 	var thing : Array[Item]
 	for i in range(count):
-		thing.append(ResourceManager.item_compendium.get(names[randi_range(0, names.size()-1)]))
+		thing.append(GameGlobal.resources.item_compendium.get(names[randi_range(0, names.size()-1)]))
 	return thing
 
 
@@ -137,7 +137,7 @@ func craft(i_name: StringName, inventory: GridContainer) -> void:
 				node.remove_from_stack(recipe.get(mat_type))
 	
 	if not _craft_item(i_name, 1, inventory):
-		push_warning("There was no space in the inventory.")
+		GameGlobal.logging.post_warning(self, "There was no space in the inventory.")
 
 func _craft_item(i_name: StringName, count: int, inventory: GridContainer) -> bool:
 	for slot in inventory.get_children():
@@ -159,13 +159,13 @@ func _craft_item(i_name: StringName, count: int, inventory: GridContainer) -> bo
 #region Helper Methods
 func _value_range_compendium(min_value:int, max_value:int) -> Array[StringName]:
 	if max_value < min_value:
-		push_warning("Invalid range of values queried! [%s : %s]" % min_value, max_value)
+		GameGlobal.logging.post_warning(self, "Invalid range of values queried! [%s : %s]" % [min_value, max_value])
 		return []
 	
 	var item_names:Array[StringName] =  []
 	var cur_item
-	for item in ResourceManager.item_compendium:
-		cur_item = ResourceManager.item_compendium[item]
+	for item in GameGlobal.resources.item_compendium:
+		cur_item = GameGlobal.resources.item_compendium[item]
 		if max_value <= cur_item.value and cur_item.value >= min_value:
 			item_names.append(item)
 	return item_names
@@ -177,7 +177,7 @@ func generate_node(in_item: Item = null, item_id: StringName = &"MAT_0") -> Item
 		item_id = in_item.id
 	
 	if not in_item:
-		push_warning("Couldn't find any item . . . skipping.")
+		GameGlobal.logging.post_warning(self, "Couldn't find any item . . . skipping.")
 		return
 	
 	var node
@@ -195,20 +195,20 @@ func generate_node(in_item: Item = null, item_id: StringName = &"MAT_0") -> Item
 
 ## Finds if an item is available in the ItemCompendium by it's StringName.
 func find_item(item_name: StringName) -> Item:
-	for item in ResourceManager.item_compendium.values():
+	for item in GameGlobal.resources.item_compendium.values():
 		if item.i_name.to_snake_case() == item_name:
 			return item
 	
-	push_warning("There is no item by the name " + item_name)
+	GameGlobal.logging.post_warning(self, "There is no item by the name %s" % item_name)
 	return null
 
 ## Finds if an item is available in the ItemCompendium by it's ID.
 func find_item_by_id(id: StringName) -> Item:
-	for item in ResourceManager.item_compendium.values():
+	for item in GameGlobal.resources.item_compendium.values():
 		if item.id == id:
 			return item
 	
-	push_warning("There is no item by the name %s" % id)
+	GameGlobal.logging.post_warning(self, "There is no item by the name %s" % id)
 	return null
 
 # Grabs all the material items from an Inventory and turns it into an array of dictionaries
@@ -297,5 +297,5 @@ func get_recipe_requirements(item_name: StringName) -> Dictionary:
 	return recipe
 
 func get_compendium_size() -> int:
-	return ResourceManager.get_data_count(ResourceManager.DataType.ITEM)
+	return GameGlobal.resources.get_data_count(ResourceManager.DataType.ITEM)
 #endregion

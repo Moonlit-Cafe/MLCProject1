@@ -207,7 +207,7 @@ func _tile_selection() -> void:
 		PlayerManager.occupied_tile = tile
 		
 		CombatManager.player_turn = false
-		GameGlobalEvents.player_turn.emit()
+		GameGlobal.events.player_turn.emit()
 		_pan_camera(PlayerManager.entity_ref.global_position)
 		CombatManager.use_action.emit()
 	

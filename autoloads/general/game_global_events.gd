@@ -1,5 +1,5 @@
 ## This is where all the main and common signals are located, otherwise referred to as a SignalBus
-extends Node
+class_name GlobalEvents extends Node
 
 @warning_ignore_start("unused_signal")
 signal battle_removed(node: Variant) ## Emitted to have a specific node removed from trackers

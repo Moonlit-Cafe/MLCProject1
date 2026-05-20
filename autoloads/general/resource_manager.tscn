@@ -1,11 +1,11 @@
-[gd_scene format=3 uid="uid://dy2swoshyhmu5"]
+[gd_scene format=3 uid="uid://da22nlyd5fu1a"]
 
 [ext_resource type="Script" uid="uid://05aasoq0nrxc" path="res://autoloads/general/resource_manager.gd" id="1_3xcrg"]
 
 [node name="ResourceManager" type="Node" unique_id=1621154007]
 script = ExtResource("1_3xcrg")
-material_data_path = "res://assets/data/material_data.csv"
-equippable_data_path = "res://assets/data/equip_item_data.csv"
-equipset_data_path = "res://assets/data/equip_set_data.csv"
-action_shape_data_path = "res://assets/data/action_shape_data.csv"
-action_data_path = "res://assets/data/action_data.csv"
+material_data_path = "uid://bcwemr2hw3ujt"
+equippable_data_path = "uid://c7n6ti5vik1vg"
+equipset_data_path = "uid://baixsyn7shu3q"
+action_shape_data_path = "uid://psjk74qrc5fi"
+action_data_path = "uid://tyfy1qkyuw7n"

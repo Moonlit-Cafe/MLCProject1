@@ -1,0 +1,15 @@
+{
+	"MAT_0": {
+		"name": "Test Cloth",
+		"equip_loc": 0,
+		"material_type": 0,
+		"max_stack_size": 99,
+		"tags": [
+			0
+		],
+		"texture": "Vec[12,12]",
+		"tier": 0,
+		"tooltip": "Just a piece of generic, no textured cloth!",
+		"value": 3
+	}
+}
