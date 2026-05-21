@@ -2,66 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory/inventory_slot.tscn" id="1_n0n2g"]
 [ext_resource type="Script" uid="uid://decnctd8qfp08" path="res://ui/player_hud.gd" id="1_w11uw"]
-[ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/prog_scene.gd" id="4_w11uw"]
-[ext_resource type="Script" uid="uid://bvhk0ewqwsact" path="res://utility/data_holders/holder/event_holder.gd" id="5_7fmvv"]
-[ext_resource type="PackedScene" uid="uid://dcub7v16acou0" path="res://scenes/events/shop_scene.tscn" id="6_cyl0x"]
-[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="7_3ex3u"]
 [ext_resource type="PackedScene" uid="uid://ye7pl4xy273r" path="res://ui/inventory/weapon_window.tscn" id="7_q84jv"]
-[ext_resource type="PackedScene" uid="uid://bulyn32kagiph" path="res://scenes/events/craft_scene.tscn" id="8_e6y5o"]
-[ext_resource type="PackedScene" uid="uid://d1xs6v76nmk44" path="res://scenes/events/unique_event_scene.tscn" id="9_rl86x"]
-
-[sub_resource type="Resource" id="Resource_htg7h"]
-script = ExtResource("5_7fmvv")
-scene_name = &"ShopScene"
-event_id = &"shop"
-scene = ExtResource("6_cyl0x")
-weight = 1
-spawn_frequency = 1
-metadata/_custom_type_script = "uid://bvhk0ewqwsact"
-
-[sub_resource type="Resource" id="Resource_463di"]
-script = ExtResource("5_7fmvv")
-scene_name = &"BattleScene"
-event_id = &"battle"
-scene = ExtResource("7_3ex3u")
-weight = 60
-spawn_frequency = 1
-metadata/_custom_type_script = "uid://bvhk0ewqwsact"
-
-[sub_resource type="Resource" id="Resource_xrf0x"]
-script = ExtResource("5_7fmvv")
-scene_name = &"EliteBattleScene"
-event_id = &"elite_battle"
-scene = ExtResource("7_3ex3u")
-spawn_frequency = 1
-metadata/_custom_type_script = "uid://bvhk0ewqwsact"
-
-[sub_resource type="Resource" id="Resource_h63nn"]
-script = ExtResource("5_7fmvv")
-scene_name = &"BossBattleScene"
-event_id = &"boss_battle"
-scene = ExtResource("7_3ex3u")
-weight = 1
-spawn_frequency = 1
-metadata/_custom_type_script = "uid://bvhk0ewqwsact"
-
-[sub_resource type="Resource" id="Resource_l5ql0"]
-script = ExtResource("5_7fmvv")
-scene_name = &"CraftScene"
-event_id = &"craft"
-scene = ExtResource("8_e6y5o")
-weight = 1
-spawn_frequency = 1
-metadata/_custom_type_script = "uid://bvhk0ewqwsact"
-
-[sub_resource type="Resource" id="Resource_ojfb3"]
-script = ExtResource("5_7fmvv")
-scene_name = &"UniqueEventScene"
-event_id = &"unique"
-scene = ExtResource("9_rl86x")
-weight = 20
-spawn_frequency = 1
-metadata/_custom_type_script = "uid://bvhk0ewqwsact"
 
 [node name="PlayerHud" type="CanvasLayer" unique_id=2116962505 node_paths=PackedStringArray("inventory", "container")]
 script = ExtResource("1_w11uw")
@@ -168,36 +109,3 @@ size_flags_vertical = 3
 [node name="WeaponWindow" parent="." unique_id=1459639056 node_paths=PackedStringArray("weapon_slot") instance=ExtResource("7_q84jv")]
 visible = false
 weapon_slot = NodePath("../TabContainer/Inventory/EquipmentContainer/MarginContainer/GridContainer/Weapon")
-
-[node name="TESTMenu" type="Node2D" parent="." unique_id=147816802 node_paths=PackedStringArray("button_container", "scene_holder")]
-visible = false
-script = ExtResource("4_w11uw")
-event_references = Array[ExtResource("5_7fmvv")]([SubResource("Resource_htg7h"), SubResource("Resource_463di"), SubResource("Resource_xrf0x"), SubResource("Resource_h63nn"), SubResource("Resource_l5ql0"), SubResource("Resource_ojfb3")])
-button_container = NodePath("CanvasLayer/EventButtonContainer/VBoxContainer")
-scene_holder = NodePath("SceneHolder")
-test_version = true
-
-[node name="SceneHolder" type="Node" parent="TESTMenu" unique_id=410469961]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="TESTMenu" unique_id=1440425263]
-
-[node name="EventButtonContainer" type="PanelContainer" parent="TESTMenu/CanvasLayer" unique_id=1682653024]
-custom_minimum_size = Vector2(120, 102)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 224.0
-offset_top = 76.0
-offset_right = 383.99976
-offset_bottom = 178.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TESTMenu/CanvasLayer/EventButtonContainer" unique_id=1165035611]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="TESTMenu/CanvasLayer/EventButtonContainer/VBoxContainer" unique_id=2099862797]
-layout_mode = 2
-text = "SUPER DUPER TEST MENU"

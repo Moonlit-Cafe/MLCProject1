@@ -3,11 +3,11 @@
 class_name ProgScene extends Node
 
 #region Declarations
-@export var event_references : Array[EventHolder] ## A reference list for all in-game events
 @export var button_container : VBoxContainer ## The container holding the buttons for next progression scene 
 @export var scene_holder : Node ## The Node that acts as a parent to the event scenes.
-@export var sector_generator : SectorGenerator
 @export var test_version : bool
+
+@onready var sector_generator : SectorGenerator = $SectorGenerator
 
 var current_scene_index: int = 0 ## The current scene index from start (0)
 var current_scene : BaseEventScene = null ## Reference of the current accessible scene
@@ -22,7 +22,7 @@ func _ready() -> void:
 	SceneManager.prog_scene = self
 	
 	sector_generator.GenerateEvents()
-	focused_event = sector_generator.eventList.get(0).get(0)
+	focused_event = sector_generator.EventList.get(0).get(0)
 	generate_next_events()
 
 ## Generates the next set of events
@@ -34,8 +34,8 @@ func generate_next_events() -> void:
 		button_container.remove_child(event_button)
 	
 	print(focused_event)
-	if focused_event.connectionsTo.size() > 0:
-		for connection in focused_event.connectionsTo:
+	if focused_event.ConnectionsTo.size() > 0:
+		for connection in focused_event.ConnectionsTo:
 			_generate_event_button(connection)
 	
 	#button_container.set_position(Vector2.ZERO)
@@ -43,7 +43,7 @@ func generate_next_events() -> void:
 func _generate_event_button(event: EventPoint) -> void:
 	var event_button := EventButton.new()
 	event_button.event = event
-	event_button.text = event.eventID
+	event_button.text = event.EventID
 	button_container.add_child(event_button)
 	event_button.next_event.connect(_on_event_button_pressed)
 
@@ -69,7 +69,7 @@ func get_deterministic_value(min_val: int, max_val: int, d_offset: int = 0) -> i
 
 #region Signal Callbacks
 func _on_event_button_pressed(event: EventPoint) -> void:
-	var new_scene : BaseEventScene = event.scene.instantiate()
+	var new_scene : BaseEventScene = event.Scene.instantiate()
 	if current_scene:
 		scene_holder.remove_child(current_scene)
 		scene_holder.add_child(new_scene)
