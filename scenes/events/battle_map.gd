@@ -16,7 +16,7 @@ class_name BattleMap extends Node3D
 # TODO: Change the entire scene to be a background with a custom grid definition 
 # TODO: With the custom grid definition, selection should be possible with a gui_input over the whole map
 # TODO: Action Selection should come from this selection process.
-var scene : BattleScene
+var scene : BattleView
 var active_enemies : Array[TileEntity] = []
 var board : Dictionary[Vector2i, BattleTile] = {}
 var map_ended : bool = false
@@ -31,7 +31,7 @@ func _ready() -> void:
 	
 	board_zone.scan_complete.connect(func(): is_ready = true)
 	
-	scene = find_parent("BattleScene")
+	scene = find_parent("BattleView")
 	
 	if not board_zone:
 		push_warning("There is no defined boundary, exiting...")

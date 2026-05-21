@@ -11,8 +11,6 @@ signal rehover
 signal tile_in_arr(tile: BattleTile)
 @warning_ignore_restore("unused_signal")
 
-@export var combat_machine_scene : PackedScene
-var combat_machine : CombatMachine
 @export var enemy_compendium : Array[EnemyCharacter] = [] ## The entire list of available enemies
 @export var obstacle_compendium : Array[ObstacleObject] = [] ## The entire list of available obstacles
 @export_category(&"Manager Scenes")
@@ -65,11 +63,6 @@ func update_difficulty(can_increase: bool = false) -> void:
 	if can_increase:
 		level_number += 1
 	difficulty_modifier = game_difficulty * pow(5, (level_number - 1) / 10)
-
-func start_battle(scene: BattleScene) -> void:
-	combat_machine = combat_machine_scene.instantiate()
-	combat_machine.battle_scene = scene
-	add_child(combat_machine)
 
 ## Used to clean up the CombatManager of unnecessary references and values.
 func clean_up() -> void:

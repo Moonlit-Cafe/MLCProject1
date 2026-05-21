@@ -1,79 +1,16 @@
 [gd_scene format=3 uid="uid://ksmkpfann6ie"]
 
 [ext_resource type="Script" uid="uid://bin8ph5h6xhm0" path="res://scenes/events/battle_scene.gd" id="1_w5vvb"]
-[ext_resource type="PackedScene" uid="uid://dypbdt24xc2u" path="res://scenes/events/battle_map.tscn" id="3_gky5j"]
-[ext_resource type="PackedScene" uid="uid://b71p3f76aob3l" path="res://ui/events/battle/battle_log.tscn" id="4_dgmmm"]
-[ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://ui/events/battle/action_menu.tscn" id="4_hmtxi"]
-[ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/events/battle/turn_tracker.tscn" id="4_sou65"]
-[ext_resource type="PackedScene" uid="uid://cxeetx3ud8b6k" path="res://ui/battle/hover_panel.tscn" id="6_dgmmm"]
+[ext_resource type="PackedScene" uid="uid://cpmehpvcgnn2y" path="res://scenes/events/battle_view.tscn" id="2_2e1pf"]
+[ext_resource type="PackedScene" uid="uid://chnlg6ovx3jpy" path="res://mechanics/events/battle/state_machine/combat_machine.tscn" id="3_c52ab"]
 
-[node name="BattleScene" type="Node" unique_id=54698120 node_paths=PackedStringArray("actions_menu", "battle_log", "turn_tracker", "battle_map", "hover_panel")]
+[node name="BattleScene" type="Node" unique_id=54698120 node_paths=PackedStringArray("combat_machine_holder", "combat_views_layers")]
 script = ExtResource("1_w5vvb")
-actions_menu = NodePath("CanvasLayer/ActionMenu")
-battle_log = NodePath("CanvasLayer/InfoPanel/VBoxContainer/BattleLog")
-turn_tracker = NodePath("CanvasLayer/TurnTracker")
-battle_map = NodePath("BattleMap")
-hover_panel = NodePath("CanvasLayer/HoverPanel")
+combat_view_scene = ExtResource("2_2e1pf")
+combat_machine_scene = ExtResource("3_c52ab")
+combat_machine_holder = NodePath("Machines")
+combat_views_layers = NodePath("BattleViews")
 
-[node name="BattleMap" parent="." unique_id=2074135619 instance=ExtResource("3_gky5j")]
+[node name="BattleViews" type="CanvasLayer" parent="." unique_id=36511512]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=117821493]
-
-[node name="TurnTracker" parent="CanvasLayer" unique_id=1494265178 instance=ExtResource("4_sou65")]
-mouse_filter = 2
-
-[node name="InfoPanel" type="MarginContainer" parent="CanvasLayer" unique_id=725823407]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -135.0
-offset_top = -68.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/InfoPanel" unique_id=1838249129]
-layout_mode = 2
-alignment = 2
-
-[node name="BattleLog" parent="CanvasLayer/InfoPanel/VBoxContainer" unique_id=1112995718 instance=ExtResource("4_dgmmm")]
-layout_mode = 2
-
-[node name="EnemyInfo" type="VBoxContainer" parent="CanvasLayer/InfoPanel/VBoxContainer" unique_id=551851028]
-layout_mode = 2
-
-[node name="EnemyName" type="Label" parent="CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo" unique_id=946555611]
-layout_mode = 2
-
-[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/InfoPanel/VBoxContainer/EnemyInfo" unique_id=888291637]
-custom_minimum_size = Vector2(125, 0)
-layout_mode = 2
-fill_mode = 1
-
-[node name="ActionMenu" parent="CanvasLayer" unique_id=1043412018 instance=ExtResource("4_hmtxi")]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -86.0
-offset_right = 85.0
-grow_vertical = 0
-
-[node name="Button" type="Button" parent="CanvasLayer" unique_id=358482317]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -54.0
-offset_top = -31.0
-offset_right = 54.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Action Select"
-
-[node name="HoverPanel" parent="CanvasLayer" unique_id=981763394 instance=ExtResource("6_dgmmm")]
-
-[connection signal="pressed" from="CanvasLayer/Button" to="." method="_attack_tile"]
+[node name="Machines" type="Node" parent="." unique_id=771373507]

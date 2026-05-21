@@ -6,12 +6,12 @@ extends PanelContainer
 @onready var items : VBoxContainer = $MenuContainers/ItemsContainer
 @onready var moves : VBoxContainer = $MenuContainers/MoveContainer
 
-var battle_scene : BaseEventScene
+var battle_scene : BattleView
 #endregion
 
 #region Events
 func _ready() -> void:
-	battle_scene = find_parent("BattleScene")
+	battle_scene = find_parent("BattleView")
 	$MenuContainers/MenuActionsContainer/Actions.grab_focus()
 	
 	CombatManager.use_action.connect(_on_used_action)

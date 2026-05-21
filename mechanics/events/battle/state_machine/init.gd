@@ -5,6 +5,8 @@ extends CombatState
 
 #region Events
 func update(_delta: float) -> void:
+	PlayerManager.duplicate()
+	PlayerManager.available_skills.append(GameGlobal.resources.action_compendium.get("ACT_0"))
 	combat_scene.battle_map.generate_board()
 	_generate_battle()
 	combat_scene.battle_map.init()

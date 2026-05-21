@@ -6,7 +6,7 @@ const ENTITY_TURN : StringName = &"EntityTurn"
 const TILE_COND : StringName = &"TileConditions"
 const END_COND : StringName = &"EndConditions"
 
-var combat_scene : BattleScene
+var combat_scene : BattleView
 #endregion
 
 #region Events

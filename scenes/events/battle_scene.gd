@@ -3,15 +3,10 @@
 class_name BattleScene extends BaseEventScene
 
 #region Declarations
-@export_category("Node References")
-@export var actions_menu : PanelContainer
-@export var battle_log : VBoxContainer
-@export var turn_tracker : Control
-@export var battle_map : BattleMap
-@export var hover_panel : VBoxContainer
-
-# TODO: Need to procedurally determine what enemies are able to fight based off of the current
-# difficulty rating.
+@export var combat_view_scene : PackedScene
+@export var combat_machine_scene : PackedScene
+@export var combat_machine_holder : Node
+@export var combat_views_layers : CanvasLayer
 
 var enemy_count : int = 0
 var reward_tier : int = 1
@@ -22,30 +17,49 @@ var boss_type : int = 1
 
 #region Events
 func _ready() -> void:
-	CombatManager.start_battle(self)
-	
-	_signal_initialization()
+	start_battle()
+	start_battle()
 
-## Sets up all the signals within the _ready function
-func _signal_initialization() -> void:
-	CombatManager.battle_end.connect(_on_map_ended)
+func start_battle() -> void:
+	var combat_machine : CombatMachine
+	combat_machine = combat_machine_scene.instantiate()
+	var new_view = combat_view_scene.instantiate()
+	var new_container := SubViewportContainer.new()
+	new_container.name = "Battle%s" % combat_views_layers.get_child_count()
+	combat_views_layers.add_child(new_container)
+	new_container.add_child(new_view)
+	combat_machine.battle_scene = new_view
+	combat_machine_holder.add_child(combat_machine)
 	
-	battle_map.camera.hover_tile.connect(_on_tile_hovered)
-	battle_map.camera.collapse_hover.connect(_collapse_tile_panel)
-	
-	turn_tracker.new_turn.connect(battle_map._on_new_turn)
+	_update_viewports()
+
+func _update_viewports() -> void:
+	match (combat_views_layers.get_child_count()):
+		1:
+			var view : BattleView = combat_machine_holder.get_child(0).battle_scene
+			var container : SubViewportContainer = view.get_parent()
+			_update_anchors(container, Rect2(0, 0, 1., 1.))
+			view.size = container.size
+		2:
+			var view_1 : BattleView = combat_machine_holder.get_child(0).battle_scene
+			var view_2 : BattleView = combat_machine_holder.get_child(1).battle_scene
+			var container_1 : SubViewportContainer = view_1.get_parent()
+			var container_2 : SubViewportContainer = view_2.get_parent()
+			_update_anchors(container_1, Rect2(0, 0, .5, 1.))
+			_update_anchors(container_2, Rect2(.5, 0, .5, 1.))
+			view_1.size = container_1.size
+			view_2.size = container_2.size
+		_:
+			GameGlobal.logging.post_warning(self, "Not coded yet for size . . .")
+
+func _update_anchors(control: Control, rect: Rect2) -> void:
+	control.anchor_left = rect.position.x
+	control.anchor_top = rect.position.y
+	control.anchor_right = rect.position.x + rect.size.x
+	control.anchor_bottom = rect.position.y + rect.size.y
 #endregion
 
 #region Signal Callbacks
 func _on_pressed() -> void:
 	SceneManager.load_next_scene()
-
-func _on_map_ended() -> void:
-	_on_pressed()
-	
-func _on_tile_hovered() -> void:
-	hover_panel.tile_hover()
-	
-func _collapse_tile_panel() -> void:
-	hover_panel.disable()
 #endregion
