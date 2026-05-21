@@ -18,12 +18,22 @@ var boss_type : int = 1
 #region Events
 func _ready() -> void:
 	start_battle()
-	start_battle()
 
-func start_battle() -> void:
-	var combat_machine : CombatMachine
-	combat_machine = combat_machine_scene.instantiate()
-	var new_view = combat_view_scene.instantiate()
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("divergence"):
+		start_battle(true)
+
+func start_battle(copy:=false) -> void:
+	if combat_machine_holder.get_child_count() >= 2:
+		return
+	
+	var combat_machine : CombatMachine = combat_machine_scene.instantiate() as CombatMachine
+	var new_view : BattleView
+	if copy:
+		var current_battle : BattleView = combat_machine_holder.get_child(0).battle_scene
+		new_view = current_battle.duplicate(DUPLICATE_DEFAULT) as BattleView
+	else:
+		new_view = combat_view_scene.instantiate()
 	var new_container := SubViewportContainer.new()
 	new_container.name = "Battle%s" % combat_views_layers.get_child_count()
 	combat_views_layers.add_child(new_container)
