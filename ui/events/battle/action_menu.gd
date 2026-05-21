@@ -103,8 +103,8 @@ func _on_return_pressed() -> void:
 func _on_data_sent(data: Variant) -> void:
 	if data is Usable:
 		CombatManager.selected_action = data
-		battle_scene.battle_board.determine_selectables()
+		battle_scene.battle_map.determine_selectables()
 	elif data is Action:
 		CombatManager.selected_action = data
-		battle_scene.battle_board.determine_selectables()
+		battle_scene.battle_map.determine_selectables()
 #endregion
