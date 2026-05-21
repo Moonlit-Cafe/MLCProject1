@@ -37,7 +37,7 @@ enum Highlight {
 @onready var select_sprite : AnimatedSprite3D = $AnimatedSprite3D
 #@onready var mesh : MeshInstance3D = $MeshInstance3D
 
-var battle_map : BattleMap3D ## Parent+ reference to the current battle_map
+var battle_map : BattleMap ## Parent+ reference to the current battle_map
 var held_entity : TileEntity ## The currently held entity reference
 var tile_position : Vector3i = Vector3i.ZERO ## The position within [member battle_map]
 ## If the tile is currently selectable or not
@@ -71,7 +71,7 @@ var state : BattleState ## The current state of the tile
 func _ready() -> void:
 	add_to_group(&"tiles")
 	CombatManager.tile_signal_pool.add_to_group("tiles", self)
-	battle_map = find_parent("BattleMap3D")
+	battle_map = find_parent("BattleMap")
 
 ## Attaches the character resource, [param ent], by generating the respective entity, attaching it
 ## and then making it a child of [member entity_holder]
@@ -119,7 +119,7 @@ func clear_object() -> void:
 	
 	held_entity.queue_free()
 	held_entity = null
-	GameGlobalEvents.battle_removed.emit(self)
+	GameGlobal.events.battle_removed.emit(self)
 	name = "(%s, %s)" % [tile_position.x, tile_position.z]
 	state = BattleState.EMPTY
 
@@ -165,6 +165,20 @@ func _set_highlight(idx: int) -> void:
 			select_sprite.set_frame_and_progress(frame, progress)
 			select_sprite.modulate = selection_colors.get(Highlight.ADJACENT)
 #endregion
+
+#TODO: Organize
+func attack_tile(cur_tile: BattleTile, action: CombatAction):
+	if not cur_tile:
+		return
+		
+	if not cur_tile.held_entity:
+		return 
+	
+	if CombatManager.selected_action is Usable:
+		CombatManager.selected_action.linked_slot.count -= 1
+			
+	CombatManager.log_item(str(CombatManager.selected_action.value) + " damage dealt to " + str(cur_tile.held_entity.character.o_name))
+	cur_tile.defend(action, PlayerManager.entity_ref)
 
 #region Signal Callbacks
 func _on_gui_input(_camera: Node, event: InputEvent, _event_pos: Vector3, _normal: Vector3, _idx: int) -> void:

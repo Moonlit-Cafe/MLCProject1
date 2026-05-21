@@ -11,7 +11,8 @@ extends PanelContainer
 
 #region Events
 func _ready() -> void:
-	GameGlobalEvents.weapon_open.connect(_on_weapon_opened)
+	GameGlobal.events.weapon_open.connect(_on_weapon_opened)
+	pass
 #endregion
 
 #region Signal Callbacks

@@ -20,9 +20,9 @@ func _load_actions() -> void:
 	
 	_clear_action_directory()
 	
-	for action_id in ResourceManager.action_compendium.keys():
+	for action_id in GameGlobal.resources.action_compendium.keys():
 		var button := DataButton.new()
-		var action : CombatAction = ResourceManager.action_compendium.get(action_id)
+		var action : CombatAction = GameGlobal.resources.action_compendium.get(action_id)
 		button.data = action
 		button.text = action.ac_name
 		button.send_data.connect(_on_action_pressed)
@@ -95,9 +95,9 @@ func _fill_shape_directory() -> void:
 		shape_directory.remove_child(child)
 		child.queue_free()
 	
-	for shape_id in ResourceManager.action_shape_compendium.keys():
+	for shape_id in GameGlobal.resources.action_shape_compendium.keys():
 		var button := DataButton.new()
-		var shape : ActionShape = ResourceManager.action_shape_compendium.get(shape_id).duplicate()
+		var shape : ActionShape = GameGlobal.resources.action_shape_compendium.get(shape_id).duplicate()
 		button.data = shape
 		button.text = "%s: %s" % [shape_id, shape.shape_name]
 		button.send_data.connect(_on_shape_selected)
@@ -119,10 +119,10 @@ func _on_return_pressed() -> void:
 
 func _on_new_action_pressed() -> void:
 	var new_action = CombatAction.new()
-	new_action.ac_id = "ACT_%s" % ResourceManager.resource_count.get(&"Action")
+	new_action.ac_id = "ACT_%s" % GameGlobal.resources.resource_count.get(&"Action")
 	new_action.ac_name = "New Action"
-	new_action.shape = ResourceManager.action_shape_compendium.get(&"ACS_0")
-	ResourceManager.add_action(new_action)
+	new_action.shape = GameGlobal.resources.action_shape_compendium.get(&"ACS_0")
+	GameGlobal.resources.add_action(new_action)
 	_load_info_panel(new_action)
 
 func _on_save_pressed() -> void:
@@ -131,7 +131,7 @@ func _on_save_pressed() -> void:
 		return
 	
 	var dmh := DataManipulationHelper.new()
-	var action : CombatAction = ResourceManager.action_compendium.get(a_data.get(&"id"))
+	var action : CombatAction = GameGlobal.resources.action_compendium.get(a_data.get(&"id"))
 	var data_keys := a_data.keys()
 	var idx : int = 0
 	for child in action_info.get_children():
@@ -164,14 +164,14 @@ func _on_save_pressed() -> void:
 	
 	print(a_data)
 	action.load_data(a_data)
-	ResourceManager.save_data()
+	GameGlobal.resources.save_data()
 	_clear_action_info()
 	_load_actions()
 
 func _on_delete_pressed() -> void:
-	var action : Action = ResourceManager.action_compendium.get(a_data.get(&"id"))
-	ResourceManager.remove_action(action)
-	ResourceManager.save_data()
+	var action : Action = GameGlobal.resources.action_compendium.get(a_data.get(&"id"))
+	GameGlobal.resources.remove_action(action)
+	GameGlobal.resources.save_data()
 	_clear_action_info()
 	_load_actions()
 

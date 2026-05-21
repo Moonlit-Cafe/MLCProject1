@@ -1,19 +1,19 @@
 [remap]
 
-importer="csv_translation"
-type="Translation"
-uid="uid://djk50oj25n256"
+importer="moonlit.lunel.csv_import"
+type="CSVData"
+uid="uid://baixsyn7shu3q"
+path="res://.godot/imported/equip_set_data.csv-c36e0be1ccafc5384e34cadc97506688.res"
 
 [deps]
 
-files=["res://assets/data/equip_set_data.set.translation", "res://assets/data/equip_set_data.set.translation", "res://assets/data/equip_set_data.set.translation", "res://assets/data/equip_set_data.required.translation"]
-
 source_file="res://assets/data/equip_set_data.csv"
-dest_files=["res://assets/data/equip_set_data.set.translation", "res://assets/data/equip_set_data.set.translation", "res://assets/data/equip_set_data.set.translation", "res://assets/data/equip_set_data.required.translation"]
+dest_files=["res://.godot/imported/equip_set_data.csv-c36e0be1ccafc5384e34cadc97506688.res"]
 
 [params]
 
-compress=1
 delimiter=0
-unescape_keys=false
-unescape_translations=true
+headers=true
+detect_numbers=true
+force_float=false
+detect_booleans=false

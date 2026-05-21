@@ -4,12 +4,11 @@ class_name MaterialItem extends Item
 
 func load_data(data: Dictionary) -> void:
 	super(data)
-	var dmh = DataManipulationHelper.new()
-	material_type = dmh.detect_special_data(data.get("material_type"))
+	material_type = data.get("material_type")
 
 func save_data() -> Dictionary:
 	var data = super()
-	data.set("material_type", "%s" % material_type)
+	data.set("material_type", material_type)
 	return data
 
 func get_manager_data() -> Dictionary[StringName, Variant]:

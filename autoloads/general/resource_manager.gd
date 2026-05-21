@@ -1,5 +1,5 @@
 ## Handles the loading, saving, and referencing of all items, enemies, behaviors, etc.
-extends Node
+class_name ResourceManager extends Node
 
 #region Declarations
 enum ItemType {
@@ -17,14 +17,14 @@ enum DataType {
 }
 
 @export_category("Item Data")
-@export_file(".csv") var material_data : String = "" ## Full collection of [MaterialItem]s
-@export_file(".csv") var usable_data : String = ""
-@export_file(".csv") var equippable_data : String = ""
-@export_file(".csv") var equipset_data : String = ""
-@export_file(".csv") var weapon_data : String = ""
+@export_file(".json") var material_data_path : String
+@export_file(".json") var usable_data_path : String
+@export_file(".json") var equippable_data_path : String
+@export_file(".json") var equipset_data_path : String
+@export_file(".json") var weapon_data_path : String
 @export_category("Skill Data")
-@export_file(".csv") var action_shape_data : String = "" ## Full collection of [ActionShapes]
-@export_file(".csv") var action_data : String = "" ## Full collection of [Action]s
+@export_file(".json") var action_shape_data_path : String
+@export_file(".json") var action_data_path : String
 @export_category("Enemy Data")
 @export_category("Generation Data")
 
@@ -46,11 +46,13 @@ var resource_count : Dictionary[StringName, int] = {
 
 #region Events
 func _ready() -> void:
+	await GameGlobal.ready
 	print("Initializing: ResourceManager")
 	load_data()
 
 func load_data() -> void:
 	_load_item_compendium()
+	print(item_compendium)
 	_load_action_shapes()
 	_load_actions()
 	_load_set_compendium()
@@ -71,42 +73,27 @@ func _load_item_compendium() -> void:
 
 ## Loads all the items specific to [member material_data]
 func _load_i_type_compendium(type: ItemType):
-	var comp_access : String = ""
-	var id_type : StringName = &""
-	var type_data :String
+	var database : Dictionary = {}
 	var item
 	
 	match(type):
 		ItemType.MATERIAL:
-			type_data = material_data
-			id_type = &"MAT_%s"
+			database = FileHelper.load_database(material_data_path)
 			item = MaterialItem.new()
 		ItemType.EQUIPPABLE:
-			type_data = equippable_data
-			id_type = &"EQP_%s"
+			database = FileHelper.load_database(equippable_data_path)
 			item = EquippableItem.new()
 		_:
-			push_warning("@ResourceManager: The given ItemType is incorrect, returning empty dictionary.")
-			return {}
-			
-	if not type_data:
-		push_warning("@ResourceManager: There is no connected %s data file, skipping...", type)
-		return {}
-		
-	comp_access = type_data
+			GameGlobal.logging.post_warning(self, "The given ItemType is incorrect, returning empty dictionary.")
 	
-	var i : int = 0
-	var data = CSVAccess.load_csv_data(comp_access)
-	for item_name in data.keys():
-		item = item.duplicate()
-		item.i_name = item_name
-		item.id = id_type % i
-		item.load_data(data.get(item_name))
-		add_item(item)
-		i += 1
+	for item_id in database.keys():
+		var new_item = item.duplicate()
+		new_item.id = item_id
+		new_item.load_data(database.get(item_id))
+		add_item(item_id, item)
 
-func add_item(item: Item) -> void:
-	item_compendium.set(item.id, item)
+func add_item(item_id: String, item: Item) -> void:
+	item_compendium.set(item_id, item)
 	if item is MaterialItem:
 		resource_count.set(&"Material", resource_count.get(&"Material") + 1)
 
@@ -123,64 +110,55 @@ func _save_item_compendium() -> void:
 	var weapon_dict : Dictionary[String, Dictionary] = {}
 	for item in item_compendium.keys():
 		var item_data = item_compendium.get(item).save_data()
-		var item_name : String = item_compendium.get(item).i_name
 		if "MAT" in item:
-			material_dict.set(item_name, item_data)
+			material_dict.set(item, item_data)
 		elif "USE" in item:
-			usable_dict.set(item_name, item_data)
+			usable_dict.set(item, item_data)
 		elif "EQP" in item:
-			equippable_dict.set(item_name, item_data)
+			equippable_dict.set(item, item_data)
 		elif "WEP" in item:
-			weapon_dict.set(item_name, item_data)
+			weapon_dict.set(item, item_data)
 		else:
-			push_error("@ResourceManager: Item's id type not found.")
+			GameGlobal.logging.post_error(self, "Item's id type not found.")
 	
-	if material_data != "":
-		CSVAccess.save_csv_data(material_data, material_dict)
+	if material_data_path:
+		FileHelper.save_database(material_data_path, material_dict)
 	
-	if usable_data != "":
-		CSVAccess.save_csv_data(usable_data, usable_dict)
+	if usable_data_path:
+		FileHelper.save_database(usable_data_path, usable_dict)
 	
-	if equippable_data != "":
-		CSVAccess.save_csv_data(equippable_data, equippable_dict)
+	if equippable_data_path:
+		FileHelper.save_database(equippable_data_path, equippable_dict)
 	
-	if weapon_data != "":
-		CSVAccess.save_csv_data(weapon_data, weapon_dict)
+	if weapon_data_path:
+		FileHelper.save_database(weapon_data_path, weapon_dict)
 #endregion
 
 #region Action Compendiums
 func _load_action_shapes() -> void:
-	print("Loading: ActionShapes")
-	if action_shape_data == "":
-		push_warning("@ResourceManager: There is no connected action_shape data file, skipping...")
-		return
+	var action_shape_data = FileHelper.load_database(action_shape_data_path)
 	
-	var i : int = 0
-	var data := CSVAccess.load_csv_data(action_shape_data)
-	for shape_name in data.keys():
+	print("Loading: ActionShapes")
+	for shape in action_shape_data.keys():
 		var action_shape := ActionShape.new()
-		action_shape.shape_id = "ACS_%s" % i
-		action_shape.shape_name = shape_name
-		action_shape.load_data(data.get(shape_name))
+		action_shape.shape_id = shape
+		action_shape.load_data(action_shape_data.get(shape))
 		add_action_shape(action_shape)
-		i += 1
 	print("Loaded: ActionShapes")
 
 func _load_actions() -> void:
+	var action_data = FileHelper.load_database(action_data_path)
+	
 	print("Loading: Actions")
-	if action_data == "":
-		push_warning("@ResourceManager: There is no connected action data file, skipping...")
+	if not action_data:
+		GameGlobal.logging.post_warning(self, "There is no connected action data file, skipping...")
 		return
 	
-	var i : int = 0
-	var data := CSVAccess.load_csv_data(action_data)
-	for action_name in data.keys():
+	for action_dat in action_data.keys():
 		var action := CombatAction.new()
-		action.ac_id = "ACT_%s" % i
-		action.ac_name = action_name
-		action.load_data(data.get(action_name))
+		action.ac_id = action_dat
+		action.load_data(action_data.get(action_dat))
 		add_action(action)
-		i += 1
 	print("Loaded: Actions")
 
 func add_action_shape(acs: ActionShape) -> void:
@@ -199,38 +177,30 @@ func remove_action(act: Action) -> void:
 	action_compendium.erase(act.ac_id)
 	resource_count.set(&"Action", resource_count.get(&"Action") - 1)
 
-func _save_action_shapes() -> void:
-	if not action_shape_data:
-		push_warning("@ResourceManager: There is no ActionShape data linked to save to...")
-		return
-	
+func _save_action_shapes() -> void:	
 	var action_shape_dict : Dictionary[String, Dictionary] = {}
-	for shape in action_shape_compendium.values():
+	for shape in action_shape_compendium.keys():
 		print("Saving %s with array %s" % [shape.shape_name, shape.shape_pos_arr])
-		action_shape_dict.set(shape.shape_name, shape.save_data())
+		action_shape_dict.set(shape, action_shape_compendium.get(shape).save_data())
 	
-	CSVAccess.save_csv_data(action_shape_data, action_shape_dict)
+	FileHelper.save_database(action_shape_data_path, action_shape_dict)
 
 func _save_actions() -> void:
-	if not action_data:
-		push_warning("@ResourceManager: There is no Action data linked to save to...")
-		return
-	
 	var action_dict : Dictionary[String, Dictionary] = {}
-	for action in action_compendium.values():
-		action_dict.set(action.ac_name, action.save_data())
+	for action in action_compendium.keys():
+		action_dict.set(action, action_dict.get(action).save_data())
 	
-	CSVAccess.save_csv_data(action_data, action_dict)
+	FileHelper.save_database(action_data_path, action_dict)
 #endregion
 
 #region Set Compendium
 func _load_set_compendium() -> void:
-	var equip_set = EquipSet.new()
-	var data = CSVAccess.load_csv_data(equipset_data)
+	var equipset_data = FileHelper.load_database(equipset_data_path)
 	
-	for cur_set_id in data.keys():
-		equip_set = equip_set.duplicate()
-		equip_set.load_data(data[cur_set_id], cur_set_id)
+	var equip_set = EquipSet.new()
+	for eqs_id in equipset_data.keys():
+		var new_equip_set = equip_set.duplicate()
+		new_equip_set.load_data(equipset_data.get(eqs_id))
 		add_set(equip_set)
 
 func add_set(equip_set: EquipSet) -> void:
@@ -242,7 +212,7 @@ func add_set(equip_set: EquipSet) -> void:
 	#item_compendium.erase(id)
 #endregion
 
-#region
+#region Helpers
 func get_data_count(data_type: DataType, item_type: int = -1) -> int:
 	match(data_type):
 		DataType.ITEM:
@@ -261,7 +231,7 @@ func get_data_count(data_type: DataType, item_type: int = -1) -> int:
 				ItemType.WEAPON:
 					return resource_count.get(&"Weapon")
 				_:
-					push_warning("@ResourceManager: Invalid ItemType")
+					GameGlobal.logging.post_warning(self, "Invalid ItemType")
 					return 0
 		DataType.ACTION_SHAPE:
 			return resource_count.get(&"ActionShape")
@@ -272,6 +242,18 @@ func get_data_count(data_type: DataType, item_type: int = -1) -> int:
 		DataType.ENEMY:
 			return resource_count.get(&"Enemy")
 		_:
-			push_warning("@ResourceManager: Invalid DataType")
+			GameGlobal.logging.post_warning(self, "Invalid DataType")
 			return 0
+
+func _save_csv_data(resource_data: Dictionary[String, Dictionary], csv_data: CSVData) -> void:
+	var file_path : String = csv_data.source_csv_path
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	var i : int = 0
+	for data in resource_data.values():
+		if i == 0:
+			file.store_csv_line(data.keys() as PackedStringArray)
+		else:
+			file.store_csv_line(data.values() as PackedStringArray)
+		i += 1
+	file.close()
 #endregion

@@ -1,11 +1,8 @@
 extends VBoxContainer
 
-@onready var container = $Subject/SubViewportContainer
 @onready var title = $Subject/Label
 @onready var description = $Text/Description
 @onready var subinfo = $Text/SubLabel
-
-
 
 func tile_hover(inc_tile : BattleTile = MouseHandler.hovered_tile):
 	#FIXME Panel back is now 100% Transparent

@@ -1,6 +1,9 @@
 class_name DataManipulationHelper
 
-func detect_special_data(value: String) -> Variant:
+func detect_special_data(value: Variant) -> Variant:
+	if value is not String:
+		return value
+	
 	var rgx := RegEx.new()
 	# Detect Vectors
 	if value.contains("Vec["):
@@ -16,14 +19,6 @@ func detect_special_data(value: String) -> Variant:
 			var split_result = res.get_string().split(",")
 			ret_result.append(Vector2i(split_result.get(0).to_int(), split_result.get(1).to_int()))
 		return ret_result
-	#Detect Int Arrays
-	elif value.contains(";"):
-		var ret_arr : Array[int] = []
-		for i in value.split(";"):
-			if i.is_empty():
-				continue
-			ret_arr.append(i.to_int())
-		return ret_arr
 	#Detects Ability Packet Data
 	elif value.contains("AbilityCost["):
 		rgx.compile("(\\d+),\\s*(-?\\d+)")
@@ -33,10 +28,6 @@ func detect_special_data(value: String) -> Variant:
 		new_cost.cost_type = result.get(0).to_int() as AbilityCostPacket.CostType
 		new_cost.cost_amount = result.get(1).to_int()
 		return new_cost
-	elif value.is_valid_int():
-		return value.to_int()
-	elif value.is_valid_float():
-		return value.to_float()
 	return value
 
 func encode_special_data(value: Variant) -> String:

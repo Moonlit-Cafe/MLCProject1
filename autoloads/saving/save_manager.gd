@@ -20,7 +20,7 @@ func save_game() -> void:
 	
 	for node in save_nodes:
 		if node.scene_file_path.is_empty():
-			push_warning("Saveable node '%s' is not an instanced scene, skipped" % node.name)
+			GameGlobal.logging.post_warning(self, "Saveable node '%s' is not an instanced scene, skipped" % node.name)
 			continue
 		
 		if !node.has_method("save"):
