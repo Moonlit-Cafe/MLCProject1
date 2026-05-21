@@ -24,10 +24,7 @@ var boss_type : int = 1
 func _ready() -> void:
 	CombatManager.start_battle(self)
 	
-	battle_map.turn_tracker = turn_tracker
-	
 	_signal_initialization()
-	battle_map.init()
 
 ## Sets up all the signals within the _ready function
 func _signal_initialization() -> void:
@@ -35,7 +32,6 @@ func _signal_initialization() -> void:
 	
 	battle_map.camera.hover_tile.connect(_on_tile_hovered)
 	battle_map.camera.collapse_hover.connect(_collapse_tile_panel)
-	
 	
 	turn_tracker.new_turn.connect(battle_map._on_new_turn)
 #endregion

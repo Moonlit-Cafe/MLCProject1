@@ -1,4 +1,4 @@
-extends StateMachine
+class_name CombatMachine extends StateMachine
 
 var battle_scene : BattleScene
 

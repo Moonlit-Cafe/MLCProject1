@@ -11,5 +11,6 @@ var combat_scene : BattleScene
 
 #region Events
 func _ready() -> void:
-	combat_scene = owner.combat_scene
+	await owner.ready
+	combat_scene = owner.battle_scene
 #endregion

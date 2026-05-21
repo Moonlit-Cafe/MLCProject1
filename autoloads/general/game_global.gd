@@ -6,6 +6,7 @@ extends Node
 #region Declarations
 const _DEFAULT_DELAY = .5
 
+@onready var craft : CraftManager = $CraftManager
 @onready var events : GlobalEvents = $GameGlobalEvents
 @onready var logging : LogSystem = $LogSystem
 @onready var resources : ResourceManager = $ResourceManager
@@ -15,7 +16,6 @@ var rng : RandomNumberGenerator ## The main RNG for the game
 
 #region Events
 func _ready() -> void:
-	resources.init()
 	# Loading up sounds and then deleting the sound_loader as it's no longer necessary
 	rng = RandomNumberGenerator.new()
 	rng.seed = rng.randi_range(0, 99999)

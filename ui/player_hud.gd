@@ -98,10 +98,10 @@ func _generate_random_itemnodes() -> void:
 	var rand_items : Array[Item] = []
 	
 	for i in range(3):
-		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.MATERIAL))
-		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
+		rand_items.append(GameGlobal.craft.get_random_item(ResourceManager.ItemType.MATERIAL))
+		rand_items.append(GameGlobal.craft.get_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
 	
-	rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.EQUIPPABLE))
+	rand_items.append(GameGlobal.craft.get_random_item(ResourceManager.ItemType.EQUIPPABLE))
 	print(rand_items)
 		
 	for item in rand_items:
@@ -109,7 +109,7 @@ func _generate_random_itemnodes() -> void:
 		while slot.get_child_count() > 1:
 			slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		
-		var new_node = CraftManager.generate_node(item)
+		var new_node = GameGlobal.craft.generate_node(item)
 		new_node.item = item
 		new_node.count = randi_range(1, item.max_stack_size)
 		slot.add_child(new_node)

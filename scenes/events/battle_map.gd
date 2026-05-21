@@ -2,13 +2,10 @@
 class_name BattleMap extends Node3D
 
 #region Declarations
-signal end_map
 # TODO: Make BoardLayer a seperate thing so that we can switch maps on the fly.
 # TODO: Make it so random enemies generate and can begin moving and attacking.
-
 @export var player_ref : PackedScene
 @export var battle_board : GridMap ## The Gridmap that acts as the actual map for the battle
-@export var turn_tracker : TurnTracker ## A local reference to the [TurnTracker]
 @export var select_holder : Node3D
 @export var b_tile : PackedScene
 @export var board_zone : MapBoundary
@@ -19,7 +16,7 @@ signal end_map
 # TODO: Change the entire scene to be a background with a custom grid definition 
 # TODO: With the custom grid definition, selection should be possible with a gui_input over the whole map
 # TODO: Action Selection should come from this selection process.
-var scene : BaseEventScene
+var scene : BattleScene
 var active_enemies : Array[TileEntity] = []
 var board : Dictionary[Vector2i, BattleTile] = {}
 var map_ended : bool = false
@@ -34,7 +31,6 @@ func _ready() -> void:
 	
 	board_zone.scan_complete.connect(func(): is_ready = true)
 	
-	CombatManager.battle_end.emit()
 	scene = find_parent("BattleScene")
 	
 	if not board_zone:
@@ -43,9 +39,8 @@ func _ready() -> void:
 	
 	var board_size := board_zone.size
 	camera.init(Vector3(board_zone.pos) + Vector3(board_size.x, 0, board_size.z) / 2)
-	_generate_board()
 
-func _generate_board() -> void:
+func generate_board() -> void:
 	if not b_tile:
 		push_warning("There is no battle tile set in battle map scene...")
 		return
@@ -84,15 +79,15 @@ func define_enemy_arrays() -> void:
 
 # TODO: Flesh this out so that it works for Support enemies, Allies, and the Player
 func generate_turn_order() -> void:
-	if not turn_tracker:
+	if not scene.turn_tracker:
 		return
 	
 	var turn_order : Array[TileEntity] = []
 	var enemy_orders = _get_enemy_order()
 	var player_order = _get_player_order()
 	turn_order = _zip_orders(player_order, enemy_orders)
-	turn_tracker.turn_list = turn_order
-	turn_tracker.generate_turns()
+	scene.turn_tracker.turn_list = turn_order
+	scene.turn_tracker.generate_turns()
 
 func determine_selectables() -> void:
 	if not select_holder:
@@ -244,21 +239,21 @@ func dist_to_player(pos: Vector2i) -> float:
 #endregion
 
 func battle_loop(rounds: int = -1, cur_round: int = 0) -> void:
-	if not turn_tracker:
+	if not scene.turn_tracker:
 		return
 	
-	print(turn_tracker.turn_list)
-	for actor in turn_tracker.turn_list:
+	print(scene.turn_tracker.turn_list)
+	for actor in scene.turn_tracker.turn_list:
 		if actor is TilePlayer:
 			CombatManager.player_turn = true
 			await GameGlobal.events.player_turn
-			turn_tracker.recycle_turn()
+			scene.turn_tracker.recycle_turn()
 			continue
 		
 		print("%s: Committing Action" % actor.name)
 		actor.commit_action()
 		await actor.parent_tile.turn_finished
-		turn_tracker.recycle_turn()
+		scene.turn_tracker.recycle_turn()
 		if map_ended:
 			return
 	

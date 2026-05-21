@@ -97,7 +97,7 @@ func _on_return_pressed() -> void:
 	actions.hide()
 	items.hide()
 	moves.hide()
-	battle_scene.battle_board.determine_selectables()
+	battle_scene.battle_map.determine_selectables()
 	
 
 func _on_data_sent(data: Variant) -> void:

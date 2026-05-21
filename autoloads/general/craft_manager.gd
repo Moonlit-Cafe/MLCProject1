@@ -1,27 +1,32 @@
 ## The Autoload in charge of handling crafting requests along with loading all the data.
-extends Node
+class_name CraftManager extends Node
 
 signal craft_request ## Signal called when ever a craft is requested via [method craft].
 
 @export var texture_atlas : Texture2D ## The atlas reference to use for giving item nodes their texture (W.I.P.)
 @export var texture_grid_size : Vector2i ## The size of each texture in [member texture_atlas]
-
-@export var recipe_compendium : RecipeCompendium ## Reference to the Recipe Compendium used for the game
+@export_file(".json") var recipe_data_path : String ## Reference to the Recipe Compendium used for the game
+@export var item_node : PackedScene
+@export var equip_node : PackedScene
+@export var weapon_node : PackedScene
 
 var available_to_craft : Array[Item] ## All available items to craft since last [method request_craft_list] call
+var recipe_compendium : Dictionary[String, Recipe]
 
-@export var item_node :PackedScene
-@export var equip_node :PackedScene
-@export var weapon_node :PackedScene
-
-
-#region Built-Ins
+#region Events
 func _ready() -> void:
-	# Initialize both compendiums so that their data is available.
-	recipe_compendium.init()
-#endregion
+	await GameGlobal.ready
+	GameGlobal.logging.post_message(self, "Loading Recipes")
+	_load_recipes()
 
-#region Public Methods
+func _load_recipes() -> void:
+	if not recipe_data_path:
+		GameGlobal.logging.post_warning(self, "There is no referenced recipe database file.")
+	var loaded_recipes : Dictionary = FileHelper.load_database(recipe_data_path)
+	for id in loaded_recipes.keys():
+		var recipe = Recipe.new()
+		recipe.load_data(loaded_recipes.get(id))
+		recipe_compendium.set(id, recipe)
 
 ## Grabs the specific portion of the texture to then set to the ItemNode's texture
 # TODO: Implement this with the new ItemNode structure. Will have to wait till after

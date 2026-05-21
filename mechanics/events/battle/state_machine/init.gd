@@ -5,7 +5,9 @@ extends CombatState
 
 #region Events
 func update(_delta: float) -> void:
+	combat_scene.battle_map.generate_board()
 	_generate_battle()
+	combat_scene.battle_map.init()
 	finished.emit(ENTITY_TURN)
 
 # TODO: Fix generation later

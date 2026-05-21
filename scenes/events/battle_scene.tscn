@@ -5,23 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b71p3f76aob3l" path="res://ui/events/battle/battle_log.tscn" id="4_dgmmm"]
 [ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://ui/events/battle/action_menu.tscn" id="4_hmtxi"]
 [ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/events/battle/turn_tracker.tscn" id="4_sou65"]
-[ext_resource type="Script" uid="uid://ct7hr4hqbqjj0" path="res://scenes/events/hover_panel.gd" id="9_uvxka"]
-[ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://assets/sprites/characters/character_1_frame16x20.png" id="10_bt28h"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kc8yn"]
-atlas = ExtResource("10_bt28h")
-region = Rect2(0, 0, 13, 14)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_t2ffq"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kc8yn")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="PackedScene" uid="uid://cxeetx3ud8b6k" path="res://ui/battle/hover_panel.tscn" id="6_dgmmm"]
 
 [node name="BattleScene" type="Node" unique_id=54698120 node_paths=PackedStringArray("actions_menu", "battle_log", "turn_tracker", "battle_map", "hover_panel")]
 script = ExtResource("1_w5vvb")
@@ -90,40 +74,6 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "Action Select"
 
-[node name="HoverPanel" type="VBoxContainer" parent="CanvasLayer" unique_id=243338970]
-self_modulate = Color(0.25565878, 0.25565878, 0.25565878, 1)
-z_as_relative = false
-offset_right = 69.0
-offset_bottom = 118.0
-script = ExtResource("9_uvxka")
-
-[node name="Subject" type="HBoxContainer" parent="CanvasLayer/HoverPanel" unique_id=422615038]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HoverPanel/Subject" unique_id=1561275788]
-layout_mode = 2
-
-[node name="Sprite" type="AnimatedSprite2D" parent="CanvasLayer/HoverPanel/Subject/MarginContainer" unique_id=1651831874]
-scale = Vector2(2, 2)
-sprite_frames = SubResource("SpriteFrames_t2ffq")
-centered = false
-
-[node name="Control" type="Control" parent="CanvasLayer/HoverPanel/Subject" unique_id=1793829073]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/HoverPanel/Subject" unique_id=400660375]
-layout_mode = 2
-text = "Test Name"
-
-[node name="Text" type="VBoxContainer" parent="CanvasLayer/HoverPanel" unique_id=764728420]
-layout_mode = 2
-
-[node name="Description" type="Label" parent="CanvasLayer/HoverPanel/Text" unique_id=1417882914]
-layout_mode = 2
-text = "Some stuff about him"
-
-[node name="SubLabel" type="Label" parent="CanvasLayer/HoverPanel/Text" unique_id=1847555901]
-layout_mode = 2
-text = "(100, 20, 3)"
+[node name="HoverPanel" parent="CanvasLayer" unique_id=981763394 instance=ExtResource("6_dgmmm")]
 
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="_attack_tile"]

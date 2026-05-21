@@ -12,7 +12,7 @@ signal tile_in_arr(tile: BattleTile)
 @warning_ignore_restore("unused_signal")
 
 @export var combat_machine_scene : PackedScene
-var combat_machine : StateMachine
+var combat_machine : CombatMachine
 @export var enemy_compendium : Array[EnemyCharacter] = [] ## The entire list of available enemies
 @export var obstacle_compendium : Array[ObstacleObject] = [] ## The entire list of available obstacles
 @export_category(&"Manager Scenes")

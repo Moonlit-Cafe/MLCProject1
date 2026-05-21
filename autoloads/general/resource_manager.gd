@@ -45,9 +45,8 @@ var resource_count : Dictionary[StringName, int] = {
 #endregion
 
 #region Events
-func init() -> void:
-	while (not GameGlobal.logging):
-		await GameGlobal.delay(0.5)
+func _ready() -> void:
+	await GameGlobal.ready
 	print("Initializing: ResourceManager")
 	load_data()
 

@@ -19,12 +19,7 @@ static func load_database(file_path: String) -> Dictionary:
 	if error == OK:
 		if json.data is Dictionary:
 			print(json.data)
-			for key in json.data.keys():
-				var key_data : Dictionary = {}
-				for data in json.data.get(key).keys():
-					var data_value = dmh.detect_special_data(json.data.get(key).get(data))
-					key_data.set(data, data_value)
-				database.set(key, key_data)
+			database = load_dictionary(json.data)
 		GameGlobal.logging.post_message(null, "Database from file %s successfully loaded." % file_path)
 	else:
 		GameGlobal.logging.post_warning(null, "JSON Parse Error: %s at line %d in file %s" % [
@@ -33,20 +28,39 @@ static func load_database(file_path: String) -> Dictionary:
 	
 	return database
 
-static func save_database(file_path: String, database: Dictionary) -> void:
+static func load_dictionary(dict: Dictionary) -> Dictionary:
 	var dmh := DataManipulationHelper.new()
+	var loaded_dict : Dictionary = {}
+	for key in dict.keys():
+		var value = dict.get(key)
+		if value is Dictionary:
+			value = load_dictionary(value)
+		else:
+			value = dmh.detect_special_data(value)
+		
+		loaded_dict.set(key, value)
+	return loaded_dict
+
+static func save_database(file_path: String, database: Dictionary) -> void:
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
-	var str_data : Dictionary = {}
-	for key in database.keys():
-		var str_key_data : Dictionary = {}
-		for data in database.get(key).keys():
-			var data_value = dmh.encode_special_data(data)
-			str_key_data.set(data, data_value)
-		str_data.set(key, str_key_data)
+	var str_data : Dictionary = save_dictionary(database)
 	
 	var json_string = JSON.stringify(str_data, "\t")
 	file.store_string(json_string)
 	file.close()
+
+static func save_dictionary(dict: Dictionary) -> Dictionary:
+	var dmh := DataManipulationHelper.new()
+	var saved_dict : Dictionary = {}
+	for key in dict.keys():
+		var value = dict.get(key)
+		if value is Dictionary:
+			value = save_dictionary(dict)
+		else:
+			value = dmh.encode_special_data(value)
+		
+		saved_dict.set(key, value)
+	return saved_dict
 
 ## Used specifically with Web export to load assets because of how export name-changing works.
 static func load_asset(path : String) -> Resource:

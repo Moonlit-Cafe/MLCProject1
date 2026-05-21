@@ -56,8 +56,6 @@ func init_character_data() -> void:
 	new_data.haste = stats.get(Genum.StatType.HASTE)
 	new_data.init()
 	character_data = new_data
-	
-	
 
 ## Gets the player's available usable items from within the inventory
 func get_usables() -> Array[Usable]:

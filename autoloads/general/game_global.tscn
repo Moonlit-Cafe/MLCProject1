@@ -4,6 +4,11 @@
 [ext_resource type="Script" uid="uid://bhlj7bhjklybl" path="res://autoloads/general/game_global_events.gd" id="2_i0j8s"]
 [ext_resource type="Script" uid="uid://05aasoq0nrxc" path="res://autoloads/general/resource_manager.gd" id="3_i0j8s"]
 [ext_resource type="Script" uid="uid://cw7wpy4dspogd" path="res://autoloads/general/log_system.gd" id="4_i0e3a"]
+[ext_resource type="Script" uid="uid://bwtaxv5fchqjc" path="res://autoloads/general/craft_manager.gd" id="5_76pmh"]
+[ext_resource type="Texture2D" uid="uid://cbcxh5fov5q8d" path="res://assets/sprites/items_sheet.png" id="6_wjnqu"]
+[ext_resource type="PackedScene" uid="uid://dcbf8bab4sdd3" path="res://mechanics/inventory/item_node.tscn" id="7_1iixs"]
+[ext_resource type="PackedScene" uid="uid://82v5d6cakdan" path="res://mechanics/inventory/equippable_node.tscn" id="8_qjw8y"]
+[ext_resource type="PackedScene" uid="uid://c2djdhoksebun" path="res://mechanics/inventory/weapon_node.tscn" id="9_wt1g1"]
 
 [node name="GameGlobal" type="Node" unique_id=1798200772]
 script = ExtResource("1_xvqkf")
@@ -20,3 +25,12 @@ material_data_path = "res://assets/data/material_data.json"
 equippable_data_path = "res://assets/data/equip_item_data.json"
 action_shape_data_path = "res://assets/data/action_shape_data.json"
 action_data_path = "res://assets/data/action_data.json"
+
+[node name="CraftManager" type="Node" parent="." unique_id=275946794]
+script = ExtResource("5_76pmh")
+texture_atlas = ExtResource("6_wjnqu")
+texture_grid_size = Vector2i(16, 16)
+recipe_data_path = "res://assets/data/item_recipes.json"
+item_node = ExtResource("7_1iixs")
+equip_node = ExtResource("8_qjw8y")
+weapon_node = ExtResource("9_wt1g1")
