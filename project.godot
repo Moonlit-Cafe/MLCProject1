@@ -13,10 +13,6 @@ config_version=5
 "Signal Lens/resize_panel_on_open"=false
 "Signal Lens/height_to_resize_to"=400.0
 
-[animation]
-
-compatibility/default_parent_skeleton_in_mesh_instance_3d=true
-
 [application]
 
 config/name="CraftingCrawler"
@@ -32,7 +28,6 @@ buses/default_bus_layout="uid://dvht62llvfwqd"
 [autoload]
 
 SaveManager="*res://autoloads/saving/save_manager.gd"
-GameGlobal="*uid://cl4teprvlh1l4"
 AudioManager="*uid://bamjugiicnyji"
 PlayerManager="*res://autoloads/player/player_manager.tscn"
 SceneManager="*res://autoloads/scenes/scene_manager.tscn"
@@ -40,6 +35,7 @@ CombatManager="*res://autoloads/combat/combat_manager.tscn"
 MouseHandler="*res://autoloads/player/mouse_handler.tscn"
 Debug="*res://autoloads/debug/debug.tscn"
 SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
+GameGlobal="*res://autoloads/general/game_global.tscn"
 
 [display]
 
