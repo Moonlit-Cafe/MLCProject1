@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1xs6v76nmk44"]
+
+[ext_resource type="Script" uid="uid://cj7ruhoadqxva" path="res://scenes/events/unique_event_scene.gd" id="1_rpglw"]
+[ext_resource type="Script" uid="uid://bimn80jxcj5ag" path="res://mechanics/events/unique_event_list.gd" id="2_0arow"]
+[ext_resource type="Resource" uid="uid://dr8nrnab5teql" path="res://mechanics/events/test_event_list.tres" id="3_544vt"]
+
+[node name="UniqueEventScene" type="Node"]
+script = ExtResource("1_rpglw")
+events = Array[ExtResource("2_0arow")]([ExtResource("3_544vt")])
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+custom_minimum_size = Vector2(120, 32)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -16.0
+offset_right = 60.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Next Scene"
+
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_pressed"]

@@ -1,3 +1,12 @@
 # Godot 4+ specific ignores
 .godot/
+!.godot/uid_cache.bin
 /android/
+
+# Godot-specific ignores
+export.cfg
+export_credentials.cfg
+*.tmp
+
+*.DS_Store
+*.translation

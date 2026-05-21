@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://5k0oohaounls"]
+
+[ext_resource type="PackedScene" uid="uid://dgrxgtqiqfj70" path="res://scenes/prog_scene.tscn" id="1_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://npre0wq4yuc7" path="res://ui/player_hud.tscn" id="2_yqjtg"]
+
+[node name="Game" type="Node" unique_id=1242974487]
+
+[node name="ProgScene" parent="." unique_id=1912323753 instance=ExtResource("1_yqjtg")]
+
+[node name="PlayerHud" parent="." unique_id=325638820 instance=ExtResource("2_yqjtg")]

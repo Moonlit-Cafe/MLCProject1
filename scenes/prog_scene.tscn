@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://dgrxgtqiqfj70"]
+
+[ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/prog_scene.gd" id="1_dix4w"]
+[ext_resource type="PackedScene" uid="uid://djrchobtfcaw1" path="res://autoloads/general/sector_generator.tscn" id="6_2j0dp"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_2j0dp"]
+
+[node name="ProgScene" type="Node" unique_id=579246237 node_paths=PackedStringArray("button_container", "scene_holder", "sector_generator")]
+script = ExtResource("1_dix4w")
+button_container = NodePath("CanvasLayer/EventButtonContainer/VBoxContainer")
+scene_holder = NodePath("SceneHolder")
+sector_generator = NodePath("SectorGenerator")
+
+[node name="SectorGenerator" parent="." unique_id=1141385102 instance=ExtResource("7_lkxui")]
+
+[node name="SceneHolder" type="Node" parent="." unique_id=1535799412]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1496022011]
+
+[node name="EventButtonContainer" type="PanelContainer" parent="CanvasLayer" unique_id=999616349]
+custom_minimum_size = Vector2(120, 102)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -51.0
+offset_right = 80.0
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EventButtonContainer" unique_id=2079334269]
+layout_mode = 2
+
+[node name="PLACEHOLDER BG" type="TextureRect" parent="CanvasLayer" unique_id=1196109399]
+modulate = Color(0.2484, 0.2484, 0.2484, 0.631373)
+z_index = -99
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("CanvasTexture_2j0dp")
+metadata/_edit_use_anchors_ = true
+
+[node name="SectorGenerator" parent="." unique_id=1141385102 instance=ExtResource("6_2j0dp")]
