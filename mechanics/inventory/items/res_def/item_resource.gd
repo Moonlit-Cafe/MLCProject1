@@ -40,26 +40,25 @@ func get_tier_color() -> Color:
 
 ## Load the item from a given set of data handled by ResourceManager
 func load_data(data: Dictionary) -> void:
-	var dmh = DataManipulationHelper.new()
-	value = dmh.detect_special_data(data.get("value"))
-	tags = dmh.detect_special_data(data.get("tags"))
-	texture = dmh.detect_special_data(data.get("texture"))
-	tooltip = dmh.detect_special_data(data.get("tooltip"))
-	tier = dmh.detect_special_data(data.get("tier"))
-	equip_loc = dmh.detect_special_data(data.get("equip_loc"))
-	max_stack_size = dmh.detect_special_data(data.get("max_stack_size"))
+	i_name = data.get("name")
+	value = data.get("value")
+	tags.assign(data.get("tags"))
+	texture = data.get("texture")
+	tooltip = data.get("tooltip")
+	tier = data.get("tier")
+	equip_loc = data.get("equip_loc")
+	max_stack_size = data.get("max_stack_size")
 
 ## Saves the item data into a CSV, often by using CreativeTools
 func save_data() -> Dictionary:
-	var dmh = DataManipulationHelper.new()
 	var data : Dictionary = {
-		"value": "%s" % value,
-		"tags": "%s" % dmh.encode_special_data(tags),
-		"texture": "%s" % dmh.encode_special_data(texture),
+		"value": value,
+		"tags": tags,
+		"texture": texture,
 		"tooltip": tooltip,
-		"tier": "%s" % tier,
-		"equip_loc": "%s" % equip_loc,
-		"max_stack_size": "%s" % max_stack_size
+		"tier": tier,
+		"equip_loc": equip_loc,
+		"max_stack_size": max_stack_size
 	}
 	return data
 

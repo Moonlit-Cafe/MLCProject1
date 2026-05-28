@@ -60,7 +60,7 @@ func defend(damage: float, _offender: TileEntity) -> void:
 	stats.set(Genum.StatType.HEALTH, hp)
 	if hp <= 0:
 		print(self.name)
-		GameGlobalEvents.battle_removed.emit(self)
+		GameGlobal.events.battle_removed.emit(self)
 		# TODO make a death function, in case of on death triggers like barrels exploding
 		parent_tile.clear_object()
 
@@ -79,7 +79,7 @@ func commit_action() -> void:
 	if action is CombatAction:
 		attack(decision_packet)
 	elif action is MoveAction:
-		var board := parent_tile.battle_map
+		var board : BattleMap = parent_tile.battle_map
 		var cur_pos := Vector2i(parent_tile.tile_position.x, parent_tile.tile_position.z)
 		var dir = board.dir_to_player(cur_pos)
 		if action.towards_player:

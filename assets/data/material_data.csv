@@ -1,2 +1,0 @@
-id,equip_loc,material_type,max_stack_size,tags,texture,tier,tooltip,value
-Test Cloth,0,0,99,0;,"Vec[12,12]",0,"Just a piece of generic, no textured cloth!",3

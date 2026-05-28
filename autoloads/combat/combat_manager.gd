@@ -24,7 +24,8 @@ var battle_map : BattleMap :
 		if not value:
 			return
 		
-		battle_map.end_map.connect(clean_up)
+		battle_end.connect(clean_up)
+var battle_log : VBoxContainer
 
 var difficulty_modifier : float = 1 ## The growing difficulty as the game goes on
 var game_difficulty : float = 1 ## The chosen or set difficulty of the game
@@ -67,4 +68,8 @@ func update_difficulty(can_increase: bool = false) -> void:
 func clean_up() -> void:
 	battle_map = null
 	selected_action = null
+	battle_log = null
+
+func log_item(log_string: String) -> void:
+	battle_log.log(log_string)
 #endregion

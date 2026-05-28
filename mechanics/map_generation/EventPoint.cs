@@ -1,32 +1,33 @@
 using Godot;
 using Godot.Collections;
-using System;
+
+namespace CraftingCrawler.mechanics.map_generation;
 
 [GlobalClass]
 public partial class EventPoint : Resource
 {
 	public enum EventType
 	{
-		START,
-		BOSS_BATTLE,
-		BATTLE,
-		SHOP,
-		UNIQUE
+		Start,
+		BossBattle,
+		Battle,
+		Shop,
+		Unique
 	}
-	[Export] public StringName eventID = "New ID";
+	[Export] public StringName EventID = "New ID";
 
 	[Export]
-	public Dictionary EventTypeMap { get; private set; } = new Dictionary
+	public Dictionary EventTypeMap { get; private set; } = new()
 	{
-		{"START", (int)EventType.START},
-		{"BOSS_BATTLE", (int)EventType.BOSS_BATTLE},
-		{"BATTLE", (int)EventType.BATTLE},
-		{"SHOP", (int)EventType.SHOP},
-		{"UNIQUE", (int)EventType.UNIQUE}
+		{"START", (int)EventType.Start},
+		{"BOSS_BATTLE", (int)EventType.BossBattle},
+		{"BATTLE", (int)EventType.Battle},
+		{"SHOP", (int)EventType.Shop},
+		{"UNIQUE", (int)EventType.Unique}
 	};
 
-	[Export] public EventType eventType = EventType.BATTLE;
-	[Export] public Array<EventPoint> connectionsTo = [];
-	[Export] public Array<EventPoint> connectionsFrom = [];
-	[Export] public PackedScene scene;
+	[Export] public EventType Type = EventType.Battle;
+	[Export] public Array<EventPoint> ConnectionsTo = [];
+	[Export] public Array<EventPoint> ConnectionsFrom = [];
+	[Export] public PackedScene Scene;
 }

@@ -29,9 +29,9 @@ func _load_shapes() -> void:
 		action_directory.remove_child(child)
 		child.queue_free()
 	
-	for shape in ResourceManager.action_shape_compendium.keys():
+	for shape in GameGlobal.resources.action_shape_compendium.keys():
 		var data_button := DataButton.new()
-		var action_shape : ActionShape = ResourceManager.action_shape_compendium.get(shape)
+		var action_shape : ActionShape = GameGlobal.resources.action_shape_compendium.get(shape)
 		data_button.data = action_shape
 		data_button.text = action_shape.shape_name
 		data_button.send_data.connect(_on_data_button_pressed)
@@ -100,7 +100,7 @@ func _on_grid_button_pressed(toggled_on: bool, pos: Vector2i, _button: Button) -
 func _on_add_shape_pressed() -> void:
 	var shape := ActionShape.new()
 	shape.shape_name = "New Shape"
-	shape.shape_id = &"ACS_%s" % ResourceManager.resource_count.get(&"ActionShape")
+	shape.shape_id = &"ACS_%s" % GameGlobal.resources.resource_count.get(&"ActionShape")
 	shape.shape_pos_arr = [Vector2i(0, 0)]
 	_add_to_grid(shape)
 
@@ -113,12 +113,12 @@ func _on_save_shape_pressed() -> void:
 	vector_list.sort_custom(_sort_vectors)
 	modifying.shape_pos_arr = vector_list.duplicate()
 	
-	if modifying.shape_id in ResourceManager.action_shape_compendium.keys():
-		ResourceManager.action_shape_compendium.set(modifying.shape_id, modifying)
+	if modifying.shape_id in GameGlobal.resources.action_shape_compendium.keys():
+		GameGlobal.resources.action_shape_compendium.set(modifying.shape_id, modifying)
 	else:
-		ResourceManager.add_action_shape(modifying)
+		GameGlobal.resources.add_action_shape(modifying)
 	
-	ResourceManager.save_data()
+	GameGlobal.resources.save_data()
 	_clear_grid()
 	_load_shapes()
 
@@ -127,14 +127,14 @@ func _on_delete_shape_pressed() -> void:
 		push_warning("@ActionShapeManager: Can't delete what isn't being edited.")
 		return
 	
-	if modifying.shape_id in ResourceManager.action_shape_compendium.keys():
-		ResourceManager.remove_action_shape(modifying)
+	if modifying.shape_id in GameGlobal.resources.action_shape_compendium.keys():
+		GameGlobal.resources.remove_action_shape(modifying)
 	else:
 		push_warning("@ActionShapeManager: There is no corresponding ActionShape with modified id.")
 	
 	modifying = null
 	shape_name_edit.text = ""
-	ResourceManager.save_data()
+	GameGlobal.resources.save_data()
 	_clear_grid()
 	_load_shapes()
 #endregion

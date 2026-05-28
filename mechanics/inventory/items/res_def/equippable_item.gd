@@ -9,5 +9,4 @@ class_name EquippableItem extends Item
 
 func load_data(data: Dictionary) -> void:
 	super(data)
-	var dmh = DataManipulationHelper.new()
-	set_id = dmh.detect_special_data(data.get("set_id"))
+	set_id = data.get("set_id")

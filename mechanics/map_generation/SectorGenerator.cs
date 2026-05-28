@@ -1,41 +1,41 @@
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using Godot;
 using Godot.Collections;
+
+namespace CraftingCrawler.mechanics.map_generation;
 
 [GlobalClass]
 public partial class SectorGenerator : Node
 {
 	#region Declarations
-	[Export] public Array<EventRule> rules = [];
-	[Export] public int connectionsPerEvent = 2;
-	[Export] public bool perIO = false;
-	[Export] public Vector2I nodeBoard = new(5, 12);
-	[Export] public Dictionary<EventPoint.EventType, Array<PackedScene>> eventSceneRef = [];
-	[Export] public Array<Array<EventPoint>> eventList = [];
+	[Export] public Array<EventRule> Rules = [];
+	[Export] public int ConnectionsPerEvent = 2;
+	[Export] public bool PerIO;
+	[Export] public Vector2I NodeBoard;
+	[Export] public Dictionary<EventPoint.EventType, Array<PackedScene>> EventSceneRef = [];
+	[Export] public Array<Array<EventPoint>> EventList = [];
 	#endregion
 
 	#region Events
+	// ReSharper disable once MemberCanBePrivate.Global
 	public void GenerateEvents()
 	{
-		eventList = [];
+		EventList = [];
 
-		int eventIdx = 0;
-		for (int y = 0; y < nodeBoard.Y; y++)
+		var eventIdx = 0;
+		for (var y = 0; y < NodeBoard.Y; y++)
 		{
 			Array<EventPoint> eventRow = [];
-			for (int x = 0; x < nodeBoard.X; x++)
+			for (var x = 0; x < NodeBoard.X; x++)
 			{
 				EventPoint ev = new()
 				{
-					eventID=$"EV_{eventIdx}",
-					eventType=EventPoint.EventType.BATTLE
+					EventID=$"EV_{eventIdx}",
+					Type=EventPoint.EventType.Battle
 				};
 				eventRow.Add(ev);
 				eventIdx++;
 			}
-			eventList.Add(eventRow);
+			EventList.Add(eventRow);
 		}
 
 		SetRules();
@@ -47,23 +47,23 @@ public partial class SectorGenerator : Node
 	private void SetRules()
 	{
 		Array<EventRule> setRules = [];
-		foreach (EventRule rule in rules)
+		foreach (var rule in Rules)
 		{
-			if (rule.rule == EventRule.RuleType.SET)
+			if (rule.Rule == EventRule.RuleType.Set)
 			{
 				setRules.Add(rule);
 			}
 		}
 		
-		foreach(EventRule rule in setRules)
+		foreach(var rule in setRules)
 		{
-			foreach (EventPoint point in eventList[rule.layerNum])
+			foreach (var point in EventList[rule.LayerNum])
 			{
-				point.eventType = rule.eventType;
-				if (!eventSceneRef.ContainsKey(rule.eventType)) continue;
-				if (eventSceneRef[rule.eventType].Count() > 0)
+				point.Type = rule.EventType;
+				if (!EventSceneRef.TryGetValue(rule.EventType, out var value)) continue;
+				if (value.Count != 0)
 				{
-					point.scene = eventSceneRef[rule.eventType].PickRandom();
+					point.Scene = EventSceneRef[rule.EventType].PickRandom();
 				}
 			}
 		}
@@ -71,46 +71,45 @@ public partial class SectorGenerator : Node
 
 	private void GenerateConnections()
 	{
-		int rowPos = 0;
-		foreach (Array<EventPoint> eventRow in eventList)
+		var rowPos = 0;
+		foreach (var eventRow in EventList)
 		{
-			foreach(EventPoint ev in eventRow)
+			foreach(var ev in eventRow)
 			{
-				int connectCount = connectionsPerEvent;
-				if (rowPos + 1 >= eventList.Count())
+				var connectCount = ConnectionsPerEvent;
+				if (rowPos + 1 >= EventList.Count)
 				{
 					continue;
 				}
 
-				Array<EventPoint> nextRow = eventList[rowPos + 1];
-				if (!perIO)
+				var nextRow = EventList[rowPos + 1];
+				if (!PerIO)
 				{
-					connectCount -= ev.connectionsFrom.Count();
+					connectCount -= ev.ConnectionsFrom.Count;
 				}
 
 				while (connectCount > 0)
 				{
-					EventPoint nextEvent = nextRow.PickRandom(); //Change this to a global RNG later
-					if (nextEvent.connectionsFrom.Count() <= connectionsPerEvent && !ev.connectionsTo.Contains(nextEvent))
-					{
-						nextEvent.connectionsFrom.Add(ev);
-						ev.connectionsTo.Add(nextEvent);
-						connectCount--;
-					}
+					var nextEvent = nextRow.PickRandom(); //Change this to a global RNG later
+					if (nextEvent.ConnectionsFrom.Count > ConnectionsPerEvent ||
+						ev.ConnectionsTo.Contains(nextEvent)) continue;
+					nextEvent.ConnectionsFrom.Add(ev);
+					ev.ConnectionsTo.Add(nextEvent);
+					connectCount--;
 				}
 			}
 
-			if (rowPos + 1 < eventList.Count())
+			if (rowPos + 1 < EventList.Count)
 			{
 				Array<EventPoint> emptiedRow = [];
-				foreach(EventPoint ev in eventList[rowPos + 1])
+				foreach(var ev in EventList[rowPos + 1])
 				{
-					if (ev.connectionsFrom.Count() > 0)
+					if (ev.ConnectionsFrom.Count != 0)
 					{
 						emptiedRow.Add(ev);
 					}
 				}
-				eventList[rowPos + 1] = emptiedRow;
+				EventList[rowPos + 1] = emptiedRow;
 			}
 			rowPos++;
 		}
@@ -123,16 +122,16 @@ public partial class SectorGenerator : Node
 
 	private void SetScenes()
 	{
-		foreach (Array<EventPoint> eventRow in eventList)
+		foreach (var eventRow in EventList)
 		{
-			foreach(EventPoint ev in eventRow)
+			foreach(var ev in eventRow)
 			{
-				if (!eventSceneRef.ContainsKey(ev.eventType))
+				if (!EventSceneRef.ContainsKey(ev.Type))
 				{
-					GD.PushWarning($"@SectorGenerator: There is no reference to EventType {ev.eventType}");
+					GD.PushWarning($"@SectorGenerator: There is no reference to EventType {ev.Type}");
 					continue;
 				}
-				ev.scene = eventSceneRef[ev.eventType].PickRandom();
+				ev.Scene = EventSceneRef[ev.Type].PickRandom();
 			}
 		}
 	}

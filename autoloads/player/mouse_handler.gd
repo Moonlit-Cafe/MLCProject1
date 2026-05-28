@@ -71,7 +71,7 @@ func _inventory_handling(event: InputEventMouseButton) -> void:
 		if event.pressed and hovered_slot:
 			if hovered_slot.can_slot == Genum.EquipLocation.WEAPON:
 				if hovered_slot.held_item != null:
-					GameGlobalEvents.weapon_open.emit()
+					GameGlobal.events.weapon_open.emit()
 
 func _move_to_hovered() -> void:
 	var item_to_move : ItemNode = container.held_item

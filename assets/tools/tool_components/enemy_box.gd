@@ -7,8 +7,8 @@ var best_score : float = 0.0
 
 func _ready() -> void:
 	super._ready()
-	
 
+## TODO: Adapt for deciders
 func process_turn(player:UnitBox) -> void :
 	var decision_list = character.deciders.deciders.get(DeciderHolder.TargetType.PLAYER)
 	var player_ref = get_tree().get_first_node_in_group(&"player")

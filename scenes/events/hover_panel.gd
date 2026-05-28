@@ -1,11 +1,8 @@
 extends VBoxContainer
 
-@onready var container = $Subject/SubViewportContainer
 @onready var title = $Subject/Label
 @onready var description = $Text/Description
 @onready var subinfo = $Text/SubLabel
-
-
 
 func tile_hover(inc_tile : BattleTile = MouseHandler.hovered_tile):
 	#FIXME Panel back is now 100% Transparent
@@ -36,7 +33,6 @@ func _define_sprite(entity):
 	# Something to do with hovering over a null panel, probably?
 	$Subject/MarginContainer.add_theme_constant_override("margin_right", sprite.sprite_frames.get_frame_texture(sprite.animation, 0).get_width()*2)
 	$Subject/MarginContainer.add_theme_constant_override("margin_bottom", sprite.sprite_frames.get_frame_texture(sprite.animation, 0).get_height()*2)
-
 	
 
 func enable():

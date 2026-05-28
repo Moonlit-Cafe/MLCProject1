@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://bwckmsndfnk5n"]
+
+[ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/prog_scene.gd" id="1_6j0i0"]
+
+[node name="TESTMenu" type="Node2D" unique_id=1900083683 node_paths=PackedStringArray("button_container", "scene_holder")]
+visible = false
+script = ExtResource("1_6j0i0")
+button_container = NodePath("CanvasLayer/EventButtonContainer/VBoxContainer")
+scene_holder = NodePath("SceneHolder")
+test_version = true
+
+[node name="SceneHolder" type="Node" parent="." unique_id=1971874007]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=464592067]
+
+[node name="EventButtonContainer" type="PanelContainer" parent="CanvasLayer" unique_id=866295246]
+custom_minimum_size = Vector2(120, 102)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 224.0
+offset_top = 76.0
+offset_right = 383.99976
+offset_bottom = 178.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EventButtonContainer" unique_id=1192955689]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/EventButtonContainer/VBoxContainer" unique_id=1582441117]
+layout_mode = 2
+text = "SUPER DUPER TEST MENU"

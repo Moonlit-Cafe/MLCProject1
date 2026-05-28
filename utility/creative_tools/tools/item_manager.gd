@@ -18,9 +18,9 @@ func _load_data() -> void:
 	# Clears the directory
 	_clear_directory()
 	
-	for item_id in ResourceManager.item_compendium.keys():
+	for item_id in GameGlobal.resources.item_compendium.keys():
 		var data_button := DataButton.new()
-		var item : Item = ResourceManager.item_compendium.get(item_id)
+		var item : Item = GameGlobal.resources.item_compendium.get(item_id)
 		data_button.text = item.i_name
 		data_button.data = item
 		data_button.send_data.connect(_on_data_pressed)
@@ -107,7 +107,7 @@ func _on_data_pressed(data: Variant) -> void:
 
 func _save_data_pressed() -> void:
 	var dmh := DataManipulationHelper.new()
-	var item : Item = ResourceManager.item_compendium.get(i_data.get(&"id"))
+	var item : Item = GameGlobal.resources.item_compendium.get(i_data.get(&"id"))
 	var data_keys := i_data.keys()
 	var idx : int = 0
 	for child in info_container.get_children():
@@ -135,15 +135,15 @@ func _save_data_pressed() -> void:
 	
 	print(i_data)
 	item.load_data(i_data)
-	ResourceManager.save_data()
+	GameGlobal.resources.save_data()
 	_clear_info()
 	_load_data()
 
 func _delete_data_pressed() -> void:
-	if i_data.get("id") in ResourceManager.item_compendium:
-		ResourceManager.remove_item(i_data.get("id"))
+	if i_data.get("id") in GameGlobal.resources.item_compendium:
+		GameGlobal.resources.remove_item(i_data.get("id"))
 	i_data = {}
-	ResourceManager.save_data()
+	GameGlobal.resources.save_data()
 	_clear_info()
 	_load_data()
 
@@ -151,12 +151,12 @@ func _add_item_pressed() -> void:
 	item_choice_container.show()
 
 func _material_item_pressed() -> void:
-	var material_count : int = ResourceManager.get_data_count(ResourceManager.DataType.ITEM,
+	var material_count : int = GameGlobal.resources.get_data_count(ResourceManager.DataType.ITEM,
 		ResourceManager.ItemType.MATERIAL)
 	var item := MaterialItem.new()
 	item.id = &"MAT_%s" % material_count
 	item.i_name = "New Material %s" % material_count
-	ResourceManager.item_compendium.set(item.id, item)
+	GameGlobal.resources.item_compendium.set(item.id, item)
 	_on_data_pressed(item)
 	item_choice_container.hide()
 

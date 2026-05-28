@@ -40,7 +40,6 @@ func get_decision() -> DecisionPacket:
 	for result in decision_results:
 		if not top_result:
 			top_result = result
-		
 		if result.score > top_result.score:
 			top_result = result
 	

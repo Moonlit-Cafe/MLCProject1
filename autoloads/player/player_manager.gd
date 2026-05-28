@@ -6,7 +6,7 @@ extends Node
 var hp : int = 10 :
 	set(value):
 		if value <= 0:
-			GameGlobalEvents.game_end.emit()
+			GameGlobal.events.game_end.emit()
 		else:
 			hp = value
 			CombatManager.hp_changed.emit()
@@ -56,8 +56,6 @@ func init_character_data() -> void:
 	new_data.haste = stats.get(Genum.StatType.HASTE)
 	new_data.init()
 	character_data = new_data
-	
-	
 
 ## Gets the player's available usable items from within the inventory
 func get_usables() -> Array[Usable]:
@@ -152,7 +150,7 @@ func _update_bonus(index:int, value:int) -> void:
 			stats.set(key, combat_stats.get(key) - bonus[key])
 
 	else:
-		push_warning("No bonus_type selected for set_id: " + str(set_bonuses[index]))
+		GameGlobal.logging.post_warning(self, "No bonus_type selected for set_id: %s" % set_bonuses[index])
 		return
 	
 	

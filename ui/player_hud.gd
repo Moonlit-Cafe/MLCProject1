@@ -49,17 +49,19 @@ func _connect_equip_slots() -> void:
 	_check_sets()
 		
 func _check_sets() -> void:
+	if GameGlobal.resources.set_compendium.size() == 0:
+		return
 	var equipped_sets = _count_sets()
 	var bonuses : PackedByteArray
-	if ResourceManager.set_compendium.keys().max():
-		bonuses.resize(ResourceManager.set_compendium.keys().max() + 1)
+	if GameGlobal.resources.set_compendium.keys().max():
+		bonuses.resize(GameGlobal.resources.set_compendium.keys().max() + 1)
 	else:
 		bonuses.resize(0)
 	
 
 	for cur_set in equipped_sets:
 		bonuses.set(cur_set,  
-			int(equipped_sets[cur_set] >= ResourceManager.set_compendium[cur_set]["required"])
+			int(equipped_sets[cur_set] >= GameGlobal.resources.set_compendium[cur_set]["required"])
 		)
 	
 	PlayerManager.update_sets(bonuses)
@@ -68,7 +70,7 @@ func _check_sets() -> void:
 		if slot.held_item as EquippableNode:
 			var cur_set = slot.held_item.item.set_id
 			var equipped = equipped_sets[cur_set]
-			var required = ResourceManager.set_compendium[cur_set as int]["required"]
+			var required = GameGlobal.resources.set_compendium[cur_set as int]["required"]
 			var text_color = Color.DARK_GREEN if equipped >= required else Color.WHITE
 			
 			slot.held_item.count_label.text = "%s / %s" % [equipped,  required]
@@ -100,10 +102,10 @@ func _generate_random_itemnodes() -> void:
 	var rand_items : Array[Item] = []
 	
 	for i in range(3):
-		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.MATERIAL))
-		rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
+		rand_items.append(GameGlobal.craft.get_random_item(ResourceManager.ItemType.MATERIAL))
+		rand_items.append(GameGlobal.craft.get_random_item(ResourceManager.ItemType.EQUIPPABLE, i))
 	
-	rand_items.append(CraftManager.get_random_item(ResourceManager.ItemType.EQUIPPABLE))
+	rand_items.append(GameGlobal.craft.get_random_item(ResourceManager.ItemType.EQUIPPABLE))
 	print(rand_items)
 		
 	for item in rand_items:
@@ -111,7 +113,7 @@ func _generate_random_itemnodes() -> void:
 		while slot.get_child_count() > 1:
 			slot = container.get_child(randi_range(0, inv_size.x * inv_size.y - 1))
 		
-		var new_node = CraftManager.generate_node(item)
+		var new_node = GameGlobal.craft.generate_node(item)
 		new_node.item = item
 		new_node.count = randi_range(1, item.max_stack_size)
 		slot.add_child(new_node)

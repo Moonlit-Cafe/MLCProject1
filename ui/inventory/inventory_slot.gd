@@ -15,7 +15,7 @@ var held_item : ItemNode = null :
 			PlayerManager.regen_combat_stats()
 		
 		held_item = value
-@onready var label = $GridContainer/Label
+@export var label : Label
 
 signal check_set()
 
@@ -33,7 +33,7 @@ func _ready() -> void:
 
 ## Generates a new item based on the item id and the amount to generate.
 func generate_item(item_id: StringName, count : int = 1) -> void:
-	var node : ItemNode = CraftManager.generate_node(null, item_id)
+	var node : ItemNode = GameGlobal.craft.generate_node(null, item_id)
 	node.count = count
 	add_child(node)
 	held_item = node
