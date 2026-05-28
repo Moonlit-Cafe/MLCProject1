@@ -15,6 +15,8 @@ func _ready() -> void:
 	$MenuContainers/MenuActionsContainer/Actions.grab_focus()
 	
 	CombatManager.use_action.connect(_on_used_action)
+	
+	_fill_action_menu()
 
 func _input(event: InputEvent) -> void:
 	var focused_ui = get_viewport().gui_get_focus_owner()
