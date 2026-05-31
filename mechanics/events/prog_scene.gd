@@ -43,7 +43,7 @@ func generate_next_events() -> void:
 func _generate_event_button(event: EventPoint) -> void:
 	var event_button := EventButton.new()
 	event_button.event = event
-	event_button.text = event.EventID
+	event_button.text = event.EventTypeMap.keys()[event.Type]
 	button_container.add_child(event_button)
 	event_button.next_event.connect(_on_event_button_pressed)
 
