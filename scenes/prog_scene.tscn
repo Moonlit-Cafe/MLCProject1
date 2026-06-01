@@ -1,17 +1,15 @@
 [gd_scene format=3 uid="uid://dgrxgtqiqfj70"]
 
 [ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/prog_scene.gd" id="1_dix4w"]
-[ext_resource type="PackedScene" uid="uid://djrchobtfcaw1" path="res://autoloads/general/sector_generator.tscn" id="6_2j0dp"]
+[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://mechanics/map_generation/SectorGenerator.cs" id="2_w5uip"]
+[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="3_htg7h"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_2j0dp"]
 
-[node name="ProgScene" type="Node" unique_id=579246237 node_paths=PackedStringArray("button_container", "scene_holder", "sector_generator")]
+[node name="ProgScene" type="Node" unique_id=579246237 node_paths=PackedStringArray("button_container", "scene_holder")]
 script = ExtResource("1_dix4w")
 button_container = NodePath("CanvasLayer/EventButtonContainer/VBoxContainer")
 scene_holder = NodePath("SceneHolder")
-sector_generator = NodePath("SectorGenerator")
-
-[node name="SectorGenerator" parent="." unique_id=1141385102 instance=ExtResource("7_lkxui")]
 
 [node name="SceneHolder" type="Node" parent="." unique_id=1535799412]
 
@@ -46,4 +44,9 @@ mouse_filter = 2
 texture = SubResource("CanvasTexture_2j0dp")
 metadata/_edit_use_anchors_ = true
 
-[node name="SectorGenerator" parent="." unique_id=1141385102 instance=ExtResource("6_2j0dp")]
+[node name="SectorGenerator" type="Node" parent="." unique_id=1882652376]
+script = ExtResource("2_w5uip")
+NodeBoard = Vector2i(5, 12)
+EventSceneRef = Dictionary[int, Array]({
+2: [ExtResource("3_htg7h")]
+})

@@ -53,8 +53,8 @@ func _check_sets() -> void:
 		return
 	var equipped_sets = _count_sets()
 	var bonuses : PackedByteArray
-	if ResourceManager.set_compendium.keys().max():
-		bonuses.resize(ResourceManager.set_compendium.keys().max() + 1)
+	if GameGlobal.resources.set_compendium.keys().max():
+		bonuses.resize(GameGlobal.resources.set_compendium.keys().max() + 1)
 	else:
 		bonuses.resize(0)
 	

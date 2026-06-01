@@ -15,6 +15,8 @@ func _ready() -> void:
 	$MenuContainers/MenuActionsContainer/Actions.grab_focus()
 	
 	CombatManager.use_action.connect(_on_used_action)
+	
+	_fill_action_menu()
 
 func _input(event: InputEvent) -> void:
 	var focused_ui = get_viewport().gui_get_focus_owner()
@@ -103,8 +105,8 @@ func _on_return_pressed() -> void:
 func _on_data_sent(data: Variant) -> void:
 	if data is Usable:
 		CombatManager.selected_action = data
-		battle_scene.battle_board.determine_selectables()
+		battle_scene.battle_map.determine_selectables()
 	elif data is Action:
 		CombatManager.selected_action = data
-		battle_scene.battle_board.determine_selectables()
+		battle_scene.battle_map.determine_selectables()
 #endregion

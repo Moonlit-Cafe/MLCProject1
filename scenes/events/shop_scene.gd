@@ -11,6 +11,8 @@ extends BaseEventScene
 # TODO Tyler Add money to game
 	# make enemies drop money on die
 	# make enemies drop items on die (sometimes later but always for now)
+	# track money independently (player manager?)
+	# gatekeep purchases behind money requirements
 func _ready() -> void:
 	var slot_boxes = [mat_slots,
 					use_slots,

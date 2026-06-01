@@ -1,11 +1,13 @@
 using Godot;
 
+namespace CraftingCrawler.mechanics.map_generation;
+
 [GlobalClass]
 public partial class EventHolder : Resource
 {
-    [Export] public StringName scene_name = "";
-    [Export] public EventPoint.EventType eventType = EventPoint.EventType.START;
-    [Export] public PackedScene scene;
-    [Export] public float weight;
-    int eventIdx = 0;
+	[Export] public StringName SceneName = "";
+	[Export] public EventPoint.EventType EventType = EventPoint.EventType.Start;
+	[Export] public PackedScene Scene;
+	[Export] public float Weight;
+	private int _eventIdx = 0;
 }
