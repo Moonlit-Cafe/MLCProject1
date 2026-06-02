@@ -191,12 +191,12 @@ func grab_other_tiles(tiles_to_grab: Array[Vector2i], center_pos) -> Array[Battl
 	
 	return ret_arr
 	
-func attack_tile(tile:BattleTile, action:Action):
+func attack_tile(tile:BattleTile, action:CombatAction):
 	if not check_tile_exists(Vector2i(tile.tile_position.x, tile.tile_position.y)):
 		return
 	
-	#if tile.held_entity:
-		#tile.held_entity
+	if tile.held_entity:
+		tile.held_entity.hp -= action.value
 
 func check_tile_empty(pos: Vector2i) -> bool:
 	if not check_tile_exists(pos):

@@ -15,18 +15,18 @@ var haste : int ## The decider of aNn object's place in the turn order.
 #var character : Variant
 #var parent_tile : BattleTile
 #
-#var hp : int = -1 :
-#	set(value):
-#		#if not held_entity:
-#			#return
-#		
-#		if value <= 0:
-#			# PLANNED setup signal instead of double get_parent() call
-#			parent_tile.clear_object()
-#			hp = -1
-#		else:
-#			hp = value
-#var max_hp : int = 0
+var hp : float = -1 :
+	set(value):
+		#if not held_entity:
+			#return
+		
+		if value <= 0:
+			# PLANNED setup signal instead of double get_parent() call
+			parent_tile.clear_object()
+			hp = -1
+		else:
+			hp = value
+var max_hp : int = 0
 #endregion
 
 #region Events
