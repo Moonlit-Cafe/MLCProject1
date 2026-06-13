@@ -9,6 +9,7 @@ extends BaseEventScene
 # FIXME: There's regual inventory movement mechanics within the shop, we'll section it off later.
 	
 # TODO Tyler Add money to game
+	# should also be a stat that the player tracks
 	# make enemies drop money on die
 	# make enemies drop items on die (sometimes later but always for now)
 func _ready() -> void:
