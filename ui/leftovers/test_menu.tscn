@@ -1,21 +1,19 @@
 [gd_scene format=3 uid="uid://bwckmsndfnk5n"]
 
-[ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/prog_scene.gd" id="1_6j0i0"]
-[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://mechanics/map_generation/SectorGenerator.cs" id="2_3epdd"]
-[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="3_4rh81"]
+[ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/prog_scene.gd" id="1_3epdd"]
+[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://mechanics/map_generation/SectorGenerator.cs" id="2_4rh81"]
+[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="3_g85mt"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_2j0dp"]
 
 [node name="ProgScene" type="Node" unique_id=579246237 node_paths=PackedStringArray("button_container", "scene_holder")]
-script = ExtResource("1_6j0i0")
+script = ExtResource("1_3epdd")
 button_container = NodePath("CanvasLayer/EventButtonContainer/VBoxContainer")
 scene_holder = NodePath("SceneHolder")
 
 [node name="SceneHolder" type="Node" parent="." unique_id=1535799412]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1496022011]
-offset = Vector2(400, 150)
-transform = Transform2D(1, 0, 0, 1, 400, 150)
 
 [node name="EventButtonContainer" type="PanelContainer" parent="CanvasLayer" unique_id=999616349]
 custom_minimum_size = Vector2(120, 102)
@@ -47,8 +45,8 @@ texture = SubResource("CanvasTexture_2j0dp")
 metadata/_edit_use_anchors_ = true
 
 [node name="SectorGenerator" type="Node" parent="." unique_id=1882652376]
-script = ExtResource("2_3epdd")
+script = ExtResource("2_4rh81")
 NodeBoard = Vector2i(5, 12)
 EventSceneRef = Dictionary[int, Array]({
-2: [ExtResource("3_4rh81")]
+2: [ExtResource("3_g85mt")]
 })

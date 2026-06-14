@@ -63,7 +63,6 @@ func action_on_tiles() -> void:
 	tiles.append(tile)
 	
 	for cur_tile in tiles:
-		# FIXME finish wiring up in battle_map
 		battle_map.attack_tile(cur_tile, action)
 
 
