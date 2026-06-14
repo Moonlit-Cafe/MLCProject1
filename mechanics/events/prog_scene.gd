@@ -5,7 +5,7 @@ class_name ProgScene extends Node
 #region Declarations
 @export var button_container : VBoxContainer ## The container holding the buttons for next progression scene 
 @export var scene_holder : Node ## The Node that acts as a parent to the event scenes.
-@export var test_version : bool
+@export var test_version : bool = false
 
 @onready var sector_generator : SectorGenerator = $SectorGenerator
 
@@ -20,6 +20,8 @@ var focused_event : EventPoint
 #region Events
 func _ready() -> void:
 	SceneManager.prog_scene = self
+	
+	test_version = self.name.begins_with("TEST")
 	
 	sector_generator.GenerateEvents()
 	focused_event = sector_generator.EventList.get(0).get(0)
@@ -84,3 +86,10 @@ func _on_event_button_pressed(event: EventPoint) -> void:
 	if test_version:
 		get_parent().get_parent().get_child(0).button_container.get_parent().hide()
 #endregion
+
+
+
+
+# TODO Tyler implement test version function
+# func setup_test
+# 
