@@ -7,7 +7,7 @@ extends BaseEventScene
 @export var slot_scene : PackedScene
 
 # FIXME: There's regual inventory movement mechanics within the shop, we'll section it off later.
-	
+# TODO Tyler gatekeep purchases behind money requirements
 
 func _ready() -> void:
 	var slot_boxes = [mat_slots,

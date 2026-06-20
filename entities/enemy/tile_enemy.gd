@@ -24,8 +24,9 @@ func die():
 	# TODO Tyler Add money to game
 	# make enemies drop money on die
 	# make enemies drop items on die (sometimes later but always for now)
-	# track money independently (player manager?)
-	# gatekeep purchases behind money requirements
+	
+	
+	
 	
 	super()
 #endregion
