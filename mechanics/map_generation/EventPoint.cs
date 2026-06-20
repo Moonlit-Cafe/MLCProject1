@@ -15,7 +15,6 @@ public partial class EventPoint : Resource
 		Unique
 	}
 	[Export] public StringName EventID = "New ID";
-
 	[Export]
 	public Dictionary EventTypeMap { get; private set; } = new()
 	{
@@ -26,7 +25,9 @@ public partial class EventPoint : Resource
 		{"UNIQUE", (int)EventType.Unique}
 	};
 
+	[Export] public StringName TypeName = "BATTLE";
 	[Export] public EventType Type = EventType.Battle;
+	
 	[Export] public Array<EventPoint> ConnectionsTo = [];
 	[Export] public Array<EventPoint> ConnectionsFrom = [];
 	[Export] public PackedScene Scene;
