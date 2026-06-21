@@ -13,7 +13,7 @@ func attempt_purchase() -> void:
 	if PlayerManager.money < held_item.item.value:
 		# TODO Add a visual indicator to Player being unable to buy thigns
 		# TODO add a label beneath buttons to indicate values held in slots
-		# TYLERCOM Remove the warning after that, rn its just a placeholder until we have visuals
+		# TYLER Remove the warning after that, rn its just a placeholder until we have visuals
 		push_warning("Player has attempted to buy %s worth %s. They only have %s." % 
 		[held_item.item, held_item.item.value, PlayerManager.money])
 		return

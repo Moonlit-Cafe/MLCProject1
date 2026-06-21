@@ -84,7 +84,7 @@ func _on_event_button_pressed(event: EventPoint) -> void:
 	_clear_event_buttons()
 	button_container.get_parent().hide()
 	if test_version:
-		get_parent().get_parent().get_child(0).button_container.get_parent().hide()
+			get_parent().get_parent().get_child(0).button_container.get_parent().hide()
 #endregion
 
 
