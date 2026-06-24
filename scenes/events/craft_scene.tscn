@@ -1,13 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bulyn32kagiph"]
+[gd_scene format=3 uid="uid://bulyn32kagiph"]
 
 [ext_resource type="Script" uid="uid://d0q7cyani4qap" path="res://scenes/events/craft_scene.gd" id="1_x3f3i"]
 
-[node name="CraftScene" type="Node"]
+[node name="CraftScene" type="Node" unique_id=1034817204]
 script = ExtResource("1_x3f3i")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=65594511]
 
-[node name="Button" type="Button" parent="CanvasLayer"]
+[node name="Button" type="Button" parent="CanvasLayer" unique_id=504534575]
 z_index = -1
 custom_minimum_size = Vector2(120, 32)
 anchors_preset = 8

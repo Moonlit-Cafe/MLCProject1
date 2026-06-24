@@ -1,6 +1,6 @@
 class_name EventButton extends Button
 
-signal next_event(event_holder: EventHolder)
+signal next_event(event_holder: EventPoint)
 
 var event : EventPoint
 

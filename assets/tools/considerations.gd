@@ -53,15 +53,16 @@ func handle_actions(data:String = "light", target : String = "player") -> void :
 			
 	if player_unit.health <= 0 or enemy_unit.health <= 0 :
 		print("Mission End!")
-		
-	update()
+	
+	## DAVE
+	#update()
 func _on_end_turn_pressed() -> void :
 	#consider()
 	consideration_log.append_text("\nThinking about my turn...\n")
 	## Think for two seconds...
 	#await get_tree().create_timer(2.0).timeout
 	#var choices = enemy_unit.brain.decide(player_unit)
-	enemy_unit.process_turn(player_unit)
+	#enemy_unit.process_turn(player_unit)
 
 
 func update() -> void :

@@ -1,5 +1,8 @@
 extends Node
 
+
+
+	
 #region Declarations
 @export var character_data : PlayerCharacter
 

@@ -32,6 +32,7 @@ func _ready() -> void:
 	_generate_random_itemnodes()
 	await GameGlobal.delay()
 	hide_inv()
+	
 
 func _input(event: InputEvent) -> void:
 	# TODO: Check if allowed to open inventory
@@ -52,7 +53,10 @@ func _check_sets() -> void:
 		return
 	var equipped_sets = _count_sets()
 	var bonuses : PackedByteArray
-	bonuses.resize(GameGlobal.resources.set_compendium.keys().max() + 1)
+	if GameGlobal.resources.set_compendium.keys().max():
+		bonuses.resize(GameGlobal.resources.set_compendium.keys().max() + 1)
+	else:
+		bonuses.resize(0)
 	
 
 	for cur_set in equipped_sets:

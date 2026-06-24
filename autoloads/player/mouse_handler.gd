@@ -21,7 +21,7 @@ var hovered_tile : BattleTile
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		# FIXME Mousehandler hovered_slot is a freed scene after leaving shop
-		# TYLERCOM Hard coded exit for now. Issue may cause further issues down the line. Should look into this.
+		# TYLER Hard coded exit for now. Issue may cause further issues down the line. Should look into this.
 		if not hovered_slot:
 			return
 
