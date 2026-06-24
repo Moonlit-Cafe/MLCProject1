@@ -26,6 +26,7 @@ buses/default_bus_layout=""
 
 [autoload]
 
+Global="*uid://jk2uy5qv2ure"
 SignalLens="*uid://b2i17epm4xyji"
 
 [display]

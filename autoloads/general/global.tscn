@@ -1,3 +1,16 @@
 [gd_scene format=3 uid="uid://jk2uy5qv2ure"]
 
+[ext_resource type="Script" uid="uid://cynto1pnh6at" path="res://autoloads/general/global.gd" id="1_o3cws"]
+[ext_resource type="Script" uid="uid://cclmsqc2ud6rf" path="res://autoloads/general/global_events.gd" id="2_vwbs0"]
+[ext_resource type="Script" uid="uid://qm32go0uknx2" path="res://autoloads/debug/log_system.gd" id="3_kqqs5"]
+
 [node name="Global" type="Node" unique_id=68584809]
+script = ExtResource("1_o3cws")
+
+[node name="GlobalEvents" type="Node" parent="." unique_id=2060368347]
+script = ExtResource("2_vwbs0")
+metadata/_custom_type_script = "uid://cclmsqc2ud6rf"
+
+[node name="LogSystem" type="Node" parent="." unique_id=917687666]
+script = ExtResource("3_kqqs5")
+metadata/_custom_type_script = "uid://qm32go0uknx2"
