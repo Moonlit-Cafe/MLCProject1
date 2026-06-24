@@ -17,6 +17,7 @@ config_version=5
 
 config/name="CraftingCrawler"
 config/version="0.1.0-Dev160426"
+run/main_scene="uid://bsrix6xqd4qc8"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -26,8 +27,9 @@ buses/default_bus_layout=""
 
 [autoload]
 
-Global="*uid://jk2uy5qv2ure"
 SignalLens="*uid://b2i17epm4xyji"
+Global="*uid://jk2uy5qv2ure"
+GlobalResources="*uid://cf1bgcwmpx0gp"
 
 [display]
 
@@ -45,7 +47,10 @@ enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/
 [file_customization]
 
 folder_colors={
+"res://assets/": "pink",
 "res://autoloads/": "yellow",
+"res://entities/": "blue",
+"res://mechanics/": "red",
 "res://scenes/": "gray"
 }
 
