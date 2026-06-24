@@ -17,25 +17,16 @@ config_version=5
 
 config/name="CraftingCrawler"
 config/version="0.1.0-Dev160426"
-run/main_scene="uid://bf0e0l206u8xd"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [audio]
 
-buses/default_bus_layout="uid://dvht62llvfwqd"
+buses/default_bus_layout=""
 
 [autoload]
 
-SaveManager="*res://autoloads/saving/save_manager.gd"
-AudioManager="*uid://bamjugiicnyji"
-PlayerManager="*res://autoloads/player/player_manager.tscn"
-SceneManager="*res://autoloads/scenes/scene_manager.tscn"
-CombatManager="*res://autoloads/combat/combat_manager.tscn"
-MouseHandler="*res://autoloads/player/mouse_handler.tscn"
-Debug="*res://autoloads/debug/debug.tscn"
-SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
-GameGlobal="*res://autoloads/general/game_global.tscn"
+SignalLens="*uid://b2i17epm4xyji"
 
 [display]
 
@@ -48,17 +39,13 @@ project/assembly_name="CraftingCrawler"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/ml_data_importer/csv_import/plugin.cfg", "res://addons/ml_data_importer/plugin.cfg", "res://addons/signal_lens/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/signal_lens/plugin.cfg")
 
 [file_customization]
 
 folder_colors={
-"res://assets/": "pink",
 "res://autoloads/": "yellow",
-"res://entities/": "blue",
-"res://mechanics/": "red",
-"res://ui/": "green",
-"res://utility/": "purple"
+"res://scenes/": "gray"
 }
 
 [global_group]

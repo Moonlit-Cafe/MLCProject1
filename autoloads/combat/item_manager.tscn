@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cykfbmrq47ycu"]
-
-[ext_resource type="Script" uid="uid://dyavcjxlj26hx" path="res://autoloads/combat/item_manager.gd" id="1_nskep"]
-
-[node name="ItemManager" type="Node"]
-script = ExtResource("1_nskep")
-usable_file = "res://mechanics/events/battle/actions/usables.json"
-action_shapes = "res://assets/data/attack_shapes.json"
