@@ -4,4 +4,5 @@
 
 [node name="GlobalResources" type="Node" unique_id=1389683058]
 script = ExtResource("1_jmesp")
-entity_scene_reference = "res://assets/data/scene_paths/tile_entities.json"
+entity_scene_reference = "res://assets/data/data_paths/tile_entities.json"
+tile_data_reference = "res://assets/data/data_paths/tile_data.json"

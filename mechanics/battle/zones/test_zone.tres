@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ZoneData" format=3 uid="uid://ctwppclx7w5nh"]
+
+[ext_resource type="Script" uid="uid://cufiaxhbrnfp5" path="res://mechanics/battle/zones/zone_data.gd" id="1_bj424"]
+
+[sub_resource type="Curve" id="Curve_bj424"]
+_limits = [1.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 3.0, 0.0, 0, 0]
+point_count = 2
+
+[resource]
+script = ExtResource("1_bj424")
+height_range = SubResource("Curve_bj424")
+metadata/_custom_type_script = "uid://cufiaxhbrnfp5"

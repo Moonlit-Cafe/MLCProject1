@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://byex6q61cya7o"]
+
+[ext_resource type="Script" uid="uid://cqq5y825i1cgv" path="res://mechanics/battle/battle_tile.gd" id="1_5gbby"]
+
+[node name="BattleTile" type="Node3D" unique_id=261379924]
+script = ExtResource("1_5gbby")
