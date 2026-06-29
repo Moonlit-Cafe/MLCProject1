@@ -28,8 +28,8 @@ func die():
 func die_rewards():
 	var drop_chance = true
 	var item :Item = GameGlobal.resources.item_compendium["MAT_0"]
-	# TODO Tyler make enemies drop items on die (sometimes later but always for now)
 	PlayerManager.money += value
+	# TODO make items only sometimes drop
 	if drop_chance:
 		PlayerManager.accept_item(item)
 

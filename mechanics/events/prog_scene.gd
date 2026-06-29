@@ -90,6 +90,5 @@ func _on_event_button_pressed(event: EventPoint) -> void:
 
 
 
-# TODO Tyler implement test version function
+# Tyler implement test version function
 # func setup_test
-# 
