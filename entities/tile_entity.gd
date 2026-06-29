@@ -21,6 +21,7 @@ var hp : float = -1 :
 			#return
 		
 		if value <= 0:
+			self.die()
 			# PLANNED setup signal instead of double get_parent() call
 			parent_tile.clear_object()
 			hp = -1
