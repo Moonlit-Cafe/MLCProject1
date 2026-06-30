@@ -48,6 +48,10 @@ func _generate_event_button(event: EventPoint) -> void:
 	event_button.text = event.TypeName
 	button_container.add_child(event_button)
 	event_button.next_event.connect(_on_event_button_pressed)
+	if test_version:
+		return
+		# TYLER Implement this
+		# should should pull from list of all events instead of whatever filters are present
 
 func _clear_event_buttons() -> void:
 	for button in button_container.get_children():
