@@ -36,8 +36,18 @@ func generate_next_events() -> void:
 		button_container.remove_child(event_button)
 	
 	print(focused_event)
-	if focused_event.ConnectionsTo.size() > 0:
-		for connection in focused_event.ConnectionsTo:
+	
+	var connection_list : Array[EventPoint] = focused_event.ConnectionsTo
+	if test_version:
+		connection_list = sector_generator.EventList
+		# TYLER Implement this
+		# should should pull from list of all events instead of whatever filters are present
+		# where is the list of events?
+			# focused event likely pulls from there
+		# event list is a list of lists, all of which are battles?
+			# where is this list generated from?
+	if connection_list.size() > 0:
+		for connection : EventPoint in connection_list:
 			_generate_event_button(connection)
 	
 	#button_container.set_position(Vector2.ZERO)
@@ -48,10 +58,7 @@ func _generate_event_button(event: EventPoint) -> void:
 	event_button.text = event.TypeName
 	button_container.add_child(event_button)
 	event_button.next_event.connect(_on_event_button_pressed)
-	if test_version:
-		return
-		# TYLER Implement this
-		# should should pull from list of all events instead of whatever filters are present
+	
 
 func _clear_event_buttons() -> void:
 	for button in button_container.get_children():
