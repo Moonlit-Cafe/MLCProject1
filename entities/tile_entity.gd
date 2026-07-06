@@ -25,6 +25,7 @@ var hp : float = -1 :
 			# PLANNED setup signal instead of double get_parent() call
 			parent_tile.clear_object()
 			hp = -1
+			die()
 		else:
 			hp = value
 var max_hp : int = 0
