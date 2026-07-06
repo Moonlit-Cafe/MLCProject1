@@ -23,8 +23,9 @@ const SHADERS : Dictionary[TextureType, String] = {
 #region Events
 ## Creates a tile with the given parameters and returns it.
 # TODO: Eventually, replace this with a data type specifically for generating these.
-static func create_tile(texture: Texture2D, tex_type: TextureType) -> BasicTile:
+static func generate_tile(texture: Texture2D, tex_type: TextureType, tile_name: StringName=&"NewTile") -> BasicTile:
 	var new_tile := BasicTile.new()
+	new_tile.name = tile_name
 	var mesh_instance := MeshInstance3D.new()
 	mesh_instance.name = "MeshInstance3D"
 	var mesh := BoxMesh.new()

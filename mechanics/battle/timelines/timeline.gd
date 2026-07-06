@@ -1,0 +1,55 @@
+## The actual battle system within the game, contained within a "Timeline" for the divergence feature.
+class_name Timeline extends SubViewportContainer
+
+#region Declarations
+const battle_cam_scene : PackedScene = preload("res://entities/battle_cam.tscn")
+
+var camera : BattleCam
+var left_timeline : Timeline = null
+var right_timeline : Timeline = null
+var is_focused : bool = true
+var sub_view : SubViewport
+var zone_data : ZoneData
+#endregion
+
+#region Events
+static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&"NewTimeline") -> Timeline:
+	var new_timeline := Timeline.new()
+	new_timeline.name = timeline_name
+	new_timeline.zone_data = i_zone_data
+	#new_timeline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	#new_timeline.focus_mode = Control.FOCUS_NONE
+	
+	var new_viewport = SubViewport.new()
+	new_viewport.size = Global.get_tree().root.size
+	new_viewport.physics_object_picking = true
+	new_viewport.set_process_unhandled_input(true)
+	new_timeline.sub_view = new_viewport
+	
+	var new_map := GameTileMap.generate_map(i_zone_data, &"BattleMap")
+	new_map.generate_battle_tiles()
+	
+	var new_cam : BattleCam = battle_cam_scene.instantiate()
+	new_cam.timeline = new_timeline
+	new_timeline.camera = new_cam
+	
+	new_viewport.add_child(new_cam)
+	new_viewport.add_child(new_map)
+	new_timeline.add_child(new_viewport)
+	
+	new_cam.position = Vector3(0, 1, 20)
+	
+	return new_timeline
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not event is InputEventMouse:
+		return
+	
+	var local_event = event.duplicate()
+	local_event.position = sub_view.get_final_transform().affine_inverse() * event.position
+	print("Event Pos: %s, Local Pos: %s" % [event.position, local_event.position])
+	sub_view.push_input(local_event)
+	
+	#if sub_view.is_input_handled():
+	#	get_tree().set_input_as_handled()
+#endregion

@@ -1,6 +1,18 @@
 [gd_scene format=3 uid="uid://bsrix6xqd4qc8"]
 
 [ext_resource type="Script" uid="uid://btee80wy6ehha" path="res://scenes/main.gd" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://cufiaxhbrnfp5" path="res://mechanics/battle/zones/zone_data.gd" id="2_0wfyh"]
+
+[sub_resource type="Curve" id="Curve_sugp2"]
+_data = [Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Resource" id="Resource_jyhfs"]
+script = ExtResource("2_0wfyh")
+tiles_used = Array[StringName]([&"T001"])
+height_range = SubResource("Curve_sugp2")
+metadata/_custom_type_script = "uid://cufiaxhbrnfp5"
 
 [node name="Main" type="Node" unique_id=1069856160]
 script = ExtResource("1_o5qli")
+map_data = SubResource("Resource_jyhfs")
