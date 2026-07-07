@@ -7,9 +7,22 @@ const battle_cam_scene : PackedScene = preload("res://entities/battle_cam.tscn")
 var camera : BattleCam
 var left_timeline : Timeline = null
 var right_timeline : Timeline = null
-var is_focused : bool = true
 var sub_view : SubViewport
 var zone_data : ZoneData
+
+var is_focused : bool = true :
+	get:
+		return _is_focused
+	set(value):
+		if not value:
+			process_mode = Node.PROCESS_MODE_DISABLED
+			set_physics_process(false)
+		else:
+			process_mode = Node.PROCESS_MODE_PAUSABLE
+			set_physics_process(true)
+		_is_focused = value
+
+var _is_focused : bool = true
 #endregion
 
 #region Events
@@ -33,11 +46,15 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 	new_cam.timeline = new_timeline
 	new_timeline.camera = new_cam
 	
+	var new_light := DirectionalLight3D.new()
+	
+	new_viewport.add_child(new_light)
 	new_viewport.add_child(new_cam)
 	new_viewport.add_child(new_map)
 	new_timeline.add_child(new_viewport)
 	
 	new_cam.position = Vector3(0, 1, 20)
+	new_light.rotate_x(-PI / 2.)
 	
 	return new_timeline
 

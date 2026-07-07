@@ -72,7 +72,7 @@ func _load_tiles() -> void:
 	if error != OK:
 		Global.logs.post_error(self, json.get_error_message())
 		return
-	
+	# considerations system tutorial video games
 	for tile_id in json.data.keys():
 		var data : Dictionary = json.data.get(tile_id)
 		var new_tile_data := GameTileData.create_tile_data(data.get("texture"), data.get("texture_type"))

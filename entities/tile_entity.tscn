@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://b30w26p4yhooh"]
-
-[ext_resource type="Script" uid="uid://b44rdrv1fycdv" path="res://entities/tile_entity.gd" id="1_5iuyn"]
-
-[node name="TileEntity" type="Node3D" unique_id=1862672370]
-script = ExtResource("1_5iuyn")
-
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=447934416]
