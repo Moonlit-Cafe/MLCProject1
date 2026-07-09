@@ -5,6 +5,7 @@ class_name Timeline extends SubViewportContainer
 const battle_cam_scene : PackedScene = preload("res://entities/battle_cam.tscn")
 
 var camera : BattleCam
+var light : DirectionalLight3D
 var left_timeline : Timeline = null
 var right_timeline : Timeline = null
 var sub_view : SubViewport
@@ -47,6 +48,7 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 	new_timeline.camera = new_cam
 	
 	var new_light := DirectionalLight3D.new()
+	new_timeline.light = new_light
 	
 	new_viewport.add_child(new_light)
 	new_viewport.add_child(new_cam)

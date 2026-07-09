@@ -19,19 +19,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed(&"move_left_timeline"):
-		var next_timeline : Timeline = current_timeline.left_timeline
-		current_timeline.hide()
-		current_timeline.is_focused = false
-		current_timeline = next_timeline
-		current_timeline.show()
-		current_timeline.is_focused = true
+		_move_to_next_timeline(current_timeline.left_timeline)
 	elif event.is_action_pressed(&"move_right_timeline"):
-		var next_timeline : Timeline = current_timeline.right_timeline
-		current_timeline.hide()
-		current_timeline.is_focused = false
-		current_timeline = next_timeline
-		current_timeline.show()
-		current_timeline.is_focused = true
+		_move_to_next_timeline(current_timeline.right_timeline)
 
 func generate_new_timeline(count: int = 1) -> void:
 	for i in range(count):
@@ -41,9 +31,11 @@ func generate_new_timeline(count: int = 1) -> void:
 	await get_tree().process_frame
 	for timeline in timeline_holder.get_children():
 		timeline.hide()
+		timeline.light.hide()
 	_assign_timeline_neighbors()
 	current_timeline.is_focused = true
 	current_timeline.show()
+	current_timeline.light.show()
 
 func _generate_initial_timeline() -> void:
 	var new_timeline = Timeline.generate_timeline(zone_data, &"Timeline")
@@ -76,4 +68,13 @@ func _assign_timeline_neighbors() -> void:
 		
 		timeline.is_focused = false
 		i += 1
+
+func _move_to_next_timeline(next_timeline: Timeline) -> void:
+	current_timeline.hide()
+	current_timeline.is_focused = false
+	current_timeline.light.hide()
+	current_timeline = next_timeline
+	current_timeline.show()
+	current_timeline.is_focused = true
+	current_timeline.light.show()
 #endregion
