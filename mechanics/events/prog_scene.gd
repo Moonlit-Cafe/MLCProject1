@@ -110,9 +110,18 @@ func setup_test() -> Array[EventPoint]:
 	var cur
 	
 	for type in types.keys():
+		var to_load 
+		match type:
+			"START":
+				to_load = load("res://scenes/prog_scene.tscn")
+			"SHOP":
+				to_load = load("res://scenes/events/shop_scene.tscn")
+				
 		cur = EventPoint.new()
 		cur.TypeName = type
 		cur.Type = types[type]
-		res.append(cur)
+		cur.Scene = to_load
 		
+		
+		res.append(cur)
 	return res
