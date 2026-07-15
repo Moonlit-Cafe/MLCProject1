@@ -28,7 +28,7 @@ func _generate_shop(slot_boxes) -> void:
 func _fill_slots(slot_boxes) -> void:
 	for box in slot_boxes:
 		for slot in box.get_children():
-			var item := GameGlobal.craft.get_valued_items(0, 10, 1)[0]
+			var item := GameGlobal.craft.get_valued_items(0, 100, 1)[0]
 			slot.generate_item(item.id)
 			slot.held_item.item = item
 

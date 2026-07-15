@@ -171,7 +171,7 @@ func _value_range_compendium(min_value:int, max_value:int) -> Array[StringName]:
 	var cur_item
 	for item in GameGlobal.resources.item_compendium:
 		cur_item = GameGlobal.resources.item_compendium[item]
-		if max_value <= cur_item.value and cur_item.value >= min_value:
+		if cur_item.value <= max_value and cur_item.value >= min_value:
 			item_names.append(item)
 	return item_names
 	
