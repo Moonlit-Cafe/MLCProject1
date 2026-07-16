@@ -41,12 +41,6 @@ func generate_next_events() -> void:
 	var connection_list : Array[EventPoint] = focused_event.ConnectionsTo
 	if test_version:
 		connection_list = setup_test()
-		# TYLER Implement this
-		# should should pull from list of all events instead of whatever filters are present
-		# where is the list of events?
-			# focused event likely pulls from there
-		# event list is a list of lists, all of which are battles?
-			# where is this list generated from?
 	if connection_list.size() > 0:
 		for connection : EventPoint in connection_list:
 			_generate_event_button(connection)
@@ -96,7 +90,7 @@ func _on_event_button_pressed(event: EventPoint) -> void:
 	_clear_event_buttons()
 	button_container.get_parent().hide()
 	if test_version:
-			get_parent().get_parent().get_child(0).button_container.get_parent().hide()
+			get_parent().get_child(0).button_container.get_parent().hide()
 #endregion
 
 
