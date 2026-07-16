@@ -28,10 +28,10 @@ func die():
 	
 	
 func die_rewards():
+	# TODO make items only sometimes drop
 	var drop_chance = true
 	var item :Item = GameGlobal.resources.item_compendium["MAT_0"]
 	PlayerManager.money += value
-	# TODO make items only sometimes drop
 	if drop_chance:
 		PlayerManager.accept_item(item)
 

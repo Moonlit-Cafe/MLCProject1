@@ -96,7 +96,6 @@ func _on_event_button_pressed(event: EventPoint) -> void:
 
 
 
-# Tyler implement test version function
 func setup_test() -> Array[EventPoint]:
 	var res : Array[EventPoint] = [] 
 	var dummy_point = EventPoint.new()

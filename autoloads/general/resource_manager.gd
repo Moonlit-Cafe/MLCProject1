@@ -90,7 +90,7 @@ func _load_i_type_compendium(type: ItemType):
 		var new_item = item.duplicate()
 		new_item.id = item_id
 		new_item.load_data(database.get(item_id))
-		add_item(item_id, item)
+		add_item(item_id, new_item)
 
 func add_item(item_id: String, item: Item) -> void:
 	item_compendium.set(item_id, item)

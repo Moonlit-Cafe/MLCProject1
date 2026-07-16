@@ -169,10 +169,10 @@ func _value_range_compendium(min_value:int, max_value:int) -> Array[StringName]:
 	
 	var item_names:Array[StringName] =  []
 	var cur_item
-	for item in GameGlobal.resources.item_compendium:
-		cur_item = GameGlobal.resources.item_compendium[item]
+	for item_key in GameGlobal.resources.item_compendium:
+		cur_item = GameGlobal.resources.item_compendium.get(item_key)
 		if cur_item.value <= max_value and cur_item.value >= min_value:
-			item_names.append(item)
+			item_names.append(item_key)
 	return item_names
 	
 func generate_node(in_item: Item = null, item_id: StringName = &"MAT_0") -> ItemNode:
