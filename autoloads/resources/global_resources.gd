@@ -9,6 +9,9 @@ enum DataType {
 	ACTION,
 	ACTION_SHAPE
 }
+enum CustomDataType {
+	VECTOR
+}
 
 @export_file(".json") var action_data_reference : String
 @export_file(".json") var action_shape_data_reference : String
@@ -55,7 +58,9 @@ func _load_action_shapes() -> void:
 	var data = _load_data(action_shape_data_reference)
 	
 	for action_shape_id in data.keys():
-		set_data(DataType.ACTION_SHAPE, action_shape_id, data.get(action_shape_id))
+		var shape_data : Dictionary = data.get(action_shape_id)
+		var new_shape := ActionShape.create_shape_data(shape_data, action_shape_id)
+		set_data(DataType.ACTION_SHAPE, action_shape_id, new_shape)
 	Global.logs.post_message(self, "loaded action shapes successfully")
 
 func _load_actions() -> void:
@@ -63,12 +68,17 @@ func _load_actions() -> void:
 		Global.logs.post_warning(self, "no file used for action_data_reference")
 		return
 	
-	Global.logs.post_warning(self, "loading action data")
+	Global.logs.post_message(self, "loading action data")
 	
 	var data = _load_data(action_data_reference)
 	
 	for action_id in data.keys():
-		set_data(DataType.ACTION, action_id, data.get(action_id))
+		var action_data = data.get(action_id)
+		var new_action
+		match (action_data.get("type") as BaseAction.ActionType):
+			BaseAction.ActionType.ATTACK:
+				new_action = AttackAction.create_attack_action_data(action_data, action_id)
+		set_data(DataType.ACTION, action_id, new_action)
 	Global.logs.post_message(self, "loaded actions successfully")
 
 ## Loads up all the entities within the game.
@@ -112,4 +122,15 @@ func _load_data(data_path: String) -> Variant:
 	
 	file.close()
 	return json.data
+#endregion
+
+#region Custom Data Loader
+func load_custom_data(data: Variant, type: CustomDataType) -> Variant:
+	match (type):
+		CustomDataType.VECTOR:
+			var new_vector := Vector2(data.get("x"), data.get("y"))
+			return new_vector
+		_:
+			Global.logs.post_warning(self, "given type does not match the available types.")
+			return null
 #endregion
