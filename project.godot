@@ -30,6 +30,7 @@ buses/default_bus_layout=""
 SignalLens="*uid://b2i17epm4xyji"
 Global="*uid://jk2uy5qv2ure"
 GlobalResources="*uid://cf1bgcwmpx0gp"
+GlobalSettings="*uid://c8ev58vkcgkfx"
 
 [display]
 

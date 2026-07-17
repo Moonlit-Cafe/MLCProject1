@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://c8ev58vkcgkfx"]
+
+[ext_resource type="Script" uid="uid://df3evwdkxxr48" path="res://autoloads/settings/display_manager.gd" id="1_1fwcj"]
+[ext_resource type="Script" uid="uid://ce04h4867iu47" path="res://autoloads/settings/global_settings.gd" id="1_su7ge"]
+
+[node name="GlobalSettings" type="Node" unique_id=1444830460]
+script = ExtResource("1_su7ge")
+
+[node name="DisplayManager" type="Node" parent="." unique_id=209250140]
+script = ExtResource("1_1fwcj")
+metadata/_custom_type_script = "uid://df3evwdkxxr48"

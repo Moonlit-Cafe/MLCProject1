@@ -35,7 +35,8 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 	#new_timeline.focus_mode = Control.FOCUS_NONE
 	
 	var new_viewport = SubViewport.new()
-	new_viewport.size = Global.get_tree().root.size
+	print(GlobalSettings.display.current_resolution)
+	new_viewport.size = GlobalSettings.display.current_resolution
 	new_viewport.physics_object_picking = true
 	new_viewport.set_process_unhandled_input(true)
 	new_timeline.sub_view = new_viewport
