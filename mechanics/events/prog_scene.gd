@@ -105,10 +105,17 @@ func setup_test() -> Array[EventPoint]:
 	for type in types.keys():
 		var to_load 
 		match type:
+			# HACK Start scene should not be included in debug menu
 			"START":
 				to_load = load("res://scenes/prog_scene.tscn")
 			"SHOP":
 				to_load = load("res://scenes/events/shop_scene.tscn")
+			"BOSS_BATTLE":
+				to_load = load("res://scenes/events/battle_scene.tscn")
+			"BATTLE":
+				to_load = load("res://scenes/events/battle_scene.tscn")
+			"UNIQUE":
+				to_load = load("res://scenes/events/unique_event_scene.tscn")
 				
 		cur = EventPoint.new()
 		cur.TypeName = type
