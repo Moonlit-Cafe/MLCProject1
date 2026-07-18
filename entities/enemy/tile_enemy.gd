@@ -21,8 +21,9 @@ func update() -> void:
 	super()
 	
 func die():
-	# TYLER killing an enemy locks the game
+	# TYLER killing an enemy crashes the game
 	# their turn isnt removed from the queue
+	
 	die_rewards()
 	super()
 	

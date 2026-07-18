@@ -62,11 +62,11 @@ func defend(damage: float, _offender: TileEntity) -> void:
 	stats.set(Genum.StatType.HEALTH, hp)
 	if hp <= 0:
 		print(self.name)
-		GameGlobal.events.battle_removed.emit(self)
 		die()
 		parent_tile.clear_object()
 
 func die() -> void:
+	GameGlobal.events.battle_removed.emit(self)
 	return
 
 func commit_action() -> void:

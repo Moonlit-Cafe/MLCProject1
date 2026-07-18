@@ -107,7 +107,7 @@ func determine_selectables() -> void:
 	
 	await get_tree().process_frame
 	
-	# TODO blowing self up crashes game
+	# FIXME blowing self up crashes game
 	var detected : Array[BattleTile] = await PlayerManager.entity_ref.get_detected()
 	for tile in detected:
 		if tile.held_entity:

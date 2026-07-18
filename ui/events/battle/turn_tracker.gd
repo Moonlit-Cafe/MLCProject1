@@ -10,12 +10,8 @@ var player_turn : bool = false
 #region Events
 func _ready() -> void:
 	GameGlobal.events.battle_removed.connect(remove_turns)
+	print(GameGlobal.events.battle_removed.get_connections())
 	
-## Orders turns of all entities from highest Haste to lowest, 
-## while also preserving the current turn
-## eg: a list that's normally [1,2,4,3]
-## looped around to [4,3,1,2]
-## Will sort around to [4,3,2,1]
 func reorder_turns() -> void:
 	if turn_list == []:
 		return
