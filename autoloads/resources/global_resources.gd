@@ -4,7 +4,7 @@ extends Node
 #region Declarations
 ## Enum used to classify the type of data a resource is described as.
 enum DataType {
-	ENTITY, ## Used for declaring/getting TileEntity paths for packed_scenes.
+	CHARACTER,
 	TILE, ## Used for declaring/getting GameTileData for BasicTile generation.
 	ACTION,
 	ACTION_SHAPE
@@ -15,7 +15,7 @@ enum CustomDataType {
 
 @export_file(".json") var action_data_reference : String
 @export_file(".json") var action_shape_data_reference : String
-@export_file(".json") var entity_scene_reference : String ## Contains the path references for all entities
+@export_file(".json") var characters_reference : String ## Contains the path references for all entities
 @export_file(".json") var tile_data_reference : String ## Contains all the tile data within the game.
 
 var _resources : Dictionary[DataType, Dictionary] = {} ## The full dictionary of resources in the game
@@ -83,17 +83,18 @@ func _load_actions() -> void:
 
 ## Loads up all the entities within the game.
 func _load_entities() -> void:
-	if not entity_scene_reference:
-		Global.logs.post_warning(self, "no file used for entity_scene_reference")
+	if not characters_reference:
+		Global.logs.post_warning(self, "no file used for characters_reference")
 		return
 	
-	Global.logs.post_message(self, "loading entity references")
+	Global.logs.post_message(self, "loading character references")
 	
-	var data = _load_data(entity_scene_reference)
+	var data = _load_data(characters_reference)
 	
 	for entity_id in data.keys():
-		set_data(DataType.ENTITY, entity_id, data.get(entity_id))
-	Global.logs.post_message(self, "loaded entity references successfully")
+		var new_char := BaseCharacter.create_character_data(data.get(entity_id), entity_id)
+		set_data(DataType.CHARACTER, entity_id, new_char)
+	Global.logs.post_message(self, "loaded character references successfully")
 
 ## Loads up all the tiles within the game.
 func _load_tiles() -> void:

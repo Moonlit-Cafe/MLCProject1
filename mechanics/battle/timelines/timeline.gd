@@ -43,6 +43,12 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 	
 	var new_map := GameTileMap.generate_map(i_zone_data, &"BattleMap")
 	new_map.generate_battle_tiles()
+	var p_tile := new_map.get_random_tile()
+	var e_data : BaseCharacter = GlobalResources.get_data(GlobalResources.DataType.CHARACTER, &"E001")
+	var p_entity := TileEntityPlayer.generate_entity(BaseCharacter.CharType.ENEMY, e_data)
+	print(e_data)
+	p_tile.add_entity(p_entity)
+	print("Generated at %s" % p_tile.name)
 	
 	var new_cam : BattleCam = battle_cam_scene.instantiate()
 	new_cam.timeline = new_timeline

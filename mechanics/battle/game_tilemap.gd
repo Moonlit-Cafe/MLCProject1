@@ -40,6 +40,10 @@ func generate_battle_tiles() -> void:
 			new_b_tile_pos.z])
 		b_tile_holder.add_child(new_battle_tile)
 		new_battle_tile.position = new_b_tile_pos
+		battle_tiles.append(new_battle_tile)
+
+func get_random_tile() -> BattleTile:
+	return battle_tiles.pick_random()
 
 # TODO: Optimize this
 ## Using a [param pos], attempts to get the [class BasicTile] at that point.

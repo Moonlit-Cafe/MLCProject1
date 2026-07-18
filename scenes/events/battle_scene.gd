@@ -4,6 +4,7 @@ class_name BattleScene extends EventScene
 @onready var timeline_holder : Control = $TimelineHolder
 
 var current_timeline : Timeline
+var diverged_timeline : Timeline
 var zone_data : ZoneData
 #endregion
 
@@ -13,6 +14,7 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("divergence"):
+		diverged_timeline = current_timeline
 		generate_new_timeline()
 	
 	if timeline_holder.get_child_count() < 2:
@@ -25,7 +27,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func generate_new_timeline(count: int = 1) -> void:
 	for i in range(count):
-		var new_timeline = Timeline.generate_timeline(zone_data, &"Timeline%s" % i)
+		var new_timeline = diverged_timeline.duplicate()
 		timeline_holder.call_deferred("add_child", new_timeline)
 	
 	await get_tree().process_frame

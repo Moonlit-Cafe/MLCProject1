@@ -6,5 +6,5 @@
 script = ExtResource("1_jmesp")
 action_data_reference = "res://assets/data/data_paths/actions.json"
 action_shape_data_reference = "res://assets/data/data_paths/action_shapes.json"
-entity_scene_reference = "res://assets/data/data_paths/tile_entities.json"
+characters_reference = "res://assets/data/data_paths/characters.json"
 tile_data_reference = "res://assets/data/data_paths/tile_data.json"

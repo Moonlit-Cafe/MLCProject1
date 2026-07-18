@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://jiorqht07pnh"]
+
+[ext_resource type="Texture2D" uid="uid://bhkh5my7eh3q3" path="res://assets/sprites/entity/enemy_temp.png" id="1_t1vbe"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t1vbe")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
