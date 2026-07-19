@@ -28,7 +28,6 @@ func _generate_shop(slot_boxes) -> void:
 func _fill_slots(slot_boxes) -> void:
 	for box in slot_boxes:
 		for slot in box.get_children():
-			# TYLER make it so that new_item is holding something
 			var item := GameGlobal.craft.get_valued_items(0, 100, 1)[0]
 			slot.generate_item(item.id)
 			slot.held_item.item = item

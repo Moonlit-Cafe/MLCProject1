@@ -108,6 +108,9 @@ func determine_selectables() -> void:
 	await get_tree().process_frame
 	
 	# FIXME blowing self up crashes game
+	# load game over scene on Player death
+	# instead of continuing combat as is
+	# requires a game over scene to be built
 	var detected : Array[BattleTile] = await PlayerManager.entity_ref.get_detected()
 	for tile in detected:
 		if tile.held_entity:
