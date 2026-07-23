@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bi8a0kyk5ugkb"
+
+[deps]
+
+files=["res://assets/data/item_recipes.Tier.translation", "res://assets/data/item_recipes.Cloth.translation", "res://assets/data/item_recipes.Leather.translation", "res://assets/data/item_recipes.Wood.translation", "res://assets/data/item_recipes.Metal.translation", "res://assets/data/item_recipes.Dust.translation", "res://assets/data/item_recipes.Core.translation", "res://assets/data/item_recipes.BossMaterial.translation"]
+
+source_file="res://assets/data/item_recipes.csv"
+dest_files=["res://assets/data/item_recipes.Tier.translation", "res://assets/data/item_recipes.Cloth.translation", "res://assets/data/item_recipes.Leather.translation", "res://assets/data/item_recipes.Wood.translation", "res://assets/data/item_recipes.Metal.translation", "res://assets/data/item_recipes.Dust.translation", "res://assets/data/item_recipes.Core.translation", "res://assets/data/item_recipes.BossMaterial.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

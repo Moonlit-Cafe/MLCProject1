@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://cxeetx3ud8b6k"]
+
+[ext_resource type="Script" uid="uid://ct7hr4hqbqjj0" path="res://scenes/events/hover_panel.gd" id="1_2y2tk"]
+[ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://assets/sprites/characters/character_1_frame16x20.png" id="2_ro6uw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kc8yn"]
+atlas = ExtResource("2_ro6uw")
+region = Rect2(0, 0, 13, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t2ffq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kc8yn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="HoverPanel" type="VBoxContainer" unique_id=981763394]
+self_modulate = Color(0.25565878, 0.25565878, 0.25565878, 1)
+z_as_relative = false
+offset_right = 69.0
+offset_bottom = 118.0
+script = ExtResource("1_2y2tk")
+
+[node name="Subject" type="HBoxContainer" parent="." unique_id=786723542]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Subject" unique_id=1329119533]
+layout_mode = 2
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Subject/MarginContainer" unique_id=151235820]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_t2ffq")
+centered = false
+
+[node name="Control" type="Control" parent="Subject" unique_id=301152041]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Subject" unique_id=1290583044]
+layout_mode = 2
+text = "Test Name"
+
+[node name="Text" type="VBoxContainer" parent="." unique_id=836379450]
+layout_mode = 2
+
+[node name="Description" type="Label" parent="Text" unique_id=1449183190]
+layout_mode = 2
+text = "Some stuff about him"
+
+[node name="SubLabel" type="Label" parent="Text" unique_id=2070086016]
+layout_mode = 2
+text = "(100, 20, 3)"

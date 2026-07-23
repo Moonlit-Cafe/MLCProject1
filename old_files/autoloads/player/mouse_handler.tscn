@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvyq3uq74wh0u"]
+
+[ext_resource type="Script" uid="uid://8lq50nl2qf7a" path="res://autoloads/player/mouse_handler.gd" id="1_72x4o"]
+[ext_resource type="Script" uid="uid://bkcc31xye2eat" path="res://ui/inventory/inventory_slot.gd" id="2_3lsiw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_72x4o"]
+
+[node name="MouseHandler" type="Node2D" unique_id=444990095]
+z_index = 100
+script = ExtResource("1_72x4o")
+
+[node name="ItemContainer" type="PanelContainer" parent="." unique_id=925299486]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_72x4o")
+script = ExtResource("2_3lsiw")
