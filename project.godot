@@ -27,15 +27,15 @@ buses/default_bus_layout="uid://dvht62llvfwqd"
 
 [autoload]
 
-SaveManager="*res://autoloads/saving/save_manager.gd"
+SaveManager="*res://old_files/autoloads/saving/save_manager.gd"
 AudioManager="*uid://bamjugiicnyji"
-PlayerManager="*res://autoloads/player/player_manager.tscn"
-SceneManager="*res://autoloads/scenes/scene_manager.tscn"
-CombatManager="*res://autoloads/combat/combat_manager.tscn"
-MouseHandler="*res://autoloads/player/mouse_handler.tscn"
-Debug="*res://autoloads/debug/debug.tscn"
+PlayerManager="*res://old_files/autoloads/player/player_manager.tscn"
+SceneManager="*res://old_files/autoloads/scenes/scene_manager.tscn"
+CombatManager="*res://old_files/autoloads/combat/combat_manager.tscn"
+MouseHandler="*res://old_files/autoloads/player/mouse_handler.tscn"
+Debug="*res://old_files/autoloads/debug/debug.tscn"
 SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
-GameGlobal="*res://autoloads/general/game_global.tscn"
+GameGlobal="*res://old_files/autoloads/general/game_global.tscn"
 
 [display]
 
@@ -53,12 +53,12 @@ enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/
 [file_customization]
 
 folder_colors={
-"res://assets/": "pink",
-"res://autoloads/": "yellow",
-"res://entities/": "blue",
-"res://mechanics/": "red",
-"res://ui/": "green",
-"res://utility/": "purple"
+"res://old_files/assets/": "pink",
+"res://old_files/autoloads/": "yellow",
+"res://old_files/entities/": "blue",
+"res://old_files/mechanics/": "red",
+"res://old_files/ui/": "green",
+"res://old_files/utility/": "purple"
 }
 
 [global_group]

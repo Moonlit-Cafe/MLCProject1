@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://bn5fbb4bsgtvb"]
+
+[ext_resource type="Script" uid="uid://cc4xny52cwvdt" path="res://old_files/utility/creative_tools/tools/action_manager.gd" id="1_0u4dj"]
+
+[node name="ActionManager" type="Control" unique_id=1123640282 node_paths=PackedStringArray("action_directory", "action_info", "shape_selector", "shape_directory")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0u4dj")
+action_directory = NodePath("Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionDirectory/VBoxContainer/ScrollContainer/VBoxContainer")
+action_info = NodePath("Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionInfo/VBoxContainer/VBoxContainer")
+shape_selector = NodePath("ActionShapeSelector")
+shape_directory = NodePath("ActionShapeSelector/VBoxContainer/ScrollContainer/ActionShapeDirectory")
+
+[node name="Manager" type="PanelContainer" parent="." unique_id=1084355108]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Manager" unique_id=167107631]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Manager/MarginContainer" unique_id=460750850]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Manager/MarginContainer/VBoxContainer" unique_id=366573153]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionDirectory" type="MarginContainer" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer" unique_id=857803975]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionDirectory" unique_id=1951261286]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionDirectory/VBoxContainer" unique_id=2126062505]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionDirectory/VBoxContainer/ScrollContainer" unique_id=2062891213]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NewAction" type="Button" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionDirectory/VBoxContainer" unique_id=1417331662]
+layout_mode = 2
+text = "New Action"
+
+[node name="ActionInfo" type="MarginContainer" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1169182039]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionInfo" unique_id=495527529]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionInfo/VBoxContainer" unique_id=383029586]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SaveAction" type="Button" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionInfo/VBoxContainer" unique_id=93347077]
+layout_mode = 2
+text = "Save Action"
+
+[node name="DeleteAction" type="Button" parent="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionInfo/VBoxContainer" unique_id=1070188715]
+layout_mode = 2
+text = "Delete Action"
+
+[node name="ActionShapeSelector" type="PanelContainer" parent="." unique_id=994770746]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.2
+anchor_right = 0.7
+anchor_bottom = 0.8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ActionShapeSelector" unique_id=2023817175]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ActionShapeSelector/VBoxContainer" unique_id=1288854512]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ActionShapeDirectory" type="VBoxContainer" parent="ActionShapeSelector/VBoxContainer/ScrollContainer" unique_id=703887358]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Exit" type="Button" parent="ActionShapeSelector/VBoxContainer" unique_id=1527853409]
+layout_mode = 2
+text = "Return"
+
+[connection signal="pressed" from="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionDirectory/VBoxContainer/NewAction" to="." method="_on_new_action_pressed"]
+[connection signal="pressed" from="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionInfo/VBoxContainer/SaveAction" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="Manager/MarginContainer/VBoxContainer/HBoxContainer/ActionInfo/VBoxContainer/DeleteAction" to="." method="_on_delete_pressed"]
+[connection signal="pressed" from="ActionShapeSelector/VBoxContainer/Exit" to="." method="_on_return_pressed"]

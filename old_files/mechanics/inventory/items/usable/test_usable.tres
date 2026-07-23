@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="UsableItem" format=3 uid="uid://4ffbslydopid"]
+
+[ext_resource type="Script" uid="uid://dv7c7trx5t3hp" path="res://old_files/mechanics/inventory/items/res_def/usable_item.gd" id="1_sg87s"]
+
+[resource]
+script = ExtResource("1_sg87s")
+use_effect = &"Some Effect"
+uses = 2
+i_name = &"test_usable"
+texture = Vector2i(0, 6)
+max_stack_size = 1
+metadata/_custom_type_script = "uid://dv7c7trx5t3hp"

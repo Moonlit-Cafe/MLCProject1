@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bbq4b8ddhpg67"]
+
+[ext_resource type="Script" uid="uid://b6v2uxdaennxr" path="res://old_files/ui/events/travel/travel_button.gd" id="1_v1yd3"]
+[ext_resource type="Texture2D" uid="uid://2cpat0ehnsxk" path="res://icon.svg" id="2_gdnoi"]
+
+[node name="MapButton" type="Button" unique_id=1370049134]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1088.0
+offset_bottom = -584.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v1yd3")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=968769687]
+z_index = -1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_gdnoi")
+expand_mode = 3
+stretch_mode = 3
