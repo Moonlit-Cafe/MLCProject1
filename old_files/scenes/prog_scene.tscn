@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dgrxgtqiqfj70"]
 
-[ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/prog_scene.gd" id="1_dix4w"]
-[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://mechanics/map_generation/SectorGenerator.cs" id="2_w5uip"]
-[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="3_htg7h"]
+[ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://old_files/mechanics/events/prog_scene.gd" id="1_dix4w"]
+[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://old_files/mechanics/map_generation/SectorGenerator.cs" id="2_w5uip"]
+[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://old_files/scenes/events/battle_scene.tscn" id="3_htg7h"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_2j0dp"]
 

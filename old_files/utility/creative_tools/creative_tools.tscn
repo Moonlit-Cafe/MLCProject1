@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dbsfwx74buh37"]
 
-[ext_resource type="Script" uid="uid://fn8vpji1omx4" path="res://utility/creative_tools/creative_tools.gd" id="1_n74oa"]
-[ext_resource type="PackedScene" uid="uid://dqr8cewbjc77n" path="res://utility/creative_tools/tools/item_manager.tscn" id="1_t4u3c"]
-[ext_resource type="PackedScene" uid="uid://dn8o0yq41f4w1" path="res://utility/creative_tools/tools/action_shape_manager.tscn" id="3_vgd7k"]
-[ext_resource type="PackedScene" uid="uid://bn5fbb4bsgtvb" path="res://utility/creative_tools/tools/action_manager.tscn" id="4_hoxj2"]
+[ext_resource type="Script" uid="uid://fn8vpji1omx4" path="res://old_files/utility/creative_tools/creative_tools.gd" id="1_n74oa"]
+[ext_resource type="PackedScene" uid="uid://dqr8cewbjc77n" path="res://old_files/utility/creative_tools/tools/item_manager.tscn" id="1_t4u3c"]
+[ext_resource type="PackedScene" uid="uid://dn8o0yq41f4w1" path="res://old_files/utility/creative_tools/tools/action_shape_manager.tscn" id="3_vgd7k"]
+[ext_resource type="PackedScene" uid="uid://bn5fbb4bsgtvb" path="res://old_files/utility/creative_tools/tools/action_manager.tscn" id="4_hoxj2"]
 
 [node name="CreativeTools" type="PanelContainer" unique_id=1453855139]
 anchors_preset = -1

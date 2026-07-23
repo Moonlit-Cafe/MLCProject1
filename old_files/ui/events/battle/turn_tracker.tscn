@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cbp6203tbmepw"]
+[gd_scene format=3 uid="uid://cbp6203tbmepw"]
 
-[ext_resource type="Script" uid="uid://cu3fgh6uaf4su" path="res://ui/events/battle/turn_tracker.gd" id="1_4b4qh"]
+[ext_resource type="Script" uid="uid://cu3fgh6uaf4su" path="res://old_files/ui/events/battle/turn_tracker.gd" id="1_4b4qh"]
 
 [node name="TurnTracker" type="Control" node_paths=PackedStringArray("turn_labels")]
 layout_mode = 3

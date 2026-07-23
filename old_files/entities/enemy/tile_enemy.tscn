@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://xklg5gjudy1b"]
 
-[ext_resource type="PackedScene" uid="uid://dnhen0hl8o0bv" path="res://entities/tile_entity.tscn" id="1_jop11"]
-[ext_resource type="Script" uid="uid://s2sxrm7iul2h" path="res://entities/enemy/tile_enemy.gd" id="2_t5hli"]
+[ext_resource type="PackedScene" uid="uid://dnhen0hl8o0bv" path="res://old_files/entities/tile_entity.tscn" id="1_jop11"]
+[ext_resource type="Script" uid="uid://s2sxrm7iul2h" path="res://old_files/entities/enemy/tile_enemy.gd" id="2_t5hli"]
 
 [node name="TileEnemy" unique_id=1155967012 instance=ExtResource("1_jop11")]
 script = ExtResource("2_t5hli")

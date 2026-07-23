@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://npre0wq4yuc7"]
 
-[ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory/inventory_slot.tscn" id="1_n0n2g"]
-[ext_resource type="Script" uid="uid://decnctd8qfp08" path="res://ui/player_hud.gd" id="1_w11uw"]
-[ext_resource type="PackedScene" uid="uid://ye7pl4xy273r" path="res://ui/inventory/weapon_window.tscn" id="7_q84jv"]
+[ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://old_files/ui/inventory/inventory_slot.tscn" id="1_n0n2g"]
+[ext_resource type="Script" uid="uid://decnctd8qfp08" path="res://old_files/ui/player_hud.gd" id="1_w11uw"]
+[ext_resource type="PackedScene" uid="uid://ye7pl4xy273r" path="res://old_files/ui/inventory/weapon_window.tscn" id="7_q84jv"]
 
 [node name="PlayerHud" type="CanvasLayer" unique_id=2116962505 node_paths=PackedStringArray("inventory", "container")]
 script = ExtResource("1_w11uw")

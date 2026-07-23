@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bmcdxtd4yljf7"]
+[gd_scene format=3 uid="uid://bmcdxtd4yljf7"]
 
-[ext_resource type="Script" uid="uid://wkeftt6yuavq" path="res://assets/tools/tool_components/test_actions/test_actions.gd" id="1_pyvsc"]
-[ext_resource type="Script" uid="uid://csb22hesulqet" path="res://assets/tools/tool_components/considerations/decider.gd" id="2_cy801"]
-[ext_resource type="Resource" uid="uid://d32jpjvax4dt0" path="res://assets/tools/tool_components/test_actions/light_attack/my_resource_con.tres" id="3_uqkne"]
-[ext_resource type="Resource" uid="uid://derbdskjb4lx1" path="res://assets/tools/tool_components/test_actions/light_attack/target_hp_con.tres" id="4_h4qgd"]
+[ext_resource type="Script" uid="uid://wkeftt6yuavq" path="res://old_files/assets/tools/tool_components/test_actions/test_actions.gd" id="1_pyvsc"]
+[ext_resource type="Script" uid="uid://csb22hesulqet" path="res://old_files/assets/tools/tool_components/considerations/decider.gd" id="2_cy801"]
+[ext_resource type="Resource" uid="uid://d32jpjvax4dt0" path="res://old_files/assets/tools/tool_components/test_actions/light_attack/my_resource_con.tres" id="3_uqkne"]
+[ext_resource type="Resource" uid="uid://derbdskjb4lx1" path="res://old_files/assets/tools/tool_components/test_actions/light_attack/target_hp_con.tres" id="4_h4qgd"]
 
 [node name="Light" type="Node"]
 script = ExtResource("1_pyvsc")

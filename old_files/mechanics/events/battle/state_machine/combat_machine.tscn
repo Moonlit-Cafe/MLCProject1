@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://chnlg6ovx3jpy"]
 
-[ext_resource type="Script" uid="uid://bdvnrkybo7ugs" path="res://mechanics/events/battle/state_machine/combat_machine.gd" id="1_f6adb"]
-[ext_resource type="Script" uid="uid://77gc8h07rvpo" path="res://mechanics/events/battle/state_machine/init.gd" id="2_g4odm"]
-[ext_resource type="Script" uid="uid://dtdrd1utth211" path="res://mechanics/events/battle/state_machine/entity_turn.gd" id="3_kcisx"]
-[ext_resource type="Script" uid="uid://cg1cfc0r58mfd" path="res://mechanics/events/battle/state_machine/tile_conditions.gd" id="4_j2b7k"]
-[ext_resource type="Script" uid="uid://cvlq85ra5ps4c" path="res://mechanics/events/battle/state_machine/end_conditions.gd" id="5_ixev3"]
+[ext_resource type="Script" uid="uid://bdvnrkybo7ugs" path="res://old_files/mechanics/events/battle/state_machine/combat_machine.gd" id="1_f6adb"]
+[ext_resource type="Script" uid="uid://77gc8h07rvpo" path="res://old_files/mechanics/events/battle/state_machine/init.gd" id="2_g4odm"]
+[ext_resource type="Script" uid="uid://dtdrd1utth211" path="res://old_files/mechanics/events/battle/state_machine/entity_turn.gd" id="3_kcisx"]
+[ext_resource type="Script" uid="uid://cg1cfc0r58mfd" path="res://old_files/mechanics/events/battle/state_machine/tile_conditions.gd" id="4_j2b7k"]
+[ext_resource type="Script" uid="uid://cvlq85ra5ps4c" path="res://old_files/mechanics/events/battle/state_machine/end_conditions.gd" id="5_ixev3"]
 
 [node name="CombatMachine" type="Node" unique_id=1790775624 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("1_f6adb")

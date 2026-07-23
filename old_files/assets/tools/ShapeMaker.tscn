@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwy7sf13joert"]
+[gd_scene format=3 uid="uid://cwy7sf13joert"]
 
-[ext_resource type="Script" uid="uid://ccwdkb2lehmyq" path="res://assets/tools/shape_maker.gd" id="1"]
+[ext_resource type="Script" uid="uid://ccwdkb2lehmyq" path="res://old_files/assets/tools/shape_maker.gd" id="1"]
 
 [node name="ShapeMaker" type="Control" node_paths=PackedStringArray("tile_grid", "shape_name_input", "range_input", "save_button", "clear_button", "new_shape_button", "status_label", "source_label", "shapes_list", "move_up_button", "move_down_button", "delete_button")]
 layout_mode = 3

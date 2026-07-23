@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bn5fbb4bsgtvb"]
 
-[ext_resource type="Script" uid="uid://cc4xny52cwvdt" path="res://utility/creative_tools/tools/action_manager.gd" id="1_0u4dj"]
+[ext_resource type="Script" uid="uid://cc4xny52cwvdt" path="res://old_files/utility/creative_tools/tools/action_manager.gd" id="1_0u4dj"]
 
 [node name="ActionManager" type="Control" unique_id=1123640282 node_paths=PackedStringArray("action_directory", "action_info", "shape_selector", "shape_directory")]
 layout_mode = 3

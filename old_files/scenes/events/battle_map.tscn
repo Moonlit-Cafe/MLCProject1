@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://dypbdt24xc2u"]
 
-[ext_resource type="Script" uid="uid://dp5gy60d8vuyp" path="res://scenes/events/battle_map.gd" id="1_357td"]
-[ext_resource type="Script" uid="uid://duw3psw4s7174" path="res://utility/data_holders/map_boundary.gd" id="2_1s2bw"]
-[ext_resource type="MeshLibrary" uid="uid://kher62vvgh5c" path="res://assets/tilesets/basic_mesh_lib.tres" id="2_i4jl2"]
-[ext_resource type="PackedScene" uid="uid://dgqco5nxf2j7h" path="res://entities/player/tile_player.tscn" id="2_uxn2w"]
-[ext_resource type="PackedScene" uid="uid://br1q5ufye6dp7" path="res://mechanics/events/battle/battle_tile.tscn" id="2_x021i"]
-[ext_resource type="Script" uid="uid://sbgc1kqx3sb1" path="res://mechanics/events/battle/zones/zone_resource.gd" id="3_1s2bw"]
-[ext_resource type="PackedScene" uid="uid://cfykw172ltxx1" path="res://entities/player/battle_cam.tscn" id="7_uxn2w"]
+[ext_resource type="Script" uid="uid://dp5gy60d8vuyp" path="res://old_files/scenes/events/battle_map.gd" id="1_357td"]
+[ext_resource type="Script" uid="uid://duw3psw4s7174" path="res://old_files/utility/data_holders/map_boundary.gd" id="2_1s2bw"]
+[ext_resource type="MeshLibrary" uid="uid://kher62vvgh5c" path="res://old_files/assets/tilesets/basic_mesh_lib.tres" id="2_i4jl2"]
+[ext_resource type="PackedScene" uid="uid://dgqco5nxf2j7h" path="res://old_files/entities/player/tile_player.tscn" id="2_uxn2w"]
+[ext_resource type="PackedScene" uid="uid://br1q5ufye6dp7" path="res://old_files/mechanics/events/battle/battle_tile.tscn" id="2_x021i"]
+[ext_resource type="Script" uid="uid://sbgc1kqx3sb1" path="res://old_files/mechanics/events/battle/zones/zone_resource.gd" id="3_1s2bw"]
+[ext_resource type="PackedScene" uid="uid://cfykw172ltxx1" path="res://old_files/entities/player/battle_cam.tscn" id="7_uxn2w"]
 
 [sub_resource type="Resource" id="Resource_x021i"]
 script = ExtResource("2_1s2bw")

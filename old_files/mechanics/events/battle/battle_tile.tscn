@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://br1q5ufye6dp7"]
 
-[ext_resource type="Script" uid="uid://j4fp64n1btw6" path="res://mechanics/events/battle/battle_tile.gd" id="1_msxig"]
-[ext_resource type="PackedScene" uid="uid://xklg5gjudy1b" path="res://entities/enemy/tile_enemy.tscn" id="2_k5873"]
-[ext_resource type="PackedScene" uid="uid://nui0n8cj5g2o" path="res://entities/obstacle/tile_obstacle.tscn" id="3_q5ya1"]
-[ext_resource type="PackedScene" uid="uid://dgqco5nxf2j7h" path="res://entities/player/tile_player.tscn" id="4_k5873"]
-[ext_resource type="Texture2D" uid="uid://cirq0h1gvntej" path="res://assets/sprites/empty.png" id="5_iccr6"]
-[ext_resource type="Texture2D" uid="uid://cn52wumeokax3" path="res://assets/sprites/tiles/Fade.png" id="6_8ubjv"]
-[ext_resource type="Texture2D" uid="uid://kpu4vliwosp4" path="res://assets/sprites/tiles/Spin.png" id="7_eu0ew"]
-[ext_resource type="Texture2D" uid="uid://cf80eldtg8ldt" path="res://assets/sprites/tiles/Still.png" id="8_3fyv0"]
-[ext_resource type="Texture2D" uid="uid://d3obj2w3ameim" path="res://assets/sprites/tiles/Selected.png" id="9_x8x7b"]
+[ext_resource type="Script" uid="uid://j4fp64n1btw6" path="res://old_files/mechanics/events/battle/battle_tile.gd" id="1_msxig"]
+[ext_resource type="PackedScene" uid="uid://xklg5gjudy1b" path="res://old_files/entities/enemy/tile_enemy.tscn" id="2_k5873"]
+[ext_resource type="PackedScene" uid="uid://nui0n8cj5g2o" path="res://old_files/entities/obstacle/tile_obstacle.tscn" id="3_q5ya1"]
+[ext_resource type="PackedScene" uid="uid://dgqco5nxf2j7h" path="res://old_files/entities/player/tile_player.tscn" id="4_k5873"]
+[ext_resource type="Texture2D" uid="uid://cirq0h1gvntej" path="res://old_files/assets/sprites/empty.png" id="5_iccr6"]
+[ext_resource type="Texture2D" uid="uid://cn52wumeokax3" path="res://old_files/assets/sprites/tiles/Fade.png" id="6_8ubjv"]
+[ext_resource type="Texture2D" uid="uid://kpu4vliwosp4" path="res://old_files/assets/sprites/tiles/Spin.png" id="7_eu0ew"]
+[ext_resource type="Texture2D" uid="uid://cf80eldtg8ldt" path="res://old_files/assets/sprites/tiles/Still.png" id="8_3fyv0"]
+[ext_resource type="Texture2D" uid="uid://d3obj2w3ameim" path="res://old_files/assets/sprites/tiles/Selected.png" id="9_x8x7b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jsgv4"]
 size = Vector3(1, 0.2, 1)

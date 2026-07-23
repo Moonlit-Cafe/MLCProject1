@@ -1,6 +1,6 @@
 [gd_resource type="MeshLibrary" format=3 uid="uid://kher62vvgh5c"]
 
-[ext_resource type="Shader" uid="uid://ckbixxhi26t82" path="res://assets/shaders/tiles/single_color.gdshader" id="1_a014y"]
+[ext_resource type="Shader" uid="uid://ckbixxhi26t82" path="res://old_files/assets/shaders/tiles/single_color.gdshader" id="1_a014y"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f4pmr"]
 render_priority = 0

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b5ayvbfjucj3m"]
 
-[ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://ui/inventory/inventory_slot.tscn" id="1_5fsji"]
+[ext_resource type="PackedScene" uid="uid://b0y3kn16q733f" path="res://old_files/ui/inventory/inventory_slot.tscn" id="1_5fsji"]
 
 [sub_resource type="GDScript" id="GDScript_5fsji"]
 script/source = "class_name EquipSlot extends InventorySlot

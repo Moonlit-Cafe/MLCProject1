@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dqr8cewbjc77n"]
 
-[ext_resource type="Script" uid="uid://danrvtjmr0qgc" path="res://utility/creative_tools/tools/item_manager.gd" id="1_8gjqj"]
+[ext_resource type="Script" uid="uid://danrvtjmr0qgc" path="res://old_files/utility/creative_tools/tools/item_manager.gd" id="1_8gjqj"]
 
 [node name="ItemManager" type="PanelContainer" unique_id=1343109431 node_paths=PackedStringArray("item_directory", "info_container", "add_item_button", "item_choice_container")]
 anchors_preset = 15

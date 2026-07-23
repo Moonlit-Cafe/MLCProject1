@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://ei0bnytq6qqd"]
+[gd_scene format=3 uid="uid://ei0bnytq6qqd"]
 
-[ext_resource type="PackedScene" uid="uid://cwy7sf13joert" path="res://assets/tools/ShapeMaker.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://dd4ylbblcxjwa" path="res://assets/tools/Considerations.tscn" id="2_l8idh"]
+[ext_resource type="PackedScene" uid="uid://cwy7sf13joert" path="res://old_files/assets/tools/ShapeMaker.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://dd4ylbblcxjwa" path="res://old_files/assets/tools/Considerations.tscn" id="2_l8idh"]
 
 [node name="Sandbox" type="Node"]
 

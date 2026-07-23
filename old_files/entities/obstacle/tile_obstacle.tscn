@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://nui0n8cj5g2o"]
 
-[ext_resource type="PackedScene" uid="uid://dnhen0hl8o0bv" path="res://entities/tile_entity.tscn" id="1_cgyan"]
-[ext_resource type="Script" uid="uid://cvxe4frjdxn3c" path="res://entities/obstacle/tile_obstacle.gd" id="2_w0h0l"]
+[ext_resource type="PackedScene" uid="uid://dnhen0hl8o0bv" path="res://old_files/entities/tile_entity.tscn" id="1_cgyan"]
+[ext_resource type="Script" uid="uid://cvxe4frjdxn3c" path="res://old_files/entities/obstacle/tile_obstacle.gd" id="2_w0h0l"]
 
 [node name="TileObstacle" instance=ExtResource("1_cgyan")]
 script = ExtResource("2_w0h0l")

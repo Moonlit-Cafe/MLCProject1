@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b62pgu5tmj4gv"]
+[gd_scene format=3 uid="uid://b62pgu5tmj4gv"]
 
-[ext_resource type="Script" uid="uid://wkeftt6yuavq" path="res://assets/tools/tool_components/test_actions/test_actions.gd" id="1_gq2k0"]
+[ext_resource type="Script" uid="uid://wkeftt6yuavq" path="res://old_files/assets/tools/tool_components/test_actions/test_actions.gd" id="1_gq2k0"]
 
 [node name="Ability" type="VBoxContainer"]
 script = ExtResource("1_gq2k0")

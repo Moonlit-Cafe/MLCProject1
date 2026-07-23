@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dgqco5nxf2j7h"]
 
-[ext_resource type="PackedScene" uid="uid://dnhen0hl8o0bv" path="res://entities/tile_entity.tscn" id="1_o8bxy"]
-[ext_resource type="Script" uid="uid://bijxvfbqe43q4" path="res://entities/player/tile_player.gd" id="2_5pd5b"]
-[ext_resource type="Texture2D" uid="uid://4xt8dndavy1t" path="res://assets/sprites/characters/character_1_frame16x20.png" id="3_ayvag"]
+[ext_resource type="PackedScene" uid="uid://dnhen0hl8o0bv" path="res://old_files/entities/tile_entity.tscn" id="1_o8bxy"]
+[ext_resource type="Script" uid="uid://bijxvfbqe43q4" path="res://old_files/entities/player/tile_player.gd" id="2_5pd5b"]
+[ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://old_files/assets/sprites/characters/character_1_frame16x20.png" id="3_ayvag"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kc8yn"]
 atlas = ExtResource("3_ayvag")

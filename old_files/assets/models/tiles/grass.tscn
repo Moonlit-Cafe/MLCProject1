@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bh5bax0128ecw"]
+[gd_scene format=3 uid="uid://bh5bax0128ecw"]
 
-[ext_resource type="Shader" uid="uid://ckbixxhi26t82" path="res://assets/shaders/tiles/single_color.gdshader" id="1_gxjxm"]
+[ext_resource type="Shader" uid="uid://ckbixxhi26t82" path="res://old_files/assets/shaders/tiles/single_color.gdshader" id="1_gxjxm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f4pmr"]
 render_priority = 0

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://clst672u7riq4"]
 
-[ext_resource type="Script" uid="uid://cstsybkhhy3dw" path="res://autoloads/player/player_manager.gd" id="1_snm0b"]
-[ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://assets/sprites/characters/character_1_frame16x20.png" id="2_thk80"]
-[ext_resource type="Script" uid="uid://dq2wcllo0fdv5" path="res://mechanics/events/battle/player/player_resource.gd" id="3_jakli"]
+[ext_resource type="Script" uid="uid://cstsybkhhy3dw" path="res://old_files/autoloads/player/player_manager.gd" id="1_snm0b"]
+[ext_resource type="Texture2D" uid="uid://laqlicxlu182" path="res://old_files/assets/sprites/characters/character_1_frame16x20.png" id="2_thk80"]
+[ext_resource type="Script" uid="uid://dq2wcllo0fdv5" path="res://old_files/mechanics/events/battle/player/player_resource.gd" id="3_jakli"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_thk80"]
 atlas = ExtResource("2_thk80")

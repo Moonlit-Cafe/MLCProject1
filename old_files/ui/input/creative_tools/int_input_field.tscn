@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ckddmbre1l627"]
 
-[ext_resource type="Script" uid="uid://cwfr0km20pd3x" path="res://ui/input/creative_tools/int_input_field.gd" id="1_w68cq"]
+[ext_resource type="Script" uid="uid://cwfr0km20pd3x" path="res://old_files/ui/input/creative_tools/int_input_field.gd" id="1_w68cq"]
 
 [node name="IntInputField" type="HBoxContainer" unique_id=200047870]
 anchors_preset = 15

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dn8o0yq41f4w1"]
 
-[ext_resource type="Script" uid="uid://bpk7upxr2ufqs" path="res://utility/creative_tools/tools/action_shape_manager.gd" id="1_2xfkh"]
+[ext_resource type="Script" uid="uid://bpk7upxr2ufqs" path="res://old_files/utility/creative_tools/tools/action_shape_manager.gd" id="1_2xfkh"]
 
 [node name="ActionShapeManager" type="PanelContainer" unique_id=490346680 node_paths=PackedStringArray("action_directory", "shape_grid", "shape_name_edit")]
 anchors_preset = 15

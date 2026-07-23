@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://82v5d6cakdan"]
 
-[ext_resource type="Script" uid="uid://cqa64lnyy1vp3" path="res://mechanics/inventory/equippable_node.gd" id="1_v5wiw"]
+[ext_resource type="Script" uid="uid://cqa64lnyy1vp3" path="res://old_files/mechanics/inventory/equippable_node.gd" id="1_v5wiw"]
 
 [node name="EquippableNode" type="Control" unique_id=491702727]
 z_index = 1

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ddp2lg7cfa3uy"]
 
-[ext_resource type="Script" uid="uid://xb2jelyt43s" path="res://ui/input/creative_tools/enum_selector.gd" id="1_4fcq3"]
-[ext_resource type="Script" uid="uid://da24c4yfqg1tq" path="res://ui/input/creative_tools/ability_cost_input.gd" id="1_k581n"]
+[ext_resource type="Script" uid="uid://xb2jelyt43s" path="res://old_files/ui/input/creative_tools/enum_selector.gd" id="1_4fcq3"]
+[ext_resource type="Script" uid="uid://da24c4yfqg1tq" path="res://old_files/ui/input/creative_tools/ability_cost_input.gd" id="1_k581n"]
 
 [node name="AbilityCostInput" type="HBoxContainer" unique_id=2036524150 node_paths=PackedStringArray("enum_selector", "value_box")]
 anchors_preset = 15

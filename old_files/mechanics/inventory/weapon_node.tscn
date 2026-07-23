@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2djdhoksebun"]
+[gd_scene format=3 uid="uid://c2djdhoksebun"]
 
-[ext_resource type="Script" uid="uid://cbxqm14amo4jq" path="res://mechanics/inventory/weapon_node.gd" id="1_qo66q"]
+[ext_resource type="Script" uid="uid://cbxqm14amo4jq" path="res://old_files/mechanics/inventory/weapon_node.gd" id="1_qo66q"]
 
 [node name="WeaponNode" type="Control" node_paths=PackedStringArray("count_label", "texture")]
 z_index = 1

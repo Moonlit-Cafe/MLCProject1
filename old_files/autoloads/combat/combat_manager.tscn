@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://bbml46t1bprfh"]
 
-[ext_resource type="Script" uid="uid://dfnier8g0rygk" path="res://autoloads/combat/combat_manager.gd" id="1_rbhvc"]
-[ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://mechanics/events/battle/enemies/enemy_resource.gd" id="2_u5uuf"]
-[ext_resource type="Resource" uid="uid://dphyv7hkvhq2c" path="res://mechanics/events/battle/enemies/basic_enemy.tres" id="3_1qc40"]
-[ext_resource type="Script" uid="uid://ddopx82rbetw2" path="res://mechanics/events/battle/obstacles/obstacle.gd" id="4_ka4f6"]
-[ext_resource type="Resource" uid="uid://4mxxc5xw1ri1" path="res://mechanics/events/battle/obstacles/basic_obstacle.tres" id="5_ephb6"]
-[ext_resource type="PackedScene" uid="uid://tn1nqplsl3iu" path="res://autoloads/combat/zone_manager.tscn" id="7_g3bif"]
-[ext_resource type="PackedScene" uid="uid://cykfbmrq47ycu" path="res://autoloads/combat/item_manager.tscn" id="8_g3bif"]
+[ext_resource type="Script" uid="uid://dfnier8g0rygk" path="res://old_files/autoloads/combat/combat_manager.gd" id="1_rbhvc"]
+[ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://old_files/mechanics/events/battle/enemies/enemy_resource.gd" id="2_u5uuf"]
+[ext_resource type="Resource" uid="uid://dphyv7hkvhq2c" path="res://old_files/mechanics/events/battle/enemies/basic_enemy.tres" id="3_1qc40"]
+[ext_resource type="Script" uid="uid://ddopx82rbetw2" path="res://old_files/mechanics/events/battle/obstacles/obstacle.gd" id="4_ka4f6"]
+[ext_resource type="Resource" uid="uid://4mxxc5xw1ri1" path="res://old_files/mechanics/events/battle/obstacles/basic_obstacle.tres" id="5_ephb6"]
+[ext_resource type="PackedScene" uid="uid://tn1nqplsl3iu" path="res://old_files/autoloads/combat/zone_manager.tscn" id="7_g3bif"]
+[ext_resource type="PackedScene" uid="uid://cykfbmrq47ycu" path="res://old_files/autoloads/combat/item_manager.tscn" id="8_g3bif"]
 
 [node name="CombatManager" type="Node" unique_id=1861962976]
 script = ExtResource("1_rbhvc")

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bwckmsndfnk5n"]
 
-[ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://mechanics/events/prog_scene.gd" id="1_6j0i0"]
-[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://mechanics/map_generation/SectorGenerator.cs" id="2_3epdd"]
-[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="3_4rh81"]
+[ext_resource type="Script" uid="uid://bqsuk1try5v7x" path="res://old_files/mechanics/events/prog_scene.gd" id="1_6j0i0"]
+[ext_resource type="Script" uid="uid://d1kicjcpcas03" path="res://old_files/mechanics/map_generation/SectorGenerator.cs" id="2_3epdd"]
+[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://old_files/scenes/events/battle_scene.tscn" id="3_4rh81"]
 
 [node name="ProgScene" type="Node" unique_id=579246237 node_paths=PackedStringArray("button_container", "scene_holder")]
 script = ExtResource("1_6j0i0")

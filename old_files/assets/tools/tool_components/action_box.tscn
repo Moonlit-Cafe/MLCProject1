@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcu6yk5psafon"]
+[gd_scene format=3 uid="uid://bcu6yk5psafon"]
 
-[ext_resource type="Script" uid="uid://cvxdj7v1p1h5s" path="res://assets/tools/tool_components/action_box.gd" id="1_r3nkp"]
+[ext_resource type="Script" uid="uid://cvxdj7v1p1h5s" path="res://old_files/assets/tools/tool_components/action_box.gd" id="1_r3nkp"]
 
 [node name="ActionBox" type="VBoxContainer" node_paths=PackedStringArray("name_label", "ac_desc_label", "amt_label", "ab")]
 anchors_preset = 15

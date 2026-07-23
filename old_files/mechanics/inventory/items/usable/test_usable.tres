@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="UsableItem" load_steps=2 format=3 uid="uid://4ffbslydopid"]
+[gd_resource type="Resource" script_class="UsableItem" format=3 uid="uid://4ffbslydopid"]
 
-[ext_resource type="Script" uid="uid://dv7c7trx5t3hp" path="res://mechanics/inventory/items/res_def/usable_item.gd" id="1_sg87s"]
+[ext_resource type="Script" uid="uid://dv7c7trx5t3hp" path="res://old_files/mechanics/inventory/items/res_def/usable_item.gd" id="1_sg87s"]
 
 [resource]
 script = ExtResource("1_sg87s")

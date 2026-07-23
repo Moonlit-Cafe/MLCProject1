@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://c4asug4umi72u"]
 
-[ext_resource type="Script" uid="uid://d35u1e12570nq" path="res://scenes/travel_scene.gd" id="1_vqyoh"]
-[ext_resource type="PackedScene" uid="uid://bbq4b8ddhpg67" path="res://ui/events/travel/travel_button.tscn" id="2_3qrgf"]
-[ext_resource type="Script" uid="uid://bvhk0ewqwsact" path="res://utility/data_holders/holder/event_holder.gd" id="2_hsm4c"]
-[ext_resource type="PackedScene" uid="uid://dcub7v16acou0" path="res://scenes/events/shop_scene.tscn" id="3_rhsj8"]
-[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://scenes/events/battle_scene.tscn" id="4_531dt"]
-[ext_resource type="PackedScene" uid="uid://bulyn32kagiph" path="res://scenes/events/craft_scene.tscn" id="5_15hay"]
-[ext_resource type="PackedScene" uid="uid://d1xs6v76nmk44" path="res://scenes/events/unique_event_scene.tscn" id="6_ik3ij"]
+[ext_resource type="Script" uid="uid://d35u1e12570nq" path="res://old_files/scenes/travel_scene.gd" id="1_vqyoh"]
+[ext_resource type="PackedScene" uid="uid://bbq4b8ddhpg67" path="res://old_files/ui/events/travel/travel_button.tscn" id="2_3qrgf"]
+[ext_resource type="Script" path="res://utility/data_holders/holder/event_holder.gd" id="2_hsm4c"]
+[ext_resource type="PackedScene" uid="uid://dcub7v16acou0" path="res://old_files/scenes/events/shop_scene.tscn" id="3_rhsj8"]
+[ext_resource type="PackedScene" uid="uid://ksmkpfann6ie" path="res://old_files/scenes/events/battle_scene.tscn" id="4_531dt"]
+[ext_resource type="PackedScene" uid="uid://bulyn32kagiph" path="res://old_files/scenes/events/craft_scene.tscn" id="5_15hay"]
+[ext_resource type="PackedScene" uid="uid://d1xs6v76nmk44" path="res://old_files/scenes/events/unique_event_scene.tscn" id="6_ik3ij"]
 
 [sub_resource type="Resource" id="Resource_htg7h"]
 script = ExtResource("2_hsm4c")

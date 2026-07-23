@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bk72msl0rq3ie"]
+[gd_scene format=3 uid="uid://bk72msl0rq3ie"]
 
-[ext_resource type="Script" uid="uid://c5ste5kuymc7p" path="res://move_box.gd" id="1_s7cek"]
+[ext_resource type="Script" uid="uid://c5ste5kuymc7p" path="res://old_files/move_box.gd" id="1_s7cek"]
 
 [node name="MoveBox" type="VBoxContainer" node_paths=PackedStringArray("nb", "name_label", "ac_desc_label", "amt_label", "ab")]
 anchors_preset = 15

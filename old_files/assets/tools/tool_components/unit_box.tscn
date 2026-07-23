@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bo5nd2e1fow6a"]
+[gd_scene format=3 uid="uid://bo5nd2e1fow6a"]
 
-[ext_resource type="PackedScene" uid="uid://df2m1fdk0u5r5" path="res://assets/tools/tool_components/stat_container.tscn" id="1_000dx"]
-[ext_resource type="Script" uid="uid://dxtsynt0gja3k" path="res://assets/tools/tool_components/unit_box.gd" id="1_61dpf"]
+[ext_resource type="PackedScene" uid="uid://df2m1fdk0u5r5" path="res://old_files/assets/tools/tool_components/stat_container.tscn" id="1_000dx"]
+[ext_resource type="Script" uid="uid://dxtsynt0gja3k" path="res://old_files/assets/tools/tool_components/unit_box.gd" id="1_61dpf"]
 
 [node name="UnitBox" type="VBoxContainer" node_paths=PackedStringArray("unit_name_label", "health_box", "mana_box", "movement_box")]
 anchors_preset = 15

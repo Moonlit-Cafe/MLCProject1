@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dnb2rmv4ufqwg"]
+[gd_scene format=3 uid="uid://dnb2rmv4ufqwg"]
 
-[ext_resource type="Script" uid="uid://bfpgrrud08c5l" path="res://assets/tools/tool_components/enemy_box.gd" id="1_swlvu"]
-[ext_resource type="PackedScene" uid="uid://df2m1fdk0u5r5" path="res://assets/tools/tool_components/stat_container.tscn" id="2_0qb4m"]
-[ext_resource type="PackedScene" uid="uid://if2rrt1avexp" path="res://assets/tools/DecisionMaker.tscn" id="3_0qb4m"]
-[ext_resource type="PackedScene" uid="uid://2s8pijnog6v7" path="res://assets/tools/tool_components/test_actions/magic_attack/magic.tscn" id="3_aedxx"]
-[ext_resource type="PackedScene" uid="uid://xo1sda4pacd5" path="res://assets/tools/tool_components/test_actions/heavy_attack/heavy.tscn" id="4_6gtua"]
-[ext_resource type="PackedScene" uid="uid://bmcdxtd4yljf7" path="res://assets/tools/tool_components/test_actions/light_attack/light.tscn" id="5_nlydm"]
+[ext_resource type="Script" uid="uid://bfpgrrud08c5l" path="res://old_files/assets/tools/tool_components/enemy_box.gd" id="1_swlvu"]
+[ext_resource type="PackedScene" uid="uid://df2m1fdk0u5r5" path="res://old_files/assets/tools/tool_components/stat_container.tscn" id="2_0qb4m"]
+[ext_resource type="PackedScene" uid="uid://if2rrt1avexp" path="res://old_files/assets/tools/DecisionMaker.tscn" id="3_0qb4m"]
+[ext_resource type="PackedScene" uid="uid://2s8pijnog6v7" path="res://old_files/assets/tools/tool_components/test_actions/magic_attack/magic.tscn" id="3_aedxx"]
+[ext_resource type="PackedScene" uid="uid://xo1sda4pacd5" path="res://old_files/assets/tools/tool_components/test_actions/heavy_attack/heavy.tscn" id="4_6gtua"]
+[ext_resource type="PackedScene" uid="uid://bmcdxtd4yljf7" path="res://old_files/assets/tools/tool_components/test_actions/light_attack/light.tscn" id="5_nlydm"]
 
 [node name="UnitBox" type="VBoxContainer" node_paths=PackedStringArray("brain", "unit_name_label", "health_box", "mana_box", "movement_box")]
 anchors_preset = 15

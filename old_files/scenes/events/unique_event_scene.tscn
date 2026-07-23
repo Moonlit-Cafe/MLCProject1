@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1xs6v76nmk44"]
+[gd_scene format=3 uid="uid://d1xs6v76nmk44"]
 
-[ext_resource type="Script" uid="uid://cj7ruhoadqxva" path="res://scenes/events/unique_event_scene.gd" id="1_rpglw"]
-[ext_resource type="Script" uid="uid://bimn80jxcj5ag" path="res://mechanics/events/unique_event_list.gd" id="2_0arow"]
-[ext_resource type="Resource" uid="uid://dr8nrnab5teql" path="res://mechanics/events/test_event_list.tres" id="3_544vt"]
+[ext_resource type="Script" uid="uid://cj7ruhoadqxva" path="res://old_files/scenes/events/unique_event_scene.gd" id="1_rpglw"]
+[ext_resource type="Script" uid="uid://bimn80jxcj5ag" path="res://old_files/mechanics/events/unique_event_list.gd" id="2_0arow"]
+[ext_resource type="Resource" uid="uid://dr8nrnab5teql" path="res://old_files/mechanics/events/test_event_list.tres" id="3_544vt"]
 
 [node name="UniqueEventScene" type="Node"]
 script = ExtResource("1_rpglw")

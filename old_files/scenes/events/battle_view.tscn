@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cpmehpvcgnn2y"]
 
-[ext_resource type="PackedScene" uid="uid://dypbdt24xc2u" path="res://scenes/events/battle_map.tscn" id="1_mclnt"]
-[ext_resource type="Script" uid="uid://ctvy7v52gqbup" path="res://scenes/events/battle_view.gd" id="1_mwcec"]
-[ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://ui/events/battle/turn_tracker.tscn" id="2_mwcec"]
-[ext_resource type="PackedScene" uid="uid://b71p3f76aob3l" path="res://ui/events/battle/battle_log.tscn" id="3_w355t"]
-[ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://ui/events/battle/action_menu.tscn" id="4_2cej3"]
-[ext_resource type="PackedScene" uid="uid://cxeetx3ud8b6k" path="res://ui/battle/hover_panel.tscn" id="5_jrtx5"]
+[ext_resource type="PackedScene" uid="uid://dypbdt24xc2u" path="res://old_files/scenes/events/battle_map.tscn" id="1_mclnt"]
+[ext_resource type="Script" uid="uid://ctvy7v52gqbup" path="res://old_files/scenes/events/battle_view.gd" id="1_mwcec"]
+[ext_resource type="PackedScene" uid="uid://cbp6203tbmepw" path="res://old_files/ui/events/battle/turn_tracker.tscn" id="2_mwcec"]
+[ext_resource type="PackedScene" uid="uid://b71p3f76aob3l" path="res://old_files/ui/events/battle/battle_log.tscn" id="3_w355t"]
+[ext_resource type="PackedScene" uid="uid://cneml13no85su" path="res://old_files/ui/events/battle/action_menu.tscn" id="4_2cej3"]
+[ext_resource type="PackedScene" uid="uid://cxeetx3ud8b6k" path="res://old_files/ui/battle/hover_panel.tscn" id="5_jrtx5"]
 
 [node name="BattleView" type="SubViewport" unique_id=499544992 node_paths=PackedStringArray("actions_menu", "battle_log", "turn_tracker", "battle_map", "hover_panel")]
 script = ExtResource("1_mwcec")

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://wtgkjv1w1lqe"]
 
-[ext_resource type="PackedScene" uid="uid://c4asug4umi72u" path="res://scenes/travel_scene.tscn" id="1_pdrfu"]
-[ext_resource type="PackedScene" uid="uid://npre0wq4yuc7" path="res://ui/player_hud.tscn" id="2_irjn2"]
+[ext_resource type="PackedScene" uid="uid://c4asug4umi72u" path="res://old_files/scenes/travel_scene.tscn" id="1_pdrfu"]
+[ext_resource type="PackedScene" uid="uid://npre0wq4yuc7" path="res://old_files/ui/player_hud.tscn" id="2_irjn2"]
 
 [node name="TEST game" type="Node" unique_id=1242974487]
 

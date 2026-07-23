@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="Decider" load_steps=3 format=3 uid="uid://bts2we8agsvu0"]
+[gd_resource type="Resource" script_class="Decider" format=3 uid="uid://bts2we8agsvu0"]
 
-[ext_resource type="Script" uid="uid://csb22hesulqet" path="res://assets/tools/tool_components/considerations/decider.gd" id="1_bct7j"]
+[ext_resource type="Script" uid="uid://csb22hesulqet" path="res://old_files/assets/tools/tool_components/considerations/decider.gd" id="1_bct7j"]
 
 [sub_resource type="Curve" id="Curve_wuwr0"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.49576867), 0.0, 0.0, 0, 0]

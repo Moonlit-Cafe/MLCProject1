@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="EnemyCharacter" format=3 uid="uid://dphyv7hkvhq2c"]
 
-[ext_resource type="Script" uid="uid://cwnkhqmixlu7n" path="res://utility/data_holders/decisions/decider_array.gd" id="1_uf22c"]
-[ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://mechanics/events/battle/enemies/enemy_resource.gd" id="1_yws0g"]
-[ext_resource type="Script" uid="uid://c6agyx2bg8ebv" path="res://utility/data_holders/decisions/decider.gd" id="2_csnyl"]
-[ext_resource type="Script" uid="uid://c7jgrhv2ltdm4" path="res://utility/data_holders/decisions/decider_set.gd" id="2_gkji7"]
-[ext_resource type="Texture2D" uid="uid://45ylw24jm16k" path="res://assets/sprites/characters/Place_F_desat.png" id="4_gkji7"]
+[ext_resource type="Script" uid="uid://cwnkhqmixlu7n" path="res://old_files/utility/data_holders/decisions/decider_array.gd" id="1_uf22c"]
+[ext_resource type="Script" uid="uid://68gwj4d56lqp" path="res://old_files/mechanics/events/battle/enemies/enemy_resource.gd" id="1_yws0g"]
+[ext_resource type="Script" uid="uid://c6agyx2bg8ebv" path="res://old_files/utility/data_holders/decisions/decider.gd" id="2_csnyl"]
+[ext_resource type="Script" uid="uid://c7jgrhv2ltdm4" path="res://old_files/utility/data_holders/decisions/decider_set.gd" id="2_gkji7"]
+[ext_resource type="Texture2D" uid="uid://45ylw24jm16k" path="res://old_files/assets/sprites/characters/Place_F_desat.png" id="4_gkji7"]
 
 [sub_resource type="Curve" id="Curve_rajqn"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]

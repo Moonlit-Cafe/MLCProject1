@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dcub7v16acou0"]
 
-[ext_resource type="Script" uid="uid://b2bhto4v4aq7h" path="res://scenes/events/shop_scene.gd" id="1_d4n0x"]
-[ext_resource type="PackedScene" uid="uid://dcaopukhmvyuf" path="res://ui/inventory/shop_slot.tscn" id="2_1elkd"]
+[ext_resource type="Script" uid="uid://b2bhto4v4aq7h" path="res://old_files/scenes/events/shop_scene.gd" id="1_d4n0x"]
+[ext_resource type="PackedScene" uid="uid://dcaopukhmvyuf" path="res://old_files/ui/inventory/shop_slot.tscn" id="2_1elkd"]
 
 [node name="ShopScene" type="Node" unique_id=366804730 node_paths=PackedStringArray("mat_slots", "use_slots", "eqp_slots")]
 script = ExtResource("1_d4n0x")

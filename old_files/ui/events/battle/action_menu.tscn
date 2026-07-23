@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cneml13no85su"]
 
-[ext_resource type="Script" uid="uid://dfxn5xfyvfgbb" path="res://ui/events/battle/action_menu.gd" id="1_t12t3"]
-[ext_resource type="Script" uid="uid://m4dltirsbh7b" path="res://ui/events/battle/move_button.gd" id="2_fqkdn"]
+[ext_resource type="Script" uid="uid://dfxn5xfyvfgbb" path="res://old_files/ui/events/battle/action_menu.gd" id="1_t12t3"]
+[ext_resource type="Script" uid="uid://m4dltirsbh7b" path="res://old_files/ui/events/battle/move_button.gd" id="2_fqkdn"]
 
 [node name="ActionMenu" type="PanelContainer" unique_id=901285551]
 script = ExtResource("1_t12t3")
