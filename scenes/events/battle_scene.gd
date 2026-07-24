@@ -1,4 +1,4 @@
-extends EventScene
+class_name BattleScene extends EventScene
 
 #region Declarations
 @onready var timeline_holder : Control = $TimelineHolder
