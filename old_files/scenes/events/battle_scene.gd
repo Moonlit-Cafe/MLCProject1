@@ -60,7 +60,7 @@ func _update_viewports() -> void:
 			view_1.size = container_1.size
 			view_2.size = container_2.size
 		_:
-			GameGlobal.logging.post_warning(self, "Not coded yet for size . . .")
+			Global.logs.post_warning(self, "Not coded yet for size . . .")
 
 func _update_anchors(control: Control, rect: Rect2) -> void:
 	control.anchor_left = rect.position.x
@@ -71,5 +71,6 @@ func _update_anchors(control: Control, rect: Rect2) -> void:
 
 #region Signal Callbacks
 func _on_pressed() -> void:
-	SceneManager.load_next_scene()
+	# TYLER SceneManager.load_next_scene()
+	return
 #endregion

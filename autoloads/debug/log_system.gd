@@ -1,6 +1,6 @@
 ## Handles the process of posting messages, warnings, and errors while also saving them for
 ## later use when debugging.
-class_name LogSystem extends Node
+extends Node
 
 #region Declarations
 const LOG_MAX : int = 5

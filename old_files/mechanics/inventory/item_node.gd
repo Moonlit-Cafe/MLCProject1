@@ -50,7 +50,7 @@ func update_display() -> void:
 	
 	# Set the icon from texture atlas
 	if texture and item.texture != Vector2i.ZERO:
-		texture.texture = GameGlobal.craft.get_item_texture(item.texture)
+		texture.texture = Global.craft.get_item_texture(item.texture)
 	
 	# Update count display
 	if count_label:
