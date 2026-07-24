@@ -5,7 +5,6 @@ extends Node
 #region Declarations
 @onready var events : GlobalEvents = $GlobalEvents ## The game's main SignalBus
 @onready var logs : LogSystem = $LogSystem ## The game's logging system for debugging
-@onready var genum = Genum
 
 var player_equips : Dictionary[Genum.EquipSlot, ItemNode] = {}
 var player_stats : Dictionary[Genum.StatType, float] = {

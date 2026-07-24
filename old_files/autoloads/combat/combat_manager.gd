@@ -1,5 +1,5 @@
 ## Autoload in charge of data regarding battles and combat.
-extends Node
+class_name CombatManager extends Node
 
 #region Declarations
 @warning_ignore_start("unused_signal")

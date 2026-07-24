@@ -33,7 +33,7 @@ func _ready() -> void:
 	timer.timeout.connect(_on_timer_timeout)
 	
 	if get_tree().get_node_count_in_group(&"player") > 0:
-		focus_target = get_tree().get_first_node_in_group(&"player")
+		focus_target = get_tree().get_first_node_in_group(&"player").tile
 		global_position = focus_target.global_position
 	
 	var start_position := Vector3.ZERO
@@ -70,7 +70,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		can_swivel = false
 	
 	if event.is_action_pressed(&"focus_player"):
-		focus_target = get_tree().get_first_node_in_group(&"player")
+		focus_target = get_tree().get_first_node_in_group(&"player").tile
+		print(get_tree().get_nodes_in_group(&"player"))
 		_pan_camera(focus_target.global_position)
 	
 	if event.is_action_pressed(&"cycle"):

@@ -1,4 +1,4 @@
-class_name LogSystem extends Node
+extends Node
 
 #region Declarations
 var _log_file : Array[String] = []
