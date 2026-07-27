@@ -54,6 +54,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed(&"rotate_cam"):
 		var next_position : int = current_position
+		# HACK de-hard code controls later
 		if Input.is_key_pressed(KEY_SHIFT):
 			next_position -= 1
 		else:
@@ -71,7 +72,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed(&"focus_player"):
 		focus_target = get_tree().get_first_node_in_group(&"player").tile
-		print(get_tree().get_nodes_in_group(&"player"))
 		_pan_camera(focus_target.global_position)
 	
 	if event.is_action_pressed(&"cycle"):
@@ -145,6 +145,10 @@ func _rotate_camera_y(next_position: int) -> void:
 	tween.tween_property(self, "rotation", dir, timer_delay)
 
 func _pan_camera(target_pos: Vector3) -> void:
+	# TYLER setup panning
+	# go to where controls are handled
+	# set up WASD handling
+	# modifying target_pos based on current pos
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC).set_loops(1)
 	tween.tween_property(self, "global_position", target_pos, 0.4)
 
