@@ -102,6 +102,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	_cam_movement(delta)
+	
 
 func _get_start_position() -> Vector3:
 	var map_size : Vector2i = timeline.zone_data.map_size
@@ -148,6 +149,8 @@ func _pan_camera(target_pos: Vector3) -> void:
 	# TYLER setup panning
 	# go to where controls are handled
 	# set up WASD handling
+		# menu_dir
+	# modify a vector 2d? based on buttons held down
 	# modifying target_pos based on current pos
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC).set_loops(1)
 	tween.tween_property(self, "global_position", target_pos, 0.4)

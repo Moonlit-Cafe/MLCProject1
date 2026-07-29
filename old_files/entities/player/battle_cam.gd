@@ -1,4 +1,4 @@
-class_name BattleCam extends Node3D
+class_name old_BattleCam extends Node3D
 
 #region Declarations
 signal hover_tile
