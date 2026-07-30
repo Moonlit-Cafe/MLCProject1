@@ -102,7 +102,23 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	_cam_movement(delta)
+	_player_pan()
 	
+
+func _player_pan():
+	var pan_diff = self.position
+	# HACK this should be in a config somewhere
+	var pan_speed = 50
+	if Input.is_action_pressed("menu_up"):
+		pan_diff.z -= pan_speed
+	if Input.is_action_pressed("menu_down"):
+		pan_diff.z += pan_speed
+	if Input.is_action_pressed("menu_left"):
+		pan_diff.x -= pan_speed
+	if Input.is_action_pressed("menu_right"):
+		pan_diff.x += pan_speed
+	
+	_pan_camera(pan_diff)
 
 func _get_start_position() -> Vector3:
 	var map_size : Vector2i = timeline.zone_data.map_size
@@ -146,12 +162,6 @@ func _rotate_camera_y(next_position: int) -> void:
 	tween.tween_property(self, "rotation", dir, timer_delay)
 
 func _pan_camera(target_pos: Vector3) -> void:
-	# TYLER setup panning
-	# go to where controls are handled
-	# set up WASD handling
-		# menu_dir
-	# modify a vector 2d? based on buttons held down
-	# modifying target_pos based on current pos
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC).set_loops(1)
 	tween.tween_property(self, "global_position", target_pos, 0.4)
 
