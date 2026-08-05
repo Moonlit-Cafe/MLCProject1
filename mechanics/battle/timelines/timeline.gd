@@ -47,6 +47,7 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 	var e_data : BaseCharacter = GlobalResources.get_data(GlobalResources.DataType.CHARACTER, &"E001")
 	var p_entity := TileEntityPlayer.generate_entity(BaseCharacter.CharType.ENEMY, e_data)
 	print(e_data)
+	p_entity.add_to_group(&"player")
 	p_tile.add_entity(p_entity)
 	print("Generated at %s" % p_tile.name)
 	

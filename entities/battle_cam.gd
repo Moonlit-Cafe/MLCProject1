@@ -33,7 +33,7 @@ func _ready() -> void:
 	timer.timeout.connect(_on_timer_timeout)
 	
 	if get_tree().get_node_count_in_group(&"player") > 0:
-		focus_target = get_tree().get_first_node_in_group(&"player")
+		focus_target = get_tree().get_first_node_in_group(&"player").tile
 		global_position = focus_target.global_position
 	
 	var start_position := Vector3.ZERO
@@ -54,6 +54,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed(&"rotate_cam"):
 		var next_position : int = current_position
+		# HACK de-hard code controls later
 		if Input.is_key_pressed(KEY_SHIFT):
 			next_position -= 1
 		else:
@@ -70,7 +71,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		can_swivel = false
 	
 	if event.is_action_pressed(&"focus_player"):
-		focus_target = get_tree().get_first_node_in_group(&"player")
+		focus_target = get_tree().get_first_node_in_group(&"player").tile
 		_pan_camera(focus_target.global_position)
 	
 	if event.is_action_pressed(&"cycle"):
@@ -101,6 +102,23 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	_cam_movement(delta)
+	_player_pan()
+	
+
+func _player_pan():
+	var pan_diff = self.position
+	# HACK this should be in a config somewhere
+	var pan_speed = 50
+	if Input.is_action_pressed("menu_up"):
+		pan_diff.z -= pan_speed
+	if Input.is_action_pressed("menu_down"):
+		pan_diff.z += pan_speed
+	if Input.is_action_pressed("menu_left"):
+		pan_diff.x -= pan_speed
+	if Input.is_action_pressed("menu_right"):
+		pan_diff.x += pan_speed
+	
+	_pan_camera(pan_diff)
 
 func _get_start_position() -> Vector3:
 	var map_size : Vector2i = timeline.zone_data.map_size

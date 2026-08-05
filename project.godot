@@ -59,6 +59,7 @@ folder_colors={
 [global_group]
 
 saveable="Nodes that should have the \"save()\" function and can thus be saved as data to a .save file"
+player="Group of player entities across timelines"
 
 [input]
 

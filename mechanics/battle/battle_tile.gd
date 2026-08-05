@@ -34,6 +34,8 @@ func add_entity(entity: TileEntity) -> void:
 	if entity.tile:
 		entity.tile.held_entity = null
 		entity.tile.remove_child(entity)
+	else:
+		entity.tile = self
 	
 	held_entity = entity
 	add_child(entity)
