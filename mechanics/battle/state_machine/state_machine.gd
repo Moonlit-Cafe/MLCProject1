@@ -3,6 +3,7 @@ class_name StateMachine extends Node
 
 #region Declarations
 @export var initial_state : State = null
+@export var initial_data : Dictionary = {}
 
 ## Defines the current state by either grabbing the first child or if [property initial_state] is set.
 @onready var state : State = (func () -> State:
@@ -14,14 +15,15 @@ class_name StateMachine extends Node
 func _ready() -> void:
 	for state_node : State in find_children("*", "State"):
 		state_node.finished.connect(_transition_to_next_state)
+		print("Added state %s to signals" % state_node.name)
 		
-		if owner:
-			await owner.ready
-		elif get_parent():
-			var parent = get_parent()
-			if not parent.is_node_ready():
-				await get_parent().ready
-		state.enter("")
+	if owner:
+		await owner.ready
+	elif get_parent():
+		var parent = get_parent()
+		if not parent.is_node_ready():
+			await get_parent().ready
+	state.enter("", initial_data)
 
 func _unhandled_input(event: InputEvent) -> void:
 	state.handle_input(event)

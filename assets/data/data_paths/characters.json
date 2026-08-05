@@ -1,7 +1,5 @@
 {
 	"E001": {
-		"name": "TestEntity",
-		"type": 1,
-		"frames": "res://entities/sprite_frames/test_entity.tres"
+		"resource": "res://entities/characters/enemies/test_enemy.tres"
 	}
 }

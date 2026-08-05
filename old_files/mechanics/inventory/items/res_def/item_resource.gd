@@ -8,7 +8,7 @@ class_name Item extends Resource
 @export var texture : Vector2i
 @export var tooltip : String
 @export var tier : int
-@export var equip_loc : Genum.EquipLocation = Global.Genum.EquipLocation.INVENTORY
+@export var equip_loc : Genum.EquipSlot = Genum.EquipSlot.INVENTORY
 @export var max_stack_size : int = 99  # TODO: Set appropriate stack sizes per item type
 
 var id : StringName

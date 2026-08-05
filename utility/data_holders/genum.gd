@@ -79,14 +79,6 @@ enum ComponentType {
 	MATRIX
 }
 
-enum MaterialType {
-	CLOTH,
-	DUST,
-	LEATHER,
-	METAL,
-	WOOD
-}
-
 enum EquipSet {
 	BOMBA
 }

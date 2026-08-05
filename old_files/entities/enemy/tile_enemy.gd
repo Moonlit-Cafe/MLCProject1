@@ -1,4 +1,4 @@
-class_name TileEnemy extends TileEntity
+extends TileEntity
 
 #region Declarations
 var current_state : EnemyCharacter.EnemyState = EnemyCharacter.EnemyState.ACTIVE

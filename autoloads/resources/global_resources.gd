@@ -48,6 +48,10 @@ func get_data(d_type: DataType, id: String) -> Variant:
 	
 	return resource_dir.get(id, null)
 
+## Method used to retrieve all the data of a specific type
+func get_all_data(d_type: DataType) -> Dictionary:
+	return _resources.get(d_type)
+
 func _load_action_shapes() -> void:
 	if not action_shape_data_reference:
 		Global.logs.post_warning(self, "no file used for action_shape_data_reference.")
@@ -92,7 +96,8 @@ func _load_entities() -> void:
 	var data = _load_data(characters_reference)
 	
 	for entity_id in data.keys():
-		var new_char := BaseCharacter.create_character_data(data.get(entity_id), entity_id)
+		var new_char = ResourceLoader.load(data.get(entity_id).get("resource"))
+		new_char.id = entity_id
 		set_data(DataType.CHARACTER, entity_id, new_char)
 	Global.logs.post_message(self, "loaded character references successfully")
 
@@ -125,7 +130,29 @@ func _load_data(data_path: String) -> Variant:
 	return json.data
 #endregion
 
-#region Custom Data Loader
+#region Character Query
+func grab_enemies_with_tag(tag_arr: Array[EnemyCharacter.EnemyType],
+							inclusive: bool = true)-> Array[EnemyCharacter]:
+	var character_dict : Dictionary = get_all_data(DataType.CHARACTER)
+	var ret_arr : Array[EnemyCharacter] = []
+	var enemy_list : Array[EnemyCharacter] = []
+	for chr in character_dict.values():
+		if chr is EnemyCharacter:
+			enemy_list.append(chr)
+	
+	for enemy in enemy_list:
+		var enemy_tags := enemy.tags
+		if inclusive:
+			if tag_arr.any(func(t): return t in enemy_tags):
+				ret_arr.append(enemy)
+		else:
+			if tag_arr.all(func(t): return t in enemy_tags):
+				ret_arr.append(enemy)
+	
+	return ret_arr
+#endregion
+
+#region Helpers
 func load_custom_data(data: Variant, type: CustomDataType) -> Variant:
 	match (type):
 		CustomDataType.VECTOR:

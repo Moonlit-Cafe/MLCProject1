@@ -26,14 +26,26 @@ const SHADERS : Dictionary[TextureType, String] = {
 static func generate_tile(texture: Texture2D, tex_type: TextureType, tile_name: StringName=&"NewTile") -> BasicTile:
 	var new_tile := BasicTile.new()
 	new_tile.name = tile_name
+	var mesh_instance := build_mesh()
+	new_tile.add_child(mesh_instance)
+	new_tile.update_texture(texture, tex_type)
+	return new_tile
+
+static func rebuild_tile(data: Dictionary[StringName, Variant], new_name : StringName) -> BasicTile:
+	var new_tile := BasicTile.new()
+	new_tile.name = new_name
+	var mesh_instance := build_mesh()
+	new_tile.add_child(mesh_instance)
+	new_tile.update_texture(data.get(&"texture"), data.get(&"texture_type"))
+	return new_tile
+
+static func build_mesh() -> MeshInstance3D:
 	var mesh_instance := MeshInstance3D.new()
 	mesh_instance.name = "MeshInstance3D"
 	var mesh := BoxMesh.new()
 	mesh.size = Vector3(1, 1, 1)
 	mesh_instance.mesh = mesh
-	new_tile.add_child(mesh_instance)
-	new_tile.update_texture(texture, tex_type)
-	return new_tile
+	return mesh_instance
 
 ## Used for when the texture is changed either during creation or during runtime.
 func update_texture(new_texture: Texture2D=null, new_type: TextureType=TextureType.SOLID) -> void:
@@ -53,6 +65,13 @@ func update_texture(new_texture: Texture2D=null, new_type: TextureType=TextureTy
 	shader_material.set_shader_parameter(&"tex", new_texture)
 	mesh.mesh.material = shader_material
 	return
+
+func save_data() -> Dictionary[StringName, Variant]:
+	var dict : Dictionary[StringName, Variant] = {
+		&"texture" : tile_texture,
+		&"texture_type" : texture_type
+	}
+	return dict
 
 ## Grabs the specific shader needed for a specific [enum TextureType].
 func _get_shader(shader_type: TextureType) -> ShaderMaterial:

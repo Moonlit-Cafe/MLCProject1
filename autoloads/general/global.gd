@@ -6,6 +6,7 @@ extends Node
 @onready var events : GlobalEvents = $GlobalEvents ## The game's main SignalBus
 @onready var logs : LogSystem = $LogSystem ## The game's logging system for debugging
 
+var difficulty : float = 1
 var player_equips : Dictionary[Genum.EquipSlot, ItemNode] = {}
 var player_stats : Dictionary[Genum.StatType, float] = {
 	Genum.StatType.HEALTH: 10.

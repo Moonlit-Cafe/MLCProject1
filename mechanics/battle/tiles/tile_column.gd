@@ -6,7 +6,7 @@ class_name TileColumn extends Node3D
 @export var top_most_tile : BasicTile ## The topmost tile within the column for easy access.
 #endregion
 
-#region Events
+#region Statics
 static func generate_column(map: GameTileMap, zone_data: ZoneData,
 	rng: RandomNumberGenerator, column_name: StringName="NewColumn") -> TileColumn:
 	var new_column := TileColumn.new()
@@ -32,4 +32,33 @@ static func generate_column(map: GameTileMap, zone_data: ZoneData,
 		if z == (height - 1):
 			new_column.top_most_tile = new_tile
 	return new_column
+
+static func rebuild_column(data: Dictionary[StringName, Variant], new_name: StringName) -> TileColumn:
+	var new_column := TileColumn.new()
+	new_column.name = new_name
+	for tile_name in data.get(&"tiles").keys():
+		var new_tile := BasicTile.rebuild_tile(data.get(&"tiles").get(tile_name), tile_name)
+		new_column.tiles.append(new_tile)
+	
+	for tile in new_column.tiles:
+		if tile.name != data.get(&"top_tile"):
+			continue
+		new_column.top_most_tile = tile
+	return new_column
+#endregion
+
+#region Events
+func save_data() -> Dictionary[StringName, Variant]:
+	var dict : Dictionary[StringName, Variant] = {
+		&"tiles" : {},
+		&"position": position,
+		&"top_tile": top_most_tile.name
+	}
+	
+	var tile_data : Dictionary[StringName, Variant] = {}
+	for tile in tiles:
+		var tile_dict := tile.save_data()
+		tile_data.set(tile.name, tile_dict)
+	dict.set(&"tiles", tile_data)
+	return dict
 #endregion

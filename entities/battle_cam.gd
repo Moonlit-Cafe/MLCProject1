@@ -103,7 +103,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	_cam_movement(delta)
 	_player_pan()
-	
 
 func _player_pan():
 	var pan_diff = self.position

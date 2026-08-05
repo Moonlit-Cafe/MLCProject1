@@ -11,6 +11,7 @@ point_count = 1
 script = ExtResource("2_0wfyh")
 tiles_used = Array[StringName]([&"T001"])
 height_range = SubResource("Curve_sugp2")
+enemy_tags = Array[int]([0])
 metadata/_custom_type_script = "uid://cufiaxhbrnfp5"
 
 [node name="Main" type="Node" unique_id=1069856160]

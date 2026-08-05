@@ -7,7 +7,9 @@ const battle_cam_scene : PackedScene = preload("res://entities/battle_cam.tscn")
 var camera : BattleCam
 var light : DirectionalLight3D
 var left_timeline : Timeline = null
+var map : GameTileMap
 var right_timeline : Timeline = null
+var state_machine : StateMachine
 var sub_view : SubViewport
 var zone_data : ZoneData
 
@@ -26,7 +28,9 @@ var is_focused : bool = true :
 var _is_focused : bool = true
 #endregion
 
-#region Events
+#region Statics
+## Creates a basic timeline that uses [param i_zone_data] to determine the shape of the map and what
+## enemies can appear.
 static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&"NewTimeline") -> Timeline:
 	var new_timeline := Timeline.new()
 	new_timeline.name = timeline_name
@@ -43,13 +47,7 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 	
 	var new_map := GameTileMap.generate_map(i_zone_data, &"BattleMap")
 	new_map.generate_battle_tiles()
-	var p_tile := new_map.get_random_tile()
-	var e_data : BaseCharacter = GlobalResources.get_data(GlobalResources.DataType.CHARACTER, &"E001")
-	var p_entity := TileEntityPlayer.generate_entity(BaseCharacter.CharType.ENEMY, e_data)
-	print(e_data)
-	p_entity.add_to_group(&"player")
-	p_tile.add_entity(p_entity)
-	print("Generated at %s" % p_tile.name)
+	new_timeline.map = new_map
 	
 	var new_cam : BattleCam = battle_cam_scene.instantiate()
 	new_cam.timeline = new_timeline
@@ -58,16 +56,88 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 	var new_light := DirectionalLight3D.new()
 	new_timeline.light = new_light
 	
+	var new_state_machine := _generate_state_machine(new_timeline)
+	new_timeline.state_machine = new_state_machine
+	
 	new_viewport.add_child(new_light)
 	new_viewport.add_child(new_cam)
 	new_viewport.add_child(new_map)
 	new_timeline.add_child(new_viewport)
+	new_timeline.add_child(new_state_machine)
 	
 	new_cam.position = Vector3(0, 1, 20)
 	new_light.rotate_x(-PI / 2.)
 	
 	return new_timeline
 
+## TODO: Shorten this code later, make it compatible with generate_timeline, but for now, this works.
+static func rebuild_timelines(data: Dictionary[StringName, Variant], new_name: StringName) -> Timeline:
+	var new_timeline := Timeline.new()
+	new_timeline.name = new_name
+	new_timeline.zone_data = data.get(&"zone_data")
+	#new_timeline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	#new_timeline.focus_mode = Control.FOCUS_NONE
+	
+	var new_viewport = SubViewport.new()
+	print(GlobalSettings.display.current_resolution)
+	new_viewport.size = GlobalSettings.display.current_resolution
+	new_viewport.physics_object_picking = true
+	new_viewport.set_process_unhandled_input(true)
+	new_timeline.sub_view = new_viewport
+	
+	var new_map := GameTileMap.rebuild_map(data.get(&"map"), &"BattleMap")
+	new_map.generate_battle_tiles()
+	new_timeline.map = new_map
+	
+	var new_cam : BattleCam = battle_cam_scene.instantiate()
+	new_cam.timeline = new_timeline
+	new_timeline.camera = new_cam
+	
+	var new_light := DirectionalLight3D.new()
+	new_timeline.light = new_light
+	
+	var new_state_machine := _generate_state_machine(new_timeline, data.get(&"state_machine"))
+	new_timeline.state_machine = new_state_machine
+	
+	new_viewport.add_child(new_light)
+	new_viewport.add_child(new_cam)
+	new_viewport.add_child(new_map)
+	new_timeline.add_child(new_viewport)
+	new_timeline.add_child(new_state_machine)
+	
+	new_cam.position = Vector3(0, 1, 20)
+	new_light.rotate_x(-PI / 2.)
+	
+	return new_timeline
+
+static func _generate_state_machine(t_line: Timeline, data: Dictionary[StringName, Variant]={}) -> StateMachine:
+	var new_state_machine := StateMachine.new()
+	var new_init_state := BattleInitState.generate_combat_state(t_line)
+	var new_round_state := BattleRoundStartState.generate_combat_state(t_line)
+	var new_turn_state := BattleTurnState.generate_combat_state(t_line)
+	var new_tile_state := BattleTileTurnState.generate_combat_state(t_line)
+	var new_end_round_state := BattleRoundEndState.generate_combat_state(t_line)
+	var new_end_battle_state := BattleEndState.generate_combat_state(t_line)
+	
+	new_state_machine.add_child(new_init_state)
+	new_state_machine.add_child(new_round_state)
+	new_state_machine.add_child(new_turn_state)
+	new_state_machine.add_child(new_tile_state)
+	new_state_machine.add_child(new_end_round_state)
+	new_state_machine.add_child(new_end_battle_state)
+	if data.size() > 0:
+		for state in new_state_machine.get_children():
+			if state.name != data.get(&"current_state"):
+				continue
+			new_state_machine.initial_state = state
+		new_state_machine.initial_data = data.get(&"state_data")
+	else:
+		new_state_machine.initial_state = new_init_state
+	
+	return new_state_machine
+#endregion
+
+#region Events
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventMouse:
 		return
@@ -79,4 +149,19 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	#if sub_view.is_input_handled():
 	#	get_tree().set_input_as_handled()
+
+func save_data() -> Dictionary[StringName, Variant]:
+	var dict : Dictionary[StringName, Variant] = {
+		&"zone_data": zone_data,
+		&"map": map.save_data(),
+		&"state_machine": _save_state_machine_data()
+	}
+	return dict
+
+func _save_state_machine_data() -> Dictionary[StringName, Variant]:
+	var dict : Dictionary[StringName, Variant] = {
+		&"current_state": state_machine.state.name,
+		&"state_data": state_machine.state.save_data()
+	}
+	return dict
 #endregion

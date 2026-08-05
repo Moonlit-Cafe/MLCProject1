@@ -26,8 +26,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		_move_to_next_timeline(current_timeline.right_timeline)
 
 func generate_new_timeline(count: int = 1) -> void:
+	# TODO: Grab data from regular timeline and rebuild.
 	for i in range(count):
-		var new_timeline = diverged_timeline.duplicate()
+		var new_timeline_data = diverged_timeline.save_data()
+		var new_timeline := Timeline.rebuild_timelines(new_timeline_data, diverged_timeline.name + str(i))
 		timeline_holder.call_deferred("add_child", new_timeline)
 	
 	await get_tree().process_frame

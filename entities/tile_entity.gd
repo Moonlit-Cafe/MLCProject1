@@ -11,7 +11,7 @@ var hp : float = -1
 var max_hp : int = 0
 #endregion
 
-#region Events
+#region Statics
 static func generate_entity(type: BaseCharacter.CharType, character: BaseCharacter = null) -> TileEntity:
 	var new_entity = TileEntity.new()
 	var new_sprite = AnimatedSprite3D.new()
@@ -27,4 +27,30 @@ static func generate_entity(type: BaseCharacter.CharType, character: BaseCharact
 	
 	new_entity.add_child(new_sprite)
 	return new_entity
+
+static func rebuild_entity(data: Dictionary[StringName, Variant]) -> TileEntity:
+	var new_entity := TileEntity.new()
+	var new_sprite := AnimatedSprite3D.new()
+	new_sprite.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+	
+	new_entity.entity_type = data.get(&"e_type")
+	new_entity.stats = data.get(&"stats")
+	new_entity.hp = data.get(&"hp")
+	new_entity.max_hp = data.get(&"max_hp")
+	new_sprite.sprite_frames = data.get(&"sprite")
+	
+	new_entity.add_child(new_sprite)
+	return new_entity
+#endregion
+
+#region Events
+func save_data() -> Dictionary[StringName, Variant]:
+	var dict : Dictionary[StringName, Variant] = {
+		&"e_type": entity_type,
+		&"sprite": sprite.sprite_frames,
+		&"stats": stats,
+		&"hp": hp,
+		&"max_hp": max_hp
+	}
+	return dict
 #endregion

@@ -1,4 +1,4 @@
-class_name EnemyCharacter extends CharacterResource
+extends CharacterResource
 
 #region Declarations
 enum EnemyState {
