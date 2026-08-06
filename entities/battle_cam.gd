@@ -105,9 +105,9 @@ func _process(delta: float) -> void:
 	_player_pan()
 
 func _player_pan():
-	var pan_diff = self.position
 	# HACK this should be in a config somewhere
-	var pan_speed = 50
+	var pan_speed = 2
+	var pan_diff : Vector3  = Vector3.ZERO
 	if Input.is_action_pressed("menu_up"):
 		pan_diff.z -= pan_speed
 	if Input.is_action_pressed("menu_down"):
@@ -117,7 +117,11 @@ func _player_pan():
 	if Input.is_action_pressed("menu_right"):
 		pan_diff.x += pan_speed
 	
-	_pan_camera(pan_diff)
+	if pan_diff != Vector3.ZERO:
+		pan_diff = pan_diff.rotated(Vector3.UP, self.rotation.y)
+		_pan_camera(pan_diff + self.global_position) 
+		# TYLER currently this works, but doesnt allow for "smooth panning" when a direction is held. Probably due to tweening in _pan_camera()
+		
 
 func _get_start_position() -> Vector3:
 	var map_size : Vector2i = timeline.zone_data.map_size
@@ -148,6 +152,7 @@ func _handle_mouse_clicks(_event: InputEventMouseButton) -> void:
 		camera.size = linear_zoom_limits.y
 
 func _rotate_camera_y(next_position: int) -> void:
+	# FIXME when camera is negative (outside of 0-179), it flips around every rotation
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_CIRC).set_loops(1)
 	var dir : Vector3 = available_positions.get(next_position)
 	if current_position == 0 and next_position == available_positions.size() - 1:
