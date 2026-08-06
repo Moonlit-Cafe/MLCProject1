@@ -54,6 +54,7 @@ folder_colors={
 "res://entities/": "blue",
 "res://mechanics/": "red",
 "res://scenes/": "gray",
+"res://ui/": "teal",
 "res://utility/": "purple"
 }
 
