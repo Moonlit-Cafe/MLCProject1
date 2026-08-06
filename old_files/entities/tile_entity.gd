@@ -1,4 +1,4 @@
-class_name TileEntity extends Node3D
+extends Node3D
 
 #region Declarations
 @export var sprite : AnimatedSprite3D

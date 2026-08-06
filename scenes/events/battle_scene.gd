@@ -3,6 +3,7 @@ class_name BattleScene extends EventScene
 #region Declarations
 @onready var timeline_holder : Control = $TimelineHolder
 
+var timeline_count : int = 0
 var current_timeline : Timeline
 var diverged_timeline : Timeline
 var zone_data : ZoneData
@@ -13,7 +14,7 @@ func _ready() -> void:
 	_generate_initial_timeline()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("divergence"):
+	if event.is_action_pressed("divergence") and (timeline_count - 1) < Global.diverge_max:
 		diverged_timeline = current_timeline
 		generate_new_timeline()
 	
@@ -37,6 +38,7 @@ func generate_new_timeline(count: int = 1) -> void:
 		timeline.hide()
 		timeline.light.hide()
 	_assign_timeline_neighbors()
+	timeline_count += 1
 	current_timeline.is_focused = true
 	current_timeline.show()
 	current_timeline.light.show()
@@ -45,6 +47,7 @@ func _generate_initial_timeline() -> void:
 	var new_timeline = Timeline.generate_timeline(zone_data, &"Timeline")
 	timeline_holder.call_deferred("add_child", new_timeline)
 	current_timeline = new_timeline
+	timeline_count += 1
 
 func _assign_timeline_neighbors() -> void:
 	if timeline_holder.get_child_count() < 2:

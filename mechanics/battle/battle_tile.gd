@@ -21,6 +21,7 @@ static func generate_battle_tile(tile_name: StringName=&"NewTile") -> BattleTile
 	click_area.position = Vector3(0, -0.5, 0) # TODO: Replace all magic numbers with a Global reference
 	# to standard tile size.
 	return new_tile
+	
 
 static func rebuild_battle_tile(data: Dictionary[StringName, Variant], new_name: StringName) -> BattleTile:
 	var new_tile := BattleTile.new()
