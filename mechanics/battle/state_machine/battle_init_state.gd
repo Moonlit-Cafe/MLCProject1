@@ -14,6 +14,7 @@ static func generate_combat_state(t_line: Timeline) -> BattleInitState:
 #region Events
 func enter(_previous_state: StringName, _data: Dictionary={}) -> void:
 	_generate_enemies()
+	_generate_player()
 	finished.emit(ROUND_START, {})
 
 func save_data() -> Dictionary:
@@ -35,4 +36,17 @@ func _generate_enemies() -> void:
 		var e_entity := TileEntity.generate_entity(BaseCharacter.CharType.ENEMY, e_data)
 		e_entity.add_to_group(&"enemy")
 		rand_tile.add_entity(e_entity)
+
+func _generate_player() -> void:
+	var zone : ZoneData = timeline.zone_data
+	var rand_tile := timeline.map.get_random_tile()
+	while rand_tile.held_entity:
+		rand_tile = timeline.map.get_random_tile()
+	
+	# HACK this uses Enemy Data to spawn the player
+	var p_data : BaseCharacter = GlobalResources.get_data(GlobalResources.DataType.CHARACTER, &"E001")
+	var p_entity := TileEntity.generate_entity(BaseCharacter.CharType.ENEMY, p_data)
+	p_entity.add_to_group(&"layer")
+	rand_tile.add_entity(p_entity)
+	
 #endregion
