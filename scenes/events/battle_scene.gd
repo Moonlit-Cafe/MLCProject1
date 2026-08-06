@@ -1,75 +1,84 @@
-## Handles generating the battle, enemies involved and choosing any additional modifiers for generating
-## the battle.
-class_name BattleScene extends BaseEventScene
+class_name BattleScene extends EventScene
 
 #region Declarations
-@export var combat_view_scene : PackedScene
-@export var combat_machine_scene : PackedScene
-@export var combat_machine_holder : Node
-@export var combat_views_layers : CanvasLayer
+@onready var timeline_holder : Control = $TimelineHolder
 
-var enemy_count : int = 0
-var reward_tier : int = 1
-var elite_modifier : float = 1.0
-var special_ability : bool = false
-var boss_type : int = 1
+var current_timeline : Timeline
+var diverged_timeline : Timeline
+var zone_data : ZoneData
 #endregion
 
 #region Events
 func _ready() -> void:
-	start_battle()
+	_generate_initial_timeline()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("divergence"):
-		start_battle(true)
-
-func start_battle(copy:=false) -> void:
-	if combat_machine_holder.get_child_count() >= 2:
+		diverged_timeline = current_timeline
+		generate_new_timeline()
+	
+	if timeline_holder.get_child_count() < 2:
 		return
 	
-	var combat_machine : CombatMachine = combat_machine_scene.instantiate() as CombatMachine
-	var new_view : BattleView
-	if copy:
-		var current_battle : BattleView = combat_machine_holder.get_child(0).battle_scene
-		new_view = current_battle.duplicate(DUPLICATE_DEFAULT) as BattleView
-	else:
-		new_view = combat_view_scene.instantiate()
-	var new_container := SubViewportContainer.new()
-	new_container.name = "Battle%s" % combat_views_layers.get_child_count()
-	combat_views_layers.add_child(new_container)
-	new_container.add_child(new_view)
-	combat_machine.battle_scene = new_view
-	combat_machine_holder.add_child(combat_machine)
+	if event.is_action_pressed(&"move_left_timeline"):
+		_move_to_next_timeline(current_timeline.left_timeline)
+	elif event.is_action_pressed(&"move_right_timeline"):
+		_move_to_next_timeline(current_timeline.right_timeline)
+
+func generate_new_timeline(count: int = 1) -> void:
+	# TODO: Grab data from regular timeline and rebuild.
+	for i in range(count):
+		var new_timeline_data = diverged_timeline.save_data()
+		var new_timeline := Timeline.rebuild_timelines(new_timeline_data, diverged_timeline.name + str(i))
+		timeline_holder.call_deferred("add_child", new_timeline)
 	
-	_update_viewports()
+	await get_tree().process_frame
+	for timeline in timeline_holder.get_children():
+		timeline.hide()
+		timeline.light.hide()
+	_assign_timeline_neighbors()
+	current_timeline.is_focused = true
+	current_timeline.show()
+	current_timeline.light.show()
 
-func _update_viewports() -> void:
-	match (combat_views_layers.get_child_count()):
-		1:
-			var view : BattleView = combat_machine_holder.get_child(0).battle_scene
-			var container : SubViewportContainer = view.get_parent()
-			_update_anchors(container, Rect2(0, 0, 1., 1.))
-			view.size = container.size
-		2:
-			var view_1 : BattleView = combat_machine_holder.get_child(0).battle_scene
-			var view_2 : BattleView = combat_machine_holder.get_child(1).battle_scene
-			var container_1 : SubViewportContainer = view_1.get_parent()
-			var container_2 : SubViewportContainer = view_2.get_parent()
-			_update_anchors(container_1, Rect2(0, 0, .5, 1.))
-			_update_anchors(container_2, Rect2(.5, 0, .5, 1.))
-			view_1.size = container_1.size
-			view_2.size = container_2.size
-		_:
-			GameGlobal.logging.post_warning(self, "Not coded yet for size . . .")
+func _generate_initial_timeline() -> void:
+	var new_timeline = Timeline.generate_timeline(zone_data, &"Timeline")
+	timeline_holder.call_deferred("add_child", new_timeline)
+	current_timeline = new_timeline
 
-func _update_anchors(control: Control, rect: Rect2) -> void:
-	control.anchor_left = rect.position.x
-	control.anchor_top = rect.position.y
-	control.anchor_right = rect.position.x + rect.size.x
-	control.anchor_bottom = rect.position.y + rect.size.y
-#endregion
+func _assign_timeline_neighbors() -> void:
+	if timeline_holder.get_child_count() < 2:
+		return
+	
+	var i : int = 0
+	var timelines : Array[Timeline] = []
+	for child in timeline_holder.get_children():
+		if not (child is Timeline):
+			Global.logs.post_warning(timeline_holder, "A non-timeline is mixed in with the children.")
+			return
+		
+		timelines.append(child)
+	
+	for timeline in timelines:
+		if i == 0:
+			timeline.left_timeline = timelines.get(timelines.size() - 1)
+		else:
+			timeline.left_timeline = timelines.get(i - 1)
+		
+		if i == (timelines.size() - 1):
+			timeline.right_timeline = timelines.get(0)
+		else:
+			timeline.right_timeline = timelines.get(i + 1)
+		
+		timeline.is_focused = false
+		i += 1
 
-#region Signal Callbacks
-func _on_pressed() -> void:
-	SceneManager.load_next_scene()
+func _move_to_next_timeline(next_timeline: Timeline) -> void:
+	current_timeline.hide()
+	current_timeline.is_focused = false
+	current_timeline.light.hide()
+	current_timeline = next_timeline
+	current_timeline.show()
+	current_timeline.is_focused = true
+	current_timeline.light.show()
 #endregion

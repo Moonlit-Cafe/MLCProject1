@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ksmkpfann6ie"]
+
+[ext_resource type="Script" uid="uid://bin8ph5h6xhm0" path="res://old_files/scenes/events/battle_scene.gd" id="1_w5vvb"]
+[ext_resource type="PackedScene" uid="uid://cpmehpvcgnn2y" path="res://old_files/scenes/events/battle_view.tscn" id="2_2e1pf"]
+[ext_resource type="PackedScene" uid="uid://chnlg6ovx3jpy" path="res://old_files/mechanics/events/battle/state_machine/combat_machine.tscn" id="3_c52ab"]
+
+[node name="BattleScene" type="Node" unique_id=54698120 node_paths=PackedStringArray("combat_machine_holder", "combat_views_layers")]
+script = ExtResource("1_w5vvb")
+combat_view_scene = ExtResource("2_2e1pf")
+combat_machine_scene = ExtResource("3_c52ab")
+combat_machine_holder = NodePath("Machines")
+combat_views_layers = NodePath("BattleViews")
+
+[node name="BattleViews" type="CanvasLayer" parent="." unique_id=36511512]
+
+[node name="Machines" type="Node" parent="." unique_id=771373507]

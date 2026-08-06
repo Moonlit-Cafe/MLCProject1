@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://baixsyn7shu3q"
+
+[deps]
+
+files=["res://old_files/assets/data/equip_set_data.set.translation", "res://old_files/assets/data/equip_set_data.set.translation", "res://old_files/assets/data/equip_set_data.set.translation", "res://old_files/assets/data/equip_set_data.required.translation"]
+
+source_file="res://old_files/assets/data/equip_set_data.csv"
+dest_files=["res://old_files/assets/data/equip_set_data.set.translation", "res://old_files/assets/data/equip_set_data.set.translation", "res://old_files/assets/data/equip_set_data.set.translation", "res://old_files/assets/data/equip_set_data.required.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

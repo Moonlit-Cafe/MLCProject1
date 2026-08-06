@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://dnb2rmv4ufqwg"]
+
+[ext_resource type="Script" uid="uid://bfpgrrud08c5l" path="res://old_files/assets/tools/tool_components/enemy_box.gd" id="1_swlvu"]
+[ext_resource type="PackedScene" uid="uid://df2m1fdk0u5r5" path="res://old_files/assets/tools/tool_components/stat_container.tscn" id="2_0qb4m"]
+[ext_resource type="PackedScene" uid="uid://if2rrt1avexp" path="res://old_files/assets/tools/DecisionMaker.tscn" id="3_0qb4m"]
+[ext_resource type="PackedScene" uid="uid://2s8pijnog6v7" path="res://old_files/assets/tools/tool_components/test_actions/magic_attack/magic.tscn" id="3_aedxx"]
+[ext_resource type="PackedScene" uid="uid://xo1sda4pacd5" path="res://old_files/assets/tools/tool_components/test_actions/heavy_attack/heavy.tscn" id="4_6gtua"]
+[ext_resource type="PackedScene" uid="uid://bmcdxtd4yljf7" path="res://old_files/assets/tools/tool_components/test_actions/light_attack/light.tscn" id="5_nlydm"]
+
+[node name="UnitBox" type="VBoxContainer" node_paths=PackedStringArray("brain", "unit_name_label", "health_box", "mana_box", "movement_box")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_swlvu")
+brain = NodePath("DecisionMaker")
+unit_name_label = NodePath("UnitName")
+unit_name = "Enemy"
+health_box = NodePath("Unit/UnitStatsVbox/Health")
+mana_box = NodePath("Unit/UnitStatsVbox/Mana")
+movement_box = NodePath("Unit/UnitStatsVbox/Movement")
+
+[node name="UnitName" type="Label" parent="."]
+layout_mode = 2
+text = "Unit Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Unit" type="Panel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="UnitStatsVbox" type="VBoxContainer" parent="Unit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Health" parent="Unit/UnitStatsVbox" instance=ExtResource("2_0qb4m")]
+layout_mode = 2
+size_flags_vertical = 3
+stat_name = "Health"
+stat_amt = 100.0
+
+[node name="Mana" parent="Unit/UnitStatsVbox" instance=ExtResource("2_0qb4m")]
+layout_mode = 2
+size_flags_vertical = 3
+stat_name = "Mana"
+stat_amt = 50.0
+
+[node name="Movement" parent="Unit/UnitStatsVbox" instance=ExtResource("2_0qb4m")]
+layout_mode = 2
+size_flags_vertical = 3
+stat_name = "Movement"
+stat_amt = 6.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Unit/UnitStatsVbox"]
+layout_mode = 2
+
+[node name="DecisionMaker" parent="." node_paths=PackedStringArray("ability_node") instance=ExtResource("3_0qb4m")]
+ability_node = NodePath("../Abilities")
+
+[node name="Abilities" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Magic" parent="Abilities" instance=ExtResource("3_aedxx")]
+ac_cost = 10.0
+ac_value = 6.0
+
+[node name="Heavy" parent="Abilities" instance=ExtResource("4_6gtua")]
+
+[node name="Light" parent="Abilities" instance=ExtResource("5_nlydm")]

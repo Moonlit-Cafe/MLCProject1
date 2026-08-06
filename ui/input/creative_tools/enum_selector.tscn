@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://tw1msf7kjdni"]
-
-[ext_resource type="Script" uid="uid://xb2jelyt43s" path="res://ui/input/creative_tools/enum_selector.gd" id="1_u5bva"]
-
-[node name="EnumSelector" type="MenuButton" unique_id=211396607]
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("1_u5bva")

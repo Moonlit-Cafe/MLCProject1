@@ -1,4 +1,3 @@
-## This is where all the game's common Enums are listed.
 class_name Genum
 
 #region System
@@ -56,7 +55,7 @@ enum AffinityType {
 	ORRERY
 }
 
-enum EquipLocation {
+enum EquipSlot {
 	INVENTORY,
 	HELM,
 	POWER_CORE,
@@ -78,14 +77,6 @@ enum ComponentType {
 	FOCUS,
 	FRAME,
 	MATRIX
-}
-
-enum MaterialType {
-	CLOTH,
-	DUST,
-	LEATHER,
-	METAL,
-	WOOD
 }
 
 enum EquipSet {

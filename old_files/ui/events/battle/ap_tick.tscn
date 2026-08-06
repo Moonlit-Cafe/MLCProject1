@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://baeasrlqix5l7"]
+
+[ext_resource type="Script" uid="uid://o3hke5uy15od" path="res://old_files/ui/events/battle/ap_tick.gd" id="1_5qtsr"]
+[ext_resource type="Texture2D" uid="uid://d3x2mxm5bboqm" path="res://old_files/assets/sprites/ui/ap_tick_empty.png" id="1_tk1la"]
+[ext_resource type="Texture2D" uid="uid://dknosvkdpya6x" path="res://old_files/assets/sprites/ui/ap_tick_ready.png" id="2_5qtsr"]
+[ext_resource type="Texture2D" uid="uid://b2via0clap1eh" path="res://old_files/assets/sprites/ui/ap_tick_used.png" id="3_04f84"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdpxn"]
+atlas = ExtResource("1_tk1la")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ljfj"]
+atlas = ExtResource("2_5qtsr")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvuqo"]
+atlas = ExtResource("3_04f84")
+
+[node name="APTick" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5qtsr")
+
+[node name="Empty" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_rdpxn")
+stretch_mode = 5
+
+[node name="Used" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_1ljfj")
+stretch_mode = 5
+
+[node name="Ready" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_lvuqo")
+stretch_mode = 5

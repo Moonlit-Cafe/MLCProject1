@@ -1,0 +1,7 @@
+{
+	"T001": {
+		"name": "test",
+		"texture": "res://assets/sprites/tiles/test.png",
+		"texture_type": 0
+	}
+}
