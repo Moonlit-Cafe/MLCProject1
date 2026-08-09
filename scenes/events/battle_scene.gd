@@ -3,6 +3,8 @@ class_name BattleScene extends EventScene
 #region Declarations
 @onready var timeline_holder : Control = $TimelineHolder
 
+@export var battle_manager : BattleManager
+
 var timeline_count : int = 0
 var current_timeline : Timeline
 var diverged_timeline : Timeline
@@ -12,6 +14,8 @@ var zone_data : ZoneData
 #region Events
 func _ready() -> void:
 	_generate_initial_timeline()
+	
+	battle_manager._prep_move_player.connect(_prep_tiles_move)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("divergence") and (timeline_count - 1) < Global.diverge_max:
@@ -48,6 +52,15 @@ func _generate_initial_timeline() -> void:
 	timeline_holder.call_deferred("add_child", new_timeline)
 	current_timeline = new_timeline
 	timeline_count += 1
+
+func _prep_tiles_move():
+	var to_be_edited = []
+	to_be_edited.append_array(current_timeline.map.topmost_tiles)
+	to_be_edited.append_array(diverged_timeline.map.topmost_tiles)
+	
+	for tile :BasicTile in to_be_edited:
+		tile._change_color(false)
+	return
 
 func _assign_timeline_neighbors() -> void:
 	if timeline_holder.get_child_count() < 2:

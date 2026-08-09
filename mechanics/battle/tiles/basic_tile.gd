@@ -78,4 +78,17 @@ func _get_shader(shader_type: TextureType) -> ShaderMaterial:
 	var s_mat := ShaderMaterial.new()
 	s_mat.shader = ResourceLoader.load(SHADERS.get(shader_type))
 	return s_mat
+	
+func _change_color(normal:bool):
+	
+	# TYLER bookmark
+	# dont forget to make the move skeleton work too
+
+	# TYLER
+	# somethiung like 
+	# if normal
+		# modulate to white
+	# else
+		# modulate to red
+	return
 #endregion

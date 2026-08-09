@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://02fgia4db3rt"]
 
 [ext_resource type="Script" uid="uid://cxpncmtnrtd5e" path="res://scenes/events/battle_scene.gd" id="1_w5vvb"]
+[ext_resource type="PackedScene" uid="uid://q5xt0ibyew3w" path="res://TEMP/temp.tscn" id="2_2e1pf"]
 
-[node name="BattleScene" type="Control" unique_id=145129684]
+[node name="BattleScene" type="Control" unique_id=145129684 node_paths=PackedStringArray("battle_manager")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w5vvb")
+battle_manager = NodePath("TEMP/TEMP BattleManager")
 
 [node name="TimelineHolder" type="Control" parent="." unique_id=60149051]
 layout_mode = 1
@@ -18,3 +20,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TEMP" parent="." unique_id=130937144 instance=ExtResource("2_2e1pf")]
+
+[editable path="TEMP"]

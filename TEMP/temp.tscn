@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://q5xt0ibyew3w"]
+
+[ext_resource type="Script" uid="uid://dcf5ngna5trys" path="res://TEMP/temp_battle_manager.gd" id="1_b6p0n"]
+
+[node name="TEMP" type="Node2D" unique_id=1303933244]
+position = Vector2(4, 611)
+
+[node name="TEMP BattleManager" type="Node" parent="." unique_id=1391512874]
+script = ExtResource("1_b6p0n")
+
+[node name="TEMP UI" type="VBoxContainer" parent="TEMP BattleManager" unique_id=586263797]
+offset_left = 9.0
+offset_top = 541.0
+offset_right = 135.5
+offset_bottom = 642.0
+alignment = 2
+
+[node name="Attack" type="Button" parent="TEMP BattleManager/TEMP UI" unique_id=975829911]
+layout_mode = 2
+text = "Attack"
+
+[node name="Move" type="Button" parent="TEMP BattleManager/TEMP UI" unique_id=767071212]
+layout_mode = 2
+text = "Move"
+
+[node name="Other" type="Button" parent="TEMP BattleManager/TEMP UI" unique_id=1027863005]
+layout_mode = 2
+text = "Other"
