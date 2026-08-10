@@ -80,15 +80,20 @@ func _get_shader(shader_type: TextureType) -> ShaderMaterial:
 	return s_mat
 	
 func _change_color(normal:bool):
-	
 	# TYLER bookmark
 	# dont forget to make the move skeleton work too
+	# move skeleton should also call this with normal=true
+	
+	# TYLER movement
+	# When button is clicked on, then the signal should fire off to battle_scene
+	# Battle_scene should check if tile is occupied
+	# if it isnt, then it will tell the map to revert to normal
+	# and it will move the player to that tile
 
-	# TYLER
-	# somethiung like 
-	# if normal
-		# modulate to white
-	# else
-		# modulate to red
+	# HACK should change the texture of the tile isntead of modifying the scale
+	if normal:
+		self.scale = 1 * Vector3.ONE
+	else:
+		self.scale = .66 * Vector3.ONE
 	return
 #endregion

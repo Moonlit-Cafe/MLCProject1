@@ -55,8 +55,9 @@ func _generate_initial_timeline() -> void:
 
 func _prep_tiles_move():
 	var to_be_edited = []
-	to_be_edited.append_array(current_timeline.map.topmost_tiles)
-	to_be_edited.append_array(diverged_timeline.map.topmost_tiles)
+	to_be_edited = current_timeline.map.topmost_tiles
+	if diverged_timeline:
+		to_be_edited.append_array(diverged_timeline.map.topmost_tiles)
 	
 	for tile :BasicTile in to_be_edited:
 		tile._change_color(false)
