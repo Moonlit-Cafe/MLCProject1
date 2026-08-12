@@ -83,12 +83,7 @@ func _change_color(normal:bool):
 	# TYLER bookmark
 	# dont forget to make the move skeleton work too
 	# move skeleton should also call this with normal=true
-	
-	# TYLER movement
-	# When button is clicked on, then the signal should fire off to battle_scene
-	# Battle_scene should check if tile is occupied
-	# if it isnt, then it will tell the map to revert to normal
-	# and it will move the player to that tile
+
 
 	# HACK should change the texture of the tile isntead of modifying the scale
 	if normal:

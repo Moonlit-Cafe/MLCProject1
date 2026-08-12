@@ -48,10 +48,16 @@ func generate_new_timeline(count: int = 1) -> void:
 	current_timeline.light.show()
 
 func _generate_initial_timeline() -> void:
+	# HACK make this call _generate_new_timeline()
+	# then move the signal connecting to that section
 	var new_timeline = Timeline.generate_timeline(zone_data, &"Timeline")
 	timeline_holder.call_deferred("add_child", new_timeline)
+	for tile in new_timeline.map.battle_tiles:
+		tile.clicked.connect(move_player)
+		
 	current_timeline = new_timeline
 	timeline_count += 1
+	
 
 func _prep_tiles_move():
 	var to_be_edited = []
@@ -98,4 +104,10 @@ func _move_to_next_timeline(next_timeline: Timeline) -> void:
 	current_timeline.show()
 	current_timeline.is_focused = true
 	current_timeline.light.show()
+#endregion
+
+#region Signal Callbacks
+func move_player(target_tile):
+	# and it will move the player to that tile
+	return
 #endregion

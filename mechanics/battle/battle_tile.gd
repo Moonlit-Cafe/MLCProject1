@@ -6,6 +6,9 @@ class_name BattleTile extends Node3D
 #endregion
 
 #region Declarations
+signal clicked
+
+
 var area : Area3D
 var held_entity : TileEntity
 #endregion
@@ -81,4 +84,6 @@ func _on_input_event(_camera: Node, event: InputEvent, _event_position: Vector3,
 		return
 	
 	Global.logs.post_message(self, "I've been clicked.")
+	if held_entity:
+		clicked.emit(self)
 #endregion
