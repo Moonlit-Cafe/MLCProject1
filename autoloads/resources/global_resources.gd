@@ -7,7 +7,8 @@ enum DataType {
 	CHARACTER,
 	TILE, ## Used for declaring/getting GameTileData for BasicTile generation.
 	ACTION,
-	ACTION_SHAPE
+	ACTION_SHAPE,
+	ITEM
 }
 enum CustomDataType {
 	VECTOR
@@ -15,8 +16,11 @@ enum CustomDataType {
 
 @export_file(".json") var action_data_reference : String
 @export_file(".json") var action_shape_data_reference : String
+@export_file(".json") var items_reference : String
 @export_file(".json") var characters_reference : String ## Contains the path references for all entities
 @export_file(".json") var tile_data_reference : String ## Contains all the tile data within the game.
+
+@onready var tex_loader : TextureLoader = $TextureLoader
 
 var _resources : Dictionary[DataType, Dictionary] = {} ## The full dictionary of resources in the game
 #endregion
@@ -30,6 +34,7 @@ func _ready() -> void:
 func load_data() -> void:
 	_load_action_shapes()
 	_load_actions()
+	_load_items()
 	_load_entities()
 	_load_tiles()
 
@@ -84,6 +89,22 @@ func _load_actions() -> void:
 				new_action = AttackAction.create_attack_action_data(action_data, action_id)
 		set_data(DataType.ACTION, action_id, new_action)
 	Global.logs.post_message(self, "loaded actions successfully")
+
+## Loads up all the items within the game.
+func _load_items() -> void:
+	if not items_reference:
+		Global.logs.post_warning(self, "no file used for items_reference")
+		return
+	
+	Global.logs.post_message(self, "loading item data")
+	
+	var data = _load_data(items_reference)
+	
+	for item_id in data.keys():
+		var new_item := ItemResource.new()
+		new_item.set_data(data.get(item_id), item_id)
+		set_data(DataType.ITEM, item_id, new_item)
+	Global.logs.post_message(self, "loaded items successfully")
 
 ## Loads up all the entities within the game.
 func _load_entities() -> void:

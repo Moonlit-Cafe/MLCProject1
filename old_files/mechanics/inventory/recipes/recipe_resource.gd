@@ -1,4 +1,4 @@
-class_name Recipe extends Resource
+extends Resource
 
 #region Declarations
 @export var result : String = ""
