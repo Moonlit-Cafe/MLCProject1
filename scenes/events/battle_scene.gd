@@ -9,6 +9,7 @@ var timeline_count : int = 0
 var current_timeline : Timeline
 var diverged_timeline : Timeline
 var zone_data : ZoneData
+var player : TileEntity
 #endregion
 
 #region Events
@@ -52,9 +53,9 @@ func _generate_initial_timeline() -> void:
 	# then move the signal connecting to that section
 	var new_timeline = Timeline.generate_timeline(zone_data, &"Timeline")
 	timeline_holder.call_deferred("add_child", new_timeline)
-	for tile in new_timeline.map.battle_tiles:
+	for tile : BattleTile  in new_timeline.map.battle_tiles:
 		tile.clicked.connect(move_player)
-		
+	
 	current_timeline = new_timeline
 	timeline_count += 1
 	
@@ -107,7 +108,12 @@ func _move_to_next_timeline(next_timeline: Timeline) -> void:
 #endregion
 
 #region Signal Callbacks
-func move_player(target_tile):
-	# and it will move the player to that tile
+func move_player(target_tile:BattleTile):
+	if not player:
+		player = get_tree().get_first_node_in_group(&"player")
+		
+	# TYLER and it will move the player to that tile
+	target_tile.held_entity = player
+	# player.stand_tile = target_tile
 	return
 #endregion

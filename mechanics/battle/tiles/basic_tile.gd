@@ -84,7 +84,6 @@ func _change_color(normal:bool):
 	# dont forget to make the move skeleton work too
 	# move skeleton should also call this with normal=true
 
-
 	# HACK should change the texture of the tile isntead of modifying the scale
 	if normal:
 		self.scale = 1 * Vector3.ONE

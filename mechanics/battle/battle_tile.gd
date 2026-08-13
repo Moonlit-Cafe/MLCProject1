@@ -10,7 +10,16 @@ signal clicked
 
 
 var area : Area3D
-var held_entity : TileEntity
+var held_entity : TileEntity :
+	set(entity):
+		if not entity:
+			return
+		var parent = entity.get_parent()
+		if not parent:
+			return
+		parent.remove_child(entity)
+		self.add_child(entity)
+
 #endregion
 
 #region Statics
@@ -84,6 +93,6 @@ func _on_input_event(_camera: Node, event: InputEvent, _event_position: Vector3,
 		return
 	
 	Global.logs.post_message(self, "I've been clicked.")
-	if held_entity:
+	if not held_entity:
 		clicked.emit(self)
 #endregion
