@@ -26,6 +26,7 @@ var available_positions : Dictionary[int, Vector3] = {}
 var current_position : int = 0
 var timeline : Timeline
 var focus_target : BattleTile
+var enemy_target_count = 0
 #endregion
 
 #region Events
@@ -76,23 +77,23 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed(&"cycle"):
 		var enemies = get_tree().get_nodes_in_group(&"enemy")
-		var i : int = 0
+		
 		if Input.is_key_pressed(KEY_SHIFT):
-			i = enemies.size() - 1
+			enemy_target_count = enemies.size() - 1
 		
 		if focus_target in enemies:
-			i = enemies.find(focus_target)
+			enemy_target_count = enemies.find(focus_target)
 			if Input.is_key_pressed(KEY_SHIFT):
-				i -= 1
+				enemy_target_count -= 1
 			else:
-				i += 1
+				enemy_target_count += 1
 			
-			if i == enemies.size():
-				i = 0
-			elif i == -1:
-				i = enemies.size() - 1
+			if enemy_target_count == enemies.size():
+				enemy_target_count = 0
+			elif enemy_target_count == -1:
+				enemy_target_count = enemies.size() - 1
 		
-		focus_target = enemies.get(i)
+		focus_target = enemies.get(enemy_target_count).get_parent()
 		_pan_camera(focus_target.global_position)
 	
 	if not event is InputEventMouseButton:
@@ -120,7 +121,7 @@ func _player_pan():
 	if pan_diff != Vector3.ZERO:
 		pan_diff = pan_diff.rotated(Vector3.UP, self.rotation.y)
 		_pan_camera(pan_diff + self.global_position) 
-		# TYLER currently this works, but doesnt allow for "smooth panning" when a direction is held. Probably due to tweening in _pan_camera()
+		# HACK currently this works, but doesnt allow for "smooth panning" when a direction is held. Probably due to tweening in _pan_camera()
 		
 
 func _get_start_position() -> Vector3:
