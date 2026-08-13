@@ -9,7 +9,7 @@ var timeline_count : int = 0
 var current_timeline : Timeline
 var diverged_timeline : Timeline
 var zone_data : ZoneData
-var player : TileEntityPlayer
+var player : TileEntity
 #endregion
 
 #region Events
