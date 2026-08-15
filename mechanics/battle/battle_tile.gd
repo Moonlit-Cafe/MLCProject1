@@ -14,11 +14,14 @@ var held_entity : TileEntity :
 	set(entity):
 		if not entity:
 			return
+		
 		var parent = entity.get_parent()
 		if not parent:
 			return
+		
 		parent.remove_child(entity)
 		self.add_child(entity)
+		entity.tile = self
 
 #endregion
 

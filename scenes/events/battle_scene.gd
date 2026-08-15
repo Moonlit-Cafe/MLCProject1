@@ -16,7 +16,7 @@ var player : TileEntity
 func _ready() -> void:
 	_generate_initial_timeline()
 	
-	battle_manager._prep_move_player.connect(_prep_tiles_move)
+	battle_manager._prep_move_player.connect(_prep_tiles_selectable)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("divergence") and (timeline_count - 1) < Global.diverge_max:
@@ -60,7 +60,7 @@ func _generate_initial_timeline() -> void:
 	timeline_count += 1
 	
 
-func _prep_tiles_move():
+func _prep_tiles_selectable():
 	var to_be_edited = []
 	to_be_edited = current_timeline.map.topmost_tiles
 	if diverged_timeline:
@@ -113,6 +113,7 @@ func move_player(target_tile:BattleTile):
 		player = get_tree().get_first_node_in_group(&"player")
 		
 	target_tile.held_entity = player
+	
 	return
 #endregion
 
@@ -121,7 +122,7 @@ func move_player(target_tile:BattleTile):
 # TYLER attack actions
 # click signal checks if theres an entity on it before going down that branch
 
-# TYLER attack action processing logic
+# PLANNED attack action processing logic
 # currently
 	# using ff menu logic, including wasd for going thru menus
 	# should select target then confirm

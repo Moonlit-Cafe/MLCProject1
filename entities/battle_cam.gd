@@ -25,7 +25,7 @@ var can_swivel : bool = true :
 var available_positions : Dictionary[int, Vector3] = {}
 var current_position : int = 0
 var timeline : Timeline
-var focus_target : BattleTile
+var focus_tile : BattleTile
 var enemy_target_count = 0
 #endregion
 
@@ -34,12 +34,12 @@ func _ready() -> void:
 	timer.timeout.connect(_on_timer_timeout)
 	
 	if get_tree().get_node_count_in_group(&"player") > 0:
-		focus_target = get_tree().get_first_node_in_group(&"player").tile
-		global_position = focus_target.global_position
+		focus_tile = get_tree().get_first_node_in_group(&"player").tile
+		global_position = focus_tile.global_position
 	
 	var start_position := Vector3.ZERO
-	if focus_target:
-		start_position = focus_target.global_position
+	if focus_tile:
+		start_position = focus_tile.global_position
 	else:
 		_get_start_position()
 	
@@ -72,8 +72,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		can_swivel = false
 	
 	if event.is_action_pressed(&"focus_player"):
-		focus_target = get_tree().get_first_node_in_group(&"player").tile
-		_pan_camera(focus_target.global_position)
+		focus_tile = get_tree().get_first_node_in_group(&"player").tile
+		_pan_camera(focus_tile.global_position)
 	
 	if event.is_action_pressed(&"cycle"):
 		var enemies = get_tree().get_nodes_in_group(&"enemy")
@@ -81,8 +81,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Input.is_key_pressed(KEY_SHIFT):
 			enemy_target_count = enemies.size() - 1
 		
-		if focus_target in enemies:
-			enemy_target_count = enemies.find(focus_target)
+		if focus_tile in enemies:
+			enemy_target_count = enemies.find(focus_tile)
 			if Input.is_key_pressed(KEY_SHIFT):
 				enemy_target_count -= 1
 			else:
@@ -93,8 +93,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif enemy_target_count == -1:
 				enemy_target_count = enemies.size() - 1
 		
-		focus_target = enemies.get(enemy_target_count).get_parent()
-		_pan_camera(focus_target.global_position)
+		focus_tile = enemies.get(enemy_target_count).get_parent()
+		_pan_camera(focus_tile.global_position)
 	
 	if not event is InputEventMouseButton:
 		return
