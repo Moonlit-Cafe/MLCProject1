@@ -22,7 +22,6 @@ var held_entity : TileEntity :
 		parent.remove_child(entity)
 		self.add_child(entity)
 		entity.tile = self
-
 #endregion
 
 #region Statics

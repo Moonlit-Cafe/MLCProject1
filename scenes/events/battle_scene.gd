@@ -16,7 +16,8 @@ var player : TileEntity
 func _ready() -> void:
 	_generate_initial_timeline()
 	
-	battle_manager._prep_move_player.connect(_prep_tiles_selectable)
+	battle_manager._prep_move_player.connect(_prep_tiles_move)
+	battle_manager._prep_atk_player.connect(_prep_tiles_atk)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("divergence") and (timeline_count - 1) < Global.diverge_max:
@@ -54,21 +55,33 @@ func _generate_initial_timeline() -> void:
 	var new_timeline = Timeline.generate_timeline(zone_data, &"Timeline")
 	timeline_holder.call_deferred("add_child", new_timeline)
 	for tile : BattleTile  in new_timeline.map.battle_tiles:
-		tile.clicked.connect(move_player)
+		tile.clicked.connect(manage_tile_click)
 	
 	current_timeline = new_timeline
 	timeline_count += 1
 	
-
-func _prep_tiles_selectable():
-	var to_be_edited = []
-	to_be_edited = current_timeline.map.topmost_tiles
-	if diverged_timeline:
-		to_be_edited.append_array(diverged_timeline.map.topmost_tiles)
 	
-	for tile :BasicTile in to_be_edited:
+# TYLER edit both of these so they change a bool or enum
+func _prep_tiles_atk():
+	_toggle_tiles()
+	
+	
+func _prep_tiles_move():
+	_toggle_tiles()
+
+func _toggle_tiles():
+	for tile :BasicTile in get_all_tiles():
 		tile._change_color(false)
 	return
+
+func get_all_tiles() -> Array[BasicTile]:
+	var resulting_tiles = []
+	resulting_tiles = current_timeline.map.topmost_tiles
+	
+	if diverged_timeline:
+		resulting_tiles.append_array(diverged_timeline.map.topmost_tiles)
+		
+	return resulting_tiles
 
 func _assign_timeline_neighbors() -> void:
 	if timeline_holder.get_child_count() < 2:
@@ -108,12 +121,19 @@ func _move_to_next_timeline(next_timeline: Timeline) -> void:
 #endregion
 
 #region Signal Callbacks
+
+func manage_tile_click(target_tile:BattleTile):
+	return
+	
 func move_player(target_tile:BattleTile):
 	if not player:
 		player = get_tree().get_first_node_in_group(&"player")
 		
 	target_tile.held_entity = player
 	
+	for tile :BasicTile in get_all_tiles():
+		tile._change_color(true)
+		
 	return
 #endregion
 
