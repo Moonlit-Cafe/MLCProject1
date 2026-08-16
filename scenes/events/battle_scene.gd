@@ -10,6 +10,13 @@ var current_timeline : Timeline
 var diverged_timeline : Timeline
 var zone_data : ZoneData
 var player : TileEntity
+
+enum PLAYER_STATE{
+	NULL,
+	ATK,
+	MOVE
+}
+var p_state : PLAYER_STATE = 0
 #endregion
 
 #region Events
@@ -61,27 +68,6 @@ func _generate_initial_timeline() -> void:
 	timeline_count += 1
 	
 	
-# TYLER edit both of these so they change a bool or enum
-func _prep_tiles_atk():
-	_toggle_tiles()
-	
-	
-func _prep_tiles_move():
-	_toggle_tiles()
-
-func _toggle_tiles():
-	for tile :BasicTile in get_all_tiles():
-		tile._change_color(false)
-	return
-
-func get_all_tiles() -> Array[BasicTile]:
-	var resulting_tiles = []
-	resulting_tiles = current_timeline.map.topmost_tiles
-	
-	if diverged_timeline:
-		resulting_tiles.append_array(diverged_timeline.map.topmost_tiles)
-		
-	return resulting_tiles
 
 func _assign_timeline_neighbors() -> void:
 	if timeline_holder.get_child_count() < 2:
@@ -118,23 +104,18 @@ func _move_to_next_timeline(next_timeline: Timeline) -> void:
 	current_timeline.show()
 	current_timeline.is_focused = true
 	current_timeline.light.show()
+
+	
+	
+	
+	
+
+
 #endregion
 
 #region Signal Callbacks
 
-func manage_tile_click(target_tile:BattleTile):
-	return
-	
-func move_player(target_tile:BattleTile):
-	if not player:
-		player = get_tree().get_first_node_in_group(&"player")
-		
-	target_tile.held_entity = player
-	
-	for tile :BasicTile in get_all_tiles():
-		tile._change_color(true)
-		
-	return
+
 #endregion
 
 
@@ -154,3 +135,67 @@ func move_player(target_tile:BattleTile):
 	# also rebinds for all / most inputs
 	# repeat last action / target ???
 	
+#region Tyler addons
+
+### Events
+
+# TYLER edit both of these so they change a bool or enum
+func _prep_tiles_atk():
+	p_state = PLAYER_STATE.ATK
+	_toggle_tiles()
+	
+	
+func _prep_tiles_move():
+	p_state = PLAYER_STATE.MOVE
+	_toggle_tiles()
+
+func _toggle_tiles():
+	for tile :BasicTile in get_all_tiles():
+		tile._change_color(false)
+	return
+
+func get_all_tiles() -> Array[BasicTile]:
+	var resulting_tiles = []
+	resulting_tiles = current_timeline.map.topmost_tiles
+	
+	if diverged_timeline:
+		resulting_tiles.append_array(diverged_timeline.map.topmost_tiles)
+		
+	return resulting_tiles
+
+func _move_player(target_tile:BattleTile):
+	target_tile.held_entity = player
+	
+func _attack_target(target_tile:BattleTile):
+	var target : TileEntity = target_tile.held_entity
+	target.hp -= 100
+	
+	
+
+func _untoggle_tiles():
+	for tile :BasicTile in get_all_tiles():
+		tile._change_color(true)
+		
+	p_state = PLAYER_STATE.NULL
+	return
+	
+### Signal Callbacks
+func manage_tile_click(target_tile:BattleTile):
+	if not player:
+		player = get_tree().get_first_node_in_group(&"player")
+		
+	if target_tile.held_entity:
+		match p_state:
+			PLAYER_STATE.ATK:
+				_attack_target(target_tile)
+		
+	else:
+		match p_state:
+			PLAYER_STATE.MOVE:
+				_move_player(target_tile)
+	
+	
+	_untoggle_tiles()
+	return
+	
+#endregion
