@@ -16,11 +16,11 @@ var held_entity : TileEntity :
 			return
 		
 		var parent = entity.get_parent()
-		if not parent:
-			return
+		if parent:
+			parent.remove_child(entity)
 		
-		parent.remove_child(entity)
 		self.add_child(entity)
+		held_entity = entity
 		entity.tile = self
 #endregion
 
@@ -95,6 +95,6 @@ func _on_input_event(_camera: Node, event: InputEvent, _event_position: Vector3,
 		return
 	
 	Global.logs.post_message(self, "I've been clicked.")
-	if not held_entity:
-		clicked.emit(self)
+	
+	clicked.emit(self)
 #endregion
