@@ -105,41 +105,6 @@ func _move_to_next_timeline(next_timeline: Timeline) -> void:
 	current_timeline.is_focused = true
 	current_timeline.light.show()
 
-	
-	
-	
-	
-
-
-#endregion
-
-#region Signal Callbacks
-
-
-#endregion
-
-
-
-# TYLER attack actions
-# click signal checks if theres an entity on it before going down that branch
-
-# PLANNED attack action processing logic
-# currently
-	# using ff menu logic, including wasd for going thru menus
-	# should select target then confirm
-# should maybe have
-	# quickcast - keybind / option - reduce presses in 
-	# find different way to go through menu - also to reduce presses
-		# xcom solution ? 
-		# barony solution
-	# also rebinds for all / most inputs
-	# repeat last action / target ???
-	
-#region Tyler addons
-
-### Events
-
-# TYLER edit both of these so they change a bool or enum
 func _prep_tiles_atk():
 	p_state = PLAYER_STATE.ATK
 	_toggle_tiles()
@@ -170,16 +135,16 @@ func _attack_target(target_tile:BattleTile):
 	var target : TileEntity = target_tile.held_entity
 	target.hp -= 100
 	
-	
-
 func _untoggle_tiles():
 	for tile :BasicTile in get_all_tiles():
 		tile._change_color(true)
 		
 	p_state = PLAYER_STATE.NULL
 	return
-	
-### Signal Callbacks
+
+#endregion
+
+#region Signal Callbacks
 func manage_tile_click(target_tile:BattleTile):
 	if not player:
 		player = get_tree().get_first_node_in_group(&"player")
@@ -197,5 +162,19 @@ func manage_tile_click(target_tile:BattleTile):
 	
 	_untoggle_tiles()
 	return
-	
+
 #endregion
+
+
+
+# PLANNED attack action processing logic
+# currently
+	# using ff menu logic, including wasd for going thru menus
+	# should select target then confirm
+# should maybe have
+	# quickcast - keybind / option - reduce presses in 
+	# find different way to go through menu - also to reduce presses
+		# xcom solution ? 
+		# barony solution
+	# also rebinds for all / most inputs
+	# repeat last action / target ???
