@@ -105,19 +105,18 @@ func _move_to_next_timeline(next_timeline: Timeline) -> void:
 	current_timeline.is_focused = true
 	current_timeline.light.show()
 
-func _prep_tiles_atk():
+func _prep_tiles_atk() -> void:
 	p_state = PLAYER_STATE.ATK
 	_toggle_tiles()
 	
 	
-func _prep_tiles_move():
+func _prep_tiles_move() -> void:
 	p_state = PLAYER_STATE.MOVE
 	_toggle_tiles()
 
-func _toggle_tiles():
+func _toggle_tiles() -> void:
 	for tile :BasicTile in get_all_tiles():
 		tile._change_color(false)
-	return
 
 func get_all_tiles() -> Array[BasicTile]:
 	var resulting_tiles = []
@@ -128,24 +127,23 @@ func get_all_tiles() -> Array[BasicTile]:
 		
 	return resulting_tiles
 
-func _move_player(target_tile:BattleTile):
+func _move_player(target_tile:BattleTile) -> void:
 	target_tile.held_entity = player
 	
-func _attack_target(target_tile:BattleTile):
+func _attack_target(target_tile:BattleTile) -> void:
 	var target : TileEntity = target_tile.held_entity
 	target.hp -= 100
 	
-func _untoggle_tiles():
+func _untoggle_tiles() -> void:
 	for tile :BasicTile in get_all_tiles():
 		tile._change_color(true)
 		
 	p_state = PLAYER_STATE.NULL
-	return
 
 #endregion
 
 #region Signal Callbacks
-func manage_tile_click(target_tile:BattleTile):
+func manage_tile_click(target_tile:BattleTile) -> void:
 	if not player:
 		player = get_tree().get_first_node_in_group(&"player")
 		
@@ -153,15 +151,15 @@ func manage_tile_click(target_tile:BattleTile):
 		match p_state:
 			PLAYER_STATE.ATK:
 				_attack_target(target_tile)
+		return
 		
-	else:
-		match p_state:
-			PLAYER_STATE.MOVE:
-				_move_player(target_tile)
+	
+	match p_state:
+		PLAYER_STATE.MOVE:
+			_move_player(target_tile)
 	
 	
 	_untoggle_tiles()
-	return
 
 #endregion
 
