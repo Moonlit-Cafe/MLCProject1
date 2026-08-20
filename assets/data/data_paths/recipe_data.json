@@ -1,0 +1,9 @@
+{
+	"R001": {
+		"ingredients": {
+			"I001": 2
+		},
+		"result": "I001",
+		"count": 1
+	}
+}

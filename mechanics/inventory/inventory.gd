@@ -12,7 +12,7 @@ func _init() -> void:
 	for i in range(max_slots):
 		slots.append(InventorySlot.new())
 
-func add_item(new_item: ItemResource, amount: int = 1) -> int:
+func add_item(new_item: BasicItem, amount: int = 1) -> int:
 	var remaining := amount
 	
 	for slot in slots:
@@ -37,7 +37,34 @@ func add_item(new_item: ItemResource, amount: int = 1) -> int:
 	inventory_changed.emit()
 	return remaining
 
-func remove_item(target_item: ItemResource, amount: int = 1) -> bool:
+func check_craftable() -> Array[Recipe]:
+	var recipe_list : Array[Recipe] = []
+	for slot in slots:
+		for recipe in slot.item.recipes:
+			
+			if recipe_list.has(recipe):
+				continue
+			
+			recipe_list.append(recipe)
+	
+	for recipe in recipe_list:
+		if not recipe.is_craftable(self):
+			recipe_list.erase(recipe)
+	
+	return recipe_list
+
+func get_all_with_tag(tag: BasicItem.Tags) -> Array[InventorySlot]:
+	var slots_with_tag : Array[InventorySlot] = []
+	for slot : InventorySlot in slots:
+		if slot.is_empty():
+			continue
+		
+		if slot.item.tags.has(tag):
+			slots_with_tag.append(slot)
+	
+	return slots_with_tag
+
+func remove_item(target_item: BasicItem, amount: int = 1) -> bool:
 	var remaining := amount
 	
 	for slot in slots:

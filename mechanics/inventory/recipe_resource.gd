@@ -8,7 +8,7 @@ class_name Recipe extends Resource
 #endregion
 
 #region Statics
-func generate_recipe(items: Dictionary[StringName, int], new_item: StringName, amount: int) -> Recipe:
+static func generate_recipe(items: Dictionary[StringName, int], new_item: StringName, amount: int) -> Recipe:
 	var recipe := Recipe.new()
 	recipe.ingredients = items
 	recipe.result = new_item
@@ -20,17 +20,36 @@ func generate_recipe(items: Dictionary[StringName, int], new_item: StringName, a
 func craft() -> void:
 	pass
 
-func is_craftable(items: Dictionary[StringName, int]) -> bool:
-	if !ingredients.has_all(items.keys()):
-		return false # Returns false if all of the items are not included in the recipes ingredients list
+## Checks to see if the recipe is craftable given all the material items within an inventory
+func is_craftable(inventory: Inventory) -> bool:
+	var material_slots := inventory.get_all_with_tag(BasicItem.Tags.MATERIAL)
 	
-	var can_craft : bool = true
-	for item in items.keys():
-		var item_count : int = items.get(item)
-		if not ingredients.has(item):
+	var check_dict : Dictionary[StringName, bool] = {}
+	for ingredient in ingredients.keys():
+		check_dict.set(ingredient, false)
+	
+	for slot in material_slots:
+		if not check_dict.has(slot.item.id):
 			continue
 		
-		if ingredients.get(item) > item_count:
-			can_craft = false
-	return can_craft
+		if slot.quantity >= ingredients.get(slot.item.id):
+			check_dict.set(slot.item.id, true)
+	
+	for check in check_dict:
+		if not check:
+			return false
+	
+	return true
+	#if !ingredients.has_all(items.keys()):
+	#	return false # Returns false if all of the items are not included in the recipes ingredients list
+	#
+	#var can_craft : bool = true
+	#for item in items.keys():
+	#	var item_count : int = items.get(item)
+	#	if not ingredients.has(item):
+	#		continue
+	#	
+	#	if ingredients.get(item) > item_count:
+	#		can_craft = false
+	#return can_craft
 #endregion

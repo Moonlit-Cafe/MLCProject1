@@ -19,6 +19,7 @@ script = ExtResource("1_jmesp")
 action_data_reference = "res://assets/data/data_paths/actions.json"
 action_shape_data_reference = "res://assets/data/data_paths/action_shapes.json"
 items_reference = "res://assets/data/data_paths/item_data.json"
+recipe_reference = "res://assets/data/data_paths/recipe_data.json"
 characters_reference = "res://assets/data/data_paths/characters.json"
 tile_data_reference = "res://assets/data/data_paths/tile_data.json"
 
