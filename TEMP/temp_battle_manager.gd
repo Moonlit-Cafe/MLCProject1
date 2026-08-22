@@ -36,12 +36,10 @@ func _toggle_other() -> void:
 	other_UI.visible = not other_UI.visible
 
 func _flee() -> void:
-	# TODO implement this real
-	# should be a percentage, allowed to be effected by factors
-	# should just boot player out to map
 	var t = get_parent().get_parent()
 	t.queue_free()
 	t.get_parent().init_battle()
+	# TODO implement this real
+	# should be a percentage, allowed to be effected by factors
+	# should just boot player out to map
 #endregion
-	
-	

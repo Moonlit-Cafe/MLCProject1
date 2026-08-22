@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cmqiitctfwpua"]
+
+[ext_resource type="Script" uid="uid://bdwtjn2fqfkp7" path="res://scenes/events/travel_scene.gd" id="1_msnq8"]
+
+[node name="TravelScene" type="Control" unique_id=330338085]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_msnq8")
