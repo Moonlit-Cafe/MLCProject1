@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bxb0w7250mvn4"]
+
+[ext_resource type="Script" uid="uid://c7osv5awqu125" path="res://mechanics/battle/travel/travel_node.gd" id="1_byoka"]
+[ext_resource type="Texture2D" uid="uid://ouny1vtjtx6u" path="res://assets/sprites/tiles/test.png" id="2_sgasu"]
+
+[node name="TravelNode" type="Button" unique_id=61532113]
+script = ExtResource("1_byoka")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1388236029]
+texture = ExtResource("2_sgasu")

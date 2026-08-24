@@ -1,25 +1,41 @@
 class_name TravelScene extends Control
 
-
+#region Declarations
 var data : TravelData :
 	set(new):
+		if not new:
+			return
+			
 		data = new
 		_populate_section()
-		return
 		
-var layers = Array[Array[Node]]
+var layers: Array[Array]
 
+var new_travel_node : PackedScene = preload("res://mechanics/battle/travel/travel_node.tscn")
+#endregion
+
+#region Declarations
 ## sets up zones on the planet given input data
 func _populate_section() -> void:
-	var layer_count = randi_range(data.min_layers, data.max_layers)
-	var cur_width
-	var cur_layer :Array[Node]
-	layers = Array[layer_count - 1]
-	var new_node
+	var layer_count : int
+	layer_count  = randi_range(data.min_layers, data.max_layers)
+	var cur_width : int
+	var cur_layer :Array
+	var new_node : TravelNode
+	const X_GAP : int = 100
+	const X_INIT : int = 50
+	
+	const Y_GAP : int = 100
+	const Y_INIT : int = 50
+	
+	layers.resize(layer_count)
 	for i in range(0, layer_count):
 		cur_layer = layers[i]
 		cur_width = randi_range(data.min_width, data.max_width)
 		for j in range(0, cur_width):
-			new_node = TravelNode.instantiate()
-			cur_layers.append()
-		
+			new_node = new_travel_node.instantiate()
+			cur_layer.append(new_node)
+			new_node.position = Vector2(X_INIT + X_GAP * i, Y_INIT + Y_GAP * j)
+			add_child(new_node)
+			new_node.name = 'Node %d, %d' % [i, j]
+#endregion

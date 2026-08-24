@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://btee80wy6ehha" path="res://scenes/main.gd" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://cufiaxhbrnfp5" path="res://mechanics/battle/zones/zone_data.gd" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://7xgr04fxsj3k" path="res://mechanics/battle/travel/travel_data.gd" id="3_sugp2"]
 
 [sub_resource type="Curve" id="Curve_sugp2"]
 _data = [Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -14,6 +15,11 @@ height_range = SubResource("Curve_sugp2")
 enemy_tags = Array[int]([0])
 metadata/_custom_type_script = "uid://cufiaxhbrnfp5"
 
+[sub_resource type="Resource" id="Resource_tbgi4"]
+script = ExtResource("3_sugp2")
+metadata/_custom_type_script = "uid://7xgr04fxsj3k"
+
 [node name="Main" type="Node" unique_id=1069856160]
 script = ExtResource("1_o5qli")
 map_data = SubResource("Resource_jyhfs")
+TEMP_travel_data = SubResource("Resource_tbgi4")
