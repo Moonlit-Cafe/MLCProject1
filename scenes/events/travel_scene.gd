@@ -47,18 +47,19 @@ func _populate_section() -> void:
 		var next_width : int = next_layer.size()
 		
 		var l_index : int = 0
-		var r_index : int = randi_range(l_index, next_width)
+		var r_index : int = next_width
 		
 		for j in range(0, layer_width):
+			
+			if j == layer_width-1:
+				r_index = next_width
+			else:
+				r_index = randi_range(l_index+1, next_width)
+			
 			var new_connections = next_layer.slice(l_index, r_index)
 			cur_layer[j].connections = new_connections
 			
 			l_index = randi_range(l_index, next_width)
-			if j == layer_width - 1:
-				r_index = next_width
-			else:
-				r_index = randi_range(l_index, next_width)
-				
 			
 	
 	# TYLER remember current travel layer
