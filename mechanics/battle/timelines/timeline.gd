@@ -43,6 +43,7 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 	new_viewport.size = GlobalSettings.display.current_resolution
 	new_viewport.physics_object_picking = true
 	new_viewport.set_process_unhandled_input(true)
+	new_viewport.own_world_3d = true
 	new_timeline.sub_view = new_viewport
 	
 	var new_map := GameTileMap.generate_map(i_zone_data, &"BattleMap")

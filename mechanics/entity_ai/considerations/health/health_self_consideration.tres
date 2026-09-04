@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="HealthConsideration" format=3 uid="uid://byaadyjw4hnow"]
+
+[ext_resource type="Script" uid="uid://bo6mcn03s2ra8" path="res://mechanics/entity_ai/considerations/health_consideration.gd" id="1_otbw8"]
+
+[sub_resource type="Curve" id="Curve_otbw8"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[resource]
+script = ExtResource("1_otbw8")
+response = SubResource("Curve_otbw8")
+metadata/_custom_type_script = "uid://bo6mcn03s2ra8"

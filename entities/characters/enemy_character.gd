@@ -6,5 +6,6 @@ enum EnemyType {
 	NULL
 }
 
+@export var actions : Array[AIAction] = []
 @export var tags : Array[EnemyType] = [EnemyType.NULL]
 #endregion

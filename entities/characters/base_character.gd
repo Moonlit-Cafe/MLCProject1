@@ -13,6 +13,7 @@ enum CharType {
 	Genum.StatType.HEALTH: 10.0
 }
 @export var frames : SpriteFrames ## The frames representing the 2D character
+@export var action_set : ActionSet
 #endregion
 
 #region Events
