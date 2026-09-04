@@ -13,7 +13,8 @@ var connections : Array = [] :
 			t = Line2D.new()
 			
 			diff_vector = node.global_position - self.global_position + Vector2.RIGHT * 100
-			t.points = [Vector2.ZERO, diff_vector]
+			diff_vector += Vector2.LEFT * 10
+			t.points = [Vector2.RIGHT * 10, diff_vector]
 			
 			t.z_index += 10
 			add_child(t)
