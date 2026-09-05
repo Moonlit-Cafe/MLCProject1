@@ -49,29 +49,30 @@ func _populate_section() -> void:
 
 ## Assign paths for node-to-node travel
 func _link_nodes(layer_count: int) -> void:
-	var cur_layer : Array
 	
 	for layer_index in range(0, layer_count - 1):
-		cur_layer = layers[layer_index]
-		var next_layer : Array = layers[layer_index]
-		var layer_width : int = cur_layer.size()
-		var next_width : int = next_layer.size()
-		
+		var cur_layer = layers[layer_index]
+		var cur_width : int = cur_layer.size()
 		var l_index : int = 0
+		
+		var next_layer : Array = layers[layer_index+1]
+		var next_width : int = next_layer.size()
 		var r_index : int = next_width
 		
-		for node_index in range(0, layer_width):
+		for node_index in range(0, cur_width):
 			
-			if node_index == layer_width-1:
+			r_index = randi_range(l_index+1, next_width)
+			
+			if node_index == cur_width-1 or l_index == next_width:
 				r_index = next_width
-			else:
-				r_index = randi_range(l_index+1, next_width)
-			
+				
 			var new_connections = next_layer.slice(l_index, r_index)
+			print('%s / %s, %s / %s, %s - %s // %s' % [layer_index+1, layer_count, node_index+1, cur_width, l_index, r_index, next_width])
+			if new_connections.size() == 0:
+				print('fuck')
 			cur_layer[node_index].connections = new_connections
 			
-			l_index = randi_range(l_index, next_width)
-			
+			l_index = randi_range(l_index, next_width-1) 
 	
 	# TYLER remember current travel layer
 		# modulate current layer node to yellow
