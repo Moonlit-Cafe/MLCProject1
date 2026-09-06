@@ -1,15 +1,15 @@
 class_name TravelNode extends Button
 
 #region Declarations
-var connections : Array = [] :
+var links : Array = [] :
 	set(new) :
 		var t : Node2D
 		var diff_vector : Vector2
 		
-		connections = new
+		links = new
 		clear_lines()
 		
-		for node in connections:
+		for node in links:
 			t = Line2D.new()
 			
 			diff_vector = node.global_position - self.global_position + Vector2.RIGHT * 100
@@ -20,9 +20,22 @@ var connections : Array = [] :
 			t.position.x += 10
 			t.z_index += 10
 			add_child(t)
+			
+			
+var selectable : bool = false
+var travel_scene : TravelScene
 #endregion
 
 #region Events
+func _ready() -> void:
+	travel_scene = get_parent() 
+	pressed.connect(_clicked)
+
+func _clicked() -> void:
+	if selectable:
+		travel_scene.cur_node = self
+		travel_scene.highlight_selectables()
+	
 func clear_lines() -> void:
 	for child in get_children():
 		if child is Line2D:

@@ -1,6 +1,8 @@
 class_name TravelScene extends Control
 
 #region Declarations
+var new_travel_node : PackedScene = preload("res://mechanics/battle/travel/travel_node.tscn")
+
 var data : TravelData :
 	set(new):
 		if not new:
@@ -11,10 +13,20 @@ var data : TravelData :
 		
 var layers: Array[Array]
 
-var new_travel_node : PackedScene = preload("res://mechanics/battle/travel/travel_node.tscn")
+
+var cur_node : TravelNode = null
 #endregion
 
 #region Events
+## sets up zones on the planet given input data
+func _populate_section() -> void:
+	var layer_count : int
+
+	layer_count  = randi_range(data.min_layers, data.max_layers)
+	_disperse_nodes(layer_count)
+	_link_nodes(layer_count)
+	highlight_selectables()
+
 ## Displaces and organizes positions of travel nodes
 func _disperse_nodes(layer_count) -> void:
 	var cur_layer : Array
@@ -31,6 +43,8 @@ func _disperse_nodes(layer_count) -> void:
 	for i in range(0, layer_count):
 		cur_layer = layers[i]
 		cur_width = randi_range(data.min_width, data.max_width)
+		if i == 0:
+			cur_width = 1
 		for j in range(0, cur_width):
 			new_node = new_travel_node.instantiate()
 			cur_layer.append(new_node)
@@ -38,18 +52,9 @@ func _disperse_nodes(layer_count) -> void:
 			add_child(new_node)
 			new_node.name = 'Node %d, %d' % [i, j]
 
-## sets up zones on the planet given input data
-func _populate_section() -> void:
-	var layer_count : int
-
-	layer_count  = randi_range(data.min_layers, data.max_layers)
-	_disperse_nodes(layer_count)
-	_link_nodes(layer_count)
-	
 
 ## Assign paths for node-to-node travel
 func _link_nodes(layer_count: int) -> void:
-	
 	for layer_index in range(0, layer_count - 1):
 		var cur_layer = layers[layer_index]
 		var cur_width : int = cur_layer.size()
@@ -67,14 +72,26 @@ func _link_nodes(layer_count: int) -> void:
 				r_index = next_width
 				
 			var new_connections = next_layer.slice(l_index, r_index)
-			print('%s / %s, %s / %s, %s - %s // %s' % [layer_index+1, layer_count, node_index+1, cur_width, l_index, r_index, next_width])
-			if new_connections.size() == 0:
-				print('fuck')
-			cur_layer[node_index].connections = new_connections
+			# HACK replace this with the debug notification system
+			# print('%s / %s, %s / %s, %s - %s // %s' % [layer_index+1, layer_count, node_index+1, cur_width, l_index, r_index, next_width])
+			cur_layer[node_index].links = new_connections
 			
 			l_index = randi_range(l_index, next_width-1) 
 	
-	# TYLER remember current travel layer
-		# modulate current layer node to yellow
-		# modulate all selectables to blue
+
+## visually change tiles to indicate availability of travel
+func highlight_selectables() -> void:
+	for column : Array in layers:
+		for node : TravelNode in column:
+			node.modulate = Color.DARK_GRAY
+			node.selectable = false
+
+	if not cur_node:
+		cur_node = layers[0][0]
+	
+	cur_node.modulate = Color.BLUE
+	for child in cur_node.links:
+		child.modulate = Color.WHITE
+		child.selectable = true
+
 #endregion
