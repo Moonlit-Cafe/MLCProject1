@@ -29,13 +29,15 @@ var travel_scene : TravelScene
 #region Events
 func _ready() -> void:
 	travel_scene = get_parent() 
-	pressed.connect(_clicked)
 
-func _clicked() -> void:
+## Handles triggers when node is clicked
+## Currently unlinked
+func clicked() -> void:
 	if selectable:
 		travel_scene.cur_node = self
 		travel_scene.highlight_selectables()
-	
+
+## Removes all lines
 func clear_lines() -> void:
 	for child in get_children():
 		if child is Line2D:

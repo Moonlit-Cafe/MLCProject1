@@ -1,4 +1,4 @@
-class_name AttackAction extends BaseAction
+class_name AttackAction extends CombatAction
 
 #region Declarations
 #endregion
