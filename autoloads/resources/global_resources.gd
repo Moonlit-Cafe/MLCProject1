@@ -63,7 +63,7 @@ func _load_action_shapes() -> void:
 	
 	for action_shape_id in data.keys():
 		var shape_data : Dictionary = data.get(action_shape_id)
-		var new_shape := ActionShape.create_shape_data(shape_data, action_shape_id)
+		var new_shape := ActionShape.create_shape_data(shape_data)
 		set_data(DataType.ACTION_SHAPE, action_shape_id, new_shape)
 	Global.logs.post_message(self, "loaded action shapes successfully")
 
@@ -79,9 +79,9 @@ func _load_actions() -> void:
 	for action_id in data.keys():
 		var action_data = data.get(action_id)
 		var new_action
-		match (action_data.get("type") as BaseAction.ActionType):
-			BaseAction.ActionType.ATTACK:
-				new_action = AttackAction.create_attack_action_data(action_data, action_id)
+		match (action_data.get("type") as Genum.ActionType):
+			Genum.ActionType.FLAT:
+				new_action = AttackAction.create_attack_action_data(action_data)
 		set_data(DataType.ACTION, action_id, new_action)
 	Global.logs.post_message(self, "loaded actions successfully")
 

@@ -16,6 +16,13 @@ enum TimeType {
 	TURN,
 	MOVEMENT
 }
+
+enum ActionType{
+	FLAT,
+	EFFECT,
+	DEFENCE,
+	MOVE
+}
 #endregion
 
 #region Items
