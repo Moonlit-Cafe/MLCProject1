@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://tn1nqplsl3iu"]
-
-[ext_resource type="Script" uid="uid://ptpw4fhkrmqp" path="res://old_files/autoloads/combat/zone_manager.gd" id="1_7afml"]
-
-[node name="ZoneManager" type="Node"]
-script = ExtResource("1_7afml")
