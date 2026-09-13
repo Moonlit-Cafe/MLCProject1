@@ -13,6 +13,7 @@ var data : TravelData :
 		
 var layers: Array[Array]
 var cur_node : TravelNode = null
+
 		
 #endregion
 
@@ -92,12 +93,14 @@ func highlight_selectables() -> void:
 	for child in cur_node.links:
 		child.modulate = Color.WHITE
 		child.selectable = true
+		print('asoidjasoidj')
 		
 
 ## Updates cur_node, or clears if the new one is the same as the pre-existing one.
 #HACK Currently not a setter since im not sure how godot supports signals to custom setters
 # It IS possible though, at least in 4.3? https://github.com/godotengine/godot/issues/92782
 func update_node(new: TravelNode):
+	# Tyler this isnt triggering
 		if cur_node == new:
 			cur_node = null
 			return

@@ -21,16 +21,16 @@ var links : Array = [] :
 			t.z_index += 10
 			add_child(t)
 			
-			
-var selectable : bool = false
-var travel_scene : TravelScene
+var selectable : bool = false 
+
+@onready var hitbox : Area2D = $Area2D
+@onready var travel_scene : TravelScene = get_parent()
 #endregion
 
 #region Events
 func _ready() -> void:
-	travel_scene = get_parent() 
-	$Area2D.area_entered.connect(travel_scene.update_node.bind(self))
-	$Area2D.area_exited.connect(travel_scene.update_node.bind(self))
+	hitbox.mouse_entered.connect(travel_scene.update_node.bind(self))
+	hitbox.mouse_exited.connect(travel_scene.update_node.bind(self))
 
 ## Handles triggers when node is clicked
 func clicked() -> void:
