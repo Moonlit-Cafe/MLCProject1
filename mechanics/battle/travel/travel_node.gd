@@ -29,9 +29,10 @@ var travel_scene : TravelScene
 #region Events
 func _ready() -> void:
 	travel_scene = get_parent() 
+	$Area2D.area_entered.connect(travel_scene.update_node.bind(self))
+	$Area2D.area_exited.connect(travel_scene.update_node.bind(self))
 
 ## Handles triggers when node is clicked
-## Currently unlinked
 func clicked() -> void:
 	if selectable:
 		travel_scene.cur_node = self

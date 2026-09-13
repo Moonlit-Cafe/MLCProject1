@@ -3,8 +3,16 @@
 [ext_resource type="Script" uid="uid://c7osv5awqu125" path="res://mechanics/battle/travel/travel_node.gd" id="1_byoka"]
 [ext_resource type="Texture2D" uid="uid://ouny1vtjtx6u" path="res://assets/sprites/tiles/test.png" id="2_sgasu"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sgasu"]
+size = Vector2(64, 64)
+
 [node name="TravelNode" type="Button" unique_id=61532113]
 script = ExtResource("1_byoka")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1388236029]
+[node name="Area2D" type="Area2D" parent="." unique_id=1875540693]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=113546371]
+shape = SubResource("RectangleShape2D_sgasu")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D/CollisionShape2D" unique_id=1388236029]
 texture = ExtResource("2_sgasu")

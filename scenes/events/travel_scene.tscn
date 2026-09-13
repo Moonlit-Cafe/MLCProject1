@@ -1,8 +1,12 @@
 [gd_scene format=3 uid="uid://c7eqko6e8qxhi"]
 
 [ext_resource type="Script" uid="uid://bdwtjn2fqfkp7" path="res://scenes/events/travel_scene.gd" id="1_msnq8"]
+[ext_resource type="PackedScene" uid="uid://bxb0w7250mvn4" path="res://mechanics/battle/travel/travel_node.tscn" id="2_xaw77"]
 
 [node name="TravelScene" type="Control" unique_id=330338085]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_msnq8")
+
+[node name="TravelNode" parent="." unique_id=61532113 instance=ExtResource("2_xaw77")]
+layout_mode = 0
