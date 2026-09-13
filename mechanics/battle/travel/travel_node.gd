@@ -7,7 +7,6 @@ var links : Array = [] :
 		var diff_vector : Vector2
 		
 		links = new
-		clear_lines()
 		
 		for node in links:
 			t = Line2D.new()
@@ -21,7 +20,7 @@ var links : Array = [] :
 			t.z_index += 10
 			add_child(t)
 			
-var selectable : bool = false 
+@export var selectable : bool = false 
 
 @onready var hitbox : Area2D = $Area2D
 @onready var travel_scene : TravelScene = get_parent()
@@ -31,16 +30,12 @@ var selectable : bool = false
 func _ready() -> void:
 	hitbox.mouse_entered.connect(travel_scene.update_node.bind(self))
 	hitbox.mouse_exited.connect(travel_scene.update_node.bind(self))
+	
 
 ## Handles triggers when node is clicked
 func clicked() -> void:
 	if selectable:
 		travel_scene.cur_node = self
 		travel_scene.highlight_selectables()
-
-## Removes all lines
-func clear_lines() -> void:
-	for child in get_children():
-		if child is Line2D:
-			child.queue_free()
+		travel_scene.visible = false
 #endregion

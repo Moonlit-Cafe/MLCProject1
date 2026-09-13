@@ -21,4 +21,8 @@ func init_battle() -> void:
 	var b_scene : BattleScene = BATTLE_SCENE.instantiate()
 	b_scene.zone_data = map_data
 	add_child(b_scene)
+	
+func retreat() -> void:
+	var scene = get_node("TravelScene")
+	scene.visible = true
 #endregion
