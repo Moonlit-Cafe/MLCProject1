@@ -35,7 +35,7 @@ func _generate_enemies() -> void:
 		var e_data : EnemyCharacter = enemy_list.pick_random() #TODO: Change this to be based on timeline rng
 		var e_entity := TileEntity.generate_entity(BaseCharacter.CharType.ENEMY, e_data)
 		e_entity.add_to_group(&"enemy")
-		rand_tile.add_entity(e_entity)
+		rand_tile.held_entity = e_entity
 
 func _generate_player() -> void:
 	var zone : ZoneData = timeline.zone_data
@@ -45,8 +45,8 @@ func _generate_player() -> void:
 	
 	# HACK this uses Enemy Data to spawn the player
 	var p_data : BaseCharacter = GlobalResources.get_data(GlobalResources.DataType.CHARACTER, &"E001")
-	var p_entity := TileEntity.generate_entity(BaseCharacter.CharType.ENEMY, p_data)
-	p_entity.add_to_group(&"layer")
+	var p_entity := TileEntityPlayer.generate_entity(BaseCharacter.CharType.ENEMY, p_data)
+	p_entity.add_to_group(&"player")
 	rand_tile.add_entity(p_entity)
 	
 #endregion

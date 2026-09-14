@@ -25,7 +25,8 @@ var can_swivel : bool = true :
 var available_positions : Dictionary[int, Vector3] = {}
 var current_position : int = 0
 var timeline : Timeline
-var focus_target : BattleTile
+var focus_tile : BattleTile
+var enemy_target_count = 0
 #endregion
 
 #region Events
@@ -33,12 +34,12 @@ func _ready() -> void:
 	timer.timeout.connect(_on_timer_timeout)
 	
 	if get_tree().get_node_count_in_group(&"player") > 0:
-		focus_target = get_tree().get_first_node_in_group(&"player").tile
-		global_position = focus_target.global_position
+		focus_tile = get_tree().get_first_node_in_group(&"player").tile
+		global_position = focus_tile.global_position
 	
 	var start_position := Vector3.ZERO
-	if focus_target:
-		start_position = focus_target.global_position
+	if focus_tile:
+		start_position = focus_tile.global_position
 	else:
 		_get_start_position()
 	
@@ -71,29 +72,29 @@ func _unhandled_input(event: InputEvent) -> void:
 		can_swivel = false
 	
 	if event.is_action_pressed(&"focus_player"):
-		focus_target = get_tree().get_first_node_in_group(&"player").tile
-		_pan_camera(focus_target.global_position)
+		focus_tile = get_tree().get_first_node_in_group(&"player").tile
+		_pan_camera(focus_tile.global_position)
 	
 	if event.is_action_pressed(&"cycle"):
 		var enemies = get_tree().get_nodes_in_group(&"enemy")
-		var i : int = 0
+		
 		if Input.is_key_pressed(KEY_SHIFT):
-			i = enemies.size() - 1
+			enemy_target_count = enemies.size() - 1
 		
-		if focus_target in enemies:
-			i = enemies.find(focus_target)
+		if focus_tile in enemies:
+			enemy_target_count = enemies.find(focus_tile)
 			if Input.is_key_pressed(KEY_SHIFT):
-				i -= 1
+				enemy_target_count -= 1
 			else:
-				i += 1
+				enemy_target_count += 1
 			
-			if i == enemies.size():
-				i = 0
-			elif i == -1:
-				i = enemies.size() - 1
+			if enemy_target_count == enemies.size():
+				enemy_target_count = 0
+			elif enemy_target_count == -1:
+				enemy_target_count = enemies.size() - 1
 		
-		focus_target = enemies.get(i)
-		_pan_camera(focus_target.global_position)
+		focus_tile = enemies.get(enemy_target_count).get_parent()
+		_pan_camera(focus_tile.global_position)
 	
 	if not event is InputEventMouseButton:
 		return
@@ -120,7 +121,7 @@ func _player_pan():
 	if pan_diff != Vector3.ZERO:
 		pan_diff = pan_diff.rotated(Vector3.UP, self.rotation.y)
 		_pan_camera(pan_diff + self.global_position) 
-		# TYLER currently this works, but doesnt allow for "smooth panning" when a direction is held. Probably due to tweening in _pan_camera()
+		# HACK currently this works, but doesnt allow for "smooth panning" when a direction is held. Probably due to tweening in _pan_camera()
 		
 
 func _get_start_position() -> Vector3:

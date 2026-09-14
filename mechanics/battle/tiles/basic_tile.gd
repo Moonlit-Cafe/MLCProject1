@@ -78,4 +78,13 @@ func _get_shader(shader_type: TextureType) -> ShaderMaterial:
 	var s_mat := ShaderMaterial.new()
 	s_mat.shader = ResourceLoader.load(SHADERS.get(shader_type))
 	return s_mat
+	
+func _change_color(normal:bool):
+
+	# HACK should change the texture of the tile isntead of modifying the scale
+	if normal:
+		self.scale = 1 * Vector3.ONE
+	else:
+		self.scale = .66 * Vector3.ONE
+	return
 #endregion

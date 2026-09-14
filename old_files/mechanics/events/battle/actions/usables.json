@@ -1,9 +1,0 @@
-{
-	"test_usable": {
-		"name": "TEST --- BEFUDDLER",
-		"damage_type": 0.0,
-		"shape": "meteor",
-		"value": 10.0,
-		"combat_ok": true
-	}
-}

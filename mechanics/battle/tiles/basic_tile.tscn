@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d3bv4lpvy8gwi" path="res://mechanics/battle/tiles/basic_tile.gd" id="1_leqva"]
 [ext_resource type="Shader" uid="uid://5adgtedk3no7" path="res://assets/shaders/tiles/tex_tile.gdshader" id="2_0d0ed"]
+[ext_resource type="Texture2D" uid="uid://2cpat0ehnsxk" path="res://icon.svg" id="2_q3guo"]
 [ext_resource type="Texture2D" uid="uid://bnp7lcdtoba6p" path="res://assets/sprites/tiles/test3.png" id="3_q3guo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aujup"]
@@ -14,6 +15,7 @@ material = SubResource("ShaderMaterial_aujup")
 
 [node name="BasicTile" type="Node3D" unique_id=387136749]
 script = ExtResource("1_leqva")
+tile_texture = ExtResource("2_q3guo")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1546858187]
 mesh = SubResource("BoxMesh_gwckd")
