@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://q5xt0ibyew3w"]
+
+[ext_resource type="Script" uid="uid://dcf5ngna5trys" path="res://mechanics/battle/ui/battle_ui.gd" id="1_6hyfw"]
+[ext_resource type="Script" uid="uid://djfmob8lusj4l" path="res://mechanics/battle/ui/battle_menu.gd" id="2_edgp7"]
+
+[node name="BattleMenu" type="Node2D" unique_id=1303933244]
+position = Vector2(4, 611)
+script = ExtResource("1_6hyfw")
+
+[node name="Base Menu" type="VBoxContainer" parent="." unique_id=586263797]
+offset_left = 5.0
+offset_top = -70.0
+offset_right = 131.5
+offset_bottom = 31.0
+alignment = 2
+script = ExtResource("2_edgp7")
+is_base = true
+
+[node name="Attack" type="Button" parent="Base Menu" unique_id=975829911]
+layout_mode = 2
+text = "Attack"
+
+[node name="Move" type="Button" parent="Base Menu" unique_id=767071212]
+layout_mode = 2
+text = "Move"
+
+[node name="Defend" type="Button" parent="Base Menu" unique_id=525190907]
+layout_mode = 2
+text = "Flee"
+
+[node name="Items" type="Button" parent="Base Menu" unique_id=584685386]
+layout_mode = 2
+text = "Flee"
+
+[node name="Other" type="Button" parent="Base Menu" unique_id=1027863005]
+layout_mode = 2
+text = "Other"
+
+[node name="Other Menu" type="VBoxContainer" parent="." unique_id=1665607760]
+visible = false
+offset_left = 5.0
+offset_top = -70.0
+offset_right = 131.5
+offset_bottom = 31.0
+alignment = 2
+
+[node name="Flee" type="Button" parent="Other Menu" unique_id=799111070]
+layout_mode = 2
+text = "Flee"
+
+[node name="< Back" type="Button" parent="Other Menu" unique_id=2144518627]
+layout_mode = 2
+text = "Back"
+
+[node name="Item Menu" type="VBoxContainer" parent="." unique_id=1337454525]
+offset_left = 5.0
+offset_top = -70.0
+offset_right = 131.5
+offset_bottom = 31.0
+alignment = 2

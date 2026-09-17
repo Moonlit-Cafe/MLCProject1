@@ -3,7 +3,7 @@ class_name BattleScene extends EventScene
 #region Declarations
 @onready var timeline_holder : Control = $TimelineHolder
 
-@export var battle_manager : BattleManager
+@export var battle_menu : BattleMenu
 
 var timeline_count : int = 0
 var current_timeline : Timeline
@@ -23,8 +23,6 @@ var p_state : PLAYER_STATE = 0
 func _ready() -> void:
 	_generate_initial_timeline()
 	
-	battle_manager._prep_move_player.connect(_prep_tiles_move)
-	battle_manager._prep_atk_player.connect(_prep_tiles_atk)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("divergence") and (timeline_count - 1) < Global.diverge_max:
