@@ -11,6 +11,13 @@ enum BusID {
 }
 #endregion
 
+#region Combat
+enum TimeType {
+	TURN,
+	MOVEMENT
+}
+#endregion
+
 #region Items
 ## The Enum to attach to items to declare how that item is allowed to interact.
 enum ItemTags {

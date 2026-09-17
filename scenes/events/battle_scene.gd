@@ -3,15 +3,28 @@ class_name BattleScene extends EventScene
 #region Declarations
 @onready var timeline_holder : Control = $TimelineHolder
 
+@export var battle_manager : BattleManager
+
 var timeline_count : int = 0
 var current_timeline : Timeline
 var diverged_timeline : Timeline
 var zone_data : ZoneData
+var player : TileEntity
+
+enum PLAYER_STATE{
+	NULL,
+	ATK,
+	MOVE
+}
+var p_state : PLAYER_STATE = 0
 #endregion
 
 #region Events
 func _ready() -> void:
 	_generate_initial_timeline()
+	
+	battle_manager._prep_move_player.connect(_prep_tiles_move)
+	battle_manager._prep_atk_player.connect(_prep_tiles_atk)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("divergence") and (timeline_count - 1) < Global.diverge_max:
@@ -44,10 +57,17 @@ func generate_new_timeline(count: int = 1) -> void:
 	current_timeline.light.show()
 
 func _generate_initial_timeline() -> void:
+	# HACK make this call _generate_new_timeline()
+	# then move the signal connecting to that section
 	var new_timeline = Timeline.generate_timeline(zone_data, &"Timeline")
 	timeline_holder.call_deferred("add_child", new_timeline)
+	for tile : BattleTile  in new_timeline.map.battle_tiles:
+		tile.clicked.connect(manage_tile_click)
+	
 	current_timeline = new_timeline
 	timeline_count += 1
+	
+	
 
 func _assign_timeline_neighbors() -> void:
 	if timeline_holder.get_child_count() < 2:
@@ -84,4 +104,75 @@ func _move_to_next_timeline(next_timeline: Timeline) -> void:
 	current_timeline.show()
 	current_timeline.is_focused = true
 	current_timeline.light.show()
+
+func _prep_tiles_atk() -> void:
+	p_state = PLAYER_STATE.ATK
+	_toggle_tiles()
+	
+	
+func _prep_tiles_move() -> void:
+	p_state = PLAYER_STATE.MOVE
+	_toggle_tiles()
+
+func _toggle_tiles() -> void:
+	for tile :BasicTile in get_all_tiles():
+		tile._change_color(false)
+
+func get_all_tiles() -> Array[BasicTile]:
+	var resulting_tiles = []
+	resulting_tiles = current_timeline.map.topmost_tiles
+	
+	if diverged_timeline:
+		resulting_tiles.append_array(diverged_timeline.map.topmost_tiles)
+		
+	return resulting_tiles
+
+func _move_player(target_tile:BattleTile) -> void:
+	target_tile.held_entity = player
+	
+func _attack_target(target_tile:BattleTile) -> void:
+	var target : TileEntity = target_tile.held_entity
+	target.hp -= 100
+	
+func _untoggle_tiles() -> void:
+	for tile :BasicTile in get_all_tiles():
+		tile._change_color(true)
+		
+	p_state = PLAYER_STATE.NULL
+
 #endregion
+
+#region Signal Callbacks
+func manage_tile_click(target_tile:BattleTile) -> void:
+	if not player:
+		player = get_tree().get_first_node_in_group(&"player")
+		
+	if target_tile.held_entity:
+		match p_state:
+			PLAYER_STATE.ATK:
+				_attack_target(target_tile)
+		return
+		
+	
+	match p_state:
+		PLAYER_STATE.MOVE:
+			_move_player(target_tile)
+	
+	
+	_untoggle_tiles()
+
+#endregion
+
+
+
+# PLANNED attack action processing logic
+# currently
+	# using ff menu logic, including wasd for going thru menus
+	# should select target then confirm
+# should maybe have
+	# quickcast - keybind / option - reduce presses in 
+	# find different way to go through menu - also to reduce presses
+		# xcom solution ? 
+		# barony solution
+	# also rebinds for all / most inputs
+	# repeat last action / target ???
