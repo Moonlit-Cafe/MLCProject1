@@ -1,8 +1,5 @@
 class_name BattleUI extends Node
 
-# TODO make the buttons their own scripts that load actions
-# TODO make the menu's actions load programatically
-# TODO move the signal emits out to button scripts
 
 signal _prep_move_player
 signal _prep_atk_player

@@ -20,4 +20,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BattleManager" parent="." unique_id=130937144 instance=ExtResource("2_2e1pf")]
+[node name="BattleMenu" parent="." unique_id=130937144 instance=ExtResource("2_2e1pf")]
