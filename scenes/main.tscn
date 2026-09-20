@@ -15,11 +15,11 @@ height_range = SubResource("Curve_sugp2")
 enemy_tags = Array[int]([0])
 metadata/_custom_type_script = "uid://cufiaxhbrnfp5"
 
-[sub_resource type="Resource" id="Resource_tbgi4"]
+[sub_resource type="Resource" id="Resource_sugp2"]
 script = ExtResource("3_sugp2")
 metadata/_custom_type_script = "uid://7xgr04fxsj3k"
 
 [node name="Main" type="Node" unique_id=1069856160]
 script = ExtResource("1_o5qli")
 map_data = SubResource("Resource_jyhfs")
-TEMP_travel_data = SubResource("Resource_tbgi4")
+travel_data = SubResource("Resource_sugp2")

@@ -1,15 +1,18 @@
-
-# TODO make the buttons their own scripts that load actions
-# TODO move the signal emits out to button scripts
-
 class_name BattleButton extends Button
 
+@export var button_action : BaseAction = null
+@export var linked_menu : BattleMenu = null
 
-# Called when the node enters the scene tree for the first time.
+@onready var battle_ui :BattleUI = get_parent().get_parent()
+
+var action_name : StringName : 
+	set(new):
+		text = new
+		action_name = new
+		# TODO load a base action based on the given name
+		# this is probably handled somewhere in global_resources.gd
+		# var t = BaseAction.load_on_name(new)
+		# button_action = t
+
 func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	pressed.connect(battle_ui.load_action.bind(button_action, linked_menu))

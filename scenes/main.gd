@@ -13,6 +13,9 @@ func _ready() -> void:
 	init_map()
 	
 func init_map() -> void:
+	if not travel_data:
+		Global.logs.post_error(self, "No Travel data loaded.")
+		
 	var t_scene : TravelScene = TRAVEL_SCENE.instantiate()
 	t_scene.data = travel_data
 	add_child(t_scene)
