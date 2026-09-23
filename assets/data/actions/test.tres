@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://xy675egp2x6h" path="res://mechanics/actions/base_action.gd" id="1_x7owi"]
 [ext_resource type="Resource" uid="uid://mit7nxq8ndic" path="res://assets/data/action_shapes/single.tres" id="2_u1exn"]
-[ext_resource type="Script" uid="uid://donq5ijrhba3e" path="res://mechanics/actions/time_cost.gd" id="3_48v1t"]
+[ext_resource type="Script" path="res://mechanics/actions/time_cost.gd" id="3_48v1t"]
 
 [sub_resource type="Resource" id="Resource_nq0gt"]
 script = ExtResource("3_48v1t")
