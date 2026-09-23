@@ -21,7 +21,7 @@ static func generate_column(map: GameTileMap, zone_data: ZoneData,
 			var tile_ref : BasicTile = map.tile_references.get(tile_id)
 			new_tile = tile_ref.duplicate()
 		else:
-			var tile_data : GameTileData = GlobalResources.get_data(GlobalResources.DataType.TILE, tile_id)
+			var tile_data : GameTileData = GlobalResources.grab_entry("tiles", tile_id)
 			new_tile = BasicTile.generate_tile(tile_data.texture, tile_data.texture_type, "Tile_%s" % z)
 			map.tile_references.set(tile_id, new_tile)
 		
