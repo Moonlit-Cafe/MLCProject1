@@ -44,7 +44,7 @@ project/assembly_name="CraftingCrawler"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/signal_lens/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/signal_lens/plugin.cfg", "res://addons/yard/plugin.cfg")
 
 [file_customization]
 

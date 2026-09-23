@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Registry" format=3 uid="uid://buj03r51valo7"]
+
+[ext_resource type="Script" uid="uid://dqtv77mng5dyh" path="res://addons/yard/registry.gd" id="1_8csdw"]
+
+[resource]
+script = ExtResource("1_8csdw")
+_version = 2
+_scan_rulesets = Array[Dictionary]([{
+&"allowed_file_extensions": Array[String]([".tres"]),
+&"class_restrictions": Array[StringName]([&"BaseCharacter"]),
+&"recursive_scan": true,
+&"scan_directories": Array[String](["res://assets/data/characters"]),
+&"scan_regex_exclude": "",
+&"scan_regex_include": ""
+}])
+_uids_to_string_ids = Dictionary[StringName, StringName]({
+&"uid://nmorwu8cwhkt": &"test_enemy"
+})
+_string_ids_to_uids = Dictionary[StringName, StringName]({
+&"test_enemy": &"uid://nmorwu8cwhkt"
+})
