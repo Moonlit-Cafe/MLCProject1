@@ -93,6 +93,29 @@ func get_tile_position(tile: BasicTile) -> Vector3:
 				return Vector3(column.position.x, c_tile.position.y, column.position.z)
 	
 	return Vector3(-1, -1, -1)
+	 
+func get_tiles_in_range(range:int, source:Vector3i):
+	var res = []
+	
+	for temp_x in range(0, range):
+			for temp_y in  range(0, range-temp_x):
+				for temp_z in range(0, range-temp_y):
+					var 
+					# HACK ugly code. Can definitely fix something up cleaner programatically.
+					# Probably do something with 0-7 in binary? And do bitwise operations, i think
+					res.append(source + Vector3i(temp_x, temp_y, temp_z))
+					res.append(source + Vector3i(temp_x, temp_y, temp_z))
+					res.append(source + Vector3i(temp_x, temp_y, -temp_z))
+					res.append(source + Vector3i(temp_x, -temp_y, temp_z))
+					res.append(source + Vector3i(temp_x, -temp_y, -temp_z))
+					res.append(source + Vector3i(-temp_x, temp_y, temp_z))
+					res.append(source + Vector3i(-temp_x, temp_y, -temp_z))
+					res.append(source + Vector3i(-temp_x, -temp_y, temp_z))
+					res.append(source + Vector3i(-temp_x, -temp_y, -temp_z))
+	
+	return res
+
+
 
 func save_data() -> Dictionary[StringName, Variant]:
 	var dict : Dictionary[StringName, Variant] = {

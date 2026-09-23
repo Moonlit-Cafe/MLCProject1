@@ -21,3 +21,4 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BattleUI" parent="." unique_id=130937144 instance=ExtResource("2_2e1pf")]
+position = Vector2(4, 611)

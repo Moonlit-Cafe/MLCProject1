@@ -11,6 +11,14 @@ var diverged_timeline : Timeline
 var zone_data : ZoneData
 var player : TileEntity
 
+var prepared_action : BaseAction : 
+	set(new) : 
+		prepared_action = new
+		# TODO  highlight tiles for the readied action
+		# Give it the action, it should be able to derive info from there
+		_toggle_tiles(new.attack_range)
+		
+
 enum PLAYER_STATE{
 	NULL,
 	ATK,
@@ -112,7 +120,12 @@ func _prep_tiles_move() -> void:
 	p_state = PLAYER_STATE.MOVE
 	_toggle_tiles()
 
-func _toggle_tiles() -> void:
+func _toggle_tiles(range:int = -1) -> void:
+	if range != -1:
+		for tile in current_timeline.get_tiles_in_range():
+			tile._change_color(false)
+		return
+		
 	for tile :BasicTile in get_all_tiles():
 		tile._change_color(false)
 
@@ -159,7 +172,11 @@ func manage_tile_click(target_tile:BattleTile) -> void:
 	
 	_untoggle_tiles()
 
+
+
 #endregion
+
+
 
 
 

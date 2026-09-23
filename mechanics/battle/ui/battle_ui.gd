@@ -4,6 +4,8 @@ class_name BattleUI extends Node
 signal _prep_move_player
 signal _prep_atk_player
 
+@export var battle_scene : BattleScene
+
 var menu
 var other_menu
 var item_menu
@@ -50,16 +52,15 @@ func _flee() -> void:
 
 
 #region Signal Callbacks
-func load_action(pressed_action:BaseAction, pressed_menu:BattleMenu=null) -> void:
+func button_pressed(pressed_action:BaseAction, pressed_menu:BattleMenu=null) -> void:
 	if pressed_menu != null:
 		_highlight_menu(pressed_menu)
 		
+	if pressed_action is BattleAction:
+		battle_scene.prepare_action(pressed_action)
 		
-	if pressed_action is AttackAction:
 		return
-	elif pressed_action is CombatAction:
-		return
-	elif pressed_action is BattleAction:
-		return
+		
+	Global.logs.post_error(self, "Battle Button pressed with ")
 	return
 #endregion
