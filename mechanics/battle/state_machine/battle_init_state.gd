@@ -25,7 +25,10 @@ func save_data() -> Dictionary:
 
 func _generate_enemies() -> void:
 	var zone : ZoneData = timeline.zone_data
-	var enemy_list : Array[EnemyCharacter] = GlobalResources.grab_enemies_with_tag(zone.enemy_tags)
+	var enemy_list : Array[Resource] = GlobalResources.tag_filter_entries("characters", zone.enemy_tags)
+	for enemy in enemy_list:
+		if not enemy is EnemyCharacter:
+			enemy_list.erase(enemy)
 	var enemy_count : int = floor(Global.difficulty * 3)
 	for _i in range(enemy_count):
 		var rand_tile := timeline.map.get_random_tile()
@@ -44,9 +47,8 @@ func _generate_player() -> void:
 		rand_tile = timeline.map.get_random_tile()
 	
 	# HACK this uses Enemy Data to spawn the player
-	var p_data : BaseCharacter = GlobalResources.get_data(GlobalResources.DataType.CHARACTER, &"E001")
+	var p_data : BaseCharacter = GlobalResources.grab_entry(&"characters", &"test_enemy")
 	var p_entity := TileEntityPlayer.generate_entity(BaseCharacter.CharType.ENEMY, p_data)
 	p_entity.add_to_group(&"player")
 	rand_tile.add_entity(p_entity)
-	
 #endregion

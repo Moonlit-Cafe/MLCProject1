@@ -25,8 +25,9 @@ static func generate_entity(type: BaseCharacter.CharType, character: BaseCharact
 		var new_hp := HealthComponent.create_component(character.stats.get(Genum.StatType.HEALTH))
 		new_entity.health = new_hp
 		new_entity.add_child(new_hp)
-		if character.action_set.size() > 0:
-			new_entity.load_data({&"action_set": character.action_set})
+		if "action_set" in character:
+			if character.action_set.size() > 0:
+				new_entity.load_data({&"action_set": character.action_set})
 	
 	new_entity.add_child(new_sprite)
 	
