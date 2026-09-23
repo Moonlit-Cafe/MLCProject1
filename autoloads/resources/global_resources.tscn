@@ -1,10 +1,17 @@
 [gd_scene format=3 uid="uid://cf1bgcwmpx0gp"]
 
 [ext_resource type="Script" uid="uid://dgsipkp8vopb1" path="res://autoloads/resources/global_resources.gd" id="1_jmesp"]
+[ext_resource type="Script" uid="uid://dqtv77mng5dyh" path="res://addons/yard/registry.gd" id="2_sr7is"]
+[ext_resource type="Resource" uid="uid://b6ph5rcyfgqki" path="res://assets/registries/action_registry.tres" id="3_bb1fy"]
+[ext_resource type="Resource" uid="uid://ikvpk6il3yfq" path="res://assets/registries/action_shape_registry.tres" id="4_3cutt"]
+[ext_resource type="Resource" uid="uid://dfjh3efbhdtuf" path="res://assets/registries/tile_registry.tres" id="5_bb1fy"]
+[ext_resource type="Resource" uid="uid://buj03r51valo7" path="res://assets/registries/character_registry.tres" id="6_3cutt"]
 
 [node name="GlobalResources" type="Node" unique_id=1389683058]
 script = ExtResource("1_jmesp")
-action_data_reference = "res://assets/data/data_paths/actions.json"
-action_shape_data_reference = "res://assets/data/data_paths/action_shapes.json"
-characters_reference = "res://assets/data/data_paths/characters.json"
-tile_data_reference = "res://assets/data/data_paths/tile_data.json"
+registry_dictionary = Dictionary[StringName, ExtResource("2_sr7is")]({
+&"action_shapes": ExtResource("4_3cutt"),
+&"actions": ExtResource("3_bb1fy"),
+&"characters": ExtResource("6_3cutt"),
+&"tiles": ExtResource("5_bb1fy")
+})

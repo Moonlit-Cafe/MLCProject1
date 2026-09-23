@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ActionShape" format=3 uid="uid://mit7nxq8ndic"]
+
+[ext_resource type="Script" uid="uid://cj8gyk1bd27vs" path="res://mechanics/actions/action_shape.gd" id="1_xjtj8"]
+
+[resource]
+script = ExtResource("1_xjtj8")
+name = &"Single Target"
+pos_arr = Array[Vector2i]([Vector2i(0, 0)])
+metadata/_custom_type_script = "uid://cj8gyk1bd27vs"
