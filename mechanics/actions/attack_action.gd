@@ -1,4 +1,5 @@
 class_name AttackAction extends CombatAction
+# HACK Do we need this if we have Battle Action and the Registry?
 
 #region Declarations
 #endregion
