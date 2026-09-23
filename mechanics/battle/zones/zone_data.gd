@@ -1,4 +1,4 @@
-## Holds all the necessary data for generating a zone for combat.
+## Holds all the necessary data for generating a zone for battle.
 class_name ZoneData extends Resource
 
 #region Declarations

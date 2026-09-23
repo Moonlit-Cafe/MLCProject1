@@ -15,4 +15,4 @@ var action_name : StringName :
 		# button_action = t
 
 func _ready() -> void:
-	pressed.connect(battle_ui.load_action.bind(button_action, linked_menu))
+	pressed.connect(battle_ui.button_pressed.bind(button_action, linked_menu))

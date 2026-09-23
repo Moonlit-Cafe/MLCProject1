@@ -1,4 +1,4 @@
-class_name CombatNode extends TravelNode
+class_name BattleNode extends TravelNode
 
 #region Events
 ## Handles triggers when node is clicked

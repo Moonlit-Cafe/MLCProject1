@@ -1,5 +1,5 @@
 class_name BattleAction extends BaseAction
-##Class that describes an action that can be taken during in-game combat
+##Class that describes an action that can be taken during in-game battle
 
 #region Declarations
 @export var flats : Array[FlatStatChange]

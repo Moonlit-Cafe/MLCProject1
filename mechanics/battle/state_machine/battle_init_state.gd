@@ -4,7 +4,7 @@ class_name BattleInitState extends BattleState
 #endregion
 
 #region Statics
-static func generate_combat_state(t_line: Timeline) -> BattleInitState:
+static func generate_battle_state(t_line: Timeline) -> BattleInitState:
 	var new_state := BattleInitState.new()
 	new_state.timeline = t_line
 	new_state.name = INIT

@@ -112,12 +112,12 @@ static func rebuild_timelines(data: Dictionary[StringName, Variant], new_name: S
 
 static func _generate_state_machine(t_line: Timeline, data: Dictionary[StringName, Variant]={}) -> StateMachine:
 	var new_state_machine := StateMachine.new()
-	var new_init_state := BattleInitState.generate_combat_state(t_line)
-	var new_round_state := BattleRoundStartState.generate_combat_state(t_line)
-	var new_turn_state := BattleTurnState.generate_combat_state(t_line)
-	var new_tile_state := BattleTileTurnState.generate_combat_state(t_line)
-	var new_end_round_state := BattleRoundEndState.generate_combat_state(t_line)
-	var new_end_battle_state := BattleEndState.generate_combat_state(t_line)
+	var new_init_state := BattleInitState.generate_battle_state(t_line)
+	var new_round_state := BattleRoundStartState.generate_battle_state(t_line)
+	var new_turn_state := BattleTurnState.generate_battle_state(t_line)
+	var new_tile_state := BattleTileTurnState.generate_battle_state(t_line)
+	var new_end_round_state := BattleRoundEndState.generate_battle_state(t_line)
+	var new_end_battle_state := BattleEndState.generate_battle_state(t_line)
 	
 	new_state_machine.add_child(new_init_state)
 	new_state_machine.add_child(new_round_state)

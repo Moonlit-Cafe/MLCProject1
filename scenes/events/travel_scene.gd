@@ -2,7 +2,7 @@ class_name TravelScene extends Control
 
 #region Declarations
 const new_travel_node : PackedScene = preload("res://mechanics/battle/travel/travel_node.tscn")
-const combat_script = preload("res://mechanics/battle/travel/combat_node.gd")
+const battle_script = preload("res://mechanics/battle/travel/battle_node.gd")
  
 var data : TravelData :
 	set(new):
@@ -47,7 +47,7 @@ func _disperse_nodes(layer_count) -> void:
 		for j in range(0, cur_width):
 			new_node = new_travel_node.instantiate()
 			# TODO make it so the script is set programatically
-			new_node.set_script(combat_script)
+			new_node.set_script(battle_script)
 			cur_layer.append(new_node)
 			new_node.position = Vector2(X_INIT + X_GAP * i, Y_INIT + Y_GAP * j)
 			add_child(new_node)

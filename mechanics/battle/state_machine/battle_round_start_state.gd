@@ -2,7 +2,7 @@
 class_name BattleRoundStartState extends BattleState
 
 #region Statics
-static func generate_combat_state(t_line: Timeline) -> BattleRoundStartState:
+static func generate_battle_state(t_line: Timeline) -> BattleRoundStartState:
 	var new_state := BattleRoundStartState.new()
 	new_state.timeline = t_line
 	new_state.name = ROUND_START
