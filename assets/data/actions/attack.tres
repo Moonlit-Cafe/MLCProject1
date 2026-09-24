@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="BattleAction" format=3 uid="uid://g2mdoniefsye"]
+
+[ext_resource type="Script" uid="uid://nc6pmkwgmi6n" path="res://mechanics/actions/buffs.gd" id="1_cllq3"]
+[ext_resource type="Script" path="res://mechanics/actions/effects.gd" id="2_dsauu"]
+[ext_resource type="Script" path="res://mechanics/actions/flat_stat_change.gd" id="3_seajf"]
+[ext_resource type="Script" uid="uid://b3yxoxgjhguct" path="res://mechanics/actions/battle_action.gd" id="4_qpgp6"]
+[ext_resource type="Resource" uid="uid://mit7nxq8ndic" path="res://assets/data/action_shapes/single.tres" id="5_0fj2r"]
+[ext_resource type="Script" path="res://mechanics/actions/time_cost.gd" id="6_b5py7"]
+
+[sub_resource type="Resource" id="Resource_p8ihn"]
+script = ExtResource("3_seajf")
+value = 5.0
+
+[sub_resource type="Resource" id="Resource_eqrc6"]
+script = ExtResource("6_b5py7")
+value = 1
+
+[resource]
+script = ExtResource("4_qpgp6")
+flats = Array[ExtResource("3_seajf")]([SubResource("Resource_p8ihn")])
+name = &"Basic Attack"
+description = "Typical attack"
+shape = ExtResource("5_0fj2r")
+attack_range = 2
+t_cost = SubResource("Resource_eqrc6")
+metadata/_custom_type_script = "uid://b3yxoxgjhguct"

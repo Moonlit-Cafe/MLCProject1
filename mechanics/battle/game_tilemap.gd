@@ -94,24 +94,21 @@ func get_tile_position(tile: BasicTile) -> Vector3:
 	
 	return Vector3(-1, -1, -1)
 	 
-func get_tiles_in_range(range:int, source:Vector3i):
+func get_tiles_in_range(in_range:int, source:Vector3i) -> Array[BattleTile]:
 	var res = []
 	
-	for temp_x in range(0, range):
-			for temp_y in  range(0, range-temp_x):
-				for temp_z in range(0, range-temp_y):
-					var 
-					# HACK ugly code. Can definitely fix something up cleaner programatically.
-					# Probably do something with 0-7 in binary? And do bitwise operations, i think
-					res.append(source + Vector3i(temp_x, temp_y, temp_z))
-					res.append(source + Vector3i(temp_x, temp_y, temp_z))
-					res.append(source + Vector3i(temp_x, temp_y, -temp_z))
-					res.append(source + Vector3i(temp_x, -temp_y, temp_z))
-					res.append(source + Vector3i(temp_x, -temp_y, -temp_z))
-					res.append(source + Vector3i(-temp_x, temp_y, temp_z))
-					res.append(source + Vector3i(-temp_x, temp_y, -temp_z))
-					res.append(source + Vector3i(-temp_x, -temp_y, temp_z))
-					res.append(source + Vector3i(-temp_x, -temp_y, -temp_z))
+	for iter_x in range(in_range):
+			for iter_y in  range(in_range-iter_x):
+				for iter_z in range(in_range-iter_y):
+					for iter_mark in range(7):
+						iter_x *= -int(iter_mark <= 3) 
+						iter_y *= -int(iter_mark % 4 in [2,3])
+						iter_z *= -int(iter_mark % 2)
+						
+						var iter_vector = Vector3i(iter_x, iter_y, iter_z)
+						iter_vector += source
+						
+						res.append(get_tile_at_position(iter_vector))
 	
 	return res
 

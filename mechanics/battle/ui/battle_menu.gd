@@ -26,6 +26,7 @@ func _populate_menu() -> void:
 		new_button = BattleButton.new()
 		new_button.text = button_text
 		new_button.name = button_text
+		new_button.button_action = GlobalResources.grab_entry(&"actions", button_text.to_lower())
 		
 		self.add_child(new_button)
 		move_child(new_button, y)

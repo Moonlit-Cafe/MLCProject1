@@ -57,7 +57,7 @@ func button_pressed(pressed_action:BaseAction, pressed_menu:BattleMenu=null) -> 
 		_highlight_menu(pressed_menu)
 		
 	if pressed_action is BattleAction:
-		battle_scene.prepare_action(pressed_action)
+		battle_scene.prepared_action = pressed_action
 		
 		return
 		

@@ -122,7 +122,8 @@ func _prep_tiles_move() -> void:
 
 func _toggle_tiles(range:int = -1) -> void:
 	if range != -1:
-		for tile in current_timeline.get_tiles_in_range():
+		var ct_map = current_timeline.map
+		for tile in ct_map.get_tiles_in_range(range, ct_map.get_tile_position(player.tile)):
 			tile._change_color(false)
 		return
 		
