@@ -15,7 +15,16 @@ static func generate_battle_state(t_line: Timeline) -> BattleInitState:
 func enter(_previous_state: StringName, _data: Dictionary={}) -> void:
 	_generate_enemies()
 	_generate_player()
+	# HACK establish this through the finished signal instead. Probably something like
+	# finished.connect(battle_scene.init())
+	# needs:
+	# a way to find battle scene from here
+	# battle_scene.init()
+	var t = get_parent().get_parent().get_parent().get_parent().player
+	var p = get_tree().get_first_node_in_group(&"player")
+	get_parent().get_parent().get_parent().get_parent().player = get_tree().get_first_node_in_group(&"player")
 	finished.emit(ROUND_START, {})
+	
 
 func save_data() -> Dictionary:
 	var dict : Dictionary = {

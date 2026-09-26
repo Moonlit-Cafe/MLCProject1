@@ -80,8 +80,7 @@ func _get_shader(shader_type: TextureType) -> ShaderMaterial:
 	return s_mat
 	
 func _change_color(normal:bool):
-
-	# HACK should change the texture of the tile isntead of modifying the scale
+	# HACK should change the texture of the tile instead of modifying the scale
 	if normal:
 		self.scale = 1 * Vector3.ONE
 	else:

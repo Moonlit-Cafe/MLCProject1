@@ -64,6 +64,7 @@ func generate_battle_tiles() -> void:
 			new_b_tile_pos.z])
 		b_tile_holder.add_child(new_battle_tile)
 		new_battle_tile.position = new_b_tile_pos
+		new_battle_tile.linked_tile = tile
 		battle_tiles.append(new_battle_tile)
 
 func get_random_tile() -> BattleTile:
@@ -94,8 +95,9 @@ func get_tile_position(tile: BasicTile) -> Vector3:
 	
 	return Vector3(-1, -1, -1)
 	 
-func get_tiles_in_range(in_range:int, source:Vector3i) -> Array[BattleTile]:
-	var res = []
+func get_tiles_in_range(in_range:int, source:Vector3i) -> Array[BasicTile]:
+	var res : Array[BasicTile] = []
+	
 	
 	for iter_x in range(in_range):
 			for iter_y in  range(in_range-iter_x):
@@ -107,8 +109,9 @@ func get_tiles_in_range(in_range:int, source:Vector3i) -> Array[BattleTile]:
 						
 						var iter_vector = Vector3i(iter_x, iter_y, iter_z)
 						iter_vector += source
-						
-						res.append(get_tile_at_position(iter_vector))
+						var iter_tile = get_tile_at_position(iter_vector)
+						if iter_tile in topmost_tiles:
+							res.append(iter_tile)
 	
 	return res
 

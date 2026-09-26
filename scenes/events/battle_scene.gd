@@ -123,7 +123,7 @@ func _prep_tiles_move() -> void:
 func _toggle_tiles(range:int = -1) -> void:
 	if range != -1:
 		var ct_map = current_timeline.map
-		for tile in ct_map.get_tiles_in_range(range, ct_map.get_tile_position(player.tile)):
+		for tile in ct_map.get_tiles_in_range(range, ct_map.get_tile_position(player.tile.linked_tile)):
 			tile._change_color(false)
 		return
 		
@@ -151,13 +151,10 @@ func _untoggle_tiles() -> void:
 		tile._change_color(true)
 		
 	p_state = PLAYER_STATE.NULL
-
 #endregion
 
 #region Signal Callbacks
 func manage_tile_click(target_tile:BattleTile) -> void:
-	if not player:
-		player = get_tree().get_first_node_in_group(&"player")
 		
 	if target_tile.held_entity:
 		match p_state:
