@@ -13,7 +13,10 @@ var data : TravelData :
 		_populate_section()
 		
 var layers: Array[Array]
+## Node that the player is currently occupying
 var cur_node : TravelNode = null
+## Node that the player is currently hovering
+var hover_node : TravelNode = null
 #endregion
 
 #region Events
@@ -99,18 +102,18 @@ func highlight_selectables() -> void:
 ## Updates cur_node, or clears if the new one is the same as the pre-existing one.
 # HACK Currently not a setter since im not sure how godot supports signals to custom setters
 # It IS possible though, at least in 4.3? https://github.com/godotengine/godot/issues/92782
+# TODO differentiate between cur node for travel vs clicking purposes
 func update_node(new: TravelNode):
 	# TYLER this isnt triggering
-		if cur_node == new:
-			cur_node = null
+		if hover_node == new:
+			hover_node = null
 			return
-		cur_node = new
+		hover_node = new
 #endregion
 
 #region Processes
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("mouse_action"):
-		if not cur_node:
-			return
-		cur_node.clicked()
+		if hover_node:
+			hover_node.clicked()
 #endregion

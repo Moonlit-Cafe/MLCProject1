@@ -34,8 +34,10 @@ func _ready() -> void:
 
 ## Handles triggers when node is clicked
 func clicked() -> void:
-	if selectable:
-		travel_scene.cur_node = self
-		travel_scene.highlight_selectables()
-		travel_scene.visible = false
+	if not selectable:
+		return
+		
+	travel_scene.cur_node = self
+	travel_scene.highlight_selectables()
+	travel_scene.visible = false
 #endregion

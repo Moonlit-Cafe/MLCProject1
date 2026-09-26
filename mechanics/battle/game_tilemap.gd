@@ -97,22 +97,23 @@ func get_tile_position(tile: BasicTile) -> Vector3:
 	 
 func get_tiles_in_range(in_range:int, source:Vector3i) -> Array[BasicTile]:
 	var res : Array[BasicTile] = []
-	
+	in_range += 1
 	
 	for iter_x in range(in_range):
 			for iter_y in  range(in_range-iter_x):
-				for iter_z in range(in_range-iter_y):
-					for iter_mark in range(7):
-						iter_x *= -int(iter_mark <= 3) 
-						iter_y *= -int(iter_mark % 4 in [2,3])
-						iter_z *= -int(iter_mark % 2)
+				for iter_z in range(in_range-iter_y-iter_x):
+					for iter_mark in range(8):
+						var temp_z = iter_z * (1 - 2 * ((iter_mark >> 0) % 2))
+						var temp_y = iter_y * (1 - 2 * ((iter_mark >> 1) % 2))
+						var temp_x = iter_x * (1 - 2 * ((iter_mark >> 2) % 2))
 						
-						var iter_vector = Vector3i(iter_x, iter_y, iter_z)
-						iter_vector += source
-						var iter_tile = get_tile_at_position(iter_vector)
-						if iter_tile in topmost_tiles:
-							res.append(iter_tile)
-	
+						var iter_vector = Vector3i(temp_x, temp_y, temp_z)
+						var target_vector = iter_vector + source
+						var iter_tile = get_tile_at_position(target_vector)
+						if iter_tile not in topmost_tiles or iter_tile in res:
+							continue
+						
+						res.append(iter_tile)
 	return res
 
 
