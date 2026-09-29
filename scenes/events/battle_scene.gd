@@ -14,8 +14,6 @@ var player : TileEntity
 var prepared_action : BaseAction : 
 	set(new) : 
 		prepared_action = new
-		# TODO  highlight tiles for the readied action
-		# Give it the action, it should be able to derive info from there
 		_toggle_tiles(new.attack_range)
 		
 

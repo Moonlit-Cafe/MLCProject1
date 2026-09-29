@@ -55,12 +55,12 @@ func _flee() -> void:
 func button_pressed(pressed_action:BaseAction, pressed_menu:BattleMenu=null) -> void:
 	if pressed_menu != null:
 		_highlight_menu(pressed_menu)
+		return
 		
 	if pressed_action is BattleAction:
 		battle_scene.prepared_action = pressed_action
-		
 		return
 		
-	Global.logs.post_error(self, "Battle Button pressed with ")
+	Global.logs.post_error(self, "Battle Button pressed with no action or menu.")
 	return
 #endregion

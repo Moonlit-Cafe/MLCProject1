@@ -4,6 +4,8 @@ class_name TravelScene extends Control
 const new_travel_node : PackedScene = preload("res://mechanics/battle/travel/travel_node.tscn")
 const battle_script = preload("res://mechanics/battle/travel/battle_node.gd")
  
+
+
 var data : TravelData :
 	set(new):
 		if not new:
@@ -16,7 +18,13 @@ var layers: Array[Array]
 ## Node that the player is currently occupying
 var cur_node : TravelNode = null
 ## Node that the player is currently hovering
-var hover_node : TravelNode = null
+var hovered_node : TravelNode = null :
+	set(new):
+		if hovered_node == new:
+			hovered_node = null
+			return
+			
+		hovered_node = new
 #endregion
 
 #region Events
@@ -99,21 +107,11 @@ func highlight_selectables() -> void:
 		child.selectable = true
 		
 
-## Updates cur_node, or clears if the new one is the same as the pre-existing one.
-# HACK Currently not a setter since im not sure how godot supports signals to custom setters
-# It IS possible though, at least in 4.3? https://github.com/godotengine/godot/issues/92782
-# TODO differentiate between cur node for travel vs clicking purposes
-func update_node(new: TravelNode):
-	# TYLER this isnt triggering
-		if hover_node == new:
-			hover_node = null
-			return
-		hover_node = new
 #endregion
 
 #region Processes
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("mouse_action"):
-		if hover_node:
-			hover_node.clicked()
+		if hovered_node:
+			hovered_node.clicked()
 #endregion
