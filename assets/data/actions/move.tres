@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="BattleAction" format=3 uid="uid://ds8r7ve7rrw2c"]
+
+[ext_resource type="Script" uid="uid://nc6pmkwgmi6n" path="res://mechanics/actions/temp_stat_change.gd" id="1_s627h"]
+[ext_resource type="Resource" uid="uid://mit7nxq8ndic" path="res://assets/data/action_shapes/single.tres" id="2_stshi"]
+[ext_resource type="Script" uid="uid://bpjt7a4ahkj1j" path="res://mechanics/actions/effect_change.gd" id="2_tt5oh"]
+[ext_resource type="Script" path="res://mechanics/actions/time_cost.gd" id="3_s627h"]
+[ext_resource type="Script" uid="uid://deo03xq8q1lra" path="res://mechanics/actions/flat_stat_change.gd" id="3_tnoha"]
+[ext_resource type="Script" uid="uid://b3yxoxgjhguct" path="res://mechanics/actions/battle_action.gd" id="4_vx4ng"]
+[ext_resource type="Script" uid="uid://iegcl6k238qg" path="res://mechanics/actions/direct_place_change.gd" id="6_vx4ng"]
+
+[sub_resource type="Resource" id="Resource_5u62j"]
+script = ExtResource("3_s627h")
+type = 1
+value = 1
+
+[sub_resource type="Resource" id="Resource_6qcwi"]
+script = ExtResource("6_vx4ng")
+metadata/_custom_type_script = "uid://iegcl6k238qg"
+
+[resource]
+script = ExtResource("4_vx4ng")
+teleport = SubResource("Resource_6qcwi")
+name = &"Move"
+description = "Move Action"
+shape = ExtResource("2_stshi")
+attack_range = 3
+t_cost = SubResource("Resource_5u62j")
+metadata/_custom_type_script = "uid://b3yxoxgjhguct"

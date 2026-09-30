@@ -11,7 +11,7 @@ var diverged_timeline : Timeline
 var zone_data : ZoneData
 var player : TileEntity
 
-var prepared_action : BaseAction : 
+var prepared_action : BattleAction : 
 	set(new) : 
 		prepared_action = new
 		_toggle_tiles(new.attack_range)
@@ -118,10 +118,10 @@ func _prep_tiles_move() -> void:
 	p_state = PLAYER_STATE.MOVE
 	_toggle_tiles()
 
-func _toggle_tiles(range:int = -1) -> void:
-	if range != -1:
+func _toggle_tiles(in_range:int = -1) -> void:
+	if in_range != -1:
 		var ct_map = current_timeline.map
-		for tile in ct_map.get_tiles_in_range(range, ct_map.get_tile_position(player.tile.linked_tile)):
+		for tile in ct_map.get_tiles_in_range(in_range, ct_map.get_tile_position(player.tile.linked_tile)):
 			tile._change_color(false)
 		return
 		
@@ -136,13 +136,6 @@ func get_all_tiles() -> Array[BasicTile]:
 		resulting_tiles.append_array(diverged_timeline.map.topmost_tiles)
 		
 	return resulting_tiles
-
-func _move_player(target_tile:BattleTile) -> void:
-	target_tile.held_entity = player
-	
-func _attack_target(target_tile:BattleTile) -> void:
-	var target : TileEntity = target_tile.held_entity
-	target.hp -= 100
 	
 func _untoggle_tiles() -> void:
 	for tile :BasicTile in get_all_tiles():
@@ -153,23 +146,10 @@ func _untoggle_tiles() -> void:
 
 #region Signal Callbacks
 func manage_tile_click(target_tile:BattleTile) -> void:
-		
-	if target_tile.held_entity:
-		match p_state:
-			PLAYER_STATE.ATK:
-				_attack_target(target_tile)
-		return
-		
-	
-	match p_state:
-		PLAYER_STATE.MOVE:
-			_move_player(target_tile)
+	prepared_action.apply(target_tile)
 	
 	
 	_untoggle_tiles()
-
-
-
 #endregion
 
 
