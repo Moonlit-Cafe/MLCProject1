@@ -7,5 +7,10 @@ class_name FlatStatChange extends Change
 
 #region Events
 func apply(target) -> void:
-	pass
+	var old = target.stats[stat]
+	
+	target.stats[stat] += value
+	Global.logs.post_message(null, \
+	"%s given flat stat change of %s to %s. Originally %s, now %s" \
+	% [target, value, stat, old, target.stats[stat]])
 #endregion

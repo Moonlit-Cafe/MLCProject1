@@ -27,6 +27,7 @@ class_name BattleAction extends BaseAction
 #region Events
 func apply(target_tile:BattleTile, source:TileEntity):
 	var target = target_tile
+	
 	if target_tile.held_entity:
 		for flat in flats:
 			flat.apply(target)
@@ -37,5 +38,6 @@ func apply(target_tile:BattleTile, source:TileEntity):
 			
 
 	if source:
-		r_cost.apply(source)
+		if r_cost:
+			r_cost.apply(source)
 #endregion

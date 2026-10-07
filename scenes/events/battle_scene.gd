@@ -146,8 +146,7 @@ func _untoggle_tiles() -> void:
 
 #region Signal Callbacks
 func manage_tile_click(target_tile:BattleTile) -> void:
-	prepared_action.apply(target_tile)
-	
+	prepared_action.apply(target_tile, player)
 	
 	_untoggle_tiles()
 #endregion
