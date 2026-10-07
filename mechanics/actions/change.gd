@@ -5,6 +5,6 @@ class_name Change extends Resource
 
 #region Events
 ## Virtual function, to be inherited
-func apply(target) -> void:
+func apply(target:TileEntity) -> void:
 	pass
 #endregion
