@@ -6,11 +6,11 @@ class_name FlatStatChange extends Change
 #endregion
 
 #region Events
-func apply(target) -> void:
+func apply(target:TileEntity) -> void:
 	var old = target.stats[stat]
 	
 	target.stats[stat] += value
-	Global.logs.post_message(null, \
+	Global.logs.post_message(target, \
 	"%s given flat stat change of %s to %s. Originally %s, now %s" \
-	% [target, value, stat, old, target.stats[stat]])
+	% [target, value, str(stat), old, target.stats[stat]])
 #endregion

@@ -10,9 +10,9 @@ class_name DirectPlaceChange extends Change
 func apply(target:TileEntity) -> void:
 	var value = target.tile.linked_tile
 	
-	target.positiondoohickey = get_nodepositiondoohickey_at(move_direct)
-	
-	global.logs.send_message(null, \
-	"%s moved directly. Originally %s, now %s" \
-	% [target, value, target.positiondoohickey])
+	#target.tile.linked_tile = get_nodepositiondoohickey_at(move_direct)
+	#
+	#global.logs.send_message(null, \
+	#"%s moved directly. Originally %s, now %s" \
+	#% [target, value.tile_position, target.tile.linked_tile.tile_position])
 #endregion
