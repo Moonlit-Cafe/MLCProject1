@@ -2,7 +2,7 @@
 class_name BattleTileTurnState extends BattleState
 
 #region Statics
-static func generate_combat_state(t_line: Timeline) -> BattleTileTurnState:
+static func generate_battle_state(t_line: Timeline) -> BattleTileTurnState:
 	var new_state := BattleTileTurnState.new()
 	new_state.timeline = t_line
 	new_state.name = TILE_TURN

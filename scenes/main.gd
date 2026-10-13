@@ -5,7 +5,7 @@ const BATTLE_SCENE : PackedScene = preload("res://scenes/events/battle_scene.tsc
 const TRAVEL_SCENE : PackedScene = preload("res://scenes/events/travel_scene.tscn")
 
 @export var map_data : ZoneData
-@export var TEMP_travel_data : TravelData
+@export var travel_data : TravelData
 #endregion
 
 #region Events
@@ -13,8 +13,11 @@ func _ready() -> void:
 	init_map()
 	
 func init_map() -> void:
+	if not travel_data:
+		Global.logs.post_error(self, "No Travel data loaded.")
+		
 	var t_scene : TravelScene = TRAVEL_SCENE.instantiate()
-	t_scene.data = TEMP_travel_data
+	t_scene.data = travel_data
 	add_child(t_scene)
 	
 func init_battle() -> void:

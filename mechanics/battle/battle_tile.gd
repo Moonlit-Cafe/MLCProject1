@@ -8,7 +8,7 @@ class_name BattleTile extends Node3D
 #region Declarations
 signal clicked
 
-
+var linked_tile : BasicTile
 var area : Area3D
 var held_entity : TileEntity :
 	set(entity):

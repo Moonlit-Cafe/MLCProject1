@@ -55,7 +55,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed(&"rotate_cam"):
 		var next_position : int = current_position
-		# HACK de-hard code controls later
+		# HACK remove hard-coded controls later
 		if Input.is_key_pressed(KEY_SHIFT):
 			next_position -= 1
 		else:

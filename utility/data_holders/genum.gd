@@ -11,7 +11,7 @@ enum BusID {
 }
 #endregion
 
-#region Combat
+#region Battle
 enum TimeType {
 	TURN,
 	MOVEMENT

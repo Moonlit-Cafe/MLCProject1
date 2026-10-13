@@ -18,9 +18,8 @@ static func generate_map(zone_data: ZoneData, map_name: StringName=&"NewMap") ->
 	map.name = map_name
 	for y in range(zone_data.map_size.y):
 		for x in range(zone_data.map_size.x):
-			var new_column = TileColumn.generate_column(map, zone_data, rng, "Column(%s, %s)" % [x, y])
+			var new_column = TileColumn.generate_column(map, zone_data, rng, [x,y], "Column(%s, %s)" % [x, y])
 			column_holder.add_child(new_column)
-			new_column.position = Vector3(x, 0, y)
 			map.topmost_tiles.append(new_column.top_most_tile)
 			map.columns.append(new_column)
 	return map
@@ -64,6 +63,7 @@ func generate_battle_tiles() -> void:
 			new_b_tile_pos.z])
 		b_tile_holder.add_child(new_battle_tile)
 		new_battle_tile.position = new_b_tile_pos
+		new_battle_tile.linked_tile = tile
 		battle_tiles.append(new_battle_tile)
 
 func get_random_tile() -> BattleTile:
@@ -93,6 +93,29 @@ func get_tile_position(tile: BasicTile) -> Vector3:
 				return Vector3(column.position.x, c_tile.position.y, column.position.z)
 	
 	return Vector3(-1, -1, -1)
+	 
+func get_tiles_in_range(in_range:int, source:Vector3i) -> Array[BasicTile]:
+	var res : Array[BasicTile] = []
+	in_range += 1
+	
+	for iter_x in range(in_range):
+			for iter_y in  range(in_range-iter_x):
+				for iter_z in range(in_range-iter_y-iter_x):
+					for iter_mark in range(8):
+						var temp_z = iter_z * (1 - 2 * ((iter_mark >> 0) % 2))
+						var temp_y = iter_y * (1 - 2 * ((iter_mark >> 1) % 2))
+						var temp_x = iter_x * (1 - 2 * ((iter_mark >> 2) % 2))
+						
+						var iter_vector = Vector3i(temp_x, temp_y, temp_z)
+						var target_vector = iter_vector + source
+						var iter_tile = get_tile_at_position(target_vector)
+						if iter_tile not in topmost_tiles or iter_tile in res:
+							continue
+						
+						res.append(iter_tile)
+	return res
+
+
 
 func save_data() -> Dictionary[StringName, Variant]:
 	var dict : Dictionary[StringName, Variant] = {

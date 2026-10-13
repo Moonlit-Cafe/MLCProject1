@@ -191,63 +191,71 @@ func _load_entities() -> void:
 	
 	var data = _load_data(characters_reference)
 	
-	for entity_id in data.keys():
-		var new_char = ResourceLoader.load(data.get(entity_id).get("resource"))
-		new_char.id = entity_id
-		set_data(DataType.CHARACTER, entity_id, new_char)
-	Global.logs.post_message(self, "loaded character references successfully")
+	return registry.load_entry(entry_name)
 
-## Loads up all the tiles within the game.
-func _load_tiles() -> void:
-	if not tile_data_reference:
-		Global.logs.post_warning(self, "no file used for tile_data_reference")
-		return
+func filter_entries(registry_name: StringName, property: StringName, value: Variant) -> Array[Resource]:
+	if not registry_dictionary.has(registry_name):
+		Global.logs.post_warning(self, "The registry \"%s\" does not exist." % registry_name)
+		return []
 	
-	Global.logs.post_message(self, "loading tile data")
-	
-	var data = _load_data(tile_data_reference)
-	# considerations system tutorial video games
-	for tile_id in data.keys():
-		var tile_data : Dictionary = data.get(tile_id)
-		var new_tile_data := GameTileData.create_tile_data(tile_data.get("texture"), tile_data.get("texture_type"))
-		set_data(DataType.TILE, tile_id, new_tile_data)
-	
-	Global.logs.post_message(self, "loaded tile data successfully")
-
-func _load_data(data_path: String) -> Variant:
-	var json := JSON.new()
-	var file := FileAccess.open(data_path, FileAccess.READ)
-	var error := json.parse(file.get_as_text())
-	if error != OK:
-		Global.logs.post_error(self, json.get_error_message())
-		return null
-	
-	file.close()
-	return json.data
-#endregion
-
-#region Character Query
-func grab_enemies_with_tag(tag_arr: Array[EnemyCharacter.EnemyType],
-							inclusive: bool = true)-> Array[EnemyCharacter]:
-	var character_dict : Dictionary = get_all_data(DataType.CHARACTER)
-	var ret_arr : Array[EnemyCharacter] = []
-	var enemy_list : Array[EnemyCharacter] = []
-	for chr in character_dict.values():
-		if chr is EnemyCharacter:
-			enemy_list.append(chr)
-	
-	for enemy in enemy_list:
-		var enemy_tags := enemy.tags
-		if inclusive:
-			if tag_arr.any(func(t): return t in enemy_tags):
-				ret_arr.append(enemy)
-		else:
-			if tag_arr.all(func(t): return t in enemy_tags):
-				ret_arr.append(enemy)
+	var registry : Registry = registry_dictionary.get(registry_name)
+	var results : Array[StringName] = registry.filter(property, value)
+	var ret_arr : Array[Resource] = []
+	for result in results:
+		var item = grab_entry(registry_name, result)
+		ret_arr.append(item)
 	
 	return ret_arr
-#endregion
 
+func tag_filter_entries(registry_name: StringName, tags: Array, exclusive: bool=false) -> Array[Resource]:
+	if not registry_dictionary.has(registry_name):
+		Global.logs.post_warning(self, "The registry \"%s\" does not exist." % registry_name)
+		return []
+	
+	var registry : Registry = registry_dictionary.get(registry_name)
+	var ids : Array[StringName] = []
+	var results : Array[Resource] = []
+	if exclusive:
+		ids = registry.where({&"tags": func(t): return array_compare(t, tags, true)})
+	else:
+		ids = registry.where({&"tags": func(t): return array_compare(t, tags)})
+	for id in ids:
+		var res = grab_entry(registry_name, id)
+		results.append(res)
+	
+	return results
+
+func get_registry_size(registry_name: StringName) -> int:
+	if not registry_dictionary.has(registry_name):
+		Global.logs.post_warning(self, "The registry \"%s\" does not exist." % registry_name)
+		return -1
+	
+	var registry : Registry = registry_dictionary.get(registry_name)
+	return registry.size()
+#endregion
+#
+##region Character Query
+#func grab_enemies_with_tag(tag_arr: Array[EnemyCharacter.EnemyType],
+#							inclusive: bool = true)-> Array[EnemyCharacter]:
+#	var character_dict : Dictionary = get_all_data(DataType.CHARACTER)
+#	var ret_arr : Array[EnemyCharacter] = []
+#	var enemy_list : Array[EnemyCharacter] = []
+#	for chr in character_dict.values():
+#		if chr is EnemyCharacter:
+#			enemy_list.append(chr)
+#	
+#	for enemy in enemy_list:
+#		var enemy_tags := enemy.tags
+#		if inclusive:
+#			if tag_arr.any(func(t): return t in enemy_tags):
+#				ret_arr.append(enemy)
+#		else:
+#			if tag_arr.all(func(t): return t in enemy_tags):
+#				ret_arr.append(enemy)
+#	
+#	return ret_arr
+##endregion
+#
 #region Helpers
 func load_custom_data(data: Variant, type: CustomDataType) -> Variant:
 	match (type):
