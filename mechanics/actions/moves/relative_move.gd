@@ -1,4 +1,4 @@
-class_name RelativePlaceChange extends Change
+class_name RelativeMove extends Move
 
 #region Declarations
 ## The tile that the target will end up on. Has priority over diffs.
@@ -7,6 +7,6 @@ class_name RelativePlaceChange extends Change
 #endregion
 
 #region Events
-func apply(target) -> void:
+func apply(target_tile: BattleTile, moving_entity:TileEntity) -> void:
 	pass
 #endregion

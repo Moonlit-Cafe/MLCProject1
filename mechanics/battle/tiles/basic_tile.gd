@@ -20,6 +20,7 @@ const SHADERS : Dictionary[TextureType, String] = {
 @export var texture_type : TextureType = TextureType.SOLID ## The type of shader to use for texture wrapping.
 
 var tile_position : Vector3
+var tile_map : GameTileMap
 #endregion
 
 #region Events

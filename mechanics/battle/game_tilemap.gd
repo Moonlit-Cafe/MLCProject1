@@ -18,9 +18,8 @@ static func generate_map(zone_data: ZoneData, map_name: StringName=&"NewMap") ->
 	map.name = map_name
 	for y in range(zone_data.map_size.y):
 		for x in range(zone_data.map_size.x):
-			var new_column = TileColumn.generate_column(map, zone_data, rng, "Column(%s, %s)" % [x, y])
+			var new_column = TileColumn.generate_column(map, zone_data, rng, [x,y], "Column(%s, %s)" % [x, y])
 			column_holder.add_child(new_column)
-			new_column.position = Vector3(x, 0, y)
 			map.topmost_tiles.append(new_column.top_most_tile)
 			map.columns.append(new_column)
 	return map

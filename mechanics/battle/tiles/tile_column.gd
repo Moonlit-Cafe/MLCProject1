@@ -8,7 +8,7 @@ class_name TileColumn extends Node3D
 
 #region Statics
 static func generate_column(map: GameTileMap, zone_data: ZoneData,
-	rng: RandomNumberGenerator, column_name: StringName="NewColumn") -> TileColumn:
+	rng: RandomNumberGenerator, position_array: Array[int], column_name: StringName="NewColumn" ) -> TileColumn:
 	var new_column := TileColumn.new()
 	new_column.name = column_name
 	
@@ -28,9 +28,13 @@ static func generate_column(map: GameTileMap, zone_data: ZoneData,
 		new_column.tiles.append(new_tile)
 		new_column.add_child(new_tile)
 		new_tile.position = Vector3(0, z, 0)
+		new_tile.tile_position = Vector3(position_array[0], z, position_array[1])
+		new_tile.tile_map = map
 		
 		if z == (height - 1):
 			new_column.top_most_tile = new_tile
+	
+	new_column.position = Vector3(position_array[0], 0, position_array[1])
 	return new_column
 
 static func rebuild_column(data: Dictionary[StringName, Variant], new_name: StringName) -> TileColumn:

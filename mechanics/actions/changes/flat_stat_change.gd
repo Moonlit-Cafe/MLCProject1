@@ -12,5 +12,6 @@ func apply(target:TileEntity) -> void:
 	target.stats[stat] += value
 	Global.logs.post_message(target, \
 	"%s given flat stat change of %s to %s. Originally %s, now %s" \
+	# TODO str(stat) reads as the numerical index, not as the actual name of the stat
 	% [target, value, str(stat), old, target.stats[stat]])
 #endregion
