@@ -1,0 +1,11 @@
+{
+	"I001": {
+		"name": "Test Item",
+		"icon_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"description": "A simple test item",
+		"stack_size": 10
+	}
+}

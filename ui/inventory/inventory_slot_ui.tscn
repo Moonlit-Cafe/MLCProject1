@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://t08h8bsddupf"]
+
+[ext_resource type="Script" uid="uid://jfassufx1h84" path="res://ui/inventory/inventory_slot_ui.gd" id="1_1jobd"]
+
+[node name="InventorySlotUI" type="PanelContainer" unique_id=632485379]
+script = ExtResource("1_1jobd")
+
+[node name="Icon" type="TextureRect" parent="." unique_id=46496602]
+layout_mode = 2
+
+[node name="QuantityLabel" type="Label" parent="." unique_id=199116968]
+layout_mode = 2
