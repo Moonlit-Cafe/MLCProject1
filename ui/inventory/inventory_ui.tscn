@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://coyp6mvp2tthi"]
+
+[ext_resource type="Script" uid="uid://cttwfdqcslde1" path="res://ui/inventory/inventory_ui.gd" id="1_6ch5n"]
+[ext_resource type="PackedScene" uid="uid://t08h8bsddupf" path="res://ui/inventory/inventory_slot_ui.tscn" id="2_jm3eq"]
+[ext_resource type="Script" uid="uid://bdrkaljds0q0q" path="res://mechanics/inventory/inventory.gd" id="2_n6ryj"]
+[ext_resource type="Script" uid="uid://c37v7wpcygpj0" path="res://mechanics/inventory/inventory_slot.gd" id="3_4l1op"]
+
+[sub_resource type="Resource" id="Resource_a08ug"]
+script = ExtResource("2_n6ryj")
+metadata/_custom_type_script = "uid://bdrkaljds0q0q"
+
+[node name="InventoryUI" type="Control" unique_id=613796768]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6ch5n")
+inventory = SubResource("Resource_a08ug")
+slot_scene = ExtResource("2_jm3eq")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1451893876]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

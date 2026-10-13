@@ -15,3 +15,14 @@ enum Tags {
 
 var recipes : Array[StringName] = []
 #endregion
+
+#region Events
+func set_data(dict: Dictionary, given_id: StringName) -> void:
+	name = dict.get(&"name")
+	id = given_id
+	var icon_pos : Vector2 = GlobalResources.load_custom_data(dict.get(&"icon_pos"),
+		GlobalResources.CustomDataType.VECTOR)
+	icon = GlobalResources.tex_loader.grab_item_texture(&"items", icon_pos)
+	description = dict.get(&"description")
+	stack_size = dict.get(&"stack_size")
+#endregion
