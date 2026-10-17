@@ -69,6 +69,14 @@ func generate_battle_tiles() -> void:
 func get_random_tile() -> BattleTile:
 	return battle_tiles.pick_random()
 
+
+func get_battle_tile_at_position(pos: Vector3) -> BattleTile:
+	for btile in battle_tiles:
+		var tile = btile.linked_tile
+		if tile.tile_position == pos:
+			return btile
+	return null
+	
 # TODO: Optimize this
 ## Using a [param pos], attempts to get the [class BasicTile] at that point.
 func get_tile_at_position(pos: Vector3) -> BasicTile:

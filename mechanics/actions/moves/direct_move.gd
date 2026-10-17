@@ -9,18 +9,13 @@ class_name DirectMove extends Move
 #region Events
 ## Attempts to move the source to this tile, relative to the target. If that tile isn't available, it moves to the farthest tile in that direction, before it would see an entity.
 func apply(target_tile: BattleTile, moving_entity:TileEntity) -> void:
-	# TODO how to get tile thats x & z away
-	# target tile
-	var value = moving_entity.tile.linked_tile
-	# find a way to get the map from the tile
-	var map = value.tile_map
-	value = value.tile_position
-	# if i can get the map
-		# then get the current tiles xz pos
-		# then get the tile at relatively xz position
-	# then have the entity "move" over there
-	#target.tile.linked_tile = get_nodepositiondoohickey_at(move_direct)
-
+	var value :BasicTile = moving_entity.tile.linked_tile
+	var map : GameTileMap = value.tile_map
+	var pos: Vector3 = map.get_tile_position(value)
+	
+	pos += move_displace
+	var new : BattleTile = map.get_battle_tile_at_position(pos)
+	moving_entity.tile = new
 
 	#global.logs.send_message(null, \
 	#"%s moved directly. Originally %s, now %s" \
