@@ -7,7 +7,6 @@ class_name BattleAction extends BaseAction
 @export var temps: Array[TempStatChange]
 @export var effects : Array[EffectChange]
 
-
 @export_category("Target Movement")
 @export var pushback : RelativeMove
 @export var displace : DirectMove
@@ -39,10 +38,10 @@ func apply(target_tile:BattleTile, source:TileEntity):
 func _apply_target_effects(target:TileEntity) -> void:
 	for flat in flats:
 		flat.apply(target)
-	for effect in effects:
-		effect.apply(target)
 	for temp in temps:
 		temp.apply(target)
+	for effect in effects:
+		effect.apply(target)
 		
 
 func _apply_target_moves(target_tile:BattleTile, target:TileEntity) -> void:

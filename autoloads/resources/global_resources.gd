@@ -19,7 +19,6 @@ enum CustomDataType {
 #@export_file(".json") var recipe_reference : String ## Contains the data for all the game's recipes
 #@export_file(".json") var characters_reference : String ## Contains the path references for all entities
 #@export_file(".json") var tile_data_reference : String ## Contains all the tile data within the game.
-#
 #@onready var tex_loader : TextureLoader = $TextureLoader
 #endregion
 
