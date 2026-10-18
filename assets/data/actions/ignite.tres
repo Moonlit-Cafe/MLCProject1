@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BattleAction" format=3 uid="uid://dadnmjf4jkvim"]
+
+[ext_resource type="Script" uid="uid://bpjt7a4ahkj1j" path="res://mechanics/actions/changes/effect_change.gd" id="1_srq5o"]
+[ext_resource type="Script" uid="uid://donq5ijrhba3e" path="res://mechanics/actions/time_cost.gd" id="2_4q1dd"]
+[ext_resource type="Script" uid="uid://deo03xq8q1lra" path="res://mechanics/actions/changes/flat_stat_change.gd" id="2_k78hc"]
+[ext_resource type="Script" uid="uid://b3yxoxgjhguct" path="res://mechanics/actions/battle_action.gd" id="3_e7uy6"]
+[ext_resource type="Script" uid="uid://nc6pmkwgmi6n" path="res://mechanics/actions/changes/temp_stat_change.gd" id="4_uxsy0"]
+
+[sub_resource type="Resource" id="Resource_at61r"]
+script = ExtResource("2_4q1dd")
+value = 2
+metadata/_custom_type_script = "uid://donq5ijrhba3e"
+
+[sub_resource type="Resource" id="Resource_2a1og"]
+script = ExtResource("1_srq5o")
+duration = SubResource("Resource_at61r")
+metadata/_custom_type_script = "uid://bpjt7a4ahkj1j"
+
+[resource]
+script = ExtResource("3_e7uy6")
+effects = Array[ExtResource("1_srq5o")]([SubResource("Resource_2a1og")])
+metadata/_custom_type_script = "uid://b3yxoxgjhguct"

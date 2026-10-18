@@ -8,7 +8,7 @@ class_name BattleTile extends Node3D
 #region Declarations
 signal clicked
 
-
+var linked_tile : BasicTile
 var area : Area3D
 var held_entity : TileEntity :
 	set(entity):
@@ -69,10 +69,9 @@ func add_entity(entity: TileEntity) -> void:
 	if entity.tile:
 		entity.tile.held_entity = null
 		entity.tile.remove_child(entity)
-	else:
-		entity.tile = self
 	
 	held_entity = entity
+	entity.tile = self
 	add_child(entity)
 
 func save_data() -> Dictionary[StringName, Variant]:

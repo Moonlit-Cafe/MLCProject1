@@ -28,14 +28,21 @@ var links : Array = [] :
 
 #region Events
 func _ready() -> void:
-	hitbox.mouse_entered.connect(travel_scene.update_node.bind(self))
-	hitbox.mouse_exited.connect(travel_scene.update_node.bind(self))
+	hitbox.mouse_entered.connect(_become_hovered)
+	hitbox.mouse_exited.connect(_become_hovered)
 	
 
 ## Handles triggers when node is clicked
 func clicked() -> void:
-	if selectable:
-		travel_scene.cur_node = self
-		travel_scene.highlight_selectables()
-		travel_scene.visible = false
+	if not selectable:
+		return
+		
+	travel_scene.cur_node = self
+	travel_scene.highlight_selectables()
+	travel_scene.visible = false
+#endregion
+
+#region Signal Callbacks
+func _become_hovered() -> void:
+	travel_scene.hovered_node = self
 #endregion
