@@ -11,13 +11,14 @@ class_name DirectMove extends Move
 func apply(target_tile: BattleTile, moving_entity:TileEntity) -> void:
 	var value :BasicTile = moving_entity.tile.linked_tile
 	var map : GameTileMap = value.tile_map
-	var pos: Vector3 = map.get_tile_position(value)
+	var pos: Vector3 = map.get_tile_position(target_tile.linked_tile)
 	
 	pos += move_displace
 	var new : BattleTile = map.get_battle_tile_at_position(pos)
-	moving_entity.tile = new
+	print(new == moving_entity.tile)
+	new.add_entity(moving_entity)
 
-	#global.logs.send_message(null, \
-	#"%s moved directly. Originally %s, now %s" \
-	#% [target, value.tile_position, target.tile.linked_tile.tile_position])
+	Global.logs.post_message(moving_entity, \
+	"%s moved directly. Originally %s, now %s" \
+	% [moving_entity, value.tile_position, new.linked_tile.tile_position])
 #endregion

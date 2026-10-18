@@ -51,7 +51,7 @@ func _generate_enemies() -> void:
 
 func _generate_player() -> void:
 	var zone : ZoneData = timeline.zone_data
-	var rand_tile := timeline.map.get_random_tile()
+	var rand_tile :BattleTile = timeline.map.get_random_tile()
 	while rand_tile.held_entity:
 		rand_tile = timeline.map.get_random_tile()
 	
