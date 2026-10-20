@@ -6,5 +6,6 @@ class_name Consideration extends Resource
 #endregion
 
 #region Events
-@abstract func score(_entity: TileEntity) -> float
+@abstract func supports(_scored: Variant) -> bool
+@abstract func score(_scored) -> float
 #endregion

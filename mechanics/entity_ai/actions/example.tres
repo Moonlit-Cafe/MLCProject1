@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="AIAction" format=3 uid="uid://lv2t3un2mcxr"]
+
+[ext_resource type="Script" uid="uid://duca7p6xfs0l8" path="res://mechanics/entity_ai/target/target.gd" id="1_0f2m4"]
+[ext_resource type="Script" uid="uid://bhold0bbc0jso" path="res://mechanics/entity_ai/considerations/consideration_set.gd" id="2_eogqv"]
+[ext_resource type="Script" uid="uid://5053x7mu53j7" path="res://mechanics/entity_ai/ai_action.gd" id="3_mxk4o"]
+
+[resource]
+script = ExtResource("3_mxk4o")
+metadata/_custom_type_script = "uid://5053x7mu53j7"
