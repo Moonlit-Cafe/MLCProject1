@@ -20,36 +20,19 @@ static func generate_recipe(items: Dictionary[StringName, int], new_item: String
 func craft() -> void:
 	pass
 
-## Checks to see if the recipe is craftable given all the material items within an inventory
 func is_craftable(inventory: Inventory) -> bool:
-	var material_slots := inventory.get_all_with_tag(BasicItem.Tags.MATERIAL)
+	if inventory == null:
+		return false
 	
-	var check_dict : Dictionary[StringName, bool] = {}
-	for ingredient in ingredients.keys():
-		check_dict.set(ingredient, false)
-	
-	for slot in material_slots:
-		if not check_dict.has(slot.item.id):
+	var available : Dictionary[StringName, int] = {}
+	for slot in inventory.get_all_with_tag(BasicItem.Tags.MATERIAL):
+		if slot.is_empty():
 			continue
-		
-		if slot.quantity >= ingredients.get(slot.item.id):
-			check_dict.set(slot.item.id, true)
+		available[slot.item.id] = available.get(slot.item.id, 0) + slot.quantity
 	
-	for check in check_dict:
-		if not check:
+	for ingredient : StringName in ingredients.keys():
+		if available.get(ingredient, 0) < ingredients.get(ingredient):
 			return false
 	
 	return true
-	#if !ingredients.has_all(items.keys()):
-	#	return false # Returns false if all of the items are not included in the recipes ingredients list
-	#
-	#var can_craft : bool = true
-	#for item in items.keys():
-	#	var item_count : int = items.get(item)
-	#	if not ingredients.has(item):
-	#		continue
-	#	
-	#	if ingredients.get(item) > item_count:
-	#		can_craft = false
-	#return can_craft
 #endregion

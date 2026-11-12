@@ -25,11 +25,16 @@ enum BusID {
 
 var current_song : OstHolder ## The currently playing song via [OstHolder]
 var crossfade := false ## If [member current_song] is currently cross fading to another.
+var _loop_timer : Timer
 #endregion
 
 #region Events
 func _ready() -> void:
 	_connect_sound_signals()
+	_loop_timer = Timer.new()
+	_loop_timer.one_shot = true
+	_loop_timer.timeout.connect(_on_loop_timeout)
+	add_child(_loop_timer)
 
 ## Connects all the audio players so that when they're finished, they specifically pass on their own data
 ## to [method _on_player_finished] to remove the [AudioStream]
@@ -43,16 +48,18 @@ func _connect_sound_signals() -> void:
 ## The [member current_song] can either be abruptly stopped, or if [param crossover] is true, then [br]
 ## the two songs will fade between each other.
 func play_ost(id: StringName, position: float = 0, crossover: bool = false) -> void:
-	current_song = _find_ost(id)
-	if not current_song:
+	var song : OstHolder = _find_ost(id)
+	if song == null:
 		push_error("@Audiomanager/Error: There's no song by the name %s in song_pool" % id)
 		return
+	current_song = song
 	
 	if crossover:
 		_crossover(id)
 	else:
-		main_music_player.stream = current_song.stream
+		main_music_player.stream = current_song.ost_stream
 		main_music_player.play(position)
+		_start_loop_timer(position)
 
 ## Plays a short jingle either just on its own or by crossfading [member current_song] assuming [br]
 ## it is playing
@@ -62,23 +69,20 @@ func play_jingle(sfx_id: StringName) -> void:
 	else:
 		play_sound(sfx_id)
 
-## Plays a sound as long as it exists within any pool based on [param id]
 func play_sound(id: StringName) -> void:
-	var sound := _find_sound(id)
-	var player : AudioStreamPlayer
-	if sound.get(1):
-		player = _get_player(sound.get(1))
-	
+	var sound : Array = _find_sound(id)
+	if sound.is_empty():
+		return
+	var player : AudioStreamPlayer = _get_player(sound.get(1))
 	if not player:
 		return
-	
 	player.stream = sound.get(0)
 	player.play()
 
 ## Grabs an ost to be used in another AudioPlayer, for example: Spatial Sounds.
 func grab_ost(id: StringName) -> OstHolder:
 	for ost in ost_pool:
-		if ost.id == id:
+		if ost.ost_name == id:
 			return ost
 	
 	push_warning("@AudioManager: There is no ost by that ID.")
@@ -86,16 +90,22 @@ func grab_ost(id: StringName) -> OstHolder:
 
 ## Grabs a sound to be used in another AudioPlayer, for example: Spatial Sounds.
 func grab_sound(id: StringName) -> AudioStream:
-	var sound = _find_sound(id)
+	var sound : Array = _find_sound(id)
+	if sound.is_empty():
+		return null
 	return sound.get(0)
 
-## Handles the crossfade between [member current_song] with [param id]. [br]
-## If [param sfx_crossover] is true, then the crossover will wait until after the SFX has played.
 func _crossover(id: StringName, sfx_crossover := false) -> void:
 	crossfade = true
 	if !sfx_crossover:
+		var next_song : OstHolder = _find_ost(id)
+		if next_song == null:
+			push_error("@Audiomanager/Error: There's no song by the name %s in song_pool" % id)
+			crossfade = false
+			return
+		
 		# Setup the new ost on Secondary
-		secondary_music_player.stream = _find_ost(id).stream
+		secondary_music_player.stream = next_song.ost_stream
 		secondary_music_player.volume_linear = 0
 		secondary_music_player.play()
 		
@@ -106,44 +116,58 @@ func _crossover(id: StringName, sfx_crossover := false) -> void:
 		
 		await tween.finished
 		# Move from Secondary to Main
+		var resume_position : float = secondary_music_player.get_playback_position()
 		main_music_player.stream = secondary_music_player.stream
 		main_music_player.volume_linear = 1
 		secondary_music_player.volume_linear = 0
-		main_music_player.play(secondary_music_player.get_playback_position())
+		main_music_player.play(resume_position)
 		secondary_music_player.stop()
 		secondary_music_player.stream = null
+		_start_loop_timer(resume_position)
 	else:
 		# Fade out stream on Main, play our SFX, then fade back in
-		var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_SINE)
-		tween.tween_property(main_music_player, "volume_linear", 0, 5.0)
-		await tween.finished
+		var fade_out = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_SINE)
+		fade_out.tween_property(main_music_player, "volume_linear", 0, 5.0)
+		await fade_out.finished
 		play_sound(id)
-		tween.tween_property(main_music_player, "volume_linear", 1, 5.0)
-		await tween.finished
+		
+		var fade_in = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_SINE)
+		fade_in.tween_property(main_music_player, "volume_linear", 1, 5.0)
+		await fade_in.finished
 	
 	crossfade = false
 #endregion
 
 #region Processes
-func _process(_delta: float) -> void:
-	if current_song:
-		if not current_song.can_loop:
-			return
+func _start_loop_timer(from_position: float = -1.0) -> void:
+	if _loop_timer == null:
+		return
+	_loop_timer.stop()
+	if current_song == null or not current_song.can_loop or current_song.ost_stream == null:
+		return
+	
+	var loop_end : float = current_song.ost_stream.get_length()
+	if current_song.loop_vector.y != -1:
+		loop_end = current_song.loop_vector.y
+	
+	var position : float = main_music_player.get_playback_position() if from_position < 0.0 else from_position
+	_loop_timer.start(maxf(loop_end - position, 0.001))
+
+func _on_loop_timeout() -> void:
+	if current_song == null or not current_song.can_loop:
+		return
 		
-		var current_pos = main_music_player.get_playback_position()
-		if current_song.loop_vector.y == -1:
-			if current_pos >= current_song.stream.get_length():
-				play_ost(current_song.id, current_song.loop_vector.x)
-		elif current_song.loop_vector.y != -1 and not crossfade:
-			if current_pos >= current_song.loop_vector.y:
-				play_ost(current_song.id, current_song.loop_vector.x)
+	if crossfade:
+		_loop_timer.start(0.1)
+		return
+	play_ost(current_song.ost_name, current_song.loop_vector.x)
 #endregion
 
 #region Helpers
 ## Finds the ost with the id [param id].
 func _find_ost(id: StringName) -> OstHolder:
 	for ost in ost_pool:
-		if ost.id == id:
+		if ost.ost_name == id:
 			return ost
 	
 	return null
@@ -162,6 +186,9 @@ func _find_sound(id: StringName) -> Array:
 	elif ambient_pool.has(id):
 		bus = BusID.AMBIENT
 		sound = ambient_pool.get(id)
+	else:
+		Global.logs.post_warning(self, "There is no sound by the name %s in any pool." % id)
+		return []
 	
 	return [sound, bus]
 

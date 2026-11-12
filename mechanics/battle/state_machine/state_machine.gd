@@ -15,10 +15,10 @@ class_name StateMachine extends Node
 func _ready() -> void:
 	for state_node : State in find_children("*", "State"):
 		state_node.finished.connect(_transition_to_next_state)
-		print("Added state %s to signals" % state_node.name)
-		
+	
 	if owner:
-		await owner.ready
+		if not owner.is_node_ready():
+			await owner.ready
 	elif get_parent():
 		var parent = get_parent()
 		if not parent.is_node_ready():

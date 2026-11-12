@@ -6,20 +6,35 @@ class_name BattleTile extends Node3D
 #endregion
 
 #region Declarations
-signal clicked
+signal clicked(tile: BattleTile)
 
 
 var area : Area3D
+
 var held_entity : TileEntity :
 	set(entity):
-		if not entity:
+		if entity == null:
+			if held_entity:
+				held_entity.tile = null
+			held_entity = null
 			return
 		
-		var parent = entity.get_parent()
+		# Release the entity from whichever tile it was on before.
+		var previous_tile : BattleTile = entity.tile
+		if previous_tile and previous_tile != self:
+			previous_tile.held_entity = null
+		
+		# Release this tile's previous occupant (if any).
+		if held_entity and held_entity != entity:
+			held_entity.tile = null
+			if held_entity.get_parent() == self:
+				remove_child(held_entity)
+		
+		var parent : Node = entity.get_parent()
 		if parent:
 			parent.remove_child(entity)
 		
-		self.add_child(entity)
+		add_child(entity)
 		held_entity = entity
 		entity.tile = self
 #endregion
@@ -60,20 +75,17 @@ static func build_click_area() -> Area3D:
 
 #region Events
 func _ready() -> void:
+	if area == null:
+		return
 	_init_signals()
 
 func _init_signals() -> void:
 	area.input_event.connect(_on_input_event)
 
 func add_entity(entity: TileEntity) -> void:
-	if entity.tile:
-		entity.tile.held_entity = null
-		entity.tile.remove_child(entity)
-	else:
-		entity.tile = self
-	
+	if entity == null:
+		return
 	held_entity = entity
-	add_child(entity)
 
 func save_data() -> Dictionary[StringName, Variant]:
 	var dict : Dictionary[StringName, Variant] = {

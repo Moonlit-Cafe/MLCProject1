@@ -1,6 +1,7 @@
 shader_type spatial;
 
 uniform sampler2D tex : source_color, filter_nearest; // The texture for the tile.
+uniform float highlight : hint_range(0.0, 1.0) = 0.0;
 
 void fragment() {
 	float col = floor(UV.x * 3.0);
@@ -11,5 +12,6 @@ void fragment() {
 		UV.y * 2.0 - row
 	);
 	
-	ALBEDO = texture(tex, cell_uv).rgb;
+	vec3 base = texture(tex, cell_uv).rgb;
+	ALBEDO = mix(base, vec3(1.0), highlight * 0.5);
 }

@@ -4,19 +4,15 @@ class_name BattleCam extends Node3D
 @export_range(1., 16., 1.) var position_count : int = 8
 @export var x_rotation_range := Vector2(30, 70)
 @export var x_angular_speed : float = PI / 8.
-@export var linear_move_speed : float = 5.
 @export var linear_zoom_speed : float = 16.
-@export var linear_zoom_limits := Vector2(2, 16)
+@export var fov_zoom_limits := Vector2(20, 90)
 @export var timer_delay : float = 0.2
-@export var ray_length : float = 50.
 @export var bounds : Rect2
 
 @onready var spring_arm : SpringArm3D = $SpringArm3D
 @onready var camera : Camera3D = $SpringArm3D/Camera3D
 @onready var timer : Timer = $Timer
 
-var rot_dir := Vector2.ZERO
-var mov_dir : float = 0.
 var can_swivel : bool = true :
 	set(value):
 		if not value:
@@ -26,22 +22,22 @@ var available_positions : Dictionary[int, Vector3] = {}
 var current_position : int = 0
 var timeline : Timeline
 var focus_tile : BattleTile
-var enemy_target_count = 0
 #endregion
 
 #region Events
 func _ready() -> void:
 	timer.timeout.connect(_on_timer_timeout)
 	
-	if get_tree().get_node_count_in_group(&"player") > 0:
-		focus_tile = get_tree().get_first_node_in_group(&"player").tile
+	var player_entity := get_tree().get_first_node_in_group(GroupNames.PLAYER) as TileEntity
+	if player_entity and player_entity.tile:
+		focus_tile = player_entity.tile
 		global_position = focus_tile.global_position
 	
 	var start_position := Vector3.ZERO
 	if focus_tile:
 		start_position = focus_tile.global_position
 	else:
-		_get_start_position()
+		start_position = _get_start_position()
 	
 	position = start_position
 	_generate_positions()
@@ -54,6 +50,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		_handle_mouse_motion(event)
 	
 	if event.is_action_pressed(&"rotate_cam"):
+		if available_positions.is_empty():
+			return
 		var next_position : int = current_position
 		# HACK de-hard code controls later
 		if Input.is_key_pressed(KEY_SHIFT):
@@ -72,38 +70,36 @@ func _unhandled_input(event: InputEvent) -> void:
 		can_swivel = false
 	
 	if event.is_action_pressed(&"focus_player"):
-		focus_tile = get_tree().get_first_node_in_group(&"player").tile
-		_pan_camera(focus_tile.global_position)
+		var player_entity := get_tree().get_first_node_in_group(GroupNames.PLAYER) as TileEntity
+		if player_entity and player_entity.tile:
+			focus_tile = player_entity.tile
+			_pan_camera(focus_tile.global_position)
 	
 	if event.is_action_pressed(&"cycle"):
-		var enemies = get_tree().get_nodes_in_group(&"enemy")
+		var enemies : Array[Node] = get_tree().get_nodes_in_group(GroupNames.ENEMY)
+		var entities : Array[TileEntity] = []
+		for node in enemies:
+			if node is TileEntity:
+				entities.append(node)
+		if entities.is_empty():
+			return
 		
-		if Input.is_key_pressed(KEY_SHIFT):
-			enemy_target_count = enemies.size() - 1
+		var current_index : int = -1
+		for i in range(entities.size()):
+			if entities[i].tile == focus_tile:
+				current_index = i
+				break
 		
-		if focus_tile in enemies:
-			enemy_target_count = enemies.find(focus_tile)
-			if Input.is_key_pressed(KEY_SHIFT):
-				enemy_target_count -= 1
-			else:
-				enemy_target_count += 1
-			
-			if enemy_target_count == enemies.size():
-				enemy_target_count = 0
-			elif enemy_target_count == -1:
-				enemy_target_count = enemies.size() - 1
-		
-		focus_tile = enemies.get(enemy_target_count).get_parent()
-		_pan_camera(focus_tile.global_position)
-	
-	if not event is InputEventMouseButton:
-		return
-	
-	_handle_mouse_clicks(event)
+		var direction : int = -1 if Input.is_key_pressed(KEY_SHIFT) else 1
+		var next_index : int = 0 if current_index == -1 else posmod(current_index + direction, entities.size())
+		var next_entity : TileEntity = entities[next_index]
+		if next_entity.tile:
+			focus_tile = next_entity.tile
+			_pan_camera(focus_tile.global_position)
 
 func _process(delta: float) -> void:
-	_cam_movement(delta)
 	_player_pan()
+	_handle_zoom(delta)
 
 func _player_pan():
 	# HACK this should be in a config somewhere
@@ -125,15 +121,19 @@ func _player_pan():
 		
 
 func _get_start_position() -> Vector3:
+	if timeline == null or timeline.zone_data == null:
+		return Vector3.ZERO
 	var map_size : Vector2i = timeline.zone_data.map_size
 	var height : Curve = timeline.zone_data.height_range
+	if height == null or height.point_count == 0:
+		return Vector3(map_size.x / 2., 0., map_size.y / 2.)
 	var height_min : float = height.get_point_position(0).y
 	var height_max : float = height.get_point_position(height.point_count - 1).y
 	var height_mid : float = (height_min + height_max) / 2.
 	return Vector3(map_size.x / 2., height_mid, map_size.y / 2.)
 
 func _generate_positions() -> void:
-	var factor : float = 2. / position_count
+	var factor : float = 2. / maxi(position_count, 1)
 	for i in range(position_count):
 		available_positions.set(i, Vector3(0., PI * factor * i, 0.))
 
@@ -141,21 +141,24 @@ func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
 	if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:
 		position -= (Vector3(event.relative.x, 0, event.relative.y) / 100).rotated(Vector3.UP, rotation.y)
 
-func _handle_mouse_clicks(_event: InputEventMouseButton) -> void:
+func _handle_zoom(delta: float) -> void:
+	if camera == null:
+		return
 	if Input.is_action_pressed(&"zoom_in"):
-		camera.size -= linear_zoom_speed * get_physics_process_delta_time()
+		camera.fov -= linear_zoom_speed * delta
 	elif Input.is_action_pressed(&"zoom_out"):
-		camera.size += linear_zoom_speed * get_physics_process_delta_time()
-	
-	if camera.size < linear_zoom_limits.x:
-		camera.size = linear_zoom_limits.x
-	elif camera.size > linear_zoom_limits.y:
-		camera.size = linear_zoom_limits.y
+		camera.fov += linear_zoom_speed * delta
+	camera.fov = clampf(camera.fov, fov_zoom_limits.x, fov_zoom_limits.y)
 
 func _rotate_camera_y(next_position: int) -> void:
 	# FIXME when camera is negative (outside of 0-179), it flips around every rotation
+	if available_positions.is_empty():
+		return
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_CIRC).set_loops(1)
-	var dir : Vector3 = available_positions.get(next_position)
+	var dir : Vector3 = available_positions.get(next_position, Vector3.ZERO)
+	if available_positions.size() < 2:
+		rotation = dir
+		return
 	if current_position == 0 and next_position == available_positions.size() - 1:
 		rotation = available_positions.get(next_position) + available_positions.get(1)
 		tween.tween_property(self, "rotation", dir, timer_delay)
@@ -169,15 +172,6 @@ func _rotate_camera_y(next_position: int) -> void:
 func _pan_camera(target_pos: Vector3) -> void:
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC).set_loops(1)
 	tween.tween_property(self, "global_position", target_pos, 0.4)
-
-func _cam_movement(delta: float) -> void:
-	if rot_dir.y != 0:
-		print(spring_arm.rotation)
-		if spring_arm.rotation.x > x_rotation_range.x:
-			spring_arm.rotation.x = x_rotation_range.x
-		elif spring_arm.rotation.x < x_rotation_range.y:
-			spring_arm.rotation.x = x_rotation_range.y
-		spring_arm.rotate_x(x_angular_speed * delta * rot_dir.y)
 #endregion
 
 #region Signal Callbacks

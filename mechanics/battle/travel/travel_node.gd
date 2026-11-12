@@ -6,7 +6,7 @@ var links : Array = [] :
 		var t : Node2D
 		var diff_vector : Vector2
 		
-		links = new
+		links = new if new != null else []
 		clear_lines()
 		
 		for node in links:
@@ -28,11 +28,13 @@ var travel_scene : TravelScene
 
 #region Events
 func _ready() -> void:
-	travel_scene = get_parent() 
+	travel_scene = get_parent() as TravelScene
+	pressed.connect(clicked)
 
 ## Handles triggers when node is clicked
-## Currently unlinked
 func clicked() -> void:
+	if travel_scene == null:
+		return
 	if selectable:
 		travel_scene.cur_node = self
 		travel_scene.highlight_selectables()
@@ -41,5 +43,6 @@ func clicked() -> void:
 func clear_lines() -> void:
 	for child in get_children():
 		if child is Line2D:
+			remove_child(child)
 			child.queue_free()
 #endregion

@@ -5,11 +5,10 @@ var new_travel_node : PackedScene = preload("res://mechanics/battle/travel/trave
 
 var data : TravelData :
 	set(new):
-		if not new:
-			return
-			
+		_clear_section()
 		data = new
-		_populate_section()
+		if data:
+			_populate_section()
 		
 var layers: Array[Array]
 
@@ -18,8 +17,20 @@ var cur_node : TravelNode = null
 #endregion
 
 #region Events
+func _clear_section() -> void:
+	for column : Array in layers:
+		for node in column:
+			if is_instance_valid(node):
+				node.queue_free()
+	layers.clear()
+	cur_node = null
+
 ## sets up zones on the planet given input data
 func _populate_section() -> void:
+	if data == null:
+		Global.logs.post_warning(self, "Cannot populate the travel section without TravelData.")
+		return
+	
 	var layer_count : int
 
 	layer_count  = randi_range(data.min_layers, data.max_layers)
@@ -38,6 +49,7 @@ func _disperse_nodes(layer_count) -> void:
 	const Y_GAP : int = 100
 	const Y_INIT : int = 50
 	
+	layers.clear()
 	layers.resize(layer_count)
 	
 	for i in range(0, layer_count):
@@ -77,7 +89,6 @@ func _link_nodes(layer_count: int) -> void:
 			cur_layer[node_index].links = new_connections
 			
 			l_index = randi_range(l_index, next_width-1) 
-	
 
 ## visually change tiles to indicate availability of travel
 func highlight_selectables() -> void:
@@ -87,11 +98,12 @@ func highlight_selectables() -> void:
 			node.selectable = false
 
 	if not cur_node:
+		if layers.is_empty() or layers[0].is_empty():
+			return
 		cur_node = layers[0][0]
 	
 	cur_node.modulate = Color.BLUE
 	for child in cur_node.links:
 		child.modulate = Color.WHITE
 		child.selectable = true
-
 #endregion

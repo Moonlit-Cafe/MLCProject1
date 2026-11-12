@@ -13,5 +13,5 @@ enum Tags {
 @export var stack_size : int = 1
 @export var tags : Array[Tags] = [Tags.MATERIAL]
 
-var recipes : Array[StringName] = []
+@export var recipes : Array[Resource] = []
 #endregion

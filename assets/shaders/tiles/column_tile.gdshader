@@ -1,6 +1,7 @@
 shader_type spatial;
 
 uniform sampler2D tex : source_color, filter_nearest;
+uniform float highlight : hint_range(0.0, 1.0) = 0.0;
 // Cell Notes
 // Cell 1 (Front) : (0, 0)
 // Cell 2 (Left)  : (0, 1)
@@ -37,5 +38,6 @@ void fragment() {
 		);
 	}
 	
-	ALBEDO = texture(tex, cell_uv).rgb;
+	vec3 base = texture(tex, cell_uv).rgb;
+	ALBEDO = mix(base, vec3(1.0), highlight * 0.5);
 }

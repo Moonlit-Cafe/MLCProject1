@@ -8,7 +8,7 @@ extends Node
 
 var difficulty : float = 1
 var diverge_max : int = 1
-var player_equips : Dictionary[Genum.EquipSlot, ItemNode] = {}
+var player_equips : Dictionary[Genum.EquipSlot, BasicItem] = {}
 var player_stats : Dictionary[Genum.StatType, float] = {
 	Genum.StatType.HEALTH: 10.
 }

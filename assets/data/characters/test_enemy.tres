@@ -2,7 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://bhkh5my7eh3q3" path="res://assets/sprites/entity/enemy_temp.png" id="1_5mkj7"]
 [ext_resource type="Script" uid="uid://dsnhprg2wyjfc" path="res://entities/characters/enemy_character.gd" id="1_22063"]
-[ext_resource type="Script" uid="uid://5053x7mu53j7" path="res://mechanics/entity_ai/ai_action.gd" id="1_glc0n"]
+[ext_resource type="Script" uid="uid://5053x7mu53j7" path="res://mechanics/entity_ai/ai_action.gd" id="1_pjytk"]
+[ext_resource type="Resource" uid="uid://lv2t3un2mcxr" path="res://mechanics/entity_ai/actions/example.tres" id="2_2mp5i"]
+[ext_resource type="Script" uid="uid://b7t3ywdfjhsuu" path="res://mechanics/entity_ai/action_array.gd" id="3_erw0c"]
+
+[sub_resource type="Resource" id="Resource_0nfvi"]
+script = ExtResource("3_erw0c")
+actions = Array[ExtResource("1_pjytk")]([ExtResource("2_2mp5i")])
+metadata/_custom_type_script = "uid://b7t3ywdfjhsuu"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l8vea"]
 atlas = ExtResource("1_5mkj7")
@@ -21,6 +28,7 @@ animations = [{
 
 [resource]
 script = ExtResource("1_22063")
+actions = SubResource("Resource_0nfvi")
 name = &"Test Enemy"
 frames = SubResource("SpriteFrames_t8yia")
 metadata/_custom_type_script = "uid://dsnhprg2wyjfc"

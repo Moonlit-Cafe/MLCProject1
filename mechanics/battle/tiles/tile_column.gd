@@ -20,6 +20,7 @@ static func generate_column(map: GameTileMap, zone_data: ZoneData,
 		if map.tile_references.has(tile_id):
 			var tile_ref : BasicTile = map.tile_references.get(tile_id)
 			new_tile = tile_ref.duplicate()
+			new_tile.name = "Tile_%s" % z
 		else:
 			var tile_data : GameTileData = GlobalResources.grab_entry("tiles", tile_id)
 			new_tile = BasicTile.generate_tile(tile_data.texture, tile_data.texture_type, "Tile_%s" % z)
@@ -37,13 +38,19 @@ static func rebuild_column(data: Dictionary[StringName, Variant], new_name: Stri
 	var new_column := TileColumn.new()
 	new_column.name = new_name
 	for tile_name in data.get(&"tiles").keys():
-		var new_tile := BasicTile.rebuild_tile(data.get(&"tiles").get(tile_name), tile_name)
+		var tile_data : Dictionary[StringName, Variant] = data.get(&"tiles").get(tile_name)
+		var new_tile := BasicTile.rebuild_tile(tile_data, tile_name)
+		new_column.add_child(new_tile)
+		new_tile.position = tile_data.get(&"position", Vector3.ZERO)
 		new_column.tiles.append(new_tile)
 	
+	if not new_column.tiles.is_empty():
+		new_column.top_most_tile = new_column.tiles.back()
 	for tile in new_column.tiles:
 		if tile.name != data.get(&"top_tile"):
 			continue
 		new_column.top_most_tile = tile
+		break
 	return new_column
 #endregion
 
@@ -52,7 +59,7 @@ func save_data() -> Dictionary[StringName, Variant]:
 	var dict : Dictionary[StringName, Variant] = {
 		&"tiles" : {},
 		&"position": position,
-		&"top_tile": top_most_tile.name
+		&"top_tile": top_most_tile.name if top_most_tile else &""
 	}
 	
 	var tile_data : Dictionary[StringName, Variant] = {}

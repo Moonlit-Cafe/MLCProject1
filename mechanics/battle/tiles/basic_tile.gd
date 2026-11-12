@@ -18,9 +18,11 @@ const SHADERS : Dictionary[TextureType, String] = {
 
 @export var tile_texture : Texture2D ## The texture used by the tile.
 @export var texture_type : TextureType = TextureType.SOLID ## The type of shader to use for texture wrapping.
+
+static var _shader_cache : Dictionary[TextureType, Shader] = {}
 #endregion
 
-#region Events
+#region Statics
 ## Creates a tile with the given parameters and returns it.
 # TODO: Eventually, replace this with a data type specifically for generating these.
 static func generate_tile(texture: Texture2D, tex_type: TextureType, tile_name: StringName=&"NewTile") -> BasicTile:
@@ -46,45 +48,56 @@ static func build_mesh() -> MeshInstance3D:
 	mesh.size = Vector3(1, 1, 1)
 	mesh_instance.mesh = mesh
 	return mesh_instance
+#endregion
 
-## Used for when the texture is changed either during creation or during runtime.
+#region Events
 func update_texture(new_texture: Texture2D=null, new_type: TextureType=TextureType.SOLID) -> void:
-	var mesh := $MeshInstance3D
-	if not new_texture:
-		tile_texture = new_texture
+	var mesh : MeshInstance3D = $MeshInstance3D
+	if mesh == null or mesh.mesh == null:
+		return
 	
 	var shader_material : ShaderMaterial
 	if new_type != texture_type:
 		shader_material = _get_shader(new_type)
 	else:
-		shader_material = mesh.mesh.surface_get_material(0)
+		shader_material = mesh.mesh.surface_get_material(0) as ShaderMaterial
 	
-	if not shader_material:
+	if shader_material == null:
 		shader_material = _get_shader(new_type)
 	
-	shader_material.set_shader_parameter(&"tex", new_texture)
+	if new_texture:
+		tile_texture = new_texture
+	texture_type = new_type
+	if tile_texture:
+		shader_material.set_shader_parameter(&"tex", tile_texture)
 	mesh.mesh.material = shader_material
-	return
 
 func save_data() -> Dictionary[StringName, Variant]:
 	var dict : Dictionary[StringName, Variant] = {
 		&"texture" : tile_texture,
-		&"texture_type" : texture_type
+		&"texture_type" : texture_type,
+		&"position" : position
 	}
 	return dict
 
 ## Grabs the specific shader needed for a specific [enum TextureType].
 func _get_shader(shader_type: TextureType) -> ShaderMaterial:
 	var s_mat := ShaderMaterial.new()
-	s_mat.shader = ResourceLoader.load(SHADERS.get(shader_type))
+	if not _shader_cache.has(shader_type):
+		_shader_cache[shader_type] = ResourceLoader.load(SHADERS.get(shader_type))
+	s_mat.shader = _shader_cache.get(shader_type)
 	return s_mat
-	
-func _change_color(normal:bool):
 
-	# HACK should change the texture of the tile isntead of modifying the scale
-	if normal:
-		self.scale = 1 * Vector3.ONE
+func _change_color(normal:bool) -> void:
+	var mesh : MeshInstance3D = $MeshInstance3D
+	if mesh == null or mesh.mesh == null:
+		return
+	
+	var shader_material : ShaderMaterial = mesh.mesh.surface_get_material(0) as ShaderMaterial
+	if shader_material == null:
+		shader_material = _get_shader(texture_type)
 	else:
-		self.scale = .66 * Vector3.ONE
-	return
+		shader_material = shader_material.duplicate() as ShaderMaterial
+	mesh.mesh.material = shader_material
+	shader_material.set_shader_parameter(&"highlight", 0.0 if normal else 1.0)
 #endregion

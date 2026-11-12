@@ -3,6 +3,7 @@ class_name Timeline extends SubViewportContainer
 
 #region Declarations
 const battle_cam_scene : PackedScene = preload("res://entities/battle_cam.tscn")
+const SAVE_VERSION : int = 1
 
 var camera : BattleCam
 var light : DirectionalLight3D
@@ -39,8 +40,7 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 	#new_timeline.focus_mode = Control.FOCUS_NONE
 	
 	var new_viewport = SubViewport.new()
-	print(GlobalSettings.display.current_resolution)
-	new_viewport.size = GlobalSettings.display.current_resolution
+	new_timeline.stretch = true
 	new_viewport.physics_object_picking = true
 	new_viewport.set_process_unhandled_input(true)
 	new_viewport.own_world_3d = true
@@ -75,19 +75,20 @@ static func generate_timeline(i_zone_data: ZoneData, timeline_name: StringName=&
 static func rebuild_timelines(data: Dictionary[StringName, Variant], new_name: StringName) -> Timeline:
 	var new_timeline := Timeline.new()
 	new_timeline.name = new_name
+	var saved_version : int = data.get(&"version", 0)
+	if saved_version != SAVE_VERSION:
+		Global.logs.post_warning(new_timeline,
+			"Rebuilding timeline from save version %s (current is %s)." % [saved_version, SAVE_VERSION])
 	new_timeline.zone_data = data.get(&"zone_data")
-	#new_timeline.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	#new_timeline.focus_mode = Control.FOCUS_NONE
 	
 	var new_viewport = SubViewport.new()
-	print(GlobalSettings.display.current_resolution)
-	new_viewport.size = GlobalSettings.display.current_resolution
+	new_timeline.stretch = true
 	new_viewport.physics_object_picking = true
 	new_viewport.set_process_unhandled_input(true)
+	new_viewport.own_world_3d = true
 	new_timeline.sub_view = new_viewport
 	
-	var new_map := GameTileMap.rebuild_map(data.get(&"map"), &"BattleMap")
-	new_map.generate_battle_tiles()
+	var new_map := GameTileMap.rebuild_map(data.get(&"map", {}), &"BattleMap")
 	new_timeline.map = new_map
 	
 	var new_cam : BattleCam = battle_cam_scene.instantiate()
@@ -127,11 +128,13 @@ static func _generate_state_machine(t_line: Timeline, data: Dictionary[StringNam
 	new_state_machine.add_child(new_end_round_state)
 	new_state_machine.add_child(new_end_battle_state)
 	if data.size() > 0:
+		new_state_machine.initial_data = data.get(&"state_data", {})
 		for state in new_state_machine.get_children():
 			if state.name != data.get(&"current_state"):
 				continue
 			new_state_machine.initial_state = state
-		new_state_machine.initial_data = data.get(&"state_data")
+		if new_state_machine.initial_state == null:
+			new_state_machine.initial_state = new_init_state
 	else:
 		new_state_machine.initial_state = new_init_state
 	
@@ -145,21 +148,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	var local_event = event.duplicate()
 	local_event.position = sub_view.get_final_transform().affine_inverse() * event.position
-	print("Event Pos: %s, Local Pos: %s" % [event.position, local_event.position])
 	sub_view.push_input(local_event)
-	
-	#if sub_view.is_input_handled():
-	#	get_tree().set_input_as_handled()
 
 func save_data() -> Dictionary[StringName, Variant]:
 	var dict : Dictionary[StringName, Variant] = {
+		&"version": SAVE_VERSION,
 		&"zone_data": zone_data,
-		&"map": map.save_data(),
+		&"map": map.save_data() if map else {},
 		&"state_machine": _save_state_machine_data()
 	}
 	return dict
 
 func _save_state_machine_data() -> Dictionary[StringName, Variant]:
+	if state_machine == null or state_machine.state == null:
+		return {}
 	var dict : Dictionary[StringName, Variant] = {
 		&"current_state": state_machine.state.name,
 		&"state_data": state_machine.state.save_data()

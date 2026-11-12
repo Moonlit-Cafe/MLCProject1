@@ -60,10 +60,20 @@ func tag_filter_entries(registry_name: StringName, tags: Array, exclusive: bool=
 	var registry : Registry = registry_dictionary.get(registry_name)
 	var ids : Array[StringName] = []
 	var results : Array[Resource] = []
-	if exclusive:
-		ids = registry.where({&"tags": func(t): return array_compare(t, tags, true)})
+	# TODO: Gotta fix this, in relation to Registery.where(), believe the order in loading things.
+	# that's why it isn't loading enemies.
+	if registry.is_property_indexed(&"tags"):
+		ids = registry.where({&"tags": func(t): return array_compare(t, tags, exclusive)})
 	else:
-		ids = registry.where({&"tags": func(t): return array_compare(t, tags)})
+		for id : StringName in registry.get_all_string_ids():
+			var entry : Resource = grab_entry(registry_name, id)
+			if entry == null:
+				continue
+			var entry_tags = entry.get(&"tags")
+			if not (entry_tags is Array):
+				continue
+			if array_compare(entry_tags, tags, exclusive):
+				ids.append(id)
 	for id in ids:
 		var res = grab_entry(registry_name, id)
 		results.append(res)
@@ -103,18 +113,6 @@ func get_registry_size(registry_name: StringName) -> int:
 #
 #region Helpers
 func array_compare(array_1: Array, array_2: Array, all: bool=false) -> bool:
-	var checked : int = 0
-	for item in array_2:
-		if not item in array_1:
-			continue
-		
-		if not all:
-			return true
-		
-		checked += 1
-	
-	if checked == array_2.size():
-		return true
-	
-	return false
+	var has := func(item): return item in array_1
+	return array_2.all(has) if all else array_2.any(has)
 #endregion

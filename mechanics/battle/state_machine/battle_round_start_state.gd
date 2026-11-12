@@ -11,7 +11,7 @@ static func generate_combat_state(t_line: Timeline) -> BattleRoundStartState:
 
 #region Events
 func enter(_previous_state_path: StringName, _data:={}) -> void:
-	pass
+	finished.emit(ENTITY_TURN, {})
 
 func save_data() -> Dictionary:
 	var dict : Dictionary = {

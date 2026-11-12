@@ -12,9 +12,21 @@ enum Conditions {
 #endregion
 
 #region Events
+func pick_action(entity: TileEntity) -> AIAction:
+	var action_array : ActionArray = check_condition(entity)
+	if action_array == null or action_array.actions.is_empty():
+		Global.logs.post_warning(entity, "No action set matched this entity's current condition.")
+		return null
+	return action_array.pick_action(entity)
+
 func check_condition(_entity: TileEntity) -> ActionArray:
 	return sets.get(Conditions.DEFAULT)
 
 func size() -> int:
-	return 0
+	var total : int = 0
+	for condition : Conditions in sets.keys():
+		var action_array : ActionArray = sets.get(condition)
+		if action_array:
+			total += action_array.actions.size()
+	return total
 #endregion

@@ -10,7 +10,7 @@ const TRAVEL_SCENE : PackedScene = preload("res://scenes/events/travel_scene.tsc
 
 #region Events
 func _ready() -> void:
-	init_map()
+	init_battle()
 	
 func init_map() -> void:
 	var t_scene : TravelScene = TRAVEL_SCENE.instantiate()

@@ -11,26 +11,17 @@ func init(en: TileEntity) -> void:
 func decide_action(actions: ActionArray) -> AIAction:
 	if not entity:
 		Global.logs.post_warning(self, "There is no entity referenced to give action decision to.")
-		return
+		return null
 	
 	# Loop through all the actions and score the actions.
 	
 	# Score action by looping through the considerations of each action, scoring the considerations
 	# then average the consideration scores to get the action score.
 	
-	for action: AIAction in actions.actions:
-		var score : float = 0.0
-		for consideration: Consideration in action.considerations:
-			score += consideration.score(entity)
-		
-		score = score / action.considerations.size()
-		action.score = score
+	if actions == null or actions.actions.is_empty():
+		Global.logs.post_warning(self, "No actions were given to decide between.")
+		return null
 	
-	var best_score : float = 0
-	var best_action : AIAction = null
-	for action: AIAction in actions.actions:
-		if action.score > best_score:
-			best_score = action.score
-			best_action = action
+	var best_action : AIAction = actions.pick_action(entity)
 	return best_action
 #endregion

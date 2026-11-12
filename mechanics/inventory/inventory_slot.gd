@@ -7,7 +7,7 @@ var quantity : int = 0
 
 #region Events
 func can_stack(new_item: BasicItem) -> bool:
-	return (item == new_item) and quantity < item.stack_size
+	return item != null and new_item != null and item.id == new_item.id and quantity < item.stack_size
 
 func is_empty() -> bool:
 	return item == null

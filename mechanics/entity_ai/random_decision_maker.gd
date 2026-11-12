@@ -1,6 +1,11 @@
 extends DecisionMaker
 
 #region Events
-func decide_action(actions: Array[AIAction]) -> AIAction:
-	return actions.pick_random()
+func init(_entity: TileEntity) -> void:
+	pass
+
+func decide_action(actions: ActionArray) -> AIAction:
+	if actions == null or actions.actions.is_empty():
+		return null
+	return actions.actions.pick_random()
 #endregion
