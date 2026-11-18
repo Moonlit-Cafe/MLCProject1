@@ -9,16 +9,15 @@ func incoming_trigger(new_trigger:EffectChange, inc_target : TileEntity) -> void
 	
 	
 func check_triggers(time_chunk:TimeCost) -> void:
+	var index = 0 
 	for trigger in list_of_triggers:
 		if time_chunk.type == trigger.duration.type:
 			trigger.duration.value -= time_chunk.value
 			for change in trigger.total_changes:
 				change.apply(trigger.target)
-
-# whenever this is applied
-	# entity triggers this when ending turn
-# do some math
-# apply stat change
-# reduce duration by 1 
-# reduce total changes by amount
-# if duration <= 0 remove self
+				
+			if trigger.duration.value <= 0:
+				list_of_triggers.remove_at(index)
+				trigger.queue_free()
+				index -= 1
+			index += 1
