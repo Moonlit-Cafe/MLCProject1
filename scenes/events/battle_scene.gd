@@ -152,9 +152,6 @@ func manage_tile_click(target_tile:BattleTile) -> void:
 #endregion
 
 
-
-
-
 # PLANNED attack action processing logic
 # currently
 	# using ff menu logic, including wasd for going thru menus

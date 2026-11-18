@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cynto1pnh6at" path="res://autoloads/general/global.gd" id="1_o3cws"]
 [ext_resource type="Script" uid="uid://cclmsqc2ud6rf" path="res://autoloads/general/global_events.gd" id="2_vwbs0"]
 [ext_resource type="Script" uid="uid://qm32go0uknx2" path="res://autoloads/debug/log_system.gd" id="3_kqqs5"]
+[ext_resource type="Script" uid="uid://bu6cvvcui1t4p" path="res://autoloads/general/combat_events.gd" id="4_xk26m"]
 
 [node name="Global" type="Node" unique_id=68584809]
 script = ExtResource("1_o3cws")
@@ -14,3 +15,7 @@ metadata/_custom_type_script = "uid://cclmsqc2ud6rf"
 [node name="LogSystem" type="Node" parent="." unique_id=917687666]
 script = ExtResource("3_kqqs5")
 metadata/_custom_type_script = "uid://qm32go0uknx2"
+
+[node name="CombatEvents" type="Node" parent="." unique_id=1554816651]
+script = ExtResource("4_xk26m")
+metadata/_custom_type_script = "uid://cclmsqc2ud6rf"
