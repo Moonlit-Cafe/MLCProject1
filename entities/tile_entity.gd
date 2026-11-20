@@ -4,9 +4,11 @@ class_name TileEntity extends Node3D
 #region Declarations
 var entity_type : BaseCharacter.CharType
 var sprite : AnimatedSprite3D
-var tile : BattleTile
+var tile : BattleTile 
 
 var stats : Dictionary[Genum.StatType, float]
+# TODO need to find a way to modify action stats through e_stats
+# eg movement range increase/decrease by e_speed stat
 var hp : float = -1
 var max_hp : int = 0
 #endregion

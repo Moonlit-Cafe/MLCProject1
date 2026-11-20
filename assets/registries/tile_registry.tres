@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Registry" format=3 uid="uid://dfjh3efbhdtuf"]
+
+[ext_resource type="Script" uid="uid://dqtv77mng5dyh" path="res://addons/yard/registry.gd" id="1_eghpb"]
+
+[resource]
+script = ExtResource("1_eghpb")
+_version = 2
+_scan_rulesets = Array[Dictionary]([{
+&"allowed_file_extensions": Array[String]([".tres"]),
+&"class_restrictions": Array[StringName]([&"GameTileData"]),
+&"recursive_scan": true,
+&"scan_directories": Array[String](["res://assets/data/tiles"]),
+&"scan_regex_exclude": "",
+&"scan_regex_include": ""
+}])
+_uids_to_string_ids = Dictionary[StringName, StringName]({
+&"uid://eocjahtbcfju": &"test"
+})
+_string_ids_to_uids = Dictionary[StringName, StringName]({
+&"test": &"uid://eocjahtbcfju"
+})

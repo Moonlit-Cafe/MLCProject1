@@ -5,6 +5,7 @@ extends Node
 #region Declarations
 @onready var events : GlobalEvents = $GlobalEvents ## The game's main SignalBus
 @onready var logs : LogSystem = $LogSystem ## The game's logging system for debugging
+@onready var combat : CombatEvents = $CombatEvents
 
 var difficulty : float = 1
 var diverge_max : int = 1

@@ -2,8 +2,10 @@ class_name TravelScene extends Control
 
 #region Declarations
 const new_travel_node : PackedScene = preload("res://mechanics/battle/travel/travel_node.tscn")
-const combat_script = preload("res://mechanics/battle/travel/combat_node.gd")
+const battle_script = preload("res://mechanics/battle/travel/battle_node.gd")
  
+
+
 var data : TravelData :
 	set(new):
 		if not new:
@@ -13,7 +15,16 @@ var data : TravelData :
 		_populate_section()
 		
 var layers: Array[Array]
+## Node that the player is currently occupying
 var cur_node : TravelNode = null
+## Node that the player is currently hovering
+var hovered_node : TravelNode = null :
+	set(new):
+		if hovered_node == new:
+			hovered_node = null
+			return
+			
+		hovered_node = new
 #endregion
 
 #region Events
@@ -47,7 +58,7 @@ func _disperse_nodes(layer_count) -> void:
 		for j in range(0, cur_width):
 			new_node = new_travel_node.instantiate()
 			# TODO make it so the script is set programatically
-			new_node.set_script(combat_script)
+			new_node.set_script(battle_script)
 			cur_layer.append(new_node)
 			new_node.position = Vector2(X_INIT + X_GAP * i, Y_INIT + Y_GAP * j)
 			add_child(new_node)
@@ -96,21 +107,11 @@ func highlight_selectables() -> void:
 		child.selectable = true
 		
 
-## Updates cur_node, or clears if the new one is the same as the pre-existing one.
-#HACK Currently not a setter since im not sure how godot supports signals to custom setters
-# It IS possible though, at least in 4.3? https://github.com/godotengine/godot/issues/92782
-func update_node(new: TravelNode):
-	# Tyler this isnt triggering
-		if cur_node == new:
-			cur_node = null
-			return
-		cur_node = new
 #endregion
 
 #region Processes
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("mouse_action"):
-		if not cur_node:
-			return
-		cur_node.clicked()
+		if hovered_node:
+			hovered_node.clicked()
 #endregion
